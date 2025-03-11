@@ -4,6 +4,7 @@ using System.Linq;
 using WrathCombo.CustomComboNS;
 using WrathCombo.Data;
 
+// ReSharper disable AccessToStaticMemberViaDerivedType
 // ReSharper disable UnusedType.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable InconsistentNaming
@@ -211,9 +212,9 @@ internal partial class DRK : Tank
             if (actionID is not (CarveAndSpit or AbyssalDrain)) return actionID;
 
             if (IsEnabled(CustomComboPreset.DRK_oGCD_Interrupt) &&
-                ActionReady(All.Interject) &&
+                ActionReady(Role.Interject) &&
                 CanInterruptEnemy())
-                return All.Interject;
+                return Role.Interject;
 
             if (IsEnabled(CustomComboPreset.DRK_oGCD_Delirium) &&
                 ActionReady(BloodWeapon))

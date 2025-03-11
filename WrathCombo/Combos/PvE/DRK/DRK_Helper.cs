@@ -278,16 +278,16 @@ internal partial class DRK
                    IsEnabled(Preset.DRK_ST_CD_Interrupt)) ||
                   flags.HasFlag(Combo.AoE) &&
                   IsEnabled(Preset.DRK_AoE_Interrupt))) &&
-                ActionReady(All.Interject) &&
+                ActionReady(Role.Interject) &&
                 CanInterruptEnemy())
-                return (action = All.Interject) != 0;
+                return (action = Role.Interject) != 0;
 
             if (flags.HasFlag(Combo.AoE) &&
                 (flags.HasFlag(Combo.Simple) ||
                  IsEnabled(Preset.DRK_AoE_Stun)) &&
-                ActionReady(All.LowBlow) &&
+                ActionReady(Role.LowBlow) &&
                 CanInterruptEnemy())
-                return (action = All.LowBlow) != 0;
+                return (action = Role.LowBlow) != 0;
 
             #endregion
 
@@ -442,10 +442,10 @@ internal partial class DRK
     private static readonly bool JustUsedMitigation =
         JustUsed(BlackestNight, 4f) ||
         JustUsed(Oblation, 4f) ||
-        JustUsed(All.Reprisal, 4f) ||
+        JustUsed(Role.Reprisal, 4f) ||
         JustUsed(DarkMissionary, 5f) ||
-        JustUsed(All.Rampart, 6f) ||
-        JustUsed(All.ArmsLength, 4f) ||
+        JustUsed(Role.Rampart, 6f) ||
+        JustUsed(Role.ArmsLength, 4f) ||
         JustUsed(ShadowedVigil, 6f) ||
         JustUsed(LivingDead, 7f);
 
@@ -596,7 +596,7 @@ internal partial class DRK
                 flags.HasFlag(Combo.AoE) || RaidWideCasting();
             var reprisalTargetHasNoDebuff =
                 flags.HasFlag(Combo.AoE) ||
-                !TargetHasEffectAny(All.Debuffs.Reprisal);
+                !TargetHasEffectAny(Role.Debuffs.Reprisal);
 
             #endregion
 
@@ -605,12 +605,12 @@ internal partial class DRK
                    IsEnabled(Preset.DRK_ST_Mit_Reprisal)) ||
                   flags.HasFlag(Combo.AoE) &&
                   IsEnabled(Preset.DRK_AoE_Mit_Reprisal))) &&
-                ActionReady(All.Reprisal) &&
+                ActionReady(Role.Reprisal) &&
                 reprisalTargetHasNoDebuff &&
                 reprisalUseForRaidwides &&
                 CanCircleAoe(5) >= reprisalTargetCount &&
                 PlayerHealthPercentageHp() <= reprisalThreshold)
-                return (action = All.Reprisal) != 0;
+                return (action = Role.Reprisal) != 0;
 
             #endregion
 
@@ -626,7 +626,7 @@ internal partial class DRK
                 flags.HasFlag(Combo.AoE) ||
                 flags.HasFlag(Combo.Simple) ||
                 IsNotEnabled(Preset.DRK_ST_Mit_MissionaryAvoid) ||
-                !TargetHasEffectAny(All.Debuffs.Reprisal);
+                !TargetHasEffectAny(Role.Debuffs.Reprisal);
 
             #endregion
 
@@ -655,9 +655,9 @@ internal partial class DRK
             if (flags.HasFlag(Combo.AoE) &&
                 (flags.HasFlag(Combo.Simple) ||
                  IsEnabled(Preset.DRK_AoE_Mit_Rampart)) &&
-                ActionReady(All.Rampart) &&
+                ActionReady(Role.Rampart) &&
                 PlayerHealthPercentageHp() <= rampartThreshold)
-                return (action = All.Rampart) != 0;
+                return (action = Role.Rampart) != 0;
 
             #endregion
 
@@ -674,9 +674,9 @@ internal partial class DRK
             if (flags.HasFlag(Combo.AoE) &&
                 (flags.HasFlag(Combo.Simple) ||
                  IsEnabled(Preset.DRK_AoE_Mit_ArmsLength)) &&
-                ActionReady(All.ArmsLength) &&
+                ActionReady(Role.ArmsLength) &&
                 CanCircleAoe(7) >= armsLengthEnemyCount)
-                return (action = All.ArmsLength) != 0;
+                return (action = Role.ArmsLength) != 0;
 
             #endregion
 
@@ -1161,16 +1161,16 @@ internal partial class DRK
             () => (!((HasFriendlyTarget() && TargetHasEffectAny(Buffs.Oblation)) ||
                      (!HasFriendlyTarget() && HasEffectAny(Buffs.Oblation)))) &&
                   GetRemainingCharges(Oblation) > Config.DRK_Mit_Oblation_Charges),
-        (All.Reprisal, Preset.DRK_Mit_Reprisal,
-            () => InActionRange(All.Reprisal)),
+        (Role.Reprisal, Preset.DRK_Mit_Reprisal,
+            () => InActionRange(Role.Reprisal)),
         (DarkMissionary, Preset.DRK_Mit_DarkMissionary,
             () => Config.DRK_Mit_DarkMissionary_PartyRequirement ==
                   (int)Config.PartyRequirement.No ||
                   IsInParty()),
-        (All.Rampart, Preset.DRK_Mit_Rampart,
+        (Role.Rampart, Preset.DRK_Mit_Rampart,
             () => PlayerHealthPercentageHp() <= Config.DRK_Mit_Rampart_Health),
         (DarkMind, Preset.DRK_Mit_DarkMind, () => true),
-        (All.ArmsLength, Preset.DRK_Mit_ArmsLength,
+        (Role.ArmsLength, Preset.DRK_Mit_ArmsLength,
             () => CanCircleAoe(7) >= Config.DRK_Mit_ArmsLength_EnemyCount &&
                   (Config.DRK_Mit_ArmsLength_Boss == (int)Config.BossAvoidance.Off ||
                    InBossEncounter())),

@@ -489,6 +489,12 @@ internal partial class DRK
         {
             if (JustUsedMitigation) return false;
 
+            // Bail if we're trying to Invuln or actively Invulnerable
+            if (HasEffect(Buffs.LivingDead) ||
+                HasEffect(Buffs.WalkingDead) ||
+                HasEffect(Buffs.UndeadRebirth))
+                return false;
+
             // Bail if Simple mode and mitigation is disabled
             if (flags.HasFlag(Combo.Simple) &&
                 ((flags.HasFlag(Combo.ST) &&
@@ -1413,6 +1419,9 @@ internal partial class DRK
 
         /// The real, triggered Invuln that gives heals
         public const ushort WalkingDead = 811;
+
+        /// The Invuln after completely healed
+        public const ushort UndeadRebirth = 3255;
 
         /// Damage Reduction part of Vigil
         public const ushort ShadowedVigil = 3835;

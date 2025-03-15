@@ -26,7 +26,7 @@ internal partial class DRG
         RiseOfTheDragon,
         Starcross,
         Variant.Rampart,
-        All.TrueNorth
+        Role.TrueNorth
     ];
 
     internal static readonly List<uint> MidLocks =
@@ -40,10 +40,6 @@ internal partial class DRG
         FindTargetEffect(LevelChecked(ChaoticSpring)
             ? Debuffs.ChaoticSpring
             : Debuffs.ChaosThrust);
-
-    internal static bool TrueNorthReady =>
-        TargetNeedsPositionals() && ActionReady(All.TrueNorth) &&
-        !HasEffect(All.Buffs.TrueNorth);
 
     internal static uint SlowLock => Stardiver;
 

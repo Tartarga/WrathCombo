@@ -661,8 +661,7 @@ internal partial class DRK
             if (flags.HasFlag(Combo.AoE) &&
                 (flags.HasFlag(Combo.Simple) ||
                  IsEnabled(Preset.DRK_AoE_Mit_Rampart)) &&
-                ActionReady(Role.Rampart) &&
-                PlayerHealthPercentageHp() <= rampartThreshold)
+                Role.CanRampart(rampartThreshold))
                 return (action = Role.Rampart) != 0;
 
             #endregion
@@ -1174,7 +1173,7 @@ internal partial class DRK
                   (int)Config.PartyRequirement.No ||
                   IsInParty()),
         (Role.Rampart, Preset.DRK_Mit_Rampart,
-            () => PlayerHealthPercentageHp() <= Config.DRK_Mit_Rampart_Health),
+            () => Role.CanRampart(Config.DRK_Mit_Rampart_Health)),
         (DarkMind, Preset.DRK_Mit_DarkMind, () => true),
         (Role.ArmsLength, Preset.DRK_Mit_ArmsLength,
             () => CanCircleAoe(7) >= Config.DRK_Mit_ArmsLength_EnemyCount &&

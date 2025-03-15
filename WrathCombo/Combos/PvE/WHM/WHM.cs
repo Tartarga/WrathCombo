@@ -89,7 +89,7 @@ internal partial class WHM : Healer
 
             if (CanSpellWeave())
             {
-                bool lucidReady = Role.CanLucid(Config.WHM_STDPS_Lucid);
+                bool lucidReady = Role.CanLucidDream(Config.WHM_STDPS_Lucid);
                 bool pomReady = LevelChecked(PresenceOfMind) && IsOffCooldown(PresenceOfMind);
                 bool assizeReady = LevelChecked(Assize) && IsOffCooldown(Assize);
                 bool pomEnabled = IsEnabled(CustomComboPreset.WHM_ST_MainCombo_PresenceOfMind);
@@ -159,7 +159,7 @@ internal partial class WHM : Healer
             bool thinAirReady = LevelChecked(ThinAir) && !HasEffect(Buffs.ThinAir) &&
                                 GetRemainingCharges(ThinAir) > Config.WHM_AoEHeals_ThinAir;
             bool canWeave = CanSpellWeave(0.3);
-            bool lucidReady = Role.CanLucid(Config.WHM_AoEHeals_Lucid,false); //canWeave will be the check
+            bool lucidReady = Role.CanLucidDream(Config.WHM_AoEHeals_Lucid,false); //canWeave will be the check
 
             bool plenaryReady = ActionReady(PlenaryIndulgence) &&
                                 (!Config.WHM_AoEHeals_PlenaryWeave ||
@@ -241,7 +241,7 @@ internal partial class WHM : Healer
                 return Role.Esuna;
 
             if (IsEnabled(CustomComboPreset.WHM_STHeals_Lucid) &&
-                Role.CanLucid(Config.WHM_STHeals_Lucid))
+                Role.CanLucidDream(Config.WHM_STHeals_Lucid))
                 return Role.LucidDreaming;
 
             foreach(int prio in Config.WHM_ST_Heals_Priority.Items.OrderBy(x => x))
@@ -316,7 +316,7 @@ internal partial class WHM : Healer
                 if (IsEnabled(CustomComboPreset.WHM_AoE_DPS_PresenceOfMind) && ActionReady(PresenceOfMind))
                     return OriginalHook(PresenceOfMind);
 
-                if (IsEnabled(CustomComboPreset.WHM_AoE_DPS_Lucid) && Role.CanLucid(Config.WHM_AoEDPS_Lucid))
+                if (IsEnabled(CustomComboPreset.WHM_AoE_DPS_Lucid) && Role.CanLucidDream(Config.WHM_AoEDPS_Lucid))
                     return Role.LucidDreaming;
             }
 

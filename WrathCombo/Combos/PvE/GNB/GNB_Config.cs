@@ -1,7 +1,4 @@
-using System.Numerics;
-using ECommons.ImGuiMethods;
 using ImGuiNET;
-using System.Numerics;
 using WrathCombo.Combos.PvP;
 using WrathCombo.CustomComboNS.Functions;
 using WrathCombo.Data;
@@ -236,11 +233,11 @@ internal partial class GNB
 
                     DrawHorizontalRadioButton(GNB_ST_Rampart_SubOption,
                         "All Enemies",
-                        $"Uses {All.Rampart.ActionName()} regardless of targeted enemy type.", 0);
+                        $"Uses {Role.Rampart.ActionName()} regardless of targeted enemy type.", 0);
 
                     DrawHorizontalRadioButton(GNB_ST_Rampart_SubOption,
                         "Bosses Only",
-                        $"Only uses {All.Rampart.ActionName()} when the targeted enemy is a boss.", 1);
+                        $"Only uses {Role.Rampart.ActionName()} when the targeted enemy is a boss.", 1);
 
                     break;
 
@@ -250,11 +247,11 @@ internal partial class GNB
 
                     DrawHorizontalRadioButton(GNB_AoE_Rampart_SubOption,
                         "All Enemies",
-                        $"Uses {All.Rampart.ActionName()} regardless of targeted enemy type.", 0);
+                        $"Uses {Role.Rampart.ActionName()} regardless of targeted enemy type.", 0);
 
                     DrawHorizontalRadioButton(GNB_AoE_Rampart_SubOption,
                         "Bosses Only",
-                        $"Only uses {All.Rampart.ActionName()} when the targeted enemy is a boss.", 1);
+                        $"Only uses {Role.Rampart.ActionName()} when the targeted enemy is a boss.", 1);
 
                     break;
 
@@ -460,11 +457,11 @@ internal partial class GNB
 
                     DrawHorizontalRadioButton(GNB_ST_Reprisal_SubOption,
                         "All Enemies",
-                        $"Uses {All.Reprisal.ActionName()} regardless of targeted enemy type.", 0);
+                        $"Uses {Role.Reprisal.ActionName()} regardless of targeted enemy type.", 0);
 
                     DrawHorizontalRadioButton(GNB_ST_Reprisal_SubOption,
                         "Bosses Only",
-                        $"Only uses {All.Reprisal.ActionName()} when the targeted enemy is a boss.", 1);
+                        $"Only uses {Role.Reprisal.ActionName()} when the targeted enemy is a boss.", 1);
                     break;
 
                 case CustomComboPreset.GNB_AoE_Reprisal:
@@ -473,11 +470,11 @@ internal partial class GNB
 
                     DrawHorizontalRadioButton(GNB_AoE_Reprisal_SubOption,
                         "All Enemies",
-                        $"Uses {All.Reprisal.ActionName()} regardless of targeted enemy type.", 0);
+                        $"Uses {Role.Reprisal.ActionName()} regardless of targeted enemy type.", 0);
 
                     DrawHorizontalRadioButton(GNB_AoE_Reprisal_SubOption,
                         "Bosses Only",
-                        $"Only uses {All.Reprisal.ActionName()} when the targeted enemy is a boss.", 1);
+                        $"Only uses {Role.Reprisal.ActionName()} when the targeted enemy is a boss.", 1);
                     break;
 
                 case CustomComboPreset.GNB_NM_Features:

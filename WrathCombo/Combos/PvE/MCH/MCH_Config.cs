@@ -131,7 +131,7 @@ internal partial class MCH
                 
                 case CustomComboPreset.MCH_ST_Adv_SecondWind:
                     DrawSliderInt(0, 100, MCH_ST_SecondWindThreshold,
-                        $"{ActionWatching.GetActionName(All.SecondWind)} HP percentage threshold");
+                        $"{ActionWatching.GetActionName(Role.SecondWind)} HP percentage threshold");
 
                     break;
 
@@ -148,7 +148,7 @@ internal partial class MCH
                 
                 case CustomComboPreset.MCH_AoE_Adv_SecondWind:
                     DrawSliderInt(0, 100, MCH_AoE_SecondWindThreshold,
-                        $"{ActionWatching.GetActionName(All.SecondWind)} HP percentage threshold");
+                        $"{ActionWatching.GetActionName(Role.SecondWind)} HP percentage threshold");
 
                     break;
 

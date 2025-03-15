@@ -445,8 +445,8 @@ internal partial class GNB : Tank
                   (int)Config.PartyRequirement.No ||
                   IsInParty()),
         //Rampart
-        (All.Rampart, CustomComboPreset.GNB_Mit_Rampart,
-            () => PlayerHealthPercentageHp() <= Config.GNB_Mit_Rampart_Health),
+        (Role.Rampart, CustomComboPreset.GNB_Mit_Rampart,
+            () => Role.CanRampart(Config.GNB_Mit_Rampart_Health)),
         //Arm's Length
         (All.ArmsLength, CustomComboPreset.GNB_Mit_ArmsLength,
             () => CanCircleAoe(7) >= Config.GNB_Mit_ArmsLength_EnemyCount &&

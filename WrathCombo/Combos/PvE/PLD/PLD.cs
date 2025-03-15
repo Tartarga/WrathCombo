@@ -45,7 +45,7 @@ internal partial class PLD : Tank
             bool justMitted = JustUsed(OriginalHook(Sheltron), 3f) ||
                              JustUsed(OriginalHook(Sentinel), 4f) ||
                              JustUsed(DivineVeil, 4f) ||
-                             JustUsed(All.Rampart, 4f) ||
+                             JustUsed(Role.Rampart, 4f) ||
                              JustUsed(HallowedGround, 9f);
             #endregion
 
@@ -78,15 +78,12 @@ internal partial class PLD : Tank
                             return OriginalHook(Sentinel);
 
                         //Rampart
-                        if (ActionReady(All.Rampart) && //Rampart is ready
-                            PlayerHealthPercentageHp() < 80) //Player's health is below 80%
-                            return All.Rampart;
+                        if (Role.CanRampart(80)) //Player's health is below 80%
+                            return Role.Rampart;
 
                         //Reprisal
-                        if (ActionReady(All.Reprisal) && //Reprisal is ready
-                            InActionRange(All.Reprisal) && //Target is within range of Reprisal
-                            PlayerHealthPercentageHp() < 90) //Player's health is below 80%
-                            return All.Reprisal;
+                        if (Role.CanReprisal(90)) //Player's health is below 80%
+                            return Role.Reprisal;
                     }
 
                     //Bulwark
@@ -236,7 +233,7 @@ internal partial class PLD : Tank
             bool justMitted = JustUsed(OriginalHook(Sheltron), 3f) ||
                              JustUsed(OriginalHook(Sentinel), 4f) ||
                              JustUsed(DivineVeil, 4f) ||
-                             JustUsed(All.Rampart, 4f) ||
+                             JustUsed(Role.Rampart, 4f) ||
                              JustUsed(HallowedGround, 9f);
             #endregion
 
@@ -274,15 +271,12 @@ internal partial class PLD : Tank
                             return OriginalHook(Sentinel);
 
                         //Rampart
-                        if (ActionReady(All.Rampart) && //Rampart is ready
-                            PlayerHealthPercentageHp() < 80) //Player's health is below 80%
-                            return All.Rampart;
+                        if (Role.CanRampart(80))
+                            return Role.Rampart;
 
                         //Reprisal
-                        if (ActionReady(All.Reprisal) && //Reprisal is ready
-                            InActionRange(All.Reprisal) && //Target is within range of Reprisal
-                            PlayerHealthPercentageHp() < 90) //Player's health is below 80%
-                            return All.Reprisal;
+                        if (Role.CanReprisal(90)) //Player's health is below 80%
+                            return Role.Reprisal;
                     }
 
                     //Bulwark
@@ -375,7 +369,7 @@ internal partial class PLD : Tank
             bool hasFightOrFlight = HasEffect(Buffs.FightOrFlight);
             bool hasDivineMagicMP = playerMP >= GetResourceCost(HolySpirit);
             bool hasJustUsedMitigation = JustUsed(OriginalHook(Sheltron), 3f) || JustUsed(OriginalHook(Sentinel), 5f) ||
-                                         JustUsed(All.Rampart, 5f) || JustUsed(HallowedGround, 9f);
+                                         JustUsed(Role.Rampart, 5f) || JustUsed(HallowedGround, 9f);
             bool hasRequiescatMP = (IsNotEnabled(CustomComboPreset.PLD_ST_AdvancedMode_MP_Reserve) && playerMP >= GetResourceCost(HolySpirit) * 3.6) ||
                                    (IsEnabled(CustomComboPreset.PLD_ST_AdvancedMode_MP_Reserve) && playerMP >= (GetResourceCost(HolySpirit) * 3.6) + Config.PLD_ST_MP_Reserve);
             bool inBurstWindow = JustUsed(FightOrFlight, 30f);
@@ -483,10 +477,11 @@ internal partial class PLD : Tank
                             return OriginalHook(Sentinel);
 
                         // Rampart
-                        if (IsEnabled(CustomComboPreset.PLD_ST_AdvancedMode_Rampart) && ActionReady(All.Rampart) &&
-                            PlayerHealthPercentageHp() < Config.PLD_ST_Rampart_Health && (Config.PLD_ST_Rampart_SubOption == 1 ||
+                        if (IsEnabled(CustomComboPreset.PLD_ST_AdvancedMode_Rampart) && 
+                            
+                            Role.CanRampart(Config.PLD_ST_Rampart_Health) && (Config.PLD_ST_Rampart_SubOption == 1 ||
                                 (TargetIsBoss() && Config.PLD_ST_Rampart_SubOption == 2)))
-                            return All.Rampart;
+                            return Role.Rampart;
 
                         // Sheltron
                         if (IsEnabled(CustomComboPreset.PLD_ST_AdvancedMode_Sheltron) && LevelChecked(Sheltron) &&
@@ -581,7 +576,7 @@ internal partial class PLD : Tank
             bool hasDivineMight = HasEffect(Buffs.DivineMight);
             bool hasDivineMagicMP = playerMP >= GetResourceCost(HolySpirit);
             bool hasJustUsedMitigation = JustUsed(OriginalHook(Sheltron), 3f) || JustUsed(OriginalHook(Sentinel), 5f) ||
-                                         JustUsed(All.Rampart, 5f) || JustUsed(HallowedGround, 9f);
+                                         JustUsed(Role.Rampart, 5f) || JustUsed(HallowedGround, 9f);
             bool hasRequiescatMP = (IsNotEnabled(CustomComboPreset.PLD_AoE_AdvancedMode_MP_Reserve) && playerMP >= GetResourceCost(HolySpirit) * 3.6) ||
                                    (IsEnabled(CustomComboPreset.PLD_AoE_AdvancedMode_MP_Reserve) && playerMP >= (GetResourceCost(HolySpirit) * 3.6) + Config.PLD_AoE_MP_Reserve);
             bool isAboveMPReserve = IsNotEnabled(CustomComboPreset.PLD_AoE_AdvancedMode_MP_Reserve) ||
@@ -666,10 +661,10 @@ internal partial class PLD : Tank
                             return OriginalHook(Sentinel);
 
                         // Rampart
-                        if (IsEnabled(CustomComboPreset.PLD_AoE_AdvancedMode_Rampart) && ActionReady(All.Rampart) &&
-                            PlayerHealthPercentageHp() < Config.PLD_AoE_Rampart_Health && (Config.PLD_AoE_Rampart_SubOption == 1 ||
+                        if (IsEnabled(CustomComboPreset.PLD_AoE_AdvancedMode_Rampart) && 
+                            Role.CanRampart(Config.PLD_AoE_Rampart_Health) && (Config.PLD_AoE_Rampart_SubOption == 1 ||
                                 (TargetIsBoss() && Config.PLD_AoE_Rampart_SubOption == 2)))
-                            return All.Rampart;
+                            return Role.Rampart;
 
                         // Sheltron
                         if (IsEnabled(CustomComboPreset.PLD_AoE_AdvancedMode_Sheltron) && LevelChecked(Sheltron) &&

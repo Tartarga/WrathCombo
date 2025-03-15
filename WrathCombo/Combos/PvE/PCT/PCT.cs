@@ -221,7 +221,7 @@ internal partial class PCT : MagicDPS
                 }
             }
 
-            if (Role.CanLucid(6500))
+            if (Role.CanLucidDream(6500))
                 return Role.LucidDreaming;
 
             if (BlizzardIIinCyan.LevelChecked() && HasEffect(Buffs.SubtractivePalette))
@@ -498,7 +498,7 @@ internal partial class PCT : MagicDPS
                 }
             }
 
-            if (IsEnabled(CustomComboPreset.PCT_ST_AdvancedMode_LucidDreaming) && Role.CanLucid(Config.PCT_ST_AdvancedMode_LucidOption))
+            if (IsEnabled(CustomComboPreset.PCT_ST_AdvancedMode_LucidDreaming) && Role.CanLucidDream(Config.PCT_ST_AdvancedMode_LucidOption))
                 return Role.LucidDreaming;
 
             if (IsEnabled(CustomComboPreset.PCT_ST_AdvancedMode_BlizzardInCyan) && BlizzardIIinCyan.LevelChecked() && HasEffect(Buffs.SubtractivePalette))
@@ -695,7 +695,7 @@ internal partial class PCT : MagicDPS
             if (HolyInWhite.LevelChecked() && gauge.Paint >= 2)
                 return OriginalHook(HolyInWhite);
 
-            if (Role.CanLucid(6500))
+            if (Role.CanLucidDream(6500))
                 return Role.LucidDreaming;
 
             if (BlizzardIIinCyan.LevelChecked() && HasEffect(Buffs.SubtractivePalette))
@@ -923,7 +923,7 @@ internal partial class PCT : MagicDPS
                 }
             }
 
-            if (IsEnabled(CustomComboPreset.PCT_AoE_AdvancedMode_LucidDreaming) && Role.CanLucid(Config.PCT_ST_AdvancedMode_LucidOption))
+            if (IsEnabled(CustomComboPreset.PCT_AoE_AdvancedMode_LucidDreaming) && Role.CanLucidDream(Config.PCT_ST_AdvancedMode_LucidOption))
                 return Role.LucidDreaming;
 
             if (IsEnabled(CustomComboPreset.PCT_AoE_AdvancedMode_BlizzardInCyan) && BlizzardIIinCyan.LevelChecked() && HasEffect(Buffs.SubtractivePalette))

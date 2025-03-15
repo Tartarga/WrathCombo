@@ -232,9 +232,9 @@ namespace WrathCombo.AutoRotation
                 {
                     if (Player.Job is Job.RDM)
                     {
-                        if (ActionReady(All.Swiftcast) && !HasEffect(RDM.Buffs.Dualcast))
+                        if (ActionReady(MagicRole.Swiftcast) && !HasEffect(RDM.Buffs.Dualcast))
                         {
-                            ActionManager.Instance()->UseAction(ActionType.Action, All.Swiftcast);
+                            ActionManager.Instance()->UseAction(ActionType.Action, MagicRole.Swiftcast);
                             return;
                         }
 
@@ -246,16 +246,16 @@ namespace WrathCombo.AutoRotation
                     }
                     else
                     {
-                        if (ActionReady(All.Swiftcast))
+                        if (ActionReady(MagicRole.Swiftcast))
                         {
-                            if (ActionManager.Instance()->GetActionStatus(ActionType.Action, All.Swiftcast) == 0)
+                            if (ActionManager.Instance()->GetActionStatus(ActionType.Action, MagicRole.Swiftcast) == 0)
                             {
-                                ActionManager.Instance()->UseAction(ActionType.Action, All.Swiftcast);
+                                ActionManager.Instance()->UseAction(ActionType.Action, MagicRole.Swiftcast);
                                 return;
                             }
                         }
 
-                        if (!IsMoving() || HasEffect(All.Buffs.Swiftcast))
+                        if (!IsMoving() || HasEffect(MagicRole.Buffs.Swiftcast))
                         {
                             if ((cfg.HealerSettings.AutoRezRequireSwift && ActionManager.GetAdjustedCastTime(ActionType.Action, resSpell) == 0) || !cfg.HealerSettings.AutoRezRequireSwift)
                                 ActionManager.Instance()->UseAction(ActionType.Action, resSpell, member.BattleChara.GameObjectId);
@@ -267,13 +267,13 @@ namespace WrathCombo.AutoRotation
 
         private static void CleanseParty()
         {
-            if (ActionManager.Instance()->QueuedActionId == All.Esuna)
+            if (ActionManager.Instance()->QueuedActionId == HealerRole.Esuna)
                 ActionManager.Instance()->QueuedActionId = 0;
 
             if (GetPartyMembers().FindFirst(x => HasCleansableDebuff(x.BattleChara), out var member))
             {
-                if (InActionRange(All.Esuna, member.BattleChara) && IsInLineOfSight(member.BattleChara))
-                    ActionManager.Instance()->UseAction(ActionType.Action, All.Esuna, member.BattleChara.GameObjectId);
+                if (InActionRange(HealerRole.Esuna, member.BattleChara) && IsInLineOfSight(member.BattleChara))
+                    ActionManager.Instance()->UseAction(ActionType.Action, HealerRole.Esuna, member.BattleChara.GameObjectId);
             }
         }
 

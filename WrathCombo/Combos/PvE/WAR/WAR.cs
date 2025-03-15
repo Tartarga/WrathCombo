@@ -22,7 +22,7 @@ internal partial class WAR : Tank
             bool justMitted = JustUsed(OriginalHook(RawIntuition), 4f) ||
                               JustUsed(OriginalHook(Vengeance), 5f) ||
                               JustUsed(ThrillOfBattle, 5f) ||
-                              JustUsed(All.Rampart, 5f) ||
+                              JustUsed(Role.Rampart, 5f) ||
                               JustUsed(Holmgang, 9f);
 
             // Interrupt
@@ -60,15 +60,12 @@ internal partial class WAR : Tank
                             return OriginalHook(Vengeance);
 
                         //Rampart
-                        if (ActionReady(All.Rampart) && //Rampart is ready
-                            PlayerHealthPercentageHp() < 80) //Player's health is below 80%
-                            return All.Rampart;
+                        if (Role.CanRampart(80)) //Player's health is below 80%
+                            return Role.Rampart;
 
                         //Reprisal
-                        if (ActionReady(All.Reprisal) && //Reprisal is ready
-                            InActionRange(All.Reprisal) && //Player is in range of Reprisal
-                            PlayerHealthPercentageHp() < 90) //Player's health is below 90%
-                            return All.Reprisal;
+                        if (Role.CanReprisal(90)) //Player's health is below 90%
+                            return Role.Reprisal;
                     }
 
                     //Thrill
@@ -197,7 +194,7 @@ internal partial class WAR : Tank
             bool justMitted = JustUsed(OriginalHook(RawIntuition), 4f) ||
                               JustUsed(OriginalHook(Vengeance), 5f) ||
                               JustUsed(ThrillOfBattle, 5f) ||
-                              JustUsed(All.Rampart, 5f) ||
+                              JustUsed(Role.Rampart, 5f) ||
                               JustUsed(Holmgang, 9f);
 
             // Interrupt
@@ -242,20 +239,17 @@ internal partial class WAR : Tank
 
                     //Rampart
                     if (IsEnabled(CustomComboPreset.WAR_ST_Advanced_Rampart) && //Rampart option is enabled
-                        ActionReady(All.Rampart) && //Rampart is ready
-                        PlayerHealthPercentageHp() <= Config.WAR_ST_Rampart_Health && //Player's health is below selected threshold
+                        Role.CanRampart(Config.WAR_ST_Rampart_Health) && //Player's health is below selected threshold
                         (Config.WAR_ST_Rampart_SubOption == 0 || //Rampart is enabled for all targets
                          (TargetIsBoss() && Config.WAR_ST_Rampart_SubOption == 1))) //Rampart is enabled for bosses only
-                        return All.Rampart;
+                        return Role.Rampart;
 
                     //Reprisal
                     if (IsEnabled(CustomComboPreset.WAR_ST_Advanced_Reprisal) && //Reprisal option is enabled
-                        ActionReady(All.Reprisal) && //Reprisal is ready
-                        InActionRange(All.Reprisal) && //Player is in range of Reprisal
-                        PlayerHealthPercentageHp() <= Config.WAR_ST_Reprisal_Health && //Player's health is below selected threshold
+                        Role.CanReprisal(Config.WAR_ST_Reprisal_Health) && //Player's health is below selected threshold
                         (Config.WAR_ST_Reprisal_SubOption == 0 || //Reprisal is enabled for all targets
                          (TargetIsBoss() && Config.WAR_ST_Reprisal_SubOption == 1))) //Reprisal is enabled for bosses only
-                        return All.Reprisal;
+                        return Role.Reprisal;
 
                     //Arms Length
                     if (IsEnabled(CustomComboPreset.WAR_ST_Advanced_ArmsLength) && //Arms Length option is enabled
@@ -431,7 +425,7 @@ internal partial class WAR : Tank
             bool justMitted = JustUsed(OriginalHook(RawIntuition), 4f) ||
                               JustUsed(OriginalHook(Vengeance), 5f) ||
                               JustUsed(ThrillOfBattle, 5f) ||
-                              JustUsed(All.Rampart, 5f) ||
+                              JustUsed(Role.Rampart, 5f) ||
                               JustUsed(Holmgang, 9f);
 
             #region Stuns
@@ -478,15 +472,12 @@ internal partial class WAR : Tank
                             return OriginalHook(Vengeance);
 
                         //Rampart
-                        if (ActionReady(All.Rampart) && //Rampart is ready
-                            PlayerHealthPercentageHp() < 80) //Player's health is below 80%
-                            return All.Rampart;
+                        if (Role.CanRampart(80)) //Player's health is below 80%
+                            return Role.Rampart;
 
                         //Reprisal
-                        if (ActionReady(All.Reprisal) && //Reprisal is ready
-                            GetTargetDistance() <= 5 && //within 5y of target
-                            PlayerHealthPercentageHp() < 90) //Player's health is below 90%
-                            return All.Reprisal;
+                        if (Role.CanReprisal(90)) //Player's health is below 90%
+                            return Role.Reprisal;
                     }
 
                     //Thrill
@@ -577,7 +568,7 @@ internal partial class WAR : Tank
             bool justMitted = JustUsed(OriginalHook(RawIntuition), 4f) ||
                               JustUsed(OriginalHook(Vengeance), 5f) ||
                               JustUsed(ThrillOfBattle, 5f) ||
-                              JustUsed(All.Rampart, 5f) ||
+                              JustUsed(Role.Rampart, 5f) ||
                               JustUsed(Holmgang, 9f);
 
             #region Stuns
@@ -633,20 +624,17 @@ internal partial class WAR : Tank
 
                     //Rampart
                     if (IsEnabled(CustomComboPreset.WAR_AoE_Advanced_Rampart) && //Rampart option is enabled
-                        ActionReady(All.Rampart) && //Rampart is ready
-                        PlayerHealthPercentageHp() <= Config.WAR_AoE_Rampart_Health && //Player's health is below selected threshold
+                        Role.CanRampart(Config.WAR_AoE_Rampart_Health) && //Player's health is below selected threshold
                         (Config.WAR_AoE_Rampart_SubOption == 0 || //Rampart is enabled for all targets
                          (TargetIsBoss() && Config.WAR_AoE_Rampart_SubOption == 1))) //Rampart is enabled for bosses only
-                        return All.Rampart;
+                        return Role.Rampart;
 
                     //Reprisal
                     if (IsEnabled(CustomComboPreset.WAR_AoE_Advanced_Reprisal) && //Reprisal option is enabled
-                        ActionReady(All.Reprisal) && //Reprisal is ready
-                        GetTargetDistance() <= 5 && //within 5y of target
-                        PlayerHealthPercentageHp() <= Config.WAR_AoE_Reprisal_Health && //Player's health is below selected threshold
+                        Role.CanReprisal(Config.WAR_AoE_Reprisal_Health) && //Player's health is below selected threshold
                         (Config.WAR_AoE_Reprisal_SubOption == 0 || //Reprisal is enabled for all targets
                          (TargetIsBoss() && Config.WAR_AoE_Reprisal_SubOption == 1))) //Reprisal is enabled for bosses only
-                        return All.Reprisal;
+                        return Role.Reprisal;
 
                     //Arms Length
                     if (IsEnabled(CustomComboPreset.WAR_AoE_Advanced_ArmsLength) && //Arms Length option is enabled

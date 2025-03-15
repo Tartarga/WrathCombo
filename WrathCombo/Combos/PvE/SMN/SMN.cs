@@ -12,13 +12,13 @@ internal partial class SMN : MagicDPS
 
         protected override uint Invoke(uint actionID)
         {
-            if (actionID != All.Swiftcast)
+            if (actionID != Role.Swiftcast)
                 return actionID;
 
             if (Variant.CanRaise(CustomComboPreset.SMN_Variant_Raise))
                 return Variant.Raise;
 
-            if (IsOnCooldown(All.Swiftcast))
+            if (IsOnCooldown(Role.Swiftcast))
                 return Resurrection;
             return actionID;
         }
@@ -134,8 +134,8 @@ internal partial class SMN : MagicDPS
                         return OriginalHook(Fester);
                 }
 
-                if (ActionReady(All.LucidDreaming) && LocalPlayer.CurrentMp <= 4000)
-                    return All.LucidDreaming;
+                if (Role.CanLucidDream(4000))
+                    return Role.LucidDreaming;
             }
 
             if (ActionReady(Aethercharge))
@@ -143,10 +143,10 @@ internal partial class SMN : MagicDPS
 
             if (ActionReady(Slipstream) || ActionReady(RubyRite))
             {
-                if (ActionReady(All.Swiftcast))
-                    return All.Swiftcast;
+                if (ActionReady(Role.Swiftcast))
+                    return Role.Swiftcast;
 
-                if (HasEffect(All.Buffs.Swiftcast))
+                if (HasEffect(Role.Buffs.Swiftcast))
                 {
                     if (ActionReady(Slipstream))
                         return OriginalHook(Slipstream);
@@ -161,7 +161,7 @@ internal partial class SMN : MagicDPS
                 (HasEffect(Buffs.IfritsFavor) && (IsMoving() || Gauge.Attunement is 0)) || (ComboAction == CrimsonCyclone && InMeleeRange()))
                 return OriginalHook(AstralFlow);
 
-            if (HasEffect(Buffs.FurtherRuin) && ((!HasEffect(All.Buffs.Swiftcast) && IsIfritAttuned && IsMoving()) || (GetCooldownRemainingTime(OriginalHook(Aethercharge)) is < 2.5f and > 0)))
+            if (HasEffect(Buffs.FurtherRuin) && ((!HasEffect(Role.Buffs.Swiftcast) && IsIfritAttuned && IsMoving()) || (GetCooldownRemainingTime(OriginalHook(Aethercharge)) is < 2.5f and > 0)))
                 return Ruin4;
 
             if (IsAttunedAny)
@@ -239,8 +239,8 @@ internal partial class SMN : MagicDPS
                         return Painflare;
                 }
 
-                if (ActionReady(All.LucidDreaming) && LocalPlayer.CurrentMp <= 4000)
-                    return All.LucidDreaming;
+                if (Role.CanLucidDream(4000))
+                    return Role.LucidDreaming;
             }
 
             if (ActionReady(Aethercharge))
@@ -248,10 +248,10 @@ internal partial class SMN : MagicDPS
 
             if (ActionReady(Slipstream) || ActionReady(RubyCata))
             {
-                if (ActionReady(All.Swiftcast))
-                    return All.Swiftcast;
+                if (ActionReady(Role.Swiftcast))
+                    return Role.Swiftcast;
 
-                if (HasEffect(All.Buffs.Swiftcast))
+                if (HasEffect(Role.Buffs.Swiftcast))
                 {
                     if (ActionReady(Slipstream))
                         return OriginalHook(Slipstream);
@@ -266,7 +266,7 @@ internal partial class SMN : MagicDPS
                 (HasEffect(Buffs.IfritsFavor) && (IsMoving() || Gauge.Attunement is 0)) || (ComboAction == CrimsonCyclone && InMeleeRange()))
                 return OriginalHook(AstralFlow);
 
-            if (HasEffect(Buffs.FurtherRuin) && ((!HasEffect(All.Buffs.Swiftcast) && IsIfritAttuned && IsMoving()) || (GetCooldownRemainingTime(OriginalHook(Aethercharge)) is < 2.5f and > 0)))
+            if (HasEffect(Buffs.FurtherRuin) && ((!HasEffect(Role.Buffs.Swiftcast) && IsIfritAttuned && IsMoving()) || (GetCooldownRemainingTime(OriginalHook(Aethercharge)) is < 2.5f and > 0)))
                 return Ruin4;
 
             if (IsAttunedAny && ActionReady(PreciousBrilliance))
@@ -403,8 +403,8 @@ internal partial class SMN : MagicDPS
                 }
 
                 // Lucid Dreaming
-                if (IsEnabled(CustomComboPreset.SMN_ST_Advanced_Combo_Lucid) && ActionReady(All.LucidDreaming) && LocalPlayer.CurrentMp <= lucidThreshold)
-                    return All.LucidDreaming;
+                if (IsEnabled(CustomComboPreset.SMN_ST_Advanced_Combo_Lucid) && Role.CanLucidDream(lucidThreshold))
+                    return Role.LucidDreaming;
             }
 
             // Demi
@@ -413,7 +413,7 @@ internal partial class SMN : MagicDPS
 
             //Ruin4 in Egi Phases
             if (IsEnabled(CustomComboPreset.SMN_ST_Advanced_Combo_Ruin4) && ActionReady(Ruin4) &&
-                ((!HasEffect(All.Buffs.Swiftcast) && IsMoving() && ((HasEffect(Buffs.GarudasFavor) && !IsGarudaAttuned) || (IsIfritAttuned && ComboAction is not CrimsonCyclone))) ||
+                ((!HasEffect(Role.Buffs.Swiftcast) && IsMoving() && ((HasEffect(Buffs.GarudasFavor) && !IsGarudaAttuned) || (IsIfritAttuned && ComboAction is not CrimsonCyclone))) ||
                  (GetCooldownRemainingTime(OriginalHook(Aethercharge)) is < 2.5f and > 0)))
                 return Ruin4;
 
@@ -423,25 +423,25 @@ internal partial class SMN : MagicDPS
                 // Swiftcast Garuda Feature
                 if (swiftcastPhase is 0 or 1 or 3 && HasEffect(Buffs.GarudasFavor) && GarudaAstralFlow)
                 {
-                    if (CanSpellWeave() && ActionReady(All.Swiftcast))
-                        return All.Swiftcast;
+                    if (Role.CanSwiftcast())
+                        return Role.Swiftcast;
 
-                    if (ActionReady(Slipstream) && HasEffect(All.Buffs.Swiftcast))
+                    if (ActionReady(Slipstream) && HasEffect(Role.Buffs.Swiftcast))
                         return OriginalHook(AstralFlow);
                 }
 
                 // Swiftcast Ifrit Feature
                 if (swiftcastPhase is 2 or 3)
                 {
-                    if (ActionReady(All.Swiftcast) && ActionReady(RubyCata))
-                        return All.Swiftcast;
+                    if (Role.CanSwiftcast(false) && ActionReady(RubyCata))
+                        return Role.Swiftcast;
                 }
             }
 
             // Precious Brilliance priority casting
             if (IsEnabled(CustomComboPreset.SMN_ST_Advanced_Combo_EgiSummons_Attacks) &&
-                ((IsIfritAttuned && ActionReady(RubyCata) && HasEffect(All.Buffs.Swiftcast) && ComboAction is not CrimsonCyclone) ||
-                 (HasEffect(Buffs.GarudasFavor) && !HasEffect(All.Buffs.Swiftcast) && IsMoving())))
+                ((IsIfritAttuned && ActionReady(RubyCata) && HasEffect(Role.Buffs.Swiftcast) && ComboAction is not CrimsonCyclone) ||
+                 (HasEffect(Buffs.GarudasFavor) && !HasEffect(Role.Buffs.Swiftcast) && IsMoving())))
                 return OriginalHook(PreciousBrilliance);
 
             if ((GarudaAstralFlow && HasEffect(Buffs.GarudasFavor)) ||
@@ -594,8 +594,8 @@ internal partial class SMN : MagicDPS
                 }
 
                 // Lucid Dreaming
-                if (IsEnabled(CustomComboPreset.SMN_AoE_Advanced_Combo_Lucid) && ActionReady(All.LucidDreaming) && LocalPlayer.CurrentMp <= lucidThreshold)
-                    return All.LucidDreaming;
+                if (IsEnabled(CustomComboPreset.SMN_AoE_Advanced_Combo_Lucid) && Role.CanLucidDream(lucidThreshold))
+                    return Role.LucidDreaming;
             }
 
             // Demi
@@ -604,7 +604,7 @@ internal partial class SMN : MagicDPS
 
             //Ruin4 in Egi Phases
             if (IsEnabled(CustomComboPreset.SMN_AoE_Advanced_Combo_Ruin4) && ActionReady(Ruin4) &&
-                ((!HasEffect(All.Buffs.Swiftcast) && IsMoving() && ((HasEffect(Buffs.GarudasFavor) && !IsGarudaAttuned) || (IsIfritAttuned && ComboAction is not CrimsonCyclone))) ||
+                ((!HasEffect(Role.Buffs.Swiftcast) && IsMoving() && ((HasEffect(Buffs.GarudasFavor) && !IsGarudaAttuned) || (IsIfritAttuned && ComboAction is not CrimsonCyclone))) ||
                  (GetCooldownRemainingTime(OriginalHook(Aethercharge)) is < 2.5f and > 0)))
                 return Ruin4;
 
@@ -614,25 +614,25 @@ internal partial class SMN : MagicDPS
                 // Swiftcast Garuda Feature
                 if (swiftcastPhase is 0 or 1 or 3 && HasEffect(Buffs.GarudasFavor) && GarudaAstralFlow)
                 {
-                    if (CanSpellWeave() && ActionReady(All.Swiftcast))
-                        return All.Swiftcast;
+                    if (Role.CanSwiftcast())
+                        return Role.Swiftcast;
 
-                    if (ActionReady(Slipstream) && HasEffect(All.Buffs.Swiftcast))
+                    if (ActionReady(Slipstream) && HasEffect(Role.Buffs.Swiftcast))
                         return OriginalHook(AstralFlow);
                 }
 
                 // Swiftcast Ifrit Feature
                 if (swiftcastPhase is 2 or 3)
                 {
-                    if (ActionReady(All.Swiftcast) && ActionReady(RubyRite))
-                        return All.Swiftcast;
+                    if (Role.CanSwiftcast(false) && ActionReady(RubyRite))
+                        return Role.Swiftcast;
                 }
             }
 
             // Precious Brilliance priority casting
             if (IsEnabled(CustomComboPreset.SMN_AoE_Advanced_Combo_EgiSummons_Attacks) &&
-                ((IsIfritAttuned && ActionReady(RubyRite) && HasEffect(All.Buffs.Swiftcast) && ComboAction is not CrimsonCyclone) ||
-                 (HasEffect(Buffs.GarudasFavor) && !HasEffect(All.Buffs.Swiftcast) && IsMoving())))
+                ((IsIfritAttuned && ActionReady(RubyRite) && HasEffect(Role.Buffs.Swiftcast) && ComboAction is not CrimsonCyclone) ||
+                 (HasEffect(Buffs.GarudasFavor) && !HasEffect(Role.Buffs.Swiftcast) && IsMoving())))
                 return OriginalHook(PreciousBrilliance);
 
             if ((GarudaAstralFlow && HasEffect(Buffs.GarudasFavor)) ||

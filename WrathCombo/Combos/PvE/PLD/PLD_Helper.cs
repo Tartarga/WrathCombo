@@ -121,8 +121,8 @@ internal partial class PLD
                   (int)Config.PartyRequirement.No ||
                   IsInParty()),
         //Rampart
-        (All.Rampart, CustomComboPreset.PLD_Mit_Rampart,
-            () => PlayerHealthPercentageHp() <= Config.PLD_Mit_Rampart_Health),
+        (Role.Rampart, CustomComboPreset.PLD_Mit_Rampart,
+            () => Role.CanRampart(Config.PLD_Mit_Rampart_Health)),
         //Sentinel
         (OriginalHook(Sentinel), CustomComboPreset.PLD_Mit_Sentinel,
             () => PlayerHealthPercentageHp() <= Config.PLD_Mit_Sentinel_Health),

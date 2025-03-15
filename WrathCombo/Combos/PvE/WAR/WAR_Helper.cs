@@ -148,8 +148,8 @@ internal partial class WAR
         (ThrillOfBattle, CustomComboPreset.WAR_Mit_ThrillOfBattle,
             () => PlayerHealthPercentageHp() <= Config.WAR_Mit_ThrillOfBattle_Health),
         //Rampart
-        (All.Rampart, CustomComboPreset.WAR_Mit_Rampart,
-            () => PlayerHealthPercentageHp() <= Config.WAR_Mit_Rampart_Health),
+        (Role.Rampart, CustomComboPreset.WAR_Mit_Rampart,
+            () => Role.CanRampart(Config.WAR_Mit_Rampart_Health)),
         //Shake it Off
         (ShakeItOff, CustomComboPreset.WAR_Mit_ShakeItOff,
             () => (FindEffect(Buffs.ShakeItOff) is null &&

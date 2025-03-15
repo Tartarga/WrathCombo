@@ -60,7 +60,7 @@ internal partial class AST : Healer
             {
                 //Variant stuff
                 if (Variant.CanSpiritDart(CustomComboPreset.AST_Variant_Rampart))
-                    return Variant.Rampart;
+                    return Variant.SpiritDart;
 
                 if (IsEnabled(CustomComboPreset.AST_DPS_LightSpeed) &&
                     ActionReady(Lightspeed) &&
@@ -70,7 +70,7 @@ internal partial class AST : Healer
                     return Lightspeed;
 
                 if (IsEnabled(CustomComboPreset.AST_DPS_Lucid) &&
-                    Role.CanLucid(Config.AST_LucidDreaming))
+                    Role.CanLucidDream(Config.AST_LucidDreaming))
                     return Role.LucidDreaming;
 
                 //Play Card
@@ -165,7 +165,7 @@ internal partial class AST : Healer
                 return Lightspeed;
 
             if (IsEnabled(CustomComboPreset.AST_AOE_Lucid) &&
-                Role.CanLucid(Config.AST_LucidDreaming))
+                Role.CanLucidDream(Config.AST_LucidDreaming))
                 return Role.LucidDreaming;
 
             //Play Card

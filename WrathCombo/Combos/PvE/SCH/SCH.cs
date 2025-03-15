@@ -221,7 +221,7 @@ internal partial class SCH : Healer
 
             // Lucid Dreaming
             if (IsEnabled(CustomComboPreset.SCH_DPS_Lucid) &&
-                Role.CanLucid(Config.SCH_ST_DPS_LucidOption))
+                Role.CanLucidDream(Config.SCH_ST_DPS_LucidOption))
                 return Role.LucidDreaming;
 
             //Target based options
@@ -315,7 +315,7 @@ internal partial class SCH : Healer
 
             // Lucid Dreaming
             if (IsEnabled(CustomComboPreset.SCH_AoE_Lucid) &&
-                Role.CanLucid(Config.SCH_AoE_LucidOption))
+                Role.CanLucidDream(Config.SCH_AoE_LucidOption))
                 return Role.LucidDreaming;
 
             return actionID;
@@ -350,7 +350,7 @@ internal partial class SCH : Healer
 
             // Lucid Dreaming
             if (IsEnabled(CustomComboPreset.SCH_AoE_Heal_Lucid)
-                && Role.CanLucid(Config.SCH_AoE_Heal_LucidOption))
+                && Role.CanLucidDream(Config.SCH_AoE_Heal_LucidOption))
                 return Role.LucidDreaming;
 
             float averagePartyHP = GetPartyAvgHPPercent();
@@ -427,7 +427,7 @@ internal partial class SCH : Healer
 
             // Lucid Dreaming
             if (IsEnabled(CustomComboPreset.SCH_ST_Heal_Lucid) &&
-                Role.CanLucid(Config.SCH_ST_Heal_LucidOption))
+                Role.CanLucidDream(Config.SCH_ST_Heal_LucidOption))
                 return Role.LucidDreaming;
 
             // Dissolve Union if needed

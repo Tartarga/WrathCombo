@@ -14,11 +14,6 @@ internal partial class RPR
 
     internal static float GCD => GetCooldown(Slice).CooldownTotal;
 
-    internal static bool TrueNorthReady =>
-        TargetNeedsPositionals() &&
-        ActionReady(All.TrueNorth) &&
-        !HasEffect(All.Buffs.TrueNorth);
-
     internal static WrathOpener Opener()
     {
         if (Opener1.LevelChecked)

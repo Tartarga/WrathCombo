@@ -245,7 +245,7 @@ internal partial class BLU : MagicDPS
                     return BadBreath;
                 if (IsOffCooldown(Devour) && HasEffect(Buffs.TankMimicry) && IsSpellActive(Devour))
                     return Devour;
-                if (Role.CanLucid(9000))
+                if (Role.CanLucidDream(9000))
                     return Role.LucidDreaming;
             }
 

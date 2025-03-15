@@ -215,7 +215,7 @@ internal partial class DNC : PhysRangedDPS
                 return Role.HeadGraze;
 
             // Variant Rampart
-            if (Variant.CanRampart(CustomComboPreset.DNC_Variant_Rampart))
+            if (Variant.CanRampart(CustomComboPreset.DNC_Variant_Rampart, WeaveTypes.Weave))
                 return Variant.Rampart;
 
             if (CanWeave() && !WasLastWeaponskill(TechnicalFinish4))
@@ -538,7 +538,7 @@ internal partial class DNC : PhysRangedDPS
                 return Role.HeadGraze;
 
             // Variant Rampart
-            if (Variant.CanRampart(CustomComboPreset.DNC_Variant_Rampart))
+            if (Variant.CanRampart(CustomComboPreset.DNC_Variant_Rampart, WeaveTypes.Weave))
                 return Variant.Rampart;
 
             if (CanWeave() && !WasLastWeaponskill(TechnicalFinish4))
@@ -782,7 +782,7 @@ internal partial class DNC : PhysRangedDPS
                 !HasEffect(Buffs.TechnicalFinish))
                 return Role.HeadGraze;
 
-            if (Variant.CanRampart(CustomComboPreset.DNC_Variant_Rampart))
+            if (Variant.CanRampart(CustomComboPreset.DNC_Variant_Rampart, WeaveTypes.Weave))
                 return Variant.Rampart;
 
             if (CanWeave() && !WasLastWeaponskill(TechnicalFinish4))
@@ -1058,7 +1058,7 @@ internal partial class DNC : PhysRangedDPS
                 !HasEffect(Buffs.TechnicalFinish))
                 return Role.HeadGraze;
 
-            if (Variant.CanRampart(CustomComboPreset.DNC_Variant_Rampart))
+            if (Variant.CanRampart(CustomComboPreset.DNC_Variant_Rampart, WeaveTypes.Weave))
                 return Variant.Rampart;
 
             if (CanWeave() && !WasLastWeaponskill(TechnicalFinish4))

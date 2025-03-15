@@ -86,7 +86,7 @@ internal partial class SGE : Healer
             if (Variant.CanSpiritDart(CustomComboPreset.SGE_DPS_Variant_SpiritDart)) return Variant.SpiritDart;
 
             // Lucid Dreaming
-            if (IsEnabled(CustomComboPreset.SGE_AoE_DPS_Lucid) && Role.CanLucid(Config.SGE_AoE_DPS_Lucid))
+            if (IsEnabled(CustomComboPreset.SGE_AoE_DPS_Lucid) && Role.CanLucidDream(Config.SGE_AoE_DPS_Lucid))
                 return Role.LucidDreaming;
 
             // Rhizomata
@@ -191,7 +191,7 @@ internal partial class SGE : Healer
                     return actionID;
 
             // Lucid Dreaming
-            if (IsEnabled(CustomComboPreset.SGE_ST_DPS_Lucid) && Role.CanLucid(Config.SGE_ST_DPS_Lucid))
+            if (IsEnabled(CustomComboPreset.SGE_ST_DPS_Lucid) && Role.CanLucidDream(Config.SGE_ST_DPS_Lucid))
                 return Role.LucidDreaming;
 
             // Variant

@@ -50,8 +50,8 @@ internal partial class GNB : Tank
                             return OriginalHook(Nebula);
                         if (ActionReady(Role.Rampart) && HPP < 80)
                             return Role.Rampart;
-                        if (ActionReady(All.Reprisal) && InActionRange(All.Reprisal) && HPP < 90)
-                            return All.Reprisal;
+                        if (Role.CanReprisal(90))
+                            return Role.Reprisal;
                     }
                     if (ActionReady(Camouflage) && HPP < 70)
                         return Camouflage;
@@ -278,10 +278,10 @@ internal partial class GNB : Tank
                     {
                         if (ActionReady(OriginalHook(Nebula)) && HPP < 60)
                             return OriginalHook(Nebula);
-                        if (ActionReady(All.Rampart) && HPP < 80)
-                            return All.Rampart;
-                        if (ActionReady(All.Reprisal) && InActionRange(All.Reprisal) && HPP < 90)
-                            return All.Reprisal;
+                        if (Role.CanRampart(80))
+                            return Role.Rampart;
+                        if (Role.CanReprisal(90))
+                            return Role.Reprisal;
                     }
                     if (ActionReady(Camouflage) && HPP < 70)
                         return Camouflage;
@@ -387,12 +387,12 @@ internal partial class GNB : Tank
                     if (IsEnabled(CustomComboPreset.GNB_AoE_Nebula) && ActionReady(OriginalHook(Nebula)) && HPP < Config.GNB_AoE_Nebula_Health &&
                         (Config.GNB_AoE_Nebula_SubOption == 0 || (TargetIsBoss() && Config.GNB_AoE_Nebula_SubOption == 1)))
                         return OriginalHook(Nebula);
-                    if (IsEnabled(CustomComboPreset.GNB_AoE_Rampart) && ActionReady(All.Rampart) && HPP < Config.GNB_AoE_Rampart_Health &&
+                    if (IsEnabled(CustomComboPreset.GNB_AoE_Rampart) && Role.CanRampart(Config.GNB_AoE_Rampart_Health) &&
                         (Config.GNB_AoE_Rampart_SubOption == 0 || (TargetIsBoss() && Config.GNB_AoE_Rampart_SubOption == 1)))
-                        return All.Rampart;
-                    if (IsEnabled(CustomComboPreset.GNB_AoE_Reprisal) && ActionReady(All.Reprisal) && InActionRange(All.Reprisal) && HPP < Config.GNB_AoE_Reprisal_Health &&
+                        return Role.Rampart;
+                    if (IsEnabled(CustomComboPreset.GNB_AoE_Reprisal) && Role.CanReprisal(Config.GNB_AoE_Reprisal_Health) &&
                         (Config.GNB_AoE_Reprisal_SubOption == 0 || (TargetIsBoss() && Config.GNB_AoE_Reprisal_SubOption == 1)))
-                        return All.Reprisal;
+                        return Role.Reprisal;
                     if (IsEnabled(CustomComboPreset.GNB_AoE_ArmsLength) && ActionReady(All.ArmsLength) && HPP < Config.GNB_AoE_ArmsLength_Health && !InBossEncounter())
                         return All.ArmsLength;
                 }

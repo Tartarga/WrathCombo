@@ -303,7 +303,7 @@ internal partial class BRD : PhysRangedDPS
             if (Variant.CanCure(CustomComboPreset.BRD_Variant_Cure ,Config.BRD_VariantCure))
                 return Variant.Cure;
 
-            if (Variant.CanRampart(CustomComboPreset.BRD_Variant_Rampart))
+            if (Variant.CanRampart(CustomComboPreset.BRD_Variant_Rampart, WeaveTypes.Weave))
                 return Variant.Rampart;
 
             #endregion
@@ -553,7 +553,7 @@ internal partial class BRD : PhysRangedDPS
             if (Variant.CanCure(CustomComboPreset.BRD_Variant_Cure, Config.BRD_VariantCure))
                 return Variant.Cure;
 
-            if (Variant.CanRampart(CustomComboPreset.BRD_Variant_Rampart))
+            if (Variant.CanRampart(CustomComboPreset.BRD_Variant_Rampart, WeaveTypes.Weave))
                 return Variant.Rampart;
 
             #endregion
@@ -853,7 +853,7 @@ internal partial class BRD : PhysRangedDPS
             if (Variant.CanCure(CustomComboPreset.BRD_Variant_Cure, 50))
                 return Variant.Cure;
 
-            if (Variant.CanRampart(CustomComboPreset.BRD_Variant_Rampart))
+            if (Variant.CanRampart(CustomComboPreset.BRD_Variant_Rampart, WeaveTypes.Weave))
                 return Variant.Rampart;
 
             #endregion
@@ -1072,7 +1072,7 @@ internal partial class BRD : PhysRangedDPS
             if (Variant.CanCure(CustomComboPreset.BRD_Variant_Cure, 50))
                 return Variant.Cure;
 
-            if (Variant.CanRampart(CustomComboPreset.BRD_Variant_Rampart))
+            if (Variant.CanRampart(CustomComboPreset.BRD_Variant_Rampart, WeaveTypes.Weave))
                 return Variant.Rampart;
             #endregion
 

@@ -42,8 +42,8 @@ internal partial class NIN : MeleeDPS
             double playerHP = PlayerHealthPercentageHp();
             bool phantomUptime = IsEnabled(CustomComboPreset.NIN_ST_AdvancedMode_Phantom_Uptime);
             var comboLength = GetCooldown(GustSlash).CooldownTotal * 3;
-            bool trueNorthArmor = IsEnabled(CustomComboPreset.NIN_ST_AdvancedMode_TrueNorth) && TargetNeedsPositionals() && !OnTargetsFlank() && GetRemainingCharges(All.TrueNorth) > 0 && All.TrueNorth.LevelChecked() && !HasEffect(All.Buffs.TrueNorth) && canDelayedWeave;
-            bool trueNorthEdge = IsEnabled(CustomComboPreset.NIN_ST_AdvancedMode_TrueNorth) && TargetNeedsPositionals() && Config.Advanced_TrueNorth == 0 && !OnTargetsRear() && GetRemainingCharges(All.TrueNorth) > 0 && All.TrueNorth.LevelChecked() && !HasEffect(All.Buffs.TrueNorth) && canDelayedWeave;
+            bool trueNorthArmor = IsEnabled(CustomComboPreset.NIN_ST_AdvancedMode_TrueNorth) && Role.CanTrueNorth() && !OnTargetsFlank() && canDelayedWeave;
+            bool trueNorthEdge = IsEnabled(CustomComboPreset.NIN_ST_AdvancedMode_TrueNorth) && Role.CanTrueNorth() && !OnTargetsRear() && canDelayedWeave;
             bool dynamic = Config.Advanced_TrueNorth == 0;
 
             if (IsEnabled(CustomComboPreset.NIN_ST_AdvancedMode_BalanceOpener) && Opener().FullOpener(ref actionID))
@@ -274,7 +274,7 @@ internal partial class NIN : MeleeDPS
                     if (gauge.Kazematoi == 0)
                     {
                         if (trueNorthArmor)
-                            return All.TrueNorth;
+                            return Role.TrueNorth;
 
                         return ArmorCrush;
                     }
@@ -282,7 +282,7 @@ internal partial class NIN : MeleeDPS
                     if (GetTargetHPPercent() <= burnKazematoi && gauge.Kazematoi > 0)
                     {
                         if (trueNorthEdge)
-                            return All.TrueNorth;
+                            return Role.TrueNorth;
 
                         return AeolianEdge;
                     }
@@ -292,7 +292,7 @@ internal partial class NIN : MeleeDPS
                         if (gauge.Kazematoi >= 4)
                         {
                             if (trueNorthEdge)
-                                return All.TrueNorth;
+                                return Role.TrueNorth;
 
                             return AeolianEdge;
                         }
@@ -308,7 +308,7 @@ internal partial class NIN : MeleeDPS
                         if (gauge.Kazematoi < 3)
                         {
                             if (trueNorthArmor)
-                                return All.TrueNorth;
+                                return Role.TrueNorth;
 
                             return ArmorCrush;
                         }
@@ -319,7 +319,7 @@ internal partial class NIN : MeleeDPS
                 if (ComboAction == GustSlash && !ArmorCrush.LevelChecked() && AeolianEdge.LevelChecked())
                 {
                     if (trueNorthEdge)
-                        return OriginalHook(All.TrueNorth);
+                        return OriginalHook(Role.TrueNorth);
                     else
                         return OriginalHook(AeolianEdge);
                 }
@@ -528,8 +528,8 @@ internal partial class NIN : MeleeDPS
             double playerHP = PlayerHealthPercentageHp();
             bool phantomUptime = true;
             _ = GetCooldown(GustSlash).CooldownTotal * 3;
-            bool trueNorthArmor = TargetNeedsPositionals() && !OnTargetsFlank() && GetRemainingCharges(All.TrueNorth) > 0 && All.TrueNorth.LevelChecked() && !HasEffect(All.Buffs.TrueNorth) && canDelayedWeave;
-            bool trueNorthEdge = TargetNeedsPositionals() && !OnTargetsRear() && GetRemainingCharges(All.TrueNorth) > 0 && All.TrueNorth.LevelChecked() && !HasEffect(All.Buffs.TrueNorth) && canDelayedWeave;
+            bool trueNorthArmor = TargetNeedsPositionals() && !OnTargetsFlank() && Role.CanTrueNorth() && canDelayedWeave;
+            bool trueNorthEdge = TargetNeedsPositionals() && !OnTargetsRear() && Role.CanTrueNorth() && canDelayedWeave;
             bool dynamic = true;
 
             if (ActionWatching.TimeSinceLastAction.TotalSeconds >= 5 && !InCombat())
@@ -718,7 +718,7 @@ internal partial class NIN : MeleeDPS
                     if (gauge.Kazematoi == 0)
                     {
                         if (trueNorthArmor)
-                            return All.TrueNorth;
+                            return Role.TrueNorth;
 
                         return ArmorCrush;
                     }
@@ -728,7 +728,7 @@ internal partial class NIN : MeleeDPS
                         if (gauge.Kazematoi >= 4)
                         {
                             if (trueNorthEdge)
-                                return All.TrueNorth;
+                                return Role.TrueNorth;
 
                             return AeolianEdge;
                         }
@@ -744,7 +744,7 @@ internal partial class NIN : MeleeDPS
                         if (gauge.Kazematoi < 3)
                         {
                             if (trueNorthArmor)
-                                return All.TrueNorth;
+                                return Role.TrueNorth;
 
                             return ArmorCrush;
                         }
@@ -755,7 +755,7 @@ internal partial class NIN : MeleeDPS
                 if (ComboAction == GustSlash && !ArmorCrush.LevelChecked() && AeolianEdge.LevelChecked())
                 {
                     if (trueNorthEdge)
-                        return OriginalHook(All.TrueNorth);
+                        return OriginalHook(Role.TrueNorth);
                     else
                         return OriginalHook(AeolianEdge);
                 }

@@ -96,8 +96,8 @@ internal partial class MCH : PhysRangedDPS
                         }
 
                         // Healing
-                        if (PlayerHealthPercentageHp() <= 25 && ActionReady(All.SecondWind))
-                            return All.SecondWind;
+                        if (Role.CanSecondWind(5))
+                            return Role.SecondWind;
                     }
                 }
 
@@ -178,7 +178,7 @@ internal partial class MCH : PhysRangedDPS
 
             // Interrupt
             if (Role.CanHeadGraze(CustomComboPreset.MCH_ST_Adv_Interrupt, WeaveTypes.DelayWeave))
-                return All.HeadGraze;
+                return Role.HeadGraze;
 
             // All weaves
             if (CanWeave())
@@ -263,9 +263,8 @@ internal partial class MCH : PhysRangedDPS
 
                         // Healing
                         if (IsEnabled(CustomComboPreset.MCH_ST_Adv_SecondWind) &&
-                            PlayerHealthPercentageHp() <= Config.MCH_ST_SecondWindThreshold &&
-                            ActionReady(All.SecondWind))
-                            return All.SecondWind;
+                            Role.CanSecondWind(Config.MCH_ST_SecondWindThreshold))
+                            return Role.SecondWind;
                     }
                 }
 
@@ -379,8 +378,8 @@ internal partial class MCH : PhysRangedDPS
                          Scattergun.LevelChecked()))
                         return Reassemble;
 
-                    if (PlayerHealthPercentageHp() <= 25 && ActionReady(All.SecondWind))
-                        return All.SecondWind;
+                    if (Role.CanSecondWind(25))
+                        return Role.SecondWind;
                 }
 
                 //AutoCrossbow, Gauss, Rico

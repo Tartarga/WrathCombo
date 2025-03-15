@@ -180,18 +180,18 @@ internal partial class DRG : MeleeDPS
 
                 if (ComboAction == OriginalHook(Disembowel) && LevelChecked(ChaosThrust))
                 {
-                    if (TrueNorthReady && CanDRGWeave(All.TrueNorth) &&
+                    if (Role.CanTrueNorth() && CanDRGWeave(Role.TrueNorth) &&
                         !OnTargetsRear())
-                        return All.TrueNorth;
+                        return Role.TrueNorth;
 
                     return OriginalHook(ChaosThrust);
                 }
 
                 if (ComboAction == OriginalHook(ChaosThrust) && LevelChecked(WheelingThrust))
                 {
-                    if (TrueNorthReady && CanDRGWeave(All.TrueNorth) &&
+                    if (Role.CanTrueNorth() && CanDRGWeave(Role.TrueNorth) &&
                         !OnTargetsRear())
-                        return All.TrueNorth;
+                        return Role.TrueNorth;
 
                     return WheelingThrust;
                 }
@@ -201,9 +201,9 @@ internal partial class DRG : MeleeDPS
 
                 if (ComboAction == OriginalHook(FullThrust) && LevelChecked(FangAndClaw))
                 {
-                    if (TrueNorthReady && CanDRGWeave(All.TrueNorth) &&
+                    if (Role.CanTrueNorth() && CanDRGWeave(Role.TrueNorth) &&
                         !OnTargetsFlank())
-                        return All.TrueNorth;
+                        return Role.TrueNorth;
 
                     return FangAndClaw;
                 }
@@ -371,9 +371,9 @@ internal partial class DRG : MeleeDPS
                 if (ComboAction == OriginalHook(Disembowel) && LevelChecked(ChaosThrust))
                 {
                     if (IsEnabled(CustomComboPreset.DRG_TrueNorthDynamic) &&
-                        TrueNorthReady && CanDRGWeave(All.TrueNorth) &&
+                        Role.CanTrueNorth() && CanDRGWeave(Role.TrueNorth) &&
                         !OnTargetsRear())
-                        return All.TrueNorth;
+                        return Role.TrueNorth;
 
                     return OriginalHook(ChaosThrust);
                 }
@@ -381,9 +381,9 @@ internal partial class DRG : MeleeDPS
                 if (ComboAction == OriginalHook(ChaosThrust) && LevelChecked(WheelingThrust))
                 {
                     if (IsEnabled(CustomComboPreset.DRG_TrueNorthDynamic) &&
-                        TrueNorthReady && CanDRGWeave(All.TrueNorth) &&
+                        Role.CanTrueNorth() && CanDRGWeave(Role.TrueNorth) &&
                         !OnTargetsRear())
-                        return All.TrueNorth;
+                        return Role.TrueNorth;
 
                     return WheelingThrust;
                 }
@@ -394,9 +394,9 @@ internal partial class DRG : MeleeDPS
                 if (ComboAction == OriginalHook(FullThrust) && LevelChecked(FangAndClaw))
                 {
                     if (IsEnabled(CustomComboPreset.DRG_TrueNorthDynamic) &&
-                        TrueNorthReady && CanDRGWeave(All.TrueNorth) &&
+                        Role.CanTrueNorth() && CanDRGWeave(Role.TrueNorth) &&
                         !OnTargetsFlank())
-                        return All.TrueNorth;
+                        return Role.TrueNorth;
 
                     return FangAndClaw;
                 }

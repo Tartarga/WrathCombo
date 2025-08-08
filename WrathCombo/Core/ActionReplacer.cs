@@ -8,6 +8,7 @@ using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Hooking;
 using ECommons;
 using ECommons.DalamudServices;
+using ECommons.ExcelServices;
 using ECommons.GameHelpers;
 using ECommons.Throttlers;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -192,8 +193,8 @@ internal sealed class ActionReplacer : IDisposable
         FilteredCombos = CustomCombos.Where(x =>
             x.Preset.Attributes() is not null && x.Preset.Attributes().IsPvP == CustomComboFunctions.InPvP() &&
             ((x.Preset.Attributes().RoleAttribute is not null && x.Preset.Attributes().RoleAttribute.PlayerIsRole()) ||
-             x.Preset.Attributes().CustomComboInfo.JobID == Player.JobId ||
-             x.Preset.Attributes().CustomComboInfo.JobID == CustomComboFunctions.JobIDs.ClassToJob(Player.JobId)));
+             x.Preset.Attributes().CustomComboInfo.JobID == (uint)Player.Job.GetUpgradedJob()));
+             
         var filteredCombos = FilteredCombos as CustomCombo[] ?? FilteredCombos.ToArray();
         Svc.Log.Debug(
             $"Now running {filteredCombos.Count()} combos\n{string.Join("\n", filteredCombos.Select(x => x.Preset.Attributes().CustomComboInfo.Name))}");

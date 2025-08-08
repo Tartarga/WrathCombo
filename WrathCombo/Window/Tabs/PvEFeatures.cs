@@ -293,7 +293,7 @@ namespace WrathCombo.Window.Tabs
                 return;
             }
 
-            var job = JobIDToName(ClassToJob((uint)Player.Job));
+            var job = JobIDToName((uint)Player.Job.GetUpgradedJob());
             if (groupedPresets.TryGetValue(job, out var foundJob))
                 OpenJob = foundJob.First().Info.JobName;
         }

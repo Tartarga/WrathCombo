@@ -2,6 +2,7 @@
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Utility;
 using ECommons.DalamudServices;
+using ECommons.ExcelServices;
 using ECommons.GameHelpers;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using WrathCombo.Attributes;
@@ -20,7 +21,7 @@ namespace WrathCombo.CustomComboNS
         {
             CustomComboInfoAttribute? presetInfo = Preset.GetAttribute<CustomComboInfoAttribute>();
             JobID = presetInfo.JobID;
-            ClassID = JobIDs.JobToClass(JobID);
+            ClassID = (byte)ExcelJobHelper.GetDowngradedJob((Job)JobID);
         }
 
         protected IGameObject? OptionalTarget;

@@ -26,6 +26,7 @@ using WrathCombo.Services;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 using ECommons.Throttlers;
+using ECommons.ExcelServices;
 
 namespace WrathCombo.Window.Functions
 {
@@ -128,7 +129,7 @@ namespace WrathCombo.Window.Functions
         }
 
         internal static Dictionary<CustomComboPreset, bool> GetJobAutorots => P
-            .IPCSearch.AutoActions.Where(x => x.Key.Attributes().IsPvP == CustomComboFunctions.InPvP() && (Player.JobId == x.Key.Attributes().CustomComboInfo.JobID || CustomComboFunctions.JobIDs.ClassToJob((byte)Player.Job) == x.Key.Attributes().CustomComboInfo.JobID) && x.Value && CustomComboFunctions.IsEnabled(x.Key) && x.Key.Attributes().Parent == null).ToDictionary();
+            .IPCSearch.AutoActions.Where(x => x.Key.Attributes().IsPvP == CustomComboFunctions.InPvP() && (Player.JobId == x.Key.Attributes().CustomComboInfo.JobID || (uint)Player.Job.GetUpgradedJob() == x.Key.Attributes().CustomComboInfo.JobID) && x.Value && CustomComboFunctions.IsEnabled(x.Key) && x.Key.Attributes().Parent == null).ToDictionary();
 
         internal static void DrawPreset(CustomComboPreset preset, CustomComboInfoAttribute info)
         {

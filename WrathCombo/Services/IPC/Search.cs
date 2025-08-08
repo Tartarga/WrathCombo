@@ -408,7 +408,7 @@ public class Search(Leasing leasing)
     {
         get
         {
-            var job = (Job)CustomComboFunctions.JobIDs.ClassToJob(JobID!.Value);
+            var job = ((Job)JobID!.Value).GetUpgradedJob();
 
             if (field != null && field.ContainsKey(job))
                 return field;

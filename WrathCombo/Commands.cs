@@ -1,13 +1,16 @@
 #region
 
+using ECommons;
+using ECommons.DalamudServices;
+using ECommons.ExcelServices;
+using ECommons.GameFunctions;
+using ECommons.GameHelpers;
+using ECommons.Logging;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ECommons;
-using ECommons.DalamudServices;
-using ECommons.GameFunctions;
-using ECommons.Logging;
-using Lumina.Excel.Sheets;
+using WrathCombo.AutoRotation;
 using WrathCombo.Combos;
 using WrathCombo.Core;
 using WrathCombo.CustomComboNS.Functions;
@@ -16,7 +19,6 @@ using WrathCombo.Extensions;
 using WrathCombo.Services;
 using WrathCombo.Window;
 using WrathCombo.Window.Tabs;
-using WrathCombo.AutoRotation;
 
 #endregion
 
@@ -591,7 +593,7 @@ public partial class WrathCombo
 
                     // Switch class to job, if necessary
                     if (jobSearch.ClassJobParent.RowId != jobSearch.RowId)
-                        jobId = CustomComboFunctions.JobIDs.ClassToJob(jobSearch.RowId);
+                        jobId = (uint)ExcelJobHelper.GetUpgradedJob((Job)jobSearch.RowId);
 
                     job = CustomComboFunctions.JobIDs.ClassJobs[jobId];
                 }

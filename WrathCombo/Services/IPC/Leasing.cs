@@ -371,7 +371,7 @@ public partial class Leasing
             return SetResult.PlayerNotAvailable;
         }
 
-        var job = (Job)CustomComboFunctions.JobIDs.ClassToJob((uint)Player.Job);
+        var job = Player.Job.GetUpgradedJob();
         if (jobOverride is not null)
             job = jobOverride.Value;
 

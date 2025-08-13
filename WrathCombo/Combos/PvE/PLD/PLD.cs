@@ -182,7 +182,7 @@ internal partial class PLD : Tank
                     }
 
                     // Variant Spirit Dart
-                    if (Variant.CanSpiritDart(Preset.PLD_Variant_SpiritDart))
+                    if (Variant.CanSpiritDart())
                         return Variant.SpiritDart;
 
                     // Blade of Honor
@@ -365,7 +365,7 @@ internal partial class PLD : Tank
                     }
 
                     // Variant Spirit Dart
-                    if (Variant.CanSpiritDart(Preset.PLD_Variant_SpiritDart))
+                    if (Variant.CanSpiritDart())
                         return Variant.SpiritDart;
 
                     // Blade of Honor
@@ -507,7 +507,7 @@ internal partial class PLD : Tank
                     }
 
                     // Variant Spirit Dart
-                    if (Variant.CanSpiritDart(Preset.PLD_Variant_SpiritDart))
+                    if (Variant.CanSpiritDart())
                         return Variant.SpiritDart;
 
                     // Intervene
@@ -700,7 +700,7 @@ internal partial class PLD : Tank
                     }
 
                     // Variant Spirit Dart
-                    if (Variant.CanSpiritDart(Preset.PLD_Variant_SpiritDart))
+                    if (Variant.CanSpiritDart())
                         return Variant.SpiritDart;
 
                     // Intervene

@@ -39,7 +39,7 @@ internal partial class SGE : Healer
 
             if (CanWeave() && !HasStatusEffect(Buffs.Eukrasia))
             {
-                if (Variant.CanSpiritDart(Preset.SGE_DPS_Variant_SpiritDart))
+                if (Variant.CanSpiritDart())
                     return Variant.SpiritDart;
 
                 // Lucid Dreaming
@@ -149,7 +149,7 @@ internal partial class SGE : Healer
             if (CanWeave())
             {
                 // Variant Spirit Dart
-                if (Variant.CanSpiritDart(Preset.SGE_DPS_Variant_SpiritDart))
+                if (Variant.CanSpiritDart())
                     return Variant.SpiritDart;
 
                 // Lucid Dreaming
@@ -263,7 +263,7 @@ internal partial class SGE : Healer
 
             if (CanWeave() && !HasStatusEffect(Buffs.Eukrasia))
             {
-                if (Variant.CanSpiritDart(Preset.SGE_DPS_Variant_SpiritDart))
+                if (Variant.CanSpiritDart())
                     return Variant.SpiritDart;
 
                 // Lucid Dreaming
@@ -385,7 +385,7 @@ internal partial class SGE : Healer
             if (CanWeave())
             {
                 // Variant Spirit Dart
-                if (Variant.CanSpiritDart(Preset.SGE_DPS_Variant_SpiritDart))
+                if (Variant.CanSpiritDart())
                     return Variant.SpiritDart;
 
                 // Lucid Dreaming

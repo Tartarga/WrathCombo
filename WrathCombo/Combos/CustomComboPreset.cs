@@ -3,6 +3,7 @@
 using ECommons.ExcelServices;
 using WrathCombo.Attributes;
 using WrathCombo.Combos.PvE;
+using WrathCombo.Combos.PvE.Content;
 using WrathCombo.Combos.PvP;
 using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 
@@ -23,24 +24,150 @@ public enum Preset
 
     #region VARIANT ACTIONS
     [Variant]
-    [CustomComboInfo("Variant Tank", "Enable this to add Variant Actions in Variant Dungeons.", Job.ADV)]
+    [Role(JobRole.Tank)]
+    [CustomComboInfo("Variant Tank", 
+        "Enable this to add Variant Actions in Variant Dungeons.\n " +
+        "Variant Actions will be used by Simple & Advanced rotations", 
+        Job.ADV)]
     Variant_Tank = 200000,
 
     [Variant]
-    [CustomComboInfo("Variant Healer", "Enable this to add Variant Actions in Variant Dungeons.", Job.ADV)]
-    Variant_Healer = 200003,
+    [ParentCombo(Variant_Tank)]
+    [CustomComboInfo("Variant Cure", "Use Variant Cure when HP is below set threshold.", Job.ADV)]
+    Variant_Tank_Cure = 200001,
 
     [Variant]
-    [CustomComboInfo("Variant Melee", "Enable this to add Variant Actions in Variant Dungeons.", Job.ADV)]
-    Variant_Melee = 200006,
+    [ParentCombo(Variant_Tank)]
+    [CustomComboInfo("Variant Ultimatum", "Use Variant Ultimatum on cooldown.", Job.ADV)]
+    Variant_Tank_Ultimatum = 200002,
 
     [Variant]
-    [CustomComboInfo("Variant Physical Ranged", "Enable this to add Variant Actions in Variant Dungeons.", Job.ADV)]
-    Variant_PhysRanged = 200009,
+    [Hidden]
+    [ParentCombo(Variant_Tank)]
+    [CustomComboInfo("Variant Raise", "Not Wired Up", Job.ADV)]
+    Variant_Tank_Raise = 200003,
 
     [Variant]
-    [CustomComboInfo("Variant Magic", "Enable this to add Variant Actions in Variant Dungeons.", Job.ADV)]
-    Variant_Magic = 200012,
+    [ParentCombo(Variant_Tank)]
+    [CustomComboInfo("Variant Spirit Dart", "Use Variant Spirit Dart whenever the debuff is not present or less than 3s", Job.ADV)]
+    Variant_Tank_SpiritDart = 200004,
+
+    
+    [Variant]
+    [Role(JobRole.Healer)]
+    [CustomComboInfo("Variant Healer", "Enable this to add Variant Actions in Variant Dungeons.\n" +
+        "Variant Actions will be used by Simple & Advanced rotations", 
+        Job.ADV)]
+    Variant_Healer = 200005,
+
+    [Variant]
+    [Hidden] //Not wired up
+    [ParentCombo(Variant_Healer)]
+    [CustomComboInfo("Variant Ultimatum", "Use Variant Ultimatum on cooldown.", Job.ADV)]
+    Variant_Healer_Ultimatum = 200006,
+
+    [Variant]
+    [ParentCombo(Variant_Healer)]
+    [CustomComboInfo("Variant Spirit Dart", "Use Variant Spirit Dart whenever the debuff is not present or less than 3s", Job.ADV)]
+    Variant_Healer_SpiritDart = 200007,
+
+    [Variant]
+    [ParentCombo(Variant_Healer)]
+    [CustomComboInfo("Variant Rampart", "Use Variant Rampart on cooldown.", AST.JobID)]
+    Variant_Healer_Rampart = 200008,
+
+    
+    [Variant]
+    [Role(JobRole.MeleeDPS)]
+    [CustomComboInfo("Variant Melee",
+        "Enable this to add Variant Actions in Variant Dungeons.\n" +
+        "Variant Actions will be used by Simple & Advanced rotations",
+        Job.ADV)]
+    Variant_Melee = 200009,
+
+    [Variant]
+    [ParentCombo(Variant_Melee)]
+    [CustomComboInfo("Variant Cure", "Use Variant Cure when HP is below set threshold.", Job.ADV)]
+    Variant_Melee_Cure = 200010,
+
+    [Variant]
+    [Hidden] //Not wired up
+    [ParentCombo(Variant_Melee)]
+    [CustomComboInfo("Variant Ultimatum", "Use Variant Ultimatum on cooldown.", Job.ADV)]
+    Variant_Melee_Ultimatum = 200011,
+
+    [Variant]
+    [Hidden] // Not wired up
+    [ParentCombo(Variant_Melee)]
+    [CustomComboInfo("Variant Raise", "Not Wired Up", Job.ADV)]
+    Variant_Melee_Raise = 200012,
+
+    [Variant]
+    [ParentCombo(Variant_Melee)]
+    [CustomComboInfo("Variant Rampart", "Use Variant Rampart on cooldown.", Job.ADV)]
+    Variant_Melee_Rampart = 200013,
+
+
+    [Variant]
+    [Role(JobRole.RangedDPS)]
+    [CustomComboInfo("Variant Physical Ranged",
+        "Enable this to add Variant Actions in Variant Dungeons.\n" +
+        "Variant Actions will be used by Simple & Advanced rotations",
+        Job.ADV)]
+    Variant_PhysRanged = 200014,
+
+    [Variant]
+    [ParentCombo(Variant_PhysRanged)]
+    [CustomComboInfo("Variant Cure", "Use Variant Cure when HP is below set threshold.", Job.ADV)]
+    Variant_PhysRanged_Cure = 200015,
+
+    [Variant]
+    [Hidden] //Not wired up
+    [ParentCombo(Variant_PhysRanged)]
+    [CustomComboInfo("Variant Ultimatum", "Use Variant Ultimatum on cooldown.", Job.ADV)]
+    Variant_PhysRanged_Ultimatum = 200016,
+
+    [Variant]
+    [Hidden] // Not wired up
+    [ParentCombo(Variant_PhysRanged)]
+    [CustomComboInfo("Variant Raise", "Not Wired Up", Job.ADV)]
+    Variant_PhysRanged_Raise = 200017,
+
+    [Variant]
+    [ParentCombo(Variant_PhysRanged)]
+    [CustomComboInfo("Variant Rampart", "Use Variant Rampart on cooldown.", Job.ADV)]
+    Variant_PhysRanged_Rampart = 200018,
+
+
+    [Variant]
+    [Role(JobRole.MagicalDPS)]
+    [CustomComboInfo("Variant Magic",
+        "Enable this to add Variant Actions in Variant Dungeons.\n" +
+        "Variant Actions will be used by Simple & Advanced rotations",
+        Job.ADV)]
+    Variant_Magic = 200019,
+
+    [Variant]
+    [ParentCombo(Variant_Magic)]
+    [CustomComboInfo("Variant Cure", "Use Variant Cure when HP is below set threshold.", Job.ADV)]
+    Variant_Magic_Cure = 200020,
+
+    [Variant]
+    [Hidden] //Not wired up
+    [ParentCombo(Variant_Magic)]
+    [CustomComboInfo("Variant Ultimatum", "Use Variant Ultimatum on cooldown.", Job.ADV)]
+    Variant_Magic_Ultimatum = 200021,
+
+    [Variant]
+    [ParentCombo(Variant_Magic)]
+    [CustomComboInfo("Variant Raise", "Turn Swiftcast into Variant Raise whenever you have the Swiftcast buff.", Job.ADV)]
+    Variant_Magic_Raise = 200022,
+
+    [Variant]
+    [ParentCombo(Variant_Magic)]
+    [CustomComboInfo("Variant Rampart", "Use Variant Rampart on cooldown.", Job.ADV)]
+    Variant_Magic_Rampart = 200023,
+
 
     #endregion
 

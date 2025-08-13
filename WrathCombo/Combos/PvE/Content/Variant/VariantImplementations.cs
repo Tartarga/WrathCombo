@@ -20,7 +20,7 @@ internal static partial class Variant
                 public bool CanCure(Preset preset, int healthpercent) => Variant.CanCure(preset, healthpercent);
                 public bool CanUltimatum(Preset preset, WeaveTypes weave = WeaveTypes.None) => Variant.CanUltimatum(preset, weave);
                 public bool CanRaise(Preset preset) => Variant.CanRaise(preset);
-                public bool CanSpiritDart(Preset preset) => Variant.CanSpiritDart(preset);
+                public bool CanSpiritDart() => IsEnabled(Preset.Variant_Tank) && Variant.CanSpiritDart(Preset.Variant_Tank_SpiritDart);
             }
         }
 
@@ -36,7 +36,7 @@ internal static partial class Variant
                 public uint Rampart => Variant.VariantRampart;
 
                 public bool CanUltimatum(Preset preset, WeaveTypes weave = WeaveTypes.None) => Variant.CanUltimatum(preset, weave);
-                public bool CanSpiritDart(Preset preset) => Variant.CanSpiritDart(preset);
+                public bool CanSpiritDart() => IsEnabled(Preset.Variant_Healer) && Variant.CanSpiritDart(Preset.Variant_Healer_SpiritDart);
                 public bool CanRampart(Preset preset, WeaveTypes weave = WeaveTypes.None) => Variant.CanRampart(preset, weave);
             }
         }

@@ -27,7 +27,7 @@ internal partial class SCH : Healer
             if (Variant.CanRampart(Preset.SCH_DPS_Variant_Rampart))
                 return Variant.Rampart;
             
-            if (Variant.CanSpiritDart(Preset.SCH_DPS_Variant_SpiritDart))
+            if (Variant.CanSpiritDart())
                 return Variant.SpiritDart;
 
             if (OccultCrescent.ShouldUsePhantomActions())
@@ -87,7 +87,7 @@ internal partial class SCH : Healer
             if (Variant.CanRampart(Preset.SCH_DPS_Variant_Rampart))
                 return Variant.Rampart;
 
-            if (Variant.CanSpiritDart(Preset.SCH_DPS_Variant_SpiritDart))
+            if (Variant.CanSpiritDart())
                 return Variant.SpiritDart;
 
             if (OccultCrescent.ShouldUsePhantomActions())
@@ -160,7 +160,7 @@ internal partial class SCH : Healer
             if (Variant.CanRampart(Preset.SCH_DPS_Variant_Rampart))
                 return Variant.Rampart;
             
-            if (Variant.CanSpiritDart(Preset.SCH_DPS_Variant_SpiritDart))
+            if (Variant.CanSpiritDart())
                 return Variant.SpiritDart;
 
             if (OccultCrescent.ShouldUsePhantomActions())
@@ -236,7 +236,7 @@ internal partial class SCH : Healer
             if (Variant.CanRampart(Preset.SCH_DPS_Variant_Rampart))
                 return Variant.Rampart;
 
-            if (Variant.CanSpiritDart(Preset.SCH_DPS_Variant_SpiritDart))
+            if (Variant.CanSpiritDart())
                 return Variant.SpiritDart;
 
             if (OccultCrescent.ShouldUsePhantomActions())

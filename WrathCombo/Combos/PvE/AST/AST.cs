@@ -41,7 +41,7 @@ internal partial class AST : Healer
             if (Variant.CanRampart(Preset.AST_Variant_Rampart))
                 return Variant.Rampart;
 
-            if (Variant.CanSpiritDart(Preset.AST_Variant_SpiritDart) && HasBattleTarget())
+            if (Variant.CanSpiritDart() && HasBattleTarget())
                 return Variant.SpiritDart;
             #endregion
             
@@ -128,7 +128,7 @@ internal partial class AST : Healer
             if (Variant.CanRampart(Preset.AST_Variant_Rampart))
                 return Variant.Rampart;
 
-            if (Variant.CanSpiritDart(Preset.AST_Variant_SpiritDart))
+            if (Variant.CanSpiritDart())
                 return Variant.SpiritDart;
 
             if (OccultCrescent.ShouldUsePhantomActions())
@@ -253,7 +253,7 @@ internal partial class AST : Healer
             if (Variant.CanRampart(Preset.AST_Variant_Rampart))
                 return Variant.Rampart;
 
-            if (Variant.CanSpiritDart(Preset.AST_Variant_SpiritDart) && HasBattleTarget())
+            if (Variant.CanSpiritDart() && HasBattleTarget())
                 return Variant.SpiritDart;
             #endregion
             
@@ -401,7 +401,7 @@ internal partial class AST : Healer
             if (Variant.CanRampart(Preset.AST_Variant_Rampart))
                 return Variant.Rampart;
 
-            if (Variant.CanSpiritDart(Preset.AST_Variant_SpiritDart))
+            if (Variant.CanSpiritDart())
                 return Variant.SpiritDart;
 
             if (OccultCrescent.ShouldUsePhantomActions())

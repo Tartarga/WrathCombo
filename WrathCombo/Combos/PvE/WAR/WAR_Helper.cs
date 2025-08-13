@@ -89,7 +89,7 @@ internal partial class WAR : Tank
     {
         if (Variant.CanCure(Preset.WAR_Variant_Cure, WAR_VariantCure))
             return Variant.Cure;
-        if (Variant.CanSpiritDart(Preset.WAR_Variant_SpiritDart) && CanWeave())
+        if (Variant.CanSpiritDart() && CanWeave())
             return Variant.SpiritDart;
         if (Variant.CanUltimatum(Preset.WAR_Variant_Ultimatum) && CanWeave())
             return Variant.Ultimatum;

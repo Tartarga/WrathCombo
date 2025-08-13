@@ -302,7 +302,7 @@ internal partial class GNB : Tank
     {
         if (Variant.CanCure(Preset.GNB_Variant_Cure, GNB_VariantCure))
             return Variant.Cure;
-        if (Variant.CanSpiritDart(Preset.GNB_Variant_SpiritDart) && CanWeave())
+        if (Variant.CanSpiritDart() && CanWeave())
             return Variant.SpiritDart;
         if (Variant.CanUltimatum(Preset.GNB_Variant_Ultimatum) && CanWeave())
             return Variant.Ultimatum;

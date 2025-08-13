@@ -3,7 +3,7 @@ namespace WrathCombo.Combos.PvE.Content;
 
 internal static partial class Variant
 {
-        #region Variant Action Interfaces
+    #region Variant Action Interfaces
     // Action-specific interfaces
     internal interface IVariantCure
     {
@@ -26,7 +26,7 @@ internal static partial class Variant
     internal interface IVariantSpiritDart
     {
         uint SpiritDart { get; }
-        bool CanSpiritDart(Preset preset);
+        bool CanSpiritDart();
     }
 
     internal interface IVariantRampart
@@ -34,9 +34,9 @@ internal static partial class Variant
         uint Rampart { get; }
         bool CanRampart(Preset preset, WeaveTypes weave = WeaveTypes.None);
     }
-        #endregion
+    #endregion
 
-        #region Variant Action Interface Groupings
+    #region Variant Action Interface Groupings
     // Role-specific variant interfaces
     internal interface ITankVariant : IVariantCure, IVariantUltimatum, IVariantRaise, IVariantSpiritDart
     {

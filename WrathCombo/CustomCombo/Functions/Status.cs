@@ -8,6 +8,7 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 using System;
 using System.Linq;
 using WrathCombo.Data;
+using WrathCombo.Extensions;
 using WrathCombo.Services;
 
 namespace WrathCombo.CustomComboNS.Functions;
@@ -425,28 +426,30 @@ internal abstract partial class CustomComboFunctions
     /// <seealso cref="CanApplyStatus(IGameObject?,ushort)"/>
     public static bool CanApplyStatus(IGameObject? target, ushort[] status) =>
         status.Any(statusId => CanApplyStatus(target, statusId));
+    
+    private const StringComparison Lower = StringComparison.OrdinalIgnoreCase;
 
     /// <summary>
     /// Text Comparison for Tank Buster VFX Paths
     /// </summary>
-    /// <param name="path"></param>
+    /// <param name="vfx">The VFX to check the Path of</param>
     /// <returns>Bool if vfx path matches</returns>
-    private static bool IsTankBusterEffectPath(string path)
+    private static bool IsTankBusterEffectPath(VfxInfo vfx)
     {
-        return path.StartsWith("vfx/lockon/eff/tank_lockon", StringComparison.OrdinalIgnoreCase) ||
-               path.StartsWith("vfx/lockon/eff/tank_laser", StringComparison.OrdinalIgnoreCase);
+        return vfx.Path.StartsWith("vfx/lockon/eff/tank_lockon", Lower) ||
+               vfx.Path.StartsWith("vfx/lockon/eff/tank_laser", Lower);
     }
 
     /// <summary>
     /// Text Comparison for Shared Damage Effect VFX Paths
     /// </summary>
-    /// <param name="path"></param>
+    /// <param name="vfx">The VFX to check the Path of</param>
     /// <returns></returns>
-    private static bool IsShareDamageEffectPath(string path)
+    private static bool IsShareDamageEffectPath(VfxInfo vfx)
     {
-        return path.StartsWith("vfx/lockon/eff/coshare", StringComparison.OrdinalIgnoreCase) ||
-               path.StartsWith("vfx/lockon/eff/share_laser", StringComparison.OrdinalIgnoreCase) ||
-               path.StartsWith("vfx/lockon/eff/com_share", StringComparison.OrdinalIgnoreCase);
+        return vfx.Path.StartsWith("vfx/lockon/eff/coshare", Lower) ||
+               vfx.Path.StartsWith("vfx/lockon/eff/share_laser", Lower) ||
+               vfx.Path.StartsWith("vfx/lockon/eff/com_share", Lower);
     }
 
     /// <summary>
@@ -455,7 +458,7 @@ internal abstract partial class CustomComboFunctions
     /// <returns>true if at least one active visual effect is identified as a shared damage effect; otherwise, false.</returns>
     public static bool CheckForSharedDamageEffect()
     {
-        return VfxManager.TrackedEffects.Any(vfx => IsShareDamageEffectPath(vfx.Path));
+        return VfxManager.TrackedEffects.Any(IsShareDamageEffectPath);
     }
 
     /// <summary>
@@ -469,24 +472,27 @@ internal abstract partial class CustomComboFunctions
     /// <returns>true if a tank buster target is found and assigned to target; otherwise, false.</returns>
     public static bool TryGetTankBusterTarget(out IBattleChara? target)
     {
-        var tankBusterVfx = VfxManager.TrackedEffects.FirstOrDefault(vfx => IsTankBusterEffectPath(vfx.Path));
+        VfxInfo? tankBusterVfx = VfxManager.TrackedEffects
+            .FilterToTargeted()
+            .FilterToTargetRole(CombatRole.Tank) // Ignore DPS and un-targeted
+            .FirstOrDefault(IsTankBusterEffectPath);
 
         // If VfxInfo is a struct: check Path or VfxID instead of null
-        if (tankBusterVfx.Path == null || tankBusterVfx.VfxID == 0)
+        if (tankBusterVfx == null || tankBusterVfx?.VfxID == 0)
         {
             target = null;
             return false;
         }
 
-        target = Svc.Objects.SearchById(tankBusterVfx.TargetID) as IBattleChara;
-        return target != null; // extra safety: in case object ID is invalid/stale
+        target = tankBusterVfx?.TargetID.GetObject() as IBattleChara;
+        return target != null; // in case object ID is invalid/stale
     }
 
     /// <summary>
     /// Checks if the specified character has an active tank buster marker on them.
     /// </summary>
     /// <param name="targetObject">The character to check. Defaults to the local player.</param>
-    // <param name="maxAgeSeconds">Optional: Ignore VFX older than this many seconds (default 10).</param>
+    /// <param name="maxAgeSeconds">Optional: Ignore VFX older than this many seconds (default 10).</param>
     /// <returns>true if the target has an active tank buster effect, false otherwise.</returns>
     public static bool HasIncomingTankBusterEffect(
         IGameObject? targetObject = null) //,float maxAgeSeconds = 10f)
@@ -499,10 +505,10 @@ internal abstract partial class CustomComboFunctions
 
         ulong targetId = targetObject.GameObjectId;
 
-        return VfxManager.TrackedEffects.Any(vfx =>
-            IsTankBusterEffectPath(vfx.Path) &&
-            (vfx.TargetID == targetId || vfx.CasterID == targetId));//&& // Covers both styles
-            //vfx.AgeSeconds <= maxAgeSeconds);
+        return VfxManager.TrackedEffects
+            .FilterToTarget(targetId)
+            .Any(IsTankBusterEffectPath);
+            //&& vfx.AgeSeconds <= maxAgeSeconds); // Covers both styles
     }
 
 }

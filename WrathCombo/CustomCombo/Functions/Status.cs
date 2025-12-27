@@ -475,6 +475,7 @@ internal abstract partial class CustomComboFunctions
         VfxInfo? tankBusterVfx = VfxManager.TrackedEffects
             .FilterToTargeted()
             .FilterToTargetRole(CombatRole.Tank) // Ignore DPS and un-targeted
+            .Where(x => x.TargetID.GetObject().IsInParty())
             .FirstOrDefault(IsTankBusterEffectPath);
 
         // If VfxInfo is a struct: check Path or VfxID instead of null

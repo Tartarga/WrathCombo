@@ -1099,7 +1099,7 @@ internal class Debug : ConfigWindow, IDisposable
             }
             if (ImGui.CollapsingHeader("Hostile Target VFX"))
             {
-                foreach (var obj in Svc.Objects.Where(x => x is IGameObject && !x.IsFriendly()))
+                foreach (var obj in Svc.Objects.Where(x => x is IGameObject && x.IsHostile()))
                 {
                     ImGui.Text($"{obj.Name} ({obj.GameObjectId})");
                     DrawVFXTree(obj);

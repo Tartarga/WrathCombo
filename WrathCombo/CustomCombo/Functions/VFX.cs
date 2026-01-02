@@ -91,6 +91,8 @@ internal abstract partial class CustomComboFunctions
                 distance = GetTargetDistance(targetobj);
             return true;
         }
+        // Flan: Saving this here for later in case I figure out how to handle no-object shared damage effects properly.
+        // Don't want to remember what I wrote here otherwise.
         //else //Not in the object list, all players stack on a tower, not checking at all times.
         //if (NoObjectStackDuties.Contains(Svc.ClientState.TerritoryType) &&
         //    InBossEncounter())

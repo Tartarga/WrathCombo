@@ -1077,15 +1077,8 @@ internal class Debug : ConfigWindow, IDisposable
         {
             ImGui.Indent();
 
-            if (CheckForSharedDamageEffect(out var poorsap, out bool multihit, out float distance))
-            {
-                CustomStyleText($"Shared Damage Effect Detected On", $"{poorsap?.Name} {distance:F1}y Multi-Hit {multihit}");
-            }
-
-            if (TryGetTankBusterTarget(out var tankBusterTarget))
-            {
-                CustomStyleText($"Tankbuster Detected On", $"{tankBusterTarget.Name}");
-            }
+            CustomStyleText($"Shared Damage Effect On", CheckForSharedDamageEffect(out var poorsap, out bool multihit, out float distance) ? $"{poorsap?.Name} {distance:F1}y Multi-Hit {multihit}" : "Nobody");
+            CustomStyleText($"Tankbuster Detected On", $"{(TryGetTankBusterTarget(out var tankBusterTarget) ? tankBusterTarget?.Name : "Nobody")}");
 
             if (ImGui.CollapsingHeader("Friendly Target VFX"))
             {

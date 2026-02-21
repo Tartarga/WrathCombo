@@ -71,17 +71,11 @@ namespace WrathCombo.Window
         /// <summary>
         /// Preset localization
         /// </summary>
-        public static string GetPresetString(string key)
-        {
-            return GetLocalizedString(key, CustomComboPresets.ResourceManager);
-        }
+        public static string GetPresetString(string key) => GetLocalizedString(key, CustomComboPresets.ResourceManager);
 
         /// <summary>
         /// Settings UI localization
         /// </summary>
-        public static string GetSettingsUIString(string key)
-        {
-            return GetLocalizedString(key, Menu_Settings.ResourceManager);
-        }
+        public static string GetSettingsUIString(string key) => GetLocalizedString(key, Menu_Settings.ResourceManager);
     }
 }

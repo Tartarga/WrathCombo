@@ -1,3 +1,4 @@
+using ECommons.DalamudServices;
 using System;
 using System.Runtime.CompilerServices;
 using WrathCombo.Extensions;
@@ -20,6 +21,9 @@ internal class CustomComboInfoAttribute : Attribute
     {
         _preset = preset;
 
+        Name = GetPresetString($"{_preset}_Name");
+        Description = GetPresetString($"{_preset}_Desc");
+
         Job = job switch
         {
             ECommonsJob.BTN or ECommonsJob.MIN or ECommonsJob.FSH => ECommonsJob.MIN,
@@ -27,16 +31,19 @@ internal class CustomComboInfoAttribute : Attribute
         };
 
         Order = order;
+        Role = RoleAttribute.GetRoleFromJob(Job);
+        JobName = Job.Name();
+        JobShorthand = Job.Shorthand();
     }
 
     // Preset enum value for localization keys
     private readonly Preset _preset;
 
-    /// <summary> Gets the display name from resources. </summary>
-    public string Name => GetPresetString($"{_preset}_Name");
+    /// <summary> Gets the display name. </summary>
+    public string Name { get; }
 
-    /// <summary> Gets the tooltip/description from resources. </summary>
-    public string Description => GetPresetString($"{_preset}_Desc");
+    /// <summary> Gets the description. </summary>
+    public string Description { get; }
 
     /// <summary> Associated job ID (with gathering jobs mapped to MIN). </summary>
     public ECommonsJob Job { get; }
@@ -45,11 +52,11 @@ internal class CustomComboInfoAttribute : Attribute
     public int Order { get; }
 
     /// <summary> Gets the job role. </summary>
-    public JobRole Role => RoleAttribute.GetRoleFromJob(Job);
+    public JobRole Role { get; }
 
     /// <summary> Gets the job name. </summary>
-    public string JobName => Job.Name();
+    public string JobName { get; }
 
     /// <summary> Gets the job shorthand. </summary>
-    public string JobShorthand => Job.Shorthand();
+    public string JobShorthand { get; }
 }

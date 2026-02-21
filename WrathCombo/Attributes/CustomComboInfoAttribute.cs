@@ -1,6 +1,10 @@
 using ECommons.ExcelServices;
+using ECommons.Logging;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using WrathCombo.Extensions;
 using ECommonsJob = ECommons.ExcelServices.Job;
 
@@ -10,6 +14,11 @@ namespace WrathCombo.Attributes;
 [AttributeUsage(AttributeTargets.Field)]
 internal class CustomComboInfoAttribute : Attribute
 {
+
+    private static readonly HashSet<string> _seenStacks = new();
+    private static readonly object _lock = new();
+
+
     /// <summary> Initializes a new instance of the <see cref="CustomComboInfoAttribute"/> class. </summary>
     /// <param name="name"> Display name. </param>
     /// <param name="description"> Combo description. </param>
@@ -27,6 +36,24 @@ internal class CustomComboInfoAttribute : Attribute
             _ => job
         };
         Order = order;
+
+        Interlocked.Increment(ref ComboInfoCount);
+
+        // Optional: log the stack for high counts
+        //if (ComboInfoCount % 1000 == 0)
+        //    PluginLog.Information(Environment.StackTrace);
+
+        // Capture stack trace (skip this constructor frame)
+        var stack = new StackTrace(1, false).ToString();
+
+        lock (_lock)
+        {
+            if (_seenStacks.Add(stack)) // Add returns true if it was NOT already present
+            {
+                PluginLog.Information(
+                    $"NEW CustomComboInfoAttribute construction site:\n{stack}");
+            }
+        }
     }
 
     /// <summary> Gets the display name. </summary>

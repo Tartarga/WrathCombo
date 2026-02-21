@@ -22,12 +22,12 @@ internal abstract partial class CustomComboFunctions
 
             return controlled
                 ? (bool)controlledState!
-                : PresetStorage.IsEnabled(preset);
+                : PresetStorage.IsPresetEnabled(preset);
         }
         // IPC is not loaded yet
         catch
         {
-            return PresetStorage.IsEnabled(preset);
+            return PresetStorage.IsPresetEnabled(preset);
         }
     }
 

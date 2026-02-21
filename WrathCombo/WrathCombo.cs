@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using WrathCombo.API.Enum;
 using WrathCombo.AutoRotation;
 using WrathCombo.Core;
+using WrathCombo.Combos;
 using WrathCombo.CustomComboNS;
 using WrathCombo.CustomComboNS.Functions;
 using WrathCombo.Data;
@@ -60,6 +61,9 @@ public sealed partial class WrathCombo : IDalamudPlugin
     internal UIHelper UIHelper = null!;
     internal ActionRetargeting ActionRetargeting = null!;
     internal MovementHook MoveHook;
+
+    public static int ComboInfoCount = 0;
+    public static int ComboCount = Enum.GetValues<Preset>().Length;
 
     private readonly TextPayload starterMotd = new("[Wrath Message of the Day] ");
     private static Job? jobID;
@@ -173,7 +177,7 @@ public sealed partial class WrathCombo : IDalamudPlugin
         PunishLibMain.Init(pluginInterface, "Wrath Combo");
 
         ActionRequestIPCProvider.Initialize();
-
+        ComboInfoCount = 0;
         TM = new();
         RemoveNullAutos();
         Service.Configuration = pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();

@@ -147,7 +147,7 @@ public partial class Configuration
                         .Where(preset => (int)preset == value)
                         .First();
 
-                    if (!PresetStorage.IsEnabled(preset)) continue;
+                    if (!PresetStorage.IsPresetEnabled(preset)) continue;
 
                     if (!needToResetMessagePrinted)
                     {

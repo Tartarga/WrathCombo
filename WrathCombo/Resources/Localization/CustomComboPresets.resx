@@ -127,7 +127,8 @@
     <value>Tank: Interrupt Feature</value>
   </data>
   <data name="ALL_Tank_Interrupt_Desc" xml:space="preserve">
-    <value>Replaces Low Blow (Stun) with Interject (Interrupt) when the target can be interrupted.\nFor PLDs this feature will add Shield Bash when Interject and Low Blow are on cooldown.</value>
+    <value>Replaces Low Blow (Stun) with Interject (Interrupt) when the target can be interrupted.
+For PLDs this feature will add Shield Bash when Interject and Low Blow are on cooldown.</value>
   </data>
   <data name="ALL_Tank_Interrupt_Retarget_Name" xml:space="preserve">
     <value>Retarget Interrupts</value>

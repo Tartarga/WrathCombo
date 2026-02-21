@@ -331,7 +331,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Low Blow (Stun) with Interject (Interrupt) when the target can be interrupted.\nFor PLDs this feature will add Shield Bash when Interject and Low Blow are on cooldown..
+        ///   Looks up a localized string similar to Replaces Low Blow (Stun) with Interject (Interrupt) when the target can be interrupted.
+        ///For PLDs this feature will add Shield Bash when Interject and Low Blow are on cooldown..
         /// </summary>
         internal static string ALL_Tank_Interrupt_Desc {
             get {

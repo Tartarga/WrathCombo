@@ -155,7 +155,7 @@ internal class Presets : ConfigWindow
 
         ImGui.Spacing();
 
-        if (auto != null)
+        if (auto != null && (!pvp || HiddenFeaturesData.FeaturesEnabled))
         {
             Service.Configuration.AutoActions.TryAdd(preset, false);
 

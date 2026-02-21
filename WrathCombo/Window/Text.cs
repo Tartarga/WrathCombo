@@ -1,5 +1,4 @@
 ﻿using ECommons.DalamudServices;
-using System;
 using System.Globalization;
 using System.Resources;
 using WrathCombo.Resources.Localization;
@@ -8,95 +7,81 @@ namespace WrathCombo.Window
 {
     internal class Text
     {
-        private static TextInfo? _cachedTextInfo;
+        // Pre-allocated cultures
+        private static readonly CultureInfo Ja = new("ja");
+        private static readonly CultureInfo En = new("en");
+        private static readonly CultureInfo De = new("de");
+        private static readonly CultureInfo Fr = new("fr");
+        //private static readonly CultureInfo Zh = new("zh");
+        //private static readonly CultureInfo Ko = new("ko");
 
         //Used to format job names based on region
+        private static TextInfo? _cachedTextInfo;
+
+        /// <summary>
+        /// Gets the current culture based on FFXIV client language.
+        /// Possibly supports unofficial CN/KR forks.
+        /// </summary>
+        private static CultureInfo GetGameCulture()
+        {
+            return (int)Svc.ClientState.ClientLanguage switch
+            {
+                0 => Ja,
+                1 => En,
+                2 => De,
+                3 => Fr,
+
+                // Fork support ?
+                //4 => Zh,
+                //5 => Ko,
+
+                // Unknown / unexpected → use OS culture
+                _ => CultureInfo.CurrentUICulture
+            };
+        }
+
         public static TextInfo GetTextInfo()
         {
-            // Use cached TextInfo if available
-            // Otherwise create new and cache for future use
             if (_cachedTextInfo is null)
             {
-                // Job names are lowercase by default
-                // This capitalizes based on regional rules
-                var cultureId = Svc.ClientState.ClientLanguage switch
-                {
-                    Dalamud.Game.ClientLanguage.French => "fr-FR",
-                    Dalamud.Game.ClientLanguage.Japanese => "ja-JP",
-                    Dalamud.Game.ClientLanguage.German => "de-DE",
-                    _ => "en-US",
-                };
+                // Reuse the same culture selection as Localization.GetGameCulture()
+                var culture = GetGameCulture();
 
-                _cachedTextInfo = new CultureInfo(cultureId, useUserOverride: false).TextInfo;
+                // Get TextInfo for capitalization rules
+                _cachedTextInfo = culture.TextInfo;
             }
 
             return _cachedTextInfo;
         }
 
+        /// <summary>
+        /// Core localized string resolver.
+        /// Lets ResourceManager handle fallback chain.
+        /// </summary>
+        private static string GetLocalizedString(string key, ResourceManager rm)
+        {
+            var culture = GetGameCulture();
+
+            var value = rm.GetString(key, culture);
+
+            // If missing entirely, return key (debug-friendly)
+            return value ?? key;
+        }
+
+        /// <summary>
+        /// Preset localization
+        /// </summary>
         public static string GetPresetString(string key)
         {
             return GetLocalizedString(key, CustomComboPresets.ResourceManager);
         }
 
+        /// <summary>
+        /// Settings UI localization
+        /// </summary>
         public static string GetSettingsUIString(string key)
         {
             return GetLocalizedString(key, Menu_Settings.ResourceManager);
-        }
-
-        // Get the string (English fallback)
-        private static string GetLocalizedString(string key, ResourceManager? rm)
-        {
-            int langValue = (int)Svc.ClientState.ClientLanguage;
-
-            string langCode;
-
-            // Only trust 0–3 as standard global values
-            if (langValue >= 0 && langValue <= 3)
-            {
-                langCode = langValue switch
-                {
-                    0 => "ja",   // Japanese
-                    1 => "en",   // English
-                    2 => "de",   // German
-                    3 => "fr",   // French
-                    _ => "en"    // shouldn't hit, but safety net
-                };
-            }
-            else
-            {
-                // Anything outside 0–3 → treat as non-standard (e.g. Chinese fork) → use OS culture
-                var osCulture = CultureInfo.CurrentUICulture;
-
-                // Use TwoLetterISOLanguageName for simplicity (ja, en, de, fr, zh, etc.)
-                langCode = osCulture.TwoLetterISOLanguageName;
-            }
-
-            CultureInfo culture;
-            try
-            {
-                culture = new CultureInfo(langCode);
-            }
-            catch (CultureNotFoundException)
-            {
-                // If OS gives something weird/unrecognized, fall back to English
-                culture = new CultureInfo("en");
-            }
-
-            // Try requested culture first
-            string? resolved = rm.GetString(key, culture);
-
-            // Strong English fallback if not found
-            if (resolved == null && langCode != "en")
-            {
-                resolved = rm.GetString(key, new CultureInfo("en"));
-            }
-
-
-            // Fallback: show the key itself (good for debugging missing translations)
-            string final = resolved ?? key;
-
-            // Normalize line endings — safe & recommended
-            return final.Replace("\\n", Environment.NewLine);
         }
     }
 }

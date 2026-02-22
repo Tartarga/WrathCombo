@@ -14,7 +14,7 @@ internal class CustomComboInfoAttribute : Attribute
     /// <param name="order"> Display order. </param>
     /// 
     internal CustomComboInfoAttribute(
-        ECommonsJob job,
+        Job job,
         [CallerLineNumber] int order = 0)
     {
         Job = job switch

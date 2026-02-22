@@ -119,11 +119,16 @@ internal class AutoRotationTab : ConfigWindow
             ImGuiComponents.HelpMarker($"Disabling this will turn off AoE DPS features. Otherwise will require the amount of targets required to be in range of an AoE feature's attack to use. This applies to all 3 roles, and for any features that deal AoE damage.");
 
             ImGuiEx.SetNextItemWidthScaled(100);
-            changed |= ImGui.SliderFloat("Max Target Distance", ref cfg.DPSSettings.MaxDistance, 1, 30);
+            changed |= ImGui.SliderFloat("Max Target Distance", ref cfg.DPSSettings.MaxDistance, 1, 30, $"{cfg.DPSSettings.MaxDistance:0}");
             cfg.DPSSettings.MaxDistance =
                 Math.Clamp(cfg.DPSSettings.MaxDistance, 1, 30);
 
             ImGuiComponents.HelpMarker("Max distance all targeting modes (except Manual) will look for a target. Values from 1 to 30 only.");
+
+            P.UIHelper.ShowIPCControlledIndicatorIfNeeded("IgnoreRangeInBoss");
+            changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded("Ignore Max Target Distance In Boss Fights", ref cfg.DPSSettings.IgnoreRangeInBoss, "IgnoreRangeInBoss");
+
+            ImGuiComponents.HelpMarker("When in boss fights only, any target regardless of distance can be eligible to be attacked.");
 
             P.UIHelper.ShowIPCControlledIndicatorIfNeeded("FATEPriority");
             changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded(

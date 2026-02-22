@@ -25,7 +25,7 @@ namespace WrathCombo.Extensions
                 _ => job.GetData().Name.ToString()
             };
 
-            return GetTextInfo().ToTitleCase(jobName);
+            return TextFormatting.ToTitleCase(jobName);
         }
 
         public static string Name(this ClassJob job)
@@ -38,7 +38,7 @@ namespace WrathCombo.Extensions
                 _ => job.Name.ToString()
             };
 
-            return GetTextInfo().ToTitleCase(jobName);
+            return TextFormatting.ToTitleCase(jobName);
         }
 
     }

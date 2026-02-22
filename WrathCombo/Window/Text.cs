@@ -12,16 +12,13 @@ namespace WrathCombo.Window
         private static readonly CultureInfo En = new("en");
         private static readonly CultureInfo De = new("de");
         private static readonly CultureInfo Fr = new("fr");
-        //private static readonly CultureInfo Zh = new("zh");
-        //private static readonly CultureInfo Ko = new("ko");
 
-        //Used to format job names based on region
-        private static TextInfo? _cachedTextInfo;
+        // Cache the game culture
+        private static readonly CultureInfo GameCulture = GetGameCulture();
 
-        /// <summary>
-        /// Gets the current culture based on FFXIV client language.
-        /// Possibly supports unofficial CN/KR forks.
-        /// </summary>
+        // Expose TextInfo for formatting purposes (Job Names)
+        public static TextInfo TextFormatting => GameCulture.TextInfo;
+
         private static CultureInfo GetGameCulture()
         {
             return (int)Svc.ClientState.ClientLanguage switch
@@ -30,28 +27,8 @@ namespace WrathCombo.Window
                 1 => En,
                 2 => De,
                 3 => Fr,
-
-                // Fork support ?
-                //4 => Zh,
-                //5 => Ko,
-
-                // Unknown / unexpected → use OS culture
                 _ => CultureInfo.CurrentUICulture
             };
-        }
-
-        public static TextInfo GetTextInfo()
-        {
-            if (_cachedTextInfo is null)
-            {
-                // Reuse the same culture selection as Localization.GetGameCulture()
-                var culture = GetGameCulture();
-
-                // Get TextInfo for capitalization rules
-                _cachedTextInfo = culture.TextInfo;
-            }
-
-            return _cachedTextInfo;
         }
 
         /// <summary>
@@ -60,9 +37,7 @@ namespace WrathCombo.Window
         /// </summary>
         private static string GetLocalizedString(string key, ResourceManager rm)
         {
-            var culture = GetGameCulture();
-
-            var value = rm.GetString(key, culture);
+            var value = rm.GetString(key, GameCulture);
 
             // If missing entirely, return key (debug-friendly)
             return value ?? key;

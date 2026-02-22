@@ -1,5 +1,4 @@
-﻿using Dalamud.Utility;
-using ECommons;
+﻿using ECommons;
 using ECommons.Logging;
 using System;
 using System.Collections.Frozen;
@@ -9,10 +8,8 @@ using System.Reflection;
 using WrathCombo.Attributes;
 using WrathCombo.Extensions;
 using WrathCombo.Services;
-using WrathCombo.Window.Functions;
 using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 using static WrathCombo.Core.Configuration;
-using static WrathCombo.Window.Functions.Presets;
 using EZ = ECommons.Throttlers.EzThrottler;
 using TS = System.TimeSpan;
 

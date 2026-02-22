@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using WrathCombo.Attributes;
 using WrathCombo.Combos;
+using WrathCombo.Window.Functions;
 namespace WrathCombo.Extensions;
 
 internal static partial class PresetExtensions
@@ -30,7 +31,7 @@ internal static partial class PresetExtensions
             return customComboInfoAttribute;
         }
 
-        CustomComboInfoAttribute? att = preset.GetAttribute<CustomComboInfoAttribute>();
+        CustomComboInfoAttribute? att = Presets.Attributes[preset].CustomComboInfo;
         return att != null && comboInfoCache.TryAdd(preset, att) ? comboInfoCache[preset] : null;
 
     }

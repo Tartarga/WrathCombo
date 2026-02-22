@@ -10,6 +10,7 @@ using WrathCombo.Combos.PvE;
 using WrathCombo.CustomComboNS.Functions;
 using WrathCombo.Services;
 using WrathCombo.Services.ActionRequestIPC;
+using WrathCombo.Window.Functions;
 using ECommonsJob = ECommons.ExcelServices.Job;
 
 namespace WrathCombo.CustomComboNS;
@@ -20,7 +21,7 @@ internal abstract partial class CustomCombo : CustomComboFunctions
     /// <summary> Initializes a new instance of the <see cref="CustomCombo"/> class. </summary>
     protected CustomCombo()
     {
-        CustomComboInfoAttribute? presetInfo = Preset.GetAttribute<CustomComboInfoAttribute>();
+        CustomComboInfoAttribute? presetInfo = Presets.Attributes[Preset].CustomComboInfo;
         Job = presetInfo.Job;
     }
 

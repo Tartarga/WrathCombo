@@ -19,6 +19,7 @@ using WrathCombo.Combos.PvE;
 using WrathCombo.Core;
 using WrathCombo.Data.Conflicts;
 using WrathCombo.Services;
+using WrathCombo.Window.Functions;
 using WrathCombo.Window.Tabs;
 using PunishGui = PunishLib.ImGuiMethods;
 namespace WrathCombo.Window;
@@ -45,7 +46,7 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
         return Enum
             .GetValues<Preset>()
             .Where(preset => (int)preset > 100)
-            .Select(preset => (Preset: preset, Info: preset.GetAttribute<CustomComboInfoAttribute>()))
+            .Select(preset => (Preset: preset, Info: Presets.Attributes[preset].CustomComboInfo))
             .Where(tpl => tpl.Info != null && PresetStorage.GetParent(tpl.Preset) == null)
             .OrderByDescending(tpl => tpl.Info.Role is JobRole.Tank)
             .ThenByDescending(tpl => tpl.Info.Role is JobRole.Healer)
@@ -79,7 +80,7 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
         return childCombos.ToDictionary(
             kvp => kvp.Key,
             kvp => kvp.Value
-                .Select(preset => (Preset: preset, Info: preset.GetAttribute<CustomComboInfoAttribute>()))
+                .Select(preset => (Preset: preset, Info: Presets.Attributes[preset].CustomComboInfo))
                 .OrderBy(tpl => tpl.Info.Order).ToArray())!;
     }
 

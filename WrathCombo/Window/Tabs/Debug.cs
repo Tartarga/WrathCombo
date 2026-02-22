@@ -199,9 +199,6 @@ internal class Debug : ConfigWindow, IDisposable
 
         ImGuiEx.Spacing(new Vector2(0f, SpacingMedium));
 
-        CustomStyleText("Enum Count", WrathCombo.ComboCount);
-        CustomStyleText("Info Count", WrathCombo.ComboInfoCount);
-
         var target = CurrentTarget;
         var player = Player.Object;
 

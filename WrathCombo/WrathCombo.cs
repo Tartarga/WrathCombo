@@ -62,9 +62,6 @@ public sealed partial class WrathCombo : IDalamudPlugin
     internal ActionRetargeting ActionRetargeting = null!;
     internal MovementHook MoveHook;
 
-    public static int ComboInfoCount = 0;
-    public static int ComboCount = Enum.GetValues<Preset>().Length;
-
     private readonly TextPayload starterMotd = new("[Wrath Message of the Day] ");
     private static Job? jobID;
     private static bool EnteringInstancedContent
@@ -177,7 +174,7 @@ public sealed partial class WrathCombo : IDalamudPlugin
         PunishLibMain.Init(pluginInterface, "Wrath Combo");
 
         ActionRequestIPCProvider.Initialize();
-        ComboInfoCount = 0;
+
         TM = new();
         RemoveNullAutos();
         Service.Configuration = pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();

@@ -102,9 +102,6 @@ internal abstract partial class CustomCombo : CustomComboFunctions
 
     /// <summary> Invokes the combo. </summary>
     /// <param name="actionID"> Starting action ID. </param>
-    ///
-    ///
-    ///
     /// <returns>The replacement action ID. </returns>
     protected abstract uint Invoke(uint actionID);
 }

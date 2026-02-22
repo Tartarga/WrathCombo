@@ -82,14 +82,14 @@ internal static partial class PresetExtensions
         }
 
         public bool Enabled() =>
-            PresetStorage.IsPresetEnabled(preset);
+            PresetStorage.IsEnabled(preset);
 
         public bool FullLineageEnabled()
         {
             Preset? inspectingPreset = preset;
             while (inspectingPreset is not null)
             {
-                if (!PresetStorage.IsPresetEnabled(inspectingPreset.Value))
+                if (!PresetStorage.IsEnabled(inspectingPreset.Value))
                     return false;
 
                 var parent = PresetStorage.AllPresets[inspectingPreset.Value].Parent;

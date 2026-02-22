@@ -190,7 +190,7 @@ internal class PvPFeatures : FeaturesWindow
                     continue;
                 }
 
-                if (conflictOriginals.Any(PresetStorage.IsPresetEnabled))
+                if (conflictOriginals.Any(PresetStorage.IsEnabled))
                 {
                     // Keep conflicted items in the counter
                     var parent = PresetStorage.GetParent(preset) ?? preset;

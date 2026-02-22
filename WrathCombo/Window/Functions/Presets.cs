@@ -45,7 +45,7 @@ internal class Presets : ConfigWindow
         //    PresetAttributes attributes = new(preset);
         //    Attributes[preset] = attributes;
         //}
-        bool enabled = PresetStorage.IsPresetEnabled(preset);
+        bool enabled = PresetStorage.IsEnabled(preset);
         bool pvp = AllPresets[preset].IsPvP;
         var conflicts = AllPresets[preset].Conflicts;
         var parent = AllPresets[preset].Parent;
@@ -146,7 +146,7 @@ internal class Presets : ConfigWindow
             foreach (var conflict in conflicts)
                 ImGuiEx.Text(GradientColor.Get(
                         ImGuiColors.DalamudRed,
-                        IsEnabled(conflict)
+                        CustomComboFunctions.IsEnabled(conflict)
                             ? ImGuiColors.HealerGreen
                             : ImGuiColors.DalamudRed, 1500),
                     $"- {conflict.NameWithFullLineage(currentJob)}");
@@ -318,7 +318,7 @@ internal class Presets : ConfigWindow
 
                     presetChildren.TryGetValue(childPreset, out var grandchildren);
                     InfoBox box = new() { HasMaxWidth = true, CurveRadius = 4f, ContentsAction = () => { DrawPreset(childPreset, childInfo); } };
-                    Action draw = grandchildren.Count() > 0 && IsEnabled(childPreset) && Service.Configuration.ShowBorderAroundOptionsWithChildren
+                    Action draw = grandchildren.Count() > 0 && CustomComboFunctions.IsEnabled(childPreset) && Service.Configuration.ShowBorderAroundOptionsWithChildren
                         ? () => box.Draw()
                         : () => DrawPreset(childPreset, childInfo);
 
@@ -335,7 +335,7 @@ internal class Presets : ConfigWindow
                             continue;
                         }
 
-                        if (conflictOriginals.Any(PresetStorage.IsPresetEnabled))
+                        if (conflictOriginals.Any(CustomComboFunctions.IsEnabled))
                         {
                             // Keep conflicted items in the counter
                             FeaturesWindow.CurrentPreset += 1 + AllChildren(presetChildren[childPreset].ToArray());

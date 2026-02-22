@@ -246,7 +246,7 @@ internal static class PresetStorage
     /// <summary> Gets a value indicating whether a preset is enabled. </summary>
     /// <param name="preset"> Preset to check. </param>
     /// <returns> The boolean representation. </returns>
-    public static bool IsPresetEnabled(Preset preset) => Service.Configuration.EnabledActions.Contains(preset) && !ShouldBeHidden(preset);
+    public static bool IsEnabled(Preset preset) => Service.Configuration.EnabledActions.Contains(preset) && !ShouldBeHidden(preset);
 
     /// <summary>
     /// Gets a value indicating whether a preset is marked as hidden.
@@ -369,7 +369,7 @@ internal static class PresetStorage
 
             foreach (var conflict in preset.Attributes().Conflicts)
             {
-                if (!IsPresetEnabled(conflict))
+                if (!IsEnabled(conflict))
                     continue;
 
                 if (DisablePreset(conflict, ConfigChangeSource.Task))
@@ -400,7 +400,7 @@ internal static class PresetStorage
 
         while (parentMaybe != null)
         {
-            if (!IsPresetEnabled(parentMaybe.Value))
+            if (!IsEnabled(parentMaybe.Value))
                 EnablePreset(parentMaybe.Value);
             parentMaybe = GetParent(parentMaybe.Value);
         }

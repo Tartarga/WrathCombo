@@ -168,7 +168,7 @@ public enum Preset
     #endregion
 
     //Non-gameplay Features
-    //[CustomComboInfo(Job.ADV, Bozja_Tank)]
+    //[CustomComboInfo("Output Combat Log", "Outputs your performed actions to the chat.", Job.ADV)]
     //AllOutputCombatLog = 100094,
 
     // Last value = 100094
@@ -588,10 +588,10 @@ public enum Preset
     [CustomComboInfo(Job.ADV)]
     Phantom_Freelancer_OccultResuscitation = 110001,
 
-    [OccultCrescent]
-    [ParentCombo(Phantom_Freelancer)]
-    [CustomComboInfo(Job.ADV)]
-    Phantom_Freelancer_OccultTreasuresight = 110002,
+    //[OccultCrescent]
+    //[ParentCombo(Phantom_Freelancer)]
+    //[CustomComboInfo("Occult Treasuresight", "Adds Occult Treasuresight into the rotation.", Job.ADV)]
+    //Phantom_Freelancer_OccultTreasuresight = 110002,
 
     [OccultCrescent(OccultCrescent.JobIDs.Knight)]
     [CustomComboInfo(Job.ADV)]
@@ -660,10 +660,10 @@ public enum Preset
     [CustomComboInfo(Job.ADV)]
     Phantom_Thief_Vigilance = 110016,
 
-    [OccultCrescent]
-    [ParentCombo(Phantom_Thief)]
-    [CustomComboInfo(Job.ADV)]
-    Phantom_Thief_TrapDetection = 110017,
+    //[OccultCrescent]
+    //[ParentCombo(Phantom_Thief)]
+    //[CustomComboInfo("Trap Detection", "Adds Trap Detection into the rotation.", Job.ADV)]
+    //Phantom_Thief_TrapDetection = 110017,
 
     [OccultCrescent]
     [ParentCombo(Phantom_Thief)]
@@ -717,15 +717,15 @@ public enum Preset
     [CustomComboInfo(Job.ADV)]
     Phantom_Ranger_PhantomAim = 110023,
 
-    [OccultCrescent]
-    [ParentCombo(Phantom_Ranger)]
-    [CustomComboInfo(Job.ADV)]
-    Phantom_Ranger_OccultFeatherfoot = 110024,
+    //[OccultCrescent]
+    //[ParentCombo(Phantom_Ranger)]
+    //[CustomComboInfo("Occult Featherfoot", "Adds Occult Featherfoot into the rotation.", Job.ADV)]
+    //Phantom_Ranger_OccultFeatherfoot = 110024,
 
-    [OccultCrescent]
-    [ParentCombo(Phantom_Ranger)]
-    [CustomComboInfo(Job.ADV)]
-    Phantom_Ranger_OccultFalcon = 110025,
+    //[OccultCrescent]
+    //[ParentCombo(Phantom_Ranger)]
+    //[CustomComboInfo("Occult Falcon", "Adds Occult Falcon into the rotation.", Job.ADV)]
+    //Phantom_Ranger_OccultFalcon = 110025,
 
     [OccultCrescent]
     [ParentCombo(Phantom_Ranger)]
@@ -843,25 +843,25 @@ public enum Preset
     [CustomComboInfo(Job.ADV)]
     Phantom_Oracle_Starfall = 110048,
 
-    [OccultCrescent]
-    [ParentCombo(Phantom_Oracle)]
-    [CustomComboInfo(Job.ADV)]
-    Phantom_Oracle_Recuperation = 110049,
+    //[OccultCrescent]
+    //[ParentCombo(Phantom_Oracle)]
+    //[CustomComboInfo("Recuperation", "Adds Recuperation into the rotation.", Job.ADV)]
+    //Phantom_Oracle_Recuperation = 110049,
 
-    [OccultCrescent]
-    [ParentCombo(Phantom_Oracle)]
-    [CustomComboInfo(Job.ADV)]
-    Phantom_Oracle_PhantomDoom = 110050,
+    //[OccultCrescent]
+    //[ParentCombo(Phantom_Oracle)]
+    //[CustomComboInfo("Phantom Doom", "Adds Phantom Doom into the rotation.", Job.ADV)]
+    //Phantom_Oracle_PhantomDoom = 110050,
 
-    [OccultCrescent]
-    [ParentCombo(Phantom_Oracle)]
-    [CustomComboInfo(Job.ADV)]
-    Phantom_Oracle_PhantomRejuvenation = 110051,
+    //[OccultCrescent]
+    //[ParentCombo(Phantom_Oracle)]
+    //[CustomComboInfo("Phantom Rejuvenation", "Adds Phantom Rejuvenation into the rotation.", Job.ADV)]
+    //Phantom_Oracle_PhantomRejuvenation = 110051,
 
-    [OccultCrescent]
-    [ParentCombo(Phantom_Oracle)]
-    [CustomComboInfo(Job.ADV)]
-    Phantom_Oracle_Invulnerability = 110052,
+    //[OccultCrescent]
+    //[ParentCombo(Phantom_Oracle)]
+    //[CustomComboInfo("Invulnerability", "Adds Invulnerability into the rotation.", Job.ADV)]
+    //Phantom_Oracle_Invulnerability = 110052,
 
     [OccultCrescent(OccultCrescent.JobIDs.Cannoneer)]
     [CustomComboInfo(Job.ADV)]
@@ -2165,7 +2165,7 @@ public enum Preset
     DNC_ST_Adv_PanicHeals = 4027,
 
     [ParentCombo(DNC_ST_AdvancedMode)]
-    [CustomComboInfo(Job.DNC)]
+    [CustomComboInfo(Job.MCH)]
     DNC_ST_Adv_ShieldSamba = 4034,
 
     #endregion
@@ -3835,7 +3835,7 @@ public enum Preset
 
     [AutoAction(false, false)]
     [ReplaceSkill(MNK.Bootshine, MNK.LeapingOpo)]
-    [ConflictingCombos(MNK_Basic_BeastChakras, MNK_ST_AdvancedMode)]
+    [ConflictingCombos(MNK_ST_AdvancedMode)]
     [CustomComboInfo(Job.MNK)]
     [SimpleCombo]
     MNK_ST_SimpleMode = 9004,
@@ -3853,7 +3853,7 @@ public enum Preset
 
     [AutoAction(false, false)]
     [ReplaceSkill(MNK.Bootshine, MNK.LeapingOpo)]
-    [ConflictingCombos(MNK_Basic_BeastChakras, MNK_ST_SimpleMode)]
+    [ConflictingCombos(MNK_ST_SimpleMode)]
     [CustomComboInfo(Job.MNK)]
     [AdvancedCombo]
     MNK_ST_AdvancedMode = 9005,
@@ -3997,7 +3997,6 @@ public enum Preset
 
     #region Basic Combo
 
-    [ConflictingCombos(MNK_ST_AdvancedMode, MNK_ST_SimpleMode)]
     [CustomComboInfo(Job.MNK)]
     MNK_Basic_BeastChakras = 9019,
 
@@ -8033,7 +8032,7 @@ public enum Preset
 
     #region DOH
 
-    // [CustomComboInfo(DOH.JobID, DOL_Eureka)]
+    // [CustomComboInfo("Placeholder", "Placeholder.", DOH.JobID)]
     // DohPlaceholder = 50001,
 
     #endregion

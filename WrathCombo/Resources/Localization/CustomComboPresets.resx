@@ -491,7 +491,7 @@ Useful to help your Shirk always go to *someone* even if your chosen players are
   </data>
   <data name="Variant_Tank_Desc" xml:space="preserve">
     <value>Enable this to add Variant Actions in Variant Dungeons.
- </value>
+ Variant Actions will be used by Single Target and AoE DPS Combos, in both Simple &amp; Advanced</value>
   </data>
   <data name="Variant_Tank_Cure_Name" xml:space="preserve">
     <value>Variant Cure</value>
@@ -528,7 +528,7 @@ Useful to help your Shirk always go to *someone* even if your chosen players are
   </data>
   <data name="Variant_Healer_Desc" xml:space="preserve">
     <value>Enable this to add Variant Actions in Variant Dungeons.
-</value>
+Variant Actions will be used by Single Target and AoE DPS Combos, in both Simple &amp; Advanced</value>
   </data>
   <data name="Variant_Healer_Ultimatum_Name" xml:space="preserve">
     <value>Variant Ultimatum</value>
@@ -559,7 +559,7 @@ Useful to help your Shirk always go to *someone* even if your chosen players are
   </data>
   <data name="Variant_Melee_Desc" xml:space="preserve">
     <value>Enable this to add Variant Actions in Variant Dungeons.
-</value>
+Variant Actions will be used by Single Target and AoE DPS Combos, in both Simple &amp; Advanced</value>
   </data>
   <data name="Variant_Melee_Cure_Name" xml:space="preserve">
     <value>Variant Cure</value>
@@ -596,7 +596,7 @@ Useful to help your Shirk always go to *someone* even if your chosen players are
   </data>
   <data name="Variant_PhysRanged_Desc" xml:space="preserve">
     <value>Enable this to add Variant Actions in Variant Dungeons.
-</value>
+Variant Actions will be used by Single Target and AoE DPS Combos, in both Simple &amp; Advanced</value>
   </data>
   <data name="Variant_PhysRanged_Cure_Name" xml:space="preserve">
     <value>Variant Cure</value>
@@ -633,7 +633,7 @@ Useful to help your Shirk always go to *someone* even if your chosen players are
   </data>
   <data name="Variant_Magic_Desc" xml:space="preserve">
     <value>Enable this to add Variant Actions in Variant Dungeons.
-</value>
+Variant Actions will be used by Single Target and AoE DPS Features, in both Simple &amp; Advanced selections</value>
   </data>
   <data name="Variant_Magic_Cure_Name" xml:space="preserve">
     <value>Variant Cure</value>
@@ -676,12 +676,6 @@ Useful to help your Shirk always go to *someone* even if your chosen players are
   </data>
   <data name="Phantom_Freelancer_OccultResuscitation_Desc" xml:space="preserve">
     <value>Adds Occult Resuscitation into the rotation.</value>
-  </data>
-  <data name="Phantom_Freelancer_OccultTreasuresight_Name" xml:space="preserve">
-    <value>Occult Treasuresight</value>
-  </data>
-  <data name="Phantom_Freelancer_OccultTreasuresight_Desc" xml:space="preserve">
-    <value>Adds Occult Treasuresight into the rotation.</value>
   </data>
   <data name="Phantom_Knight_Name" xml:space="preserve">
     <value>Knight Job Actions</value>
@@ -767,12 +761,6 @@ Useful to help your Shirk always go to *someone* even if your chosen players are
   <data name="Phantom_Thief_Vigilance_Desc" xml:space="preserve">
     <value>Adds Vigilance into the rotation.</value>
   </data>
-  <data name="Phantom_Thief_TrapDetection_Name" xml:space="preserve">
-    <value>Trap Detection</value>
-  </data>
-  <data name="Phantom_Thief_TrapDetection_Desc" xml:space="preserve">
-    <value>Adds Trap Detection into the rotation.</value>
-  </data>
   <data name="Phantom_Thief_PilferWeapon_Name" xml:space="preserve">
     <value>Pilfer Weapon</value>
   </data>
@@ -838,18 +826,6 @@ Useful to help your Shirk always go to *someone* even if your chosen players are
   </data>
   <data name="Phantom_Ranger_PhantomAim_Desc" xml:space="preserve">
     <value>Adds Phantom Aim into the rotation.</value>
-  </data>
-  <data name="Phantom_Ranger_OccultFeatherfoot_Name" xml:space="preserve">
-    <value>Occult Featherfoot</value>
-  </data>
-  <data name="Phantom_Ranger_OccultFeatherfoot_Desc" xml:space="preserve">
-    <value>Adds Occult Featherfoot into the rotation.</value>
-  </data>
-  <data name="Phantom_Ranger_OccultFalcon_Name" xml:space="preserve">
-    <value>Occult Falcon</value>
-  </data>
-  <data name="Phantom_Ranger_OccultFalcon_Desc" xml:space="preserve">
-    <value>Adds Occult Falcon into the rotation.</value>
   </data>
   <data name="Phantom_Ranger_OccultUnicorn_Name" xml:space="preserve">
     <value>Occult Unicorn</value>
@@ -997,30 +973,6 @@ Requires Occult Elixir in inventory.</value>
   </data>
   <data name="Phantom_Oracle_Starfall_Desc" xml:space="preserve">
     <value>Adds Starfall into the rotation.</value>
-  </data>
-  <data name="Phantom_Oracle_Recuperation_Name" xml:space="preserve">
-    <value>Recuperation</value>
-  </data>
-  <data name="Phantom_Oracle_Recuperation_Desc" xml:space="preserve">
-    <value>Adds Recuperation into the rotation.</value>
-  </data>
-  <data name="Phantom_Oracle_PhantomDoom_Name" xml:space="preserve">
-    <value>Phantom Doom</value>
-  </data>
-  <data name="Phantom_Oracle_PhantomDoom_Desc" xml:space="preserve">
-    <value>Adds Phantom Doom into the rotation.</value>
-  </data>
-  <data name="Phantom_Oracle_PhantomRejuvenation_Name" xml:space="preserve">
-    <value>Phantom Rejuvenation</value>
-  </data>
-  <data name="Phantom_Oracle_PhantomRejuvenation_Desc" xml:space="preserve">
-    <value>Adds Phantom Rejuvenation into the rotation.</value>
-  </data>
-  <data name="Phantom_Oracle_Invulnerability_Name" xml:space="preserve">
-    <value>Invulnerability</value>
-  </data>
-  <data name="Phantom_Oracle_Invulnerability_Desc" xml:space="preserve">
-    <value>Adds Invulnerability into the rotation.</value>
   </data>
   <data name="Phantom_Cannoneer_Name" xml:space="preserve">
     <value>Cannoneer Job Actions</value>
@@ -1226,13 +1178,15 @@ This is the ideal option for newcomers to the job.</value>
     <value>Simple Healing Mode - Single Target</value>
   </data>
   <data name="AST_Simple_ST_Heals_Desc" xml:space="preserve">
-    <value>Replaces Benefic with a full one-button single target healing utility.</value>
+    <value>Replaces Benefic with a full one-button single target healing utility.
+This is the ideal option for newcomers to the job. Particularly with autorotation.</value>
   </data>
   <data name="AST_Simple_AoE_Heals_Name" xml:space="preserve">
     <value>Simple Healing Mode - AoE</value>
   </data>
   <data name="AST_Simple_AoE_Heals_Desc" xml:space="preserve">
-    <value>Replaces Helios with a full one-button single target healing utility.</value>
+    <value>Replaces Helios with a full one-button single target healing utility.
+This is the ideal option for newcomers to the job. Particularly with autorotation.</value>
   </data>
   <data name="AST_ST_DPS_Name" xml:space="preserve">
     <value>Advanced DPS Mode - Single Target</value>
@@ -1530,7 +1484,7 @@ Will be targeted to your focus target, then soft and hard targets, before fallin
     <value>Advanced Healing Mode - AoE</value>
   </data>
   <data name="AST_AoE_Heals_Desc" xml:space="preserve">
-    <value>Replaces Aspected Helios/Helios Conjunction or Helios with a one button healing replacement.</value>
+    <value>Replaces Aspected Helios/Helios Conjunction or Helios with a one button healing replacement.This Spell will be consider the bottom priority with no checks regardless of below settings.</value>
   </data>
   <data name="AST_AoE_Heals_Aspected_Name" xml:space="preserve">
     <value>Aspected Helios Option</value>
@@ -1636,7 +1590,8 @@ Each action can be Retargeted with the Retargeting Features below.</value>
     <value>Boss Raidwide Options</value>
   </data>
   <data name="AST_Raidwide_Desc" xml:space="preserve">
-    <value>Collection of tools designed to try and cast during a raidwide attack when detected.</value>
+    <value>Collection of tools designed to try and cast during a raidwide attack when detected.
+This will work for most, but not all raidwide attacks and is no substitute for learning the fight</value>
   </data>
   <data name="AST_Raidwide_CollectiveUnconscious_Name" xml:space="preserve">
     <value>RaidWide Collective Unconscious Option</value>
@@ -1649,13 +1604,15 @@ Will be used in all 4 main combos.</value>
     <value>RaidWide Neutral Sect Combo Option</value>
   </data>
   <data name="AST_Raidwide_NeutralSect_Desc" xml:space="preserve">
-    <value>Additionally, Will try to Weave Neutral Sect and Sun sign when a raidwide casting. </value>
+    <value>Additionally, Will try to Weave Neutral Sect and Sun sign when a raidwide casting. 
+Will be used in all 4 main combos.</value>
   </data>
   <data name="AST_Raidwide_AspectedHelios_Name" xml:space="preserve">
     <value>RaidWide Aspected Helios Option</value>
   </data>
   <data name="AST_Raidwide_AspectedHelios_Desc" xml:space="preserve">
-    <value>Additionally, Will try to cast Aspected Helios with Neutral Sect Buff for shields when a raidwide casting. </value>
+    <value>Additionally, Will try to cast Aspected Helios with Neutral Sect Buff for shields when a raidwide casting. 
+Will be used in all 4 main combos.</value>
   </data>
   <data name="AST_Retargets_Name" xml:space="preserve">
     <value>Retargeting Features</value>
@@ -2459,13 +2416,16 @@ Alternates between the two if Iron Jaws isn't available.</value>
     <value>Require Nearby Enemy for Finishes Feature</value>
   </data>
   <data name="DNC_ST_BlockFinishes_Desc" xml:space="preserve">
-    <value>Will hold Standard Finish and Technical Finish until an enemy is within range of the abilities in all (non-Simple) Modes and Features below by replacing whatever button with Savage Blade.</value>
+    <value>Will hold Standard Finish and Technical Finish until an enemy is within range of the abilities in all (non-Simple) Modes and Features below by replacing whatever button with Savage Blade.
+Will show either Finish when the dance is about to expire.
+This behavior is recommended by The Balance but can introduce drift, so it may not be what is best for your group.</value>
   </data>
   <data name="DNC_ST_SimpleMode_Name" xml:space="preserve">
     <value>Simple Mode - Single Target</value>
   </data>
   <data name="DNC_ST_SimpleMode_Desc" xml:space="preserve">
-    <value>Replaces Cascade with a full one-button single target rotation.</value>
+    <value>Replaces Cascade with a full one-button single target rotation.
+Employs the Forced Triple Weave Anti-Drift solution.</value>
   </data>
   <data name="DNC_AoE_SimpleMode_Name" xml:space="preserve">
     <value>Simple Mode - AoE</value>
@@ -2477,13 +2437,20 @@ Alternates between the two if Iron Jaws isn't available.</value>
     <value>Advanced Mode - Single Target</value>
   </data>
   <data name="DNC_ST_AdvancedMode_Desc" xml:space="preserve">
-    <value>Replaces Cascade with a full one-button single target rotation.</value>
+    <value>Replaces Cascade with a full one-button single target rotation.
+This mode is ideal if you want to customize the rotation.</value>
   </data>
   <data name="DNC_ST_BalanceOpener_Name" xml:space="preserve">
     <value>Balance Opener (Level 100)</value>
   </data>
   <data name="DNC_ST_BalanceOpener_Desc" xml:space="preserve">
-    <value>Adds the Balance opener at level 100.</value>
+    <value>Adds the Balance opener at level 100.
+Requirements:
+- Standard Step ready
+- Technical Step ready
+- Devilment ready
+(Will change to Savage Blade to wait for the countdown)
+(REQUIRES a countdown)</value>
   </data>
   <data name="DNC_ST_Opener_BlockEarly_Name" xml:space="preserve">
     <value>Wait for Countdown Options</value>
@@ -2539,7 +2506,8 @@ ONLY designed to be something you turn on while doing back-to-back pulls of cont
     <value>Standard Dance Pre-Pull Option</value>
   </data>
   <data name="DNC_ST_Adv_SS_Prepull_Desc" xml:space="preserve">
-    <value>Starts Standard Step (and steps) before combat.</value>
+    <value>Starts Standard Step (and steps) before combat.
+(Already included in The Balance Opener).</value>
   </data>
   <data name="DNC_ST_Adv_TS_Name" xml:space="preserve">
     <value>Technical Dance Option</value>
@@ -2551,7 +2519,9 @@ ONLY designed to be something you turn on while doing back-to-back pulls of cont
     <value>Devilment Option</value>
   </data>
   <data name="DNC_ST_Adv_Devilment_Desc" xml:space="preserve">
-    <value>Includes Devilment in the rotation.</value>
+    <value>Includes Devilment in the rotation.
+Will activate only during Technical Finish if you're Lv70 or above.
+Will be used on cooldown below Lv70.</value>
   </data>
   <data name="DNC_ST_Adv_Flourish_Name" xml:space="preserve">
     <value>Flourish Option</value>
@@ -2563,7 +2533,8 @@ ONLY designed to be something you turn on while doing back-to-back pulls of cont
     <value>Fan Dance Procc Options</value>
   </data>
   <data name="DNC_ST_Adv_FanProccs_Desc" xml:space="preserve">
-    <value>Options for including Fan Dance 3 and 4 into the rotation.</value>
+    <value>Options for including Fan Dance 3 and 4 into the rotation.
+Note: If using the Forced Triple Weave option, FD3&amp;4 will be used regardless of these options.</value>
   </data>
   <data name="DNC_ST_Adv_FanProcc3_Name" xml:space="preserve">
     <value>Fan Dance 3</value>
@@ -2581,13 +2552,17 @@ ONLY designed to be something you turn on while doing back-to-back pulls of cont
     <value>Feathers Option</value>
   </data>
   <data name="DNC_ST_Adv_Feathers_Desc" xml:space="preserve">
-    <value>Expends a feather in the next available weave window when capped and under the effect of Flourishing Symmetry or Flourishing Flow.</value>
+    <value>Expends a feather in the next available weave window when capped and under the effect of Flourishing Symmetry or Flourishing Flow.
+Weaves feathers where possible during Technical Finish.
+Weaves feathers outside of burst when target is below set HP percentage (Set to 0 to disable).
+Weaves feathers whenever available when under Lv.70.</value>
   </data>
   <data name="DNC_ST_Adv_Improvisation_Name" xml:space="preserve">
     <value>Improvisation Option</value>
   </data>
   <data name="DNC_ST_Adv_Improvisation_Desc" xml:space="preserve">
-    <value>Includes Improvisation in the rotation when available.</value>
+    <value>Includes Improvisation in the rotation when available.
+Will not use while under Technical Finish</value>
   </data>
   <data name="DNC_ST_Adv_Tillana_Name" xml:space="preserve">
     <value>Tillana Option</value>
@@ -2599,7 +2574,8 @@ ONLY designed to be something you turn on while doing back-to-back pulls of cont
     <value>Saber Dance Option</value>
   </data>
   <data name="DNC_ST_Adv_SaberDance_Desc" xml:space="preserve">
-    <value>Includes Saber Dance in the rotation when at or over the Esprit threshold.</value>
+    <value>Includes Saber Dance in the rotation when at or over the Esprit threshold.
+(And to prevent overcapping while under Technical Finish)</value>
   </data>
   <data name="DNC_ST_Adv_DawnDance_Name" xml:space="preserve">
     <value>Dance of the Dawn Option</value>
@@ -2629,7 +2605,8 @@ ONLY designed to be something you turn on while doing back-to-back pulls of cont
     <value>Advanced Mode - AoE</value>
   </data>
   <data name="DNC_AoE_AdvancedMode_Desc" xml:space="preserve">
-    <value>Replaces Windmill with a full one-button AoE rotation.</value>
+    <value>Replaces Windmill with a full one-button AoE rotation.
+This mode is ideal if you want to customize the rotation.</value>
   </data>
   <data name="DNC_AoE_Adv_Partner_Name" xml:space="preserve">
     <value>Dance Partner Reminder Option</value>
@@ -2665,7 +2642,9 @@ ONLY designed to be something you turn on while doing back-to-back pulls of cont
     <value>Tech Devilment Option</value>
   </data>
   <data name="DNC_AoE_Adv_Devilment_Desc" xml:space="preserve">
-    <value>Includes Devilment in the AoE rotation.</value>
+    <value>Includes Devilment in the AoE rotation.
+Will activate only during Technical Finish if you're Lv70 or above.
+Will be used on cooldown below Lv70.</value>
   </data>
   <data name="DNC_AoE_Adv_Flourish_Name" xml:space="preserve">
     <value>Flourish Option</value>
@@ -2695,13 +2674,16 @@ ONLY designed to be something you turn on while doing back-to-back pulls of cont
     <value>Feathers Option</value>
   </data>
   <data name="DNC_AoE_Adv_Feathers_Desc" xml:space="preserve">
-    <value>Expends a feather in the next available weave window when capped and under the effect of Flourishing Symmetry or Flourishing Flow.</value>
+    <value>Expends a feather in the next available weave window when capped and under the effect of Flourishing Symmetry or Flourishing Flow.
+Weaves feathers where possible during Technical Finish.
+Weaves feathers whenever available when under Lv.70.</value>
   </data>
   <data name="DNC_AoE_Adv_Improvisation_Name" xml:space="preserve">
     <value>Improvisation Option</value>
   </data>
   <data name="DNC_AoE_Adv_Improvisation_Desc" xml:space="preserve">
-    <value>Includes Improvisation in the AoE rotation when available.</value>
+    <value>Includes Improvisation in the AoE rotation when available.
+Will not use while under Technical Finish</value>
   </data>
   <data name="DNC_AoE_Adv_Tillana_Name" xml:space="preserve">
     <value>Tillana Option</value>
@@ -2713,7 +2695,8 @@ ONLY designed to be something you turn on while doing back-to-back pulls of cont
     <value>Saber Dance Option</value>
   </data>
   <data name="DNC_AoE_Adv_SaberDance_Desc" xml:space="preserve">
-    <value>Includes Saber Dance in the AoE rotation when at or over the Esprit threshold.</value>
+    <value>Includes Saber Dance in the AoE rotation when at or over the Esprit threshold.
+(And to prevent overcapping while under Technical Finish)</value>
   </data>
   <data name="DNC_AoE_Adv_DawnDance_Name" xml:space="preserve">
     <value>Dance of the Dawn Option</value>
@@ -2798,7 +2781,8 @@ Will show Ending when your current Partner is no longer the best choice.</value>
     <value>Custom Dance Step Feature</value>
   </data>
   <data name="DNC_CustomDanceSteps_Desc" xml:space="preserve">
-    <value>Change custom actions into dance steps while dancing.</value>
+    <value>Change custom actions into dance steps while dancing.
+Lets you still dance with combos on, without using Step Combo Features above.</value>
   </data>
   <data name="DNC_CustomDanceSteps_Conflicts_Name" xml:space="preserve">
     <value>Override Smaller Features</value>
@@ -2852,7 +2836,8 @@ Will show Ending when your current Partner is no longer the best choice.</value>
     <value>Fan Dance Combo Feature</value>
   </data>
   <data name="DNC_FanDanceCombos_Desc" xml:space="preserve">
-    <value>Options for Fan Dance combos.</value>
+    <value>Options for Fan Dance combos.
+Fan Dance 3 takes priority over Fan Dance 4.</value>
   </data>
   <data name="DNC_FanDance_1to3_Combo_Name" xml:space="preserve">
     <value>Fan Dance 1 -&gt; 3 Option</value>
@@ -2913,7 +2898,15 @@ These features are ideal if you want to customize the rotation.</value>
     <value>Balance Opener (Level 100)</value>
   </data>
   <data name="DRK_ST_BalanceOpener_Desc" xml:space="preserve">
-    <value>Adds the Balance opener at level 100.</value>
+    <value>Adds the Balance opener at level 100.
+Requirements:
+- Over 7,000 mana
+- 2 Shadowbringer charges ready
+- Living Shadow off cooldown
+- Delirium off cooldown
+- Carve and Spit off cooldown
+- Salted Earth off cooldown
+(supports TBN'ing during use or pre-pull)</value>
   </data>
   <data name="DRK_ST_RangedUptime_Name" xml:space="preserve">
     <value>Unmend Uptime Option</value>
@@ -3145,13 +3138,15 @@ These features are ideal if you want to customize the rotation.</value>
   </data>
   <data name="DRK_Mitigation_Desc" xml:space="preserve">
     <value>Options for Advanced Combos' In-Combo Mitigation.
-</value>
+Enable Mitigation in each Advanced Combo to use these options.
+(Simple Mode does not use these Options, instead Recommended Values in place of them)</value>
   </data>
   <data name="DRK_Mitigation_NonBoss_Name" xml:space="preserve">
     <value>Non Boss Encounter Mitigation</value>
   </data>
   <data name="DRK_Mitigation_NonBoss_Desc" xml:space="preserve">
-    <value>Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated. </value>
+    <value>Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated. 
+Will not use mitigation in the first 15 seconds of a pull unless you are not moving.</value>
   </data>
   <data name="DRK_Mitigation_NonBoss_BlackestNight_Name" xml:space="preserve">
     <value>The Blackest Night Option</value>
@@ -3301,7 +3296,8 @@ These features are ideal if you want to customize the rotation.</value>
     <value>Reprisal Option</value>
   </data>
   <data name="DRK_Mit_Reprisal_Desc" xml:space="preserve">
-    <value>Adds Reprisal to the one-button mitigation.</value>
+    <value>Adds Reprisal to the one-button mitigation.
+NOTE: Will not use unless there is a target within range to prevent waste.</value>
   </data>
   <data name="DRK_Mit_DarkMissionary_Name" xml:space="preserve">
     <value>Dark Missionary Option</value>
@@ -3319,7 +3315,8 @@ These features are ideal if you want to customize the rotation.</value>
     <value>Dark Mind Option</value>
   </data>
   <data name="DRK_Mit_DarkMind_Desc" xml:space="preserve">
-    <value>Adds Dark Mind to the one-button mitigation.</value>
+    <value>Adds Dark Mind to the one-button mitigation.
+NOTE: even if disabled, will still try to use Dark Mind as the lowest priority.</value>
   </data>
   <data name="DRK_Mit_ArmsLength_Name" xml:space="preserve">
     <value>Arm's Length Option</value>
@@ -3885,13 +3882,15 @@ These features are ideal if you want to customize the rotation.</value>
   </data>
   <data name="GNB_Mitigation_Desc" xml:space="preserve">
     <value>Options for Advanced Combos' In-Combo Mitigation.
-</value>
+Enable Mitigation in each Advanced Combo to use these options.
+(Simple Mode does not use these Options, instead Recommended Values in place of them)</value>
   </data>
   <data name="GNB_Mitigation_NonBoss_Name" xml:space="preserve">
     <value>Non Boss Encounter Mitigation</value>
   </data>
   <data name="GNB_Mitigation_NonBoss_Desc" xml:space="preserve">
-    <value>Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated.</value>
+    <value>Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated.
+Will not use mitigation in the first 15 seconds of a pull unless you are not moving.</value>
   </data>
   <data name="GNB_Mitigation_NonBoss_Rampart_Name" xml:space="preserve">
     <value>Rampart Option</value>
@@ -4036,7 +4035,8 @@ Will likely be on coodown if using above setting as reccomended.</value>
     <value>Camouflage First Option</value>
   </data>
   <data name="GNB_Mit_Camouflage_Desc" xml:space="preserve">
-    <value>Adds Camouflage to the one-button mitigation.</value>
+    <value>Adds Camouflage to the one-button mitigation.
+NOTE: even if disabled, will still try to use Camouflage as the lowest priority.</value>
   </data>
   <data name="GNB_Mit_Reprisal_Name" xml:space="preserve">
     <value>Reprisal Option</value>
@@ -5167,7 +5167,10 @@ Cooldown tracking plugin recommended.</value>
     <value>Simpler Mudras Alternate Feature</value>
   </data>
   <data name="NIN_Simple_Mudras_Alt_Desc" xml:space="preserve">
-    <value>Puts mudras on to a single button following basic logic and finishes them with Ninjutsu.</value>
+    <value>Puts mudras on to a single button following basic logic and finishes them with Ninjutsu.
+Ten = Hyosho Ranryu &gt; Suiton if trick cd less than 20s &gt; Raiton. 
+Chi = Goka Mekkyaku &gt; Huton if trick cd less than 20s &gt; Katon. 
+Jin = Doton </value>
   </data>
   <data name="NIN_TCJ_Name" xml:space="preserve">
     <value>Ten Chi Jin Feature</value>
@@ -5783,13 +5786,15 @@ These features are ideal if you want to customize the rotation.</value>
   </data>
   <data name="PLD_Mitigation_Desc" xml:space="preserve">
     <value>Options for Advanced Combos' In-Combo Mitigation.
-</value>
+Enable Mitigation in each Advanced Combo to use these options.
+(Simple Mode does not use these Options, instead Recommended Values in place of them)</value>
   </data>
   <data name="PLD_Mitigation_NonBoss_Name" xml:space="preserve">
     <value>Non Boss Encounter Mitigation</value>
   </data>
   <data name="PLD_Mitigation_NonBoss_Desc" xml:space="preserve">
-    <value>Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated.</value>
+    <value>Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated.
+Will not use mitigation in the first 15 seconds of a pull unless you are not moving.</value>
   </data>
   <data name="PLD_Mitigation_NonBoss_Rampart_Name" xml:space="preserve">
     <value>Rampart Option</value>
@@ -5955,7 +5960,8 @@ NOTE: Will not use unless there is a target within range to prevent waste</value
     <value>Bulwark Option</value>
   </data>
   <data name="PLD_Mit_Bulwark_Desc" xml:space="preserve">
-    <value>Adds Bulwark to the one-button mitigation.</value>
+    <value>Adds Bulwark to the one-button mitigation.
+NOTE: even if disabled, will still try to use Bulwark as the lowest priority.</value>
   </data>
   <data name="PLD_Mit_ArmsLength_Name" xml:space="preserve">
     <value>Arm's Length Option</value>
@@ -6030,7 +6036,8 @@ NOTE: Will not use unless there is a target within range to prevent waste</value
     <value>Sheltron to Intervention Feature</value>
   </data>
   <data name="PLD_RetargetSheltron_Desc" xml:space="preserve">
-    <value>Will use intervention on your Hard Target if target is a friendly party member, if not then Sheltron.</value>
+    <value>Will use intervention on your Hard Target if target is a friendly party member, if not then Sheltron.
+- UI Mouseover &gt; Hard target &gt; Target's target &gt; Self Sheltron</value>
   </data>
   <data name="PLD_RetargetSheltron_MO_Name" xml:space="preserve">
     <value>Mouseover Intervention Option</value>
@@ -6920,13 +6927,15 @@ This is the ideal option for newcomers to the job.</value>
     <value>Simple Healing Mode - Single Target</value>
   </data>
   <data name="SGE_Simple_ST_Heal_Desc" xml:space="preserve">
-    <value>Replaces Diagnosis with a full one-button single target healing utility.</value>
+    <value>Replaces Diagnosis with a full one-button single target healing utility.
+This is the ideal option for newcomers to the job. Particularly with autorotation.</value>
   </data>
   <data name="SGE_Simple_AoE_Heal_Name" xml:space="preserve">
     <value>Simple Healing Mode - AoE</value>
   </data>
   <data name="SGE_Simple_AoE_Heal_Desc" xml:space="preserve">
-    <value>Replaces Prognosis with a full one-button single target healing utility.</value>
+    <value>Replaces Prognosis with a full one-button single target healing utility.
+This is the ideal option for newcomers to the job. Particularly with autorotation.</value>
   </data>
   <data name="SGE_ST_DPS_Name" xml:space="preserve">
     <value>Advanced DPS Mode - Single Target</value>
@@ -7329,7 +7338,7 @@ Each action can be Retargeted with the Retargeting Features below.</value>
     <value>Eukrasian Diagnosis Options</value>
   </data>
   <data name="SGE_Retarget_EukrasianDiagnosis_Desc" xml:space="preserve">
-    <value>Retargets Eukrasian Diagnosis according to your Healing stack </value>
+    <value>Retargets Eukrasian Diagnosis according to your Healing stack (even from the Eukrasia Feature above)</value>
   </data>
   <data name="SGE_Retarget_Haima_Name" xml:space="preserve">
     <value>Haima Options</value>
@@ -7341,13 +7350,13 @@ Each action can be Retargeted with the Retargeting Features below.</value>
     <value>Druochole Options</value>
   </data>
   <data name="SGE_Retarget_Druochole_Desc" xml:space="preserve">
-    <value>Retargets Druochole according to your Healing stack </value>
+    <value>Retargets Druochole according to your Healing stack (even from the Taurochole to Druochole Feature above)</value>
   </data>
   <data name="SGE_Retarget_Taurochole_Name" xml:space="preserve">
     <value>Taurochole Options</value>
   </data>
   <data name="SGE_Retarget_Taurochole_Desc" xml:space="preserve">
-    <value>Retargets Taurochole according to your Healing stack </value>
+    <value>Retargets Taurochole according to your Healing stack (even from the Taurochole to Druochole Feature above)</value>
   </data>
   <data name="SGE_Retarget_Krasis_Name" xml:space="preserve">
     <value>Krasis Options</value>
@@ -7359,7 +7368,7 @@ Each action can be Retargeted with the Retargeting Features below.</value>
     <value>Kardia Options</value>
   </data>
   <data name="SGE_Retarget_Kardia_Desc" xml:space="preserve">
-    <value>Retargets Kardia according to your Healing stack </value>
+    <value>Retargets Kardia according to your Healing stack (even from the Soteria to Kardia Feature above)</value>
   </data>
   <data name="SGE_Retarget_Icarus_Name" xml:space="preserve">
     <value>Icarus Movement Option</value>
@@ -7371,7 +7380,8 @@ Each action can be Retargeted with the Retargeting Features below.</value>
     <value>Raidwide Options</value>
   </data>
   <data name="SGE_Raidwide_Desc" xml:space="preserve">
-    <value>Collection of tools designed to try and cast during a raidwide attack when detected.</value>
+    <value>Collection of tools designed to try and cast during a raidwide attack when detected.
+This will work for most, but not all raidwide attacks and is no substitute for learning the fight</value>
   </data>
   <data name="SGE_Raidwide_EPrognosis_Name" xml:space="preserve">
     <value>Eukrasian Prognosis Option</value>
@@ -7567,7 +7577,8 @@ Will use Ogi or Iaijutsu when possible and enabled.</value>
     <value>Third Eye Raidwide Option</value>
   </data>
   <data name="SAM_ST_ThirdEye_Desc" xml:space="preserve">
-    <value>Adds Third Eye when Raidwide is detected casting. </value>
+    <value>Adds Third Eye when Raidwide is detected casting. 
+When Solo, uses on cd.</value>
   </data>
   <data name="SAM_ST_Meditate_Name" xml:space="preserve">
     <value>Meditate Option</value>
@@ -7856,13 +7867,15 @@ This is the ideal option for newcomers to the job.</value>
     <value>Simple Healing Mode - Single Target</value>
   </data>
   <data name="SCH_Simple_ST_Heal_Desc" xml:space="preserve">
-    <value>Replaces Physick with a full one-button single target healing utility.</value>
+    <value>Replaces Physick with a full one-button single target healing utility.
+This is the ideal option for newcomers to the job. Particularly with autorotation.</value>
   </data>
   <data name="SCH_Simple_AoE_Heal_Name" xml:space="preserve">
     <value>Simple Healing Mode - AoE</value>
   </data>
   <data name="SCH_Simple_AoE_Heal_Desc" xml:space="preserve">
-    <value>Replaces Succor with a full one-button AoE healing utility.</value>
+    <value>Replaces Succor with a full one-button AoE healing utility.
+This is the ideal option for newcomers to the job. Particularly with autorotation.</value>
   </data>
   <data name="SCH_ST_ADV_DPS_Name" xml:space="preserve">
     <value>Advanced DPS Mode - Single Target</value>
@@ -8222,13 +8235,17 @@ This is the ideal option for newcomers to the job.</value>
     <value>Mitigation Feature - Single Target</value>
   </data>
   <data name="SCH_Mit_ST_Desc" xml:space="preserve">
-    <value>Changes Protraction into (Optional Recitation)Adloquium followed by (Optional Deployment Tactics and Excogitation)</value>
+    <value>Changes Protraction into (Optional Recitation)Adloquium followed by (Optional Deployment Tactics and Excogitation)
+Each action can be Retargeted with the Retargeting Features below.</value>
   </data>
   <data name="SCH_Mit_AoE_Name" xml:space="preserve">
     <value>Mitigation Feature - AoE</value>
   </data>
   <data name="SCH_Mit_AoE_Desc" xml:space="preserve">
-    <value>Changes Sacred Soil into (optional Fey Illumination) </value>
+    <value>Changes Sacred Soil into (optional Fey Illumination) 
+then Succor or (Optional Self Targetted Recitation-Adloquium-Deployment Tactics)
+Finished with (Optional Expedient) and (Optional Seraph/Consolation)
+Can be Retargeted with the Retargeting Features below.</value>
   </data>
   <data name="SCH_Retarget_Name" xml:space="preserve">
     <value>Retarget Options</value>
@@ -8289,7 +8306,8 @@ Even in the Standalone Features Above.</value>
     <value>Raidwide Options</value>
   </data>
   <data name="SCH_Raidwide_Desc" xml:space="preserve">
-    <value>Collection of tools designed to try and cast during a raidwide attack when detected.</value>
+    <value>Collection of tools designed to try and cast during a raidwide attack when detected.
+This will work for most, but not all raidwide attacks and is no substitute for learning the fight</value>
   </data>
   <data name="SCH_Raidwide_Succor_Name" xml:space="preserve">
     <value>RaidWide Succor Option</value>
@@ -8388,10 +8406,12 @@ These features are ideal if you want to customize the rotation.</value>
     <value>Adds Gemshine to the single target combo.</value>
   </data>
   <data name="SMN_ST_Ruin3_Emerald_Ruin3_Name" xml:space="preserve">
-    <value>Use Ruin III instead of Emerald Ruin III when standing still between the levels of 54 and 72</value>
+    <value>Emerald Ruin III to Ruin III Option</value>
   </data>
   <data name="SMN_ST_Ruin3_Emerald_Ruin3_Desc" xml:space="preserve">
-    <value>Replaces Emerald Ruin III with Ruin III in the rotation when standing still and Ruin Mastery III is not active.</value>
+    <value>Replaces Emerald Ruin III with Ruin III in the rotation when standing still and Ruin Mastery III is not active (54-72).
+It is best, when using this, to set your Garuda to call last during those levels or it will not do other summons until you spend all garuda charges. 
+Intended Mainly for 70 Ultimates where it would matter. (Not worth it for average use)</value>
   </data>
   <data name="SMN_ST_Advanced_Combo_Egi_AstralFlow_Name" xml:space="preserve">
     <value>Add Egi Astralflow</value>
@@ -9109,13 +9129,15 @@ These features are ideal if you want to customize the rotation.</value>
   </data>
   <data name="WAR_Mitigation_Desc" xml:space="preserve">
     <value>Options for Advanced Combos' In-Combo Mitigation.
-</value>
+Enable Mitigation in each Advanced Combo to use these options.
+(Simple Mode does not use these Options, instead Recommended Values in place of them)</value>
   </data>
   <data name="WAR_Mitigation_NonBoss_Name" xml:space="preserve">
     <value>Non Boss Encounter Mitigation</value>
   </data>
   <data name="WAR_Mitigation_NonBoss_Desc" xml:space="preserve">
-    <value>Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated.</value>
+    <value>Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated.
+Will not use mitigation in the first 15 seconds of a pull unless you are not moving.</value>
   </data>
   <data name="WAR_Mitigation_NonBoss_Rampart_Name" xml:space="preserve">
     <value>Rampart Option</value>
@@ -9451,13 +9473,15 @@ This is the ideal option for newcomers to the job.</value>
     <value>Simple Healing Mode - Single Target</value>
   </data>
   <data name="WHM_SimpleSTHeals_Desc" xml:space="preserve">
-    <value>Replaces Cure with a full one-button single target healing utility.</value>
+    <value>Replaces Cure with a full one-button single target healing utility.
+This is the ideal option for newcomers to the job. Particularly with autorotation.</value>
   </data>
   <data name="WHM_Simple_AoEHeals_Name" xml:space="preserve">
     <value>Simple Healing Mode - AoE</value>
   </data>
   <data name="WHM_Simple_AoEHeals_Desc" xml:space="preserve">
-    <value>Replaces Medica with a full one-button single target healing utility.</value>
+    <value>Replaces Medica with a full one-button single target healing utility.
+This is the ideal option for newcomers to the job. Particularly with autorotation.</value>
   </data>
   <data name="WHM_ST_MainCombo_Name" xml:space="preserve">
     <value>Advanced DPS Mode - Single Target</value>
@@ -9529,7 +9553,8 @@ This is the ideal option for newcomers to the job.</value>
     <value>Swift Holy Pull 'Opener' Option</value>
   </data>
   <data name="WHM_AoE_DPS_SwiftHoly_Desc" xml:space="preserve">
-    <value>Adds a Swiftcast-&gt;Holy at the beginning of your AoE rotation.</value>
+    <value>Adds a Swiftcast-&gt;Holy at the beginning of your AoE rotation.
+Requires you to already be in combat, to have stopped moving, and to not have used Assize yet.</value>
   </data>
   <data name="WHM_AoE_DPS_Assize_Name" xml:space="preserve">
     <value>Assize Option</value>
@@ -9673,7 +9698,8 @@ This is the ideal option for newcomers to the job.</value>
     <value>Medica II Option</value>
   </data>
   <data name="WHM_AoEHeals_Medica2_Desc" xml:space="preserve">
-    <value>Uses Medica II when heal target doesn't have Medica II buff.</value>
+    <value>Uses Medica II when heal target doesn't have Medica II buff.
+Upgrades to Medica III when level allows.</value>
   </data>
   <data name="WHM_AoEHeals_Rapture_Name" xml:space="preserve">
     <value>Afflatus Rapture Option</value>
@@ -9852,7 +9878,8 @@ Can be Retargeted with the Retargeting Features below.</value>
     <value>Boss Raidwide Options</value>
   </data>
   <data name="WHM_Raidwide_Desc" xml:space="preserve">
-    <value>Collection of tools designed to try and cast during a raidwide attack when detected.</value>
+    <value>Collection of tools designed to try and cast during a raidwide attack when detected.
+This will work for most, but not all raidwide attacks and is no substitute for learning the fight</value>
   </data>
   <data name="WHM_Raidwide_Asylum_Name" xml:space="preserve">
     <value>RaidWide Asylum Option</value>
@@ -9865,19 +9892,22 @@ Will be used in all 4 main combos.</value>
     <value>RaidWide Temperance Combo Option</value>
   </data>
   <data name="WHM_Raidwide_Temperance_Desc" xml:space="preserve">
-    <value>Will try to Weave Temperance and Divine Caress when a raidwide casting. </value>
+    <value>Will try to Weave Temperance and Divine Caress when a raidwide casting. 
+Will be used in all 4 main combos.</value>
   </data>
   <data name="WHM_Raidwide_LiturgyOfTheBell_Name" xml:space="preserve">
     <value>RaidWide LiturgyOfTheBell Option</value>
   </data>
   <data name="WHM_Raidwide_LiturgyOfTheBell_Desc" xml:space="preserve">
-    <value>Will try to weave LiturgyOfTheBell when a raidwide casting. </value>
+    <value>Will try to weave LiturgyOfTheBell when a raidwide casting. 
+Will be used in all 4 main combos.</value>
   </data>
   <data name="WHM_Raidwide_PlenaryIndulgence_Name" xml:space="preserve">
     <value>RaidWide Plenary Indulgence Option</value>
   </data>
   <data name="WHM_Raidwide_PlenaryIndulgence_Desc" xml:space="preserve">
-    <value>Will try to weave Plenary Indulgence when a raidwide casting. </value>
+    <value>Will try to weave Plenary Indulgence when a raidwide casting. 
+Will be used in all 4 main combos.</value>
   </data>
   <data name="DOL_Eureka_Name" xml:space="preserve">
     <value>[BTN/MIN] Eureka Feature</value>
@@ -10512,7 +10542,8 @@ Keep Honing Dance bound to another key if you want to end early.</value>
     <value>Automatic Mudra Mode</value>
   </data>
   <data name="NINPvP_ST_MudraMode_Desc" xml:space="preserve">
-    <value>Uses the mudra from three mudra, automatically on ST burst mode. </value>
+    <value>Uses the mudra from three mudra, automatically on ST burst mode. 
+ Will use Hyosho Ranryu &gt; Forked Raiju IF YOU HAVE BUNSHIN STACKS &gt; Huton</value>
   </data>
   <data name="NINPvP_ST_FumaShuriken_Name" xml:space="preserve">
     <value>Fuma Shuriken Option</value>
@@ -10560,7 +10591,8 @@ Keep Honing Dance bound to another key if you want to end early.</value>
     <value>Automatic Mudra Mode</value>
   </data>
   <data name="NINPvP_AoE_MudraMode_Desc" xml:space="preserve">
-    <value>Uses the mudra from three mudra, automatically on AoE burst mode. </value>
+    <value>Uses the mudra from three mudra, automatically on AoE burst mode. 
+ Will use Doton &gt; GokaMekkyaku</value>
   </data>
   <data name="NINPvP_AoE_FumaShuriken_Name" xml:space="preserve">
     <value>Fuma Shuriken Option</value>

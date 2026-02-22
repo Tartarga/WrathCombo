@@ -34,7 +34,7 @@ internal class Presets : ConfigWindow
     private static bool _animFrame = false;
     internal class PresetAttributes
     {
-        private Preset Preset;
+        private readonly Preset Preset;
         public bool IsPvP;
         public Preset[] Conflicts;
         public Preset? Parent;

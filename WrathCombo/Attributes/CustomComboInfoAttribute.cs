@@ -2,7 +2,6 @@ using ECommons.ExcelServices;
 using System;
 using System.Runtime.CompilerServices;
 using WrathCombo.Extensions;
-using static WrathCombo.Window.Text;
 
 namespace WrathCombo.Attributes;
 
@@ -12,7 +11,7 @@ internal class CustomComboInfoAttribute : Attribute
     /// <summary> Initializes a new instance of the <see cref="CustomComboInfoAttribute"/> class. </summary>
     /// <param name="job"> Associated job ID. </param>
     /// <param name="order"> Display order. </param>
-    /// 
+    ///
     internal CustomComboInfoAttribute(
         Job job,
         [CallerLineNumber] int order = 0)
@@ -22,6 +21,9 @@ internal class CustomComboInfoAttribute : Attribute
             Job.BTN or Job.MIN or Job.FSH => Job.MIN,
             _ => job
         };
+
+        Name = "";
+        Description = "";
 
         Order = order;
         Role = RoleAttribute.GetRoleFromJob(Job);

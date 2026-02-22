@@ -677,7 +677,7 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Aspected Helios/Helios Conjunction or Helios with a one button healing replacement..
+        ///   Looks up a localized string similar to Replaces Aspected Helios/Helios Conjunction or Helios with a one button healing replacement.This Spell will be consider the bottom priority with no checks regardless of below settings..
         /// </summary>
         internal static string AST_AoE_Heals_Desc {
             get {
@@ -1242,7 +1242,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Additionally, Will try to cast Aspected Helios with Neutral Sect Buff for shields when a raidwide casting. .
+        ///   Looks up a localized string similar to Additionally, Will try to cast Aspected Helios with Neutral Sect Buff for shields when a raidwide casting. 
+        ///Will be used in all 4 main combos..
         /// </summary>
         internal static string AST_Raidwide_AspectedHelios_Desc {
             get {
@@ -1279,7 +1280,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Collection of tools designed to try and cast during a raidwide attack when detected..
+        ///   Looks up a localized string similar to Collection of tools designed to try and cast during a raidwide attack when detected.
+        ///This will work for most, but not all raidwide attacks and is no substitute for learning the fight.
         /// </summary>
         internal static string AST_Raidwide_Desc {
             get {
@@ -1297,7 +1299,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Additionally, Will try to Weave Neutral Sect and Sun sign when a raidwide casting. .
+        ///   Looks up a localized string similar to Additionally, Will try to Weave Neutral Sect and Sun sign when a raidwide casting. 
+        ///Will be used in all 4 main combos..
         /// </summary>
         internal static string AST_Raidwide_NeutralSect_Desc {
             get {
@@ -1513,7 +1516,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Helios with a full one-button single target healing utility..
+        ///   Looks up a localized string similar to Replaces Helios with a full one-button single target healing utility.
+        ///This is the ideal option for newcomers to the job. Particularly with autorotation..
         /// </summary>
         internal static string AST_Simple_AoE_Heals_Desc {
             get {
@@ -1531,7 +1535,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Benefic with a full one-button single target healing utility..
+        ///   Looks up a localized string similar to Replaces Benefic with a full one-button single target healing utility.
+        ///This is the ideal option for newcomers to the job. Particularly with autorotation..
         /// </summary>
         internal static string AST_Simple_ST_Heals_Desc {
             get {
@@ -5403,7 +5408,9 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Includes Devilment in the AoE rotation..
+        ///   Looks up a localized string similar to Includes Devilment in the AoE rotation.
+        ///Will activate only during Technical Finish if you&apos;re Lv70 or above.
+        ///Will be used on cooldown below Lv70..
         /// </summary>
         internal static string DNC_AoE_Adv_Devilment_Desc {
             get {
@@ -5475,7 +5482,9 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expends a feather in the next available weave window when capped and under the effect of Flourishing Symmetry or Flourishing Flow..
+        ///   Looks up a localized string similar to Expends a feather in the next available weave window when capped and under the effect of Flourishing Symmetry or Flourishing Flow.
+        ///Weaves feathers where possible during Technical Finish.
+        ///Weaves feathers whenever available when under Lv.70..
         /// </summary>
         internal static string DNC_AoE_Adv_Feathers_Desc {
             get {
@@ -5529,7 +5538,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Includes Improvisation in the AoE rotation when available..
+        ///   Looks up a localized string similar to Includes Improvisation in the AoE rotation when available.
+        ///Will not use while under Technical Finish.
         /// </summary>
         internal static string DNC_AoE_Adv_Improvisation_Desc {
             get {
@@ -5619,7 +5629,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Includes Saber Dance in the AoE rotation when at or over the Esprit threshold..
+        ///   Looks up a localized string similar to Includes Saber Dance in the AoE rotation when at or over the Esprit threshold.
+        ///(And to prevent overcapping while under Technical Finish).
         /// </summary>
         internal static string DNC_AoE_Adv_SaberDance_Desc {
             get {
@@ -5691,7 +5702,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Windmill with a full one-button AoE rotation..
+        ///   Looks up a localized string similar to Replaces Windmill with a full one-button AoE rotation.
+        ///This mode is ideal if you want to customize the rotation..
         /// </summary>
         internal static string DNC_AoE_AdvancedMode_Desc {
             get {
@@ -5817,7 +5829,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change custom actions into dance steps while dancing..
+        ///   Looks up a localized string similar to Change custom actions into dance steps while dancing.
+        ///Lets you still dance with combos on, without using Step Combo Features above..
         /// </summary>
         internal static string DNC_CustomDanceSteps_Desc {
             get {
@@ -5944,7 +5957,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Options for Fan Dance combos..
+        ///   Looks up a localized string similar to Options for Fan Dance combos.
+        ///Fan Dance 3 takes priority over Fan Dance 4..
         /// </summary>
         internal static string DNC_FanDanceCombos_Desc {
             get {
@@ -6070,7 +6084,9 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Includes Devilment in the rotation..
+        ///   Looks up a localized string similar to Includes Devilment in the rotation.
+        ///Will activate only during Technical Finish if you&apos;re Lv70 or above.
+        ///Will be used on cooldown below Lv70..
         /// </summary>
         internal static string DNC_ST_Adv_Devilment_Desc {
             get {
@@ -6124,7 +6140,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Options for including Fan Dance 3 and 4 into the rotation..
+        ///   Looks up a localized string similar to Options for including Fan Dance 3 and 4 into the rotation.
+        ///Note: If using the Forced Triple Weave option, FD3&amp;4 will be used regardless of these options..
         /// </summary>
         internal static string DNC_ST_Adv_FanProccs_Desc {
             get {
@@ -6142,7 +6159,10 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expends a feather in the next available weave window when capped and under the effect of Flourishing Symmetry or Flourishing Flow..
+        ///   Looks up a localized string similar to Expends a feather in the next available weave window when capped and under the effect of Flourishing Symmetry or Flourishing Flow.
+        ///Weaves feathers where possible during Technical Finish.
+        ///Weaves feathers outside of burst when target is below set HP percentage (Set to 0 to disable).
+        ///Weaves feathers whenever available when under Lv.70..
         /// </summary>
         internal static string DNC_ST_Adv_Feathers_Desc {
             get {
@@ -6196,7 +6216,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Includes Improvisation in the rotation when available..
+        ///   Looks up a localized string similar to Includes Improvisation in the rotation when available.
+        ///Will not use while under Technical Finish.
         /// </summary>
         internal static string DNC_ST_Adv_Improvisation_Desc {
             get {
@@ -6322,7 +6343,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Includes Saber Dance in the rotation when at or over the Esprit threshold..
+        ///   Looks up a localized string similar to Includes Saber Dance in the rotation when at or over the Esprit threshold.
+        ///(And to prevent overcapping while under Technical Finish).
         /// </summary>
         internal static string DNC_ST_Adv_SaberDance_Desc {
             get {
@@ -6376,7 +6398,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Starts Standard Step (and steps) before combat..
+        ///   Looks up a localized string similar to Starts Standard Step (and steps) before combat.
+        ///(Already included in The Balance Opener)..
         /// </summary>
         internal static string DNC_ST_Adv_SS_Prepull_Desc {
             get {
@@ -6430,7 +6453,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Cascade with a full one-button single target rotation..
+        ///   Looks up a localized string similar to Replaces Cascade with a full one-button single target rotation.
+        ///This mode is ideal if you want to customize the rotation..
         /// </summary>
         internal static string DNC_ST_AdvancedMode_Desc {
             get {
@@ -6448,7 +6472,13 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds the Balance opener at level 100..
+        ///   Looks up a localized string similar to Adds the Balance opener at level 100.
+        ///Requirements:
+        ///- Standard Step ready
+        ///- Technical Step ready
+        ///- Devilment ready
+        ///(Will change to Savage Blade to wait for the countdown)
+        ///(REQUIRES a countdown).
         /// </summary>
         internal static string DNC_ST_BalanceOpener_Desc {
             get {
@@ -6484,7 +6514,9 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Will hold Standard Finish and Technical Finish until an enemy is within range of the abilities in all (non-Simple) Modes and Features below by replacing whatever button with Savage Blade..
+        ///   Looks up a localized string similar to Will hold Standard Finish and Technical Finish until an enemy is within range of the abilities in all (non-Simple) Modes and Features below by replacing whatever button with Savage Blade.
+        ///Will show either Finish when the dance is about to expire.
+        ///This behavior is recommended by The Balance but can introduce drift, so it may not be what is best for your group..
         /// </summary>
         internal static string DNC_ST_BlockFinishes_Desc {
             get {
@@ -6594,7 +6626,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Cascade with a full one-button single target rotation..
+        ///   Looks up a localized string similar to Replaces Cascade with a full one-button single target rotation.
+        ///Employs the Forced Triple Weave Anti-Drift solution..
         /// </summary>
         internal static string DNC_ST_SimpleMode_Desc {
             get {
@@ -8207,7 +8240,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Dark Mind to the one-button mitigation..
+        ///   Looks up a localized string similar to Adds Dark Mind to the one-button mitigation.
+        ///NOTE: even if disabled, will still try to use Dark Mind as the lowest priority..
         /// </summary>
         internal static string DRK_Mit_DarkMind_Desc {
             get {
@@ -8333,7 +8367,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Reprisal to the one-button mitigation..
+        ///   Looks up a localized string similar to Adds Reprisal to the one-button mitigation.
+        ///NOTE: Will not use unless there is a target within range to prevent waste..
         /// </summary>
         internal static string DRK_Mit_Reprisal_Desc {
             get {
@@ -8550,7 +8585,8 @@ namespace WrathCombo.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Options for Advanced Combos&apos; In-Combo Mitigation.
-        ///.
+        ///Enable Mitigation in each Advanced Combo to use these options.
+        ///(Simple Mode does not use these Options, instead Recommended Values in place of them).
         /// </summary>
         internal static string DRK_Mitigation_Desc {
             get {
@@ -8640,7 +8676,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated. .
+        ///   Looks up a localized string similar to Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated. 
+        ///Will not use mitigation in the first 15 seconds of a pull unless you are not moving..
         /// </summary>
         internal static string DRK_Mitigation_NonBoss_Desc {
             get {
@@ -9021,7 +9058,15 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds the Balance opener at level 100..
+        ///   Looks up a localized string similar to Adds the Balance opener at level 100.
+        ///Requirements:
+        ///- Over 7,000 mana
+        ///- 2 Shadowbringer charges ready
+        ///- Living Shadow off cooldown
+        ///- Delirium off cooldown
+        ///- Carve and Spit off cooldown
+        ///- Salted Earth off cooldown
+        ///(supports TBN&apos;ing during use or pre-pull).
         /// </summary>
         internal static string DRK_ST_BalanceOpener_Desc {
             get {
@@ -10520,7 +10565,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Camouflage to the one-button mitigation..
+        ///   Looks up a localized string similar to Adds Camouflage to the one-button mitigation.
+        ///NOTE: even if disabled, will still try to use Camouflage as the lowest priority..
         /// </summary>
         internal static string GNB_Mit_Camouflage_Desc {
             get {
@@ -10846,7 +10892,8 @@ namespace WrathCombo.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Options for Advanced Combos&apos; In-Combo Mitigation.
-        ///.
+        ///Enable Mitigation in each Advanced Combo to use these options.
+        ///(Simple Mode does not use these Options, instead Recommended Values in place of them).
         /// </summary>
         internal static string GNB_Mitigation_Desc {
             get {
@@ -10918,7 +10965,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated..
+        ///   Looks up a localized string similar to Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated.
+        ///Will not use mitigation in the first 15 seconds of a pull unless you are not moving..
         /// </summary>
         internal static string GNB_Mitigation_NonBoss_Desc {
             get {
@@ -14098,7 +14146,10 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Puts mudras on to a single button following basic logic and finishes them with Ninjutsu..
+        ///   Looks up a localized string similar to Puts mudras on to a single button following basic logic and finishes them with Ninjutsu.
+        ///Ten = Hyosho Ranryu &gt; Suiton if trick cd less than 20s &gt; Raiton. 
+        ///Chi = Goka Mekkyaku &gt; Huton if trick cd less than 20s &gt; Katon. 
+        ///Jin = Doton .
         /// </summary>
         internal static string NIN_Simple_Mudras_Alt_Desc {
             get {
@@ -14722,7 +14773,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uses the mudra from three mudra, automatically on AoE burst mode. .
+        ///   Looks up a localized string similar to Uses the mudra from three mudra, automatically on AoE burst mode. 
+        /// Will use Doton &gt; GokaMekkyaku.
         /// </summary>
         internal static string NINPvP_AoE_MudraMode_Desc {
             get {
@@ -14902,7 +14954,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uses the mudra from three mudra, automatically on ST burst mode. .
+        ///   Looks up a localized string similar to Uses the mudra from three mudra, automatically on ST burst mode. 
+        /// Will use Hyosho Ranryu &gt; Forked Raiju IF YOU HAVE BUNSHIN STACKS &gt; Huton.
         /// </summary>
         internal static string NINPvP_ST_MudraMode_Desc {
             get {
@@ -16642,24 +16695,6 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Occult Treasuresight into the rotation..
-        /// </summary>
-        internal static string Phantom_Freelancer_OccultTreasuresight_Desc {
-            get {
-                return ResourceManager.GetString("Phantom_Freelancer_OccultTreasuresight_Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Occult Treasuresight.
-        /// </summary>
-        internal static string Phantom_Freelancer_OccultTreasuresight_Name {
-            get {
-                return ResourceManager.GetString("Phantom_Freelancer_OccultTreasuresight_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Adds Aetherial Gain into the rotation..
         /// </summary>
         internal static string Phantom_Geomancer_AetherialGain_Desc {
@@ -17263,47 +17298,11 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Invulnerability into the rotation..
-        /// </summary>
-        internal static string Phantom_Oracle_Invulnerability_Desc {
-            get {
-                return ResourceManager.GetString("Phantom_Oracle_Invulnerability_Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invulnerability.
-        /// </summary>
-        internal static string Phantom_Oracle_Invulnerability_Name {
-            get {
-                return ResourceManager.GetString("Phantom_Oracle_Invulnerability_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Oracle Job Actions.
         /// </summary>
         internal static string Phantom_Oracle_Name {
             get {
                 return ResourceManager.GetString("Phantom_Oracle_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds Phantom Doom into the rotation..
-        /// </summary>
-        internal static string Phantom_Oracle_PhantomDoom_Desc {
-            get {
-                return ResourceManager.GetString("Phantom_Oracle_PhantomDoom_Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phantom Doom.
-        /// </summary>
-        internal static string Phantom_Oracle_PhantomDoom_Name {
-            get {
-                return ResourceManager.GetString("Phantom_Oracle_PhantomDoom_Name", resourceCulture);
             }
         }
         
@@ -17326,24 +17325,6 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Phantom Rejuvenation into the rotation..
-        /// </summary>
-        internal static string Phantom_Oracle_PhantomRejuvenation_Desc {
-            get {
-                return ResourceManager.GetString("Phantom_Oracle_PhantomRejuvenation_Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phantom Rejuvenation.
-        /// </summary>
-        internal static string Phantom_Oracle_PhantomRejuvenation_Name {
-            get {
-                return ResourceManager.GetString("Phantom_Oracle_PhantomRejuvenation_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Adds Predict into the rotation..
         /// </summary>
         internal static string Phantom_Oracle_Predict_Desc {
@@ -17358,24 +17339,6 @@ namespace WrathCombo.Resources.Localization {
         internal static string Phantom_Oracle_Predict_Name {
             get {
                 return ResourceManager.GetString("Phantom_Oracle_Predict_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds Recuperation into the rotation..
-        /// </summary>
-        internal static string Phantom_Oracle_Recuperation_Desc {
-            get {
-                return ResourceManager.GetString("Phantom_Oracle_Recuperation_Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Recuperation.
-        /// </summary>
-        internal static string Phantom_Oracle_Recuperation_Name {
-            get {
-                return ResourceManager.GetString("Phantom_Oracle_Recuperation_Name", resourceCulture);
             }
         }
         
@@ -17412,42 +17375,6 @@ namespace WrathCombo.Resources.Localization {
         internal static string Phantom_Ranger_Name {
             get {
                 return ResourceManager.GetString("Phantom_Ranger_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds Occult Falcon into the rotation..
-        /// </summary>
-        internal static string Phantom_Ranger_OccultFalcon_Desc {
-            get {
-                return ResourceManager.GetString("Phantom_Ranger_OccultFalcon_Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Occult Falcon.
-        /// </summary>
-        internal static string Phantom_Ranger_OccultFalcon_Name {
-            get {
-                return ResourceManager.GetString("Phantom_Ranger_OccultFalcon_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds Occult Featherfoot into the rotation..
-        /// </summary>
-        internal static string Phantom_Ranger_OccultFeatherfoot_Desc {
-            get {
-                return ResourceManager.GetString("Phantom_Ranger_OccultFeatherfoot_Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Occult Featherfoot.
-        /// </summary>
-        internal static string Phantom_Ranger_OccultFeatherfoot_Name {
-            get {
-                return ResourceManager.GetString("Phantom_Ranger_OccultFeatherfoot_Name", resourceCulture);
             }
         }
         
@@ -17646,24 +17573,6 @@ namespace WrathCombo.Resources.Localization {
         internal static string Phantom_Thief_Steal_Name {
             get {
                 return ResourceManager.GetString("Phantom_Thief_Steal_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adds Trap Detection into the rotation..
-        /// </summary>
-        internal static string Phantom_Thief_TrapDetection_Desc {
-            get {
-                return ResourceManager.GetString("Phantom_Thief_TrapDetection_Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Trap Detection.
-        /// </summary>
-        internal static string Phantom_Thief_TrapDetection_Name {
-            get {
-                return ResourceManager.GetString("Phantom_Thief_TrapDetection_Name", resourceCulture);
             }
         }
         
@@ -18154,7 +18063,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Bulwark to the one-button mitigation..
+        ///   Looks up a localized string similar to Adds Bulwark to the one-button mitigation.
+        ///NOTE: even if disabled, will still try to use Bulwark as the lowest priority..
         /// </summary>
         internal static string PLD_Mit_Bulwark_Desc {
             get {
@@ -18499,7 +18409,8 @@ namespace WrathCombo.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Options for Advanced Combos&apos; In-Combo Mitigation.
-        ///.
+        ///Enable Mitigation in each Advanced Combo to use these options.
+        ///(Simple Mode does not use these Options, instead Recommended Values in place of them).
         /// </summary>
         internal static string PLD_Mitigation_Desc {
             get {
@@ -18553,7 +18464,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated..
+        ///   Looks up a localized string similar to Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated.
+        ///Will not use mitigation in the first 15 seconds of a pull unless you are not moving..
         /// </summary>
         internal static string PLD_Mitigation_NonBoss_Desc {
             get {
@@ -18844,7 +18756,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Will use intervention on your Hard Target if target is a friendly party member, if not then Sheltron..
+        ///   Looks up a localized string similar to Will use intervention on your Hard Target if target is a friendly party member, if not then Sheltron.
+        ///- UI Mouseover &gt; Hard target &gt; Target&apos;s target &gt; Self Sheltron.
         /// </summary>
         internal static string PLD_RetargetSheltron_Desc {
             get {
@@ -23640,7 +23553,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Third Eye when Raidwide is detected casting. .
+        ///   Looks up a localized string similar to Adds Third Eye when Raidwide is detected casting. 
+        ///When Solo, uses on cd..
         /// </summary>
         internal static string SAM_ST_ThirdEye_Desc {
             get {
@@ -24390,7 +24304,10 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changes Sacred Soil into (optional Fey Illumination) .
+        ///   Looks up a localized string similar to Changes Sacred Soil into (optional Fey Illumination) 
+        ///then Succor or (Optional Self Targetted Recitation-Adloquium-Deployment Tactics)
+        ///Finished with (Optional Expedient) and (Optional Seraph/Consolation)
+        ///Can be Retargeted with the Retargeting Features below..
         /// </summary>
         internal static string SCH_Mit_AoE_Desc {
             get {
@@ -24408,7 +24325,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changes Protraction into (Optional Recitation)Adloquium followed by (Optional Deployment Tactics and Excogitation).
+        ///   Looks up a localized string similar to Changes Protraction into (Optional Recitation)Adloquium followed by (Optional Deployment Tactics and Excogitation)
+        ///Each action can be Retargeted with the Retargeting Features below..
         /// </summary>
         internal static string SCH_Mit_ST_Desc {
             get {
@@ -24426,7 +24344,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Collection of tools designed to try and cast during a raidwide attack when detected..
+        ///   Looks up a localized string similar to Collection of tools designed to try and cast during a raidwide attack when detected.
+        ///This will work for most, but not all raidwide attacks and is no substitute for learning the fight.
         /// </summary>
         internal static string SCH_Raidwide_Desc {
             get {
@@ -24718,7 +24637,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Succor with a full one-button AoE healing utility..
+        ///   Looks up a localized string similar to Replaces Succor with a full one-button AoE healing utility.
+        ///This is the ideal option for newcomers to the job. Particularly with autorotation..
         /// </summary>
         internal static string SCH_Simple_AoE_Heal_Desc {
             get {
@@ -24736,7 +24656,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Physick with a full one-button single target healing utility..
+        ///   Looks up a localized string similar to Replaces Physick with a full one-button single target healing utility.
+        ///This is the ideal option for newcomers to the job. Particularly with autorotation..
         /// </summary>
         internal static string SCH_Simple_ST_Heal_Desc {
             get {
@@ -25981,7 +25902,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Collection of tools designed to try and cast during a raidwide attack when detected..
+        ///   Looks up a localized string similar to Collection of tools designed to try and cast during a raidwide attack when detected.
+        ///This will work for most, but not all raidwide attacks and is no substitute for learning the fight.
         /// </summary>
         internal static string SGE_Raidwide_Desc {
             get {
@@ -26119,7 +26041,7 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Retargets Druochole according to your Healing stack .
+        ///   Looks up a localized string similar to Retargets Druochole according to your Healing stack (even from the Taurochole to Druochole Feature above).
         /// </summary>
         internal static string SGE_Retarget_Druochole_Desc {
             get {
@@ -26137,7 +26059,7 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Retargets Eukrasian Diagnosis according to your Healing stack .
+        ///   Looks up a localized string similar to Retargets Eukrasian Diagnosis according to your Healing stack (even from the Eukrasia Feature above).
         /// </summary>
         internal static string SGE_Retarget_EukrasianDiagnosis_Desc {
             get {
@@ -26191,7 +26113,7 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Retargets Kardia according to your Healing stack .
+        ///   Looks up a localized string similar to Retargets Kardia according to your Healing stack (even from the Soteria to Kardia Feature above).
         /// </summary>
         internal static string SGE_Retarget_Kardia_Desc {
             get {
@@ -26236,7 +26158,7 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Retargets Taurochole according to your Healing stack .
+        ///   Looks up a localized string similar to Retargets Taurochole according to your Healing stack (even from the Taurochole to Druochole Feature above).
         /// </summary>
         internal static string SGE_Retarget_Taurochole_Desc {
             get {
@@ -26272,7 +26194,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Prognosis with a full one-button single target healing utility..
+        ///   Looks up a localized string similar to Replaces Prognosis with a full one-button single target healing utility.
+        ///This is the ideal option for newcomers to the job. Particularly with autorotation..
         /// </summary>
         internal static string SGE_Simple_AoE_Heal_Desc {
             get {
@@ -26290,7 +26213,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Diagnosis with a full one-button single target healing utility..
+        ///   Looks up a localized string similar to Replaces Diagnosis with a full one-button single target healing utility.
+        ///This is the ideal option for newcomers to the job. Particularly with autorotation..
         /// </summary>
         internal static string SGE_Simple_ST_Heal_Desc {
             get {
@@ -28027,7 +27951,9 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Emerald Ruin III with Ruin III in the rotation when standing still and Ruin Mastery III is not active..
+        ///   Looks up a localized string similar to Replaces Emerald Ruin III with Ruin III in the rotation when standing still and Ruin Mastery III is not active (54-72).
+        ///It is best, when using this, to set your Garuda to call last during those levels or it will not do other summons until you spend all garuda charges. 
+        ///Intended Mainly for 70 Ultimates where it would matter. (Not worth it for average use).
         /// </summary>
         internal static string SMN_ST_Ruin3_Emerald_Ruin3_Desc {
             get {
@@ -28036,7 +27962,7 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use Ruin III instead of Emerald Ruin III when standing still between the levels of 54 and 72.
+        ///   Looks up a localized string similar to Emerald Ruin III to Ruin III Option.
         /// </summary>
         internal static string SMN_ST_Ruin3_Emerald_Ruin3_Name {
             get {
@@ -28246,7 +28172,7 @@ namespace WrathCombo.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Enable this to add Variant Actions in Variant Dungeons.
-        ///.
+        ///Variant Actions will be used by Single Target and AoE DPS Combos, in both Simple &amp; Advanced.
         /// </summary>
         internal static string Variant_Healer_Desc {
             get {
@@ -28355,7 +28281,7 @@ namespace WrathCombo.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Enable this to add Variant Actions in Variant Dungeons.
-        ///.
+        ///Variant Actions will be used by Single Target and AoE DPS Features, in both Simple &amp; Advanced selections.
         /// </summary>
         internal static string Variant_Magic_Desc {
             get {
@@ -28464,7 +28390,7 @@ namespace WrathCombo.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Enable this to add Variant Actions in Variant Dungeons.
-        ///.
+        ///Variant Actions will be used by Single Target and AoE DPS Combos, in both Simple &amp; Advanced.
         /// </summary>
         internal static string Variant_Melee_Desc {
             get {
@@ -28573,7 +28499,7 @@ namespace WrathCombo.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Enable this to add Variant Actions in Variant Dungeons.
-        ///.
+        ///Variant Actions will be used by Single Target and AoE DPS Combos, in both Simple &amp; Advanced.
         /// </summary>
         internal static string Variant_PhysRanged_Desc {
             get {
@@ -28682,7 +28608,7 @@ namespace WrathCombo.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Enable this to add Variant Actions in Variant Dungeons.
-        /// .
+        /// Variant Actions will be used by Single Target and AoE DPS Combos, in both Simple &amp; Advanced.
         /// </summary>
         internal static string Variant_Tank_Desc {
             get {
@@ -30555,7 +30481,8 @@ namespace WrathCombo.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Options for Advanced Combos&apos; In-Combo Mitigation.
-        ///.
+        ///Enable Mitigation in each Advanced Combo to use these options.
+        ///(Simple Mode does not use these Options, instead Recommended Values in place of them).
         /// </summary>
         internal static string WAR_Mitigation_Desc {
             get {
@@ -30591,7 +30518,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated..
+        ///   Looks up a localized string similar to Adds Mitigation to the combos when not in a boss encounter. Will not overlap separate options unless stated.
+        ///Will not use mitigation in the first 15 seconds of a pull unless you are not moving..
         /// </summary>
         internal static string WAR_Mitigation_NonBoss_Desc {
             get {
@@ -31497,7 +31425,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds a Swiftcast-&gt;Holy at the beginning of your AoE rotation..
+        ///   Looks up a localized string similar to Adds a Swiftcast-&gt;Holy at the beginning of your AoE rotation.
+        ///Requires you to already be in combat, to have stopped moving, and to not have used Assize yet..
         /// </summary>
         internal static string WHM_AoE_DPS_SwiftHoly_Desc {
             get {
@@ -31670,7 +31599,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uses Medica II when heal target doesn&apos;t have Medica II buff..
+        ///   Looks up a localized string similar to Uses Medica II when heal target doesn&apos;t have Medica II buff.
+        ///Upgrades to Medica III when level allows..
         /// </summary>
         internal static string WHM_AoEHeals_Medica2_Desc {
             get {
@@ -31845,7 +31775,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Collection of tools designed to try and cast during a raidwide attack when detected..
+        ///   Looks up a localized string similar to Collection of tools designed to try and cast during a raidwide attack when detected.
+        ///This will work for most, but not all raidwide attacks and is no substitute for learning the fight.
         /// </summary>
         internal static string WHM_Raidwide_Desc {
             get {
@@ -31854,7 +31785,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Will try to weave LiturgyOfTheBell when a raidwide casting. .
+        ///   Looks up a localized string similar to Will try to weave LiturgyOfTheBell when a raidwide casting. 
+        ///Will be used in all 4 main combos..
         /// </summary>
         internal static string WHM_Raidwide_LiturgyOfTheBell_Desc {
             get {
@@ -31881,7 +31813,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Will try to weave Plenary Indulgence when a raidwide casting. .
+        ///   Looks up a localized string similar to Will try to weave Plenary Indulgence when a raidwide casting. 
+        ///Will be used in all 4 main combos..
         /// </summary>
         internal static string WHM_Raidwide_PlenaryIndulgence_Desc {
             get {
@@ -31899,7 +31832,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Will try to Weave Temperance and Divine Caress when a raidwide casting. .
+        ///   Looks up a localized string similar to Will try to Weave Temperance and Divine Caress when a raidwide casting. 
+        ///Will be used in all 4 main combos..
         /// </summary>
         internal static string WHM_Raidwide_Temperance_Desc {
             get {
@@ -32187,7 +32121,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Medica with a full one-button single target healing utility..
+        ///   Looks up a localized string similar to Replaces Medica with a full one-button single target healing utility.
+        ///This is the ideal option for newcomers to the job. Particularly with autorotation..
         /// </summary>
         internal static string WHM_Simple_AoEHeals_Desc {
             get {
@@ -32205,7 +32140,8 @@ namespace WrathCombo.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Cure with a full one-button single target healing utility..
+        ///   Looks up a localized string similar to Replaces Cure with a full one-button single target healing utility.
+        ///This is the ideal option for newcomers to the job. Particularly with autorotation..
         /// </summary>
         internal static string WHM_SimpleSTHeals_Desc {
             get {

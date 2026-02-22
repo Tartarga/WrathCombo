@@ -31,9 +31,6 @@ internal class CustomComboInfoAttribute : Attribute
         JobShorthand = Job.Shorthand();
     }
 
-    // Preset enum value for localization keys
-    public Preset Preset;
-
     /// <summary> Gets the display name. </summary>
     public string Name { get; set; }
 

@@ -98,10 +98,10 @@ internal class PvPFeatures : FeaturesWindow
                                              !PresetStorage.ShouldBeHidden(y.Preset)))
                         .Select(x => x.Key))
                     {
-                        string jobName = groupedPresets[job].First().Info.JobName;
-                        string abbreviation = groupedPresets[job].First().Info.JobShorthand;
+                        string jobName = groupedPresets[job].First().Attr.CustomComboInfo.JobName;
+                        string abbreviation = groupedPresets[job].First().Attr.CustomComboInfo.JobShorthand;
                         string header = string.IsNullOrEmpty(abbreviation) ? jobName : $"{jobName} - {abbreviation}";
-                        var id = groupedPresets[job].First().Info.Job;
+                        var id = groupedPresets[job].First().Attr.CustomComboInfo.Job;
                         IDalamudTextureWrap? icon = Icons.GetJobIcon(id);
                         ImGuiEx.Spacing(new Vector2(0, 2f.Scale()));
                         using (var disabled = ImRaii.Disabled(DisabledJobsPVP.Any(x => x == id)))
@@ -135,7 +135,7 @@ internal class PvPFeatures : FeaturesWindow
             }
             else
             {
-                var id = groupedPresets[OpenPvPJob.Value].First().Info.Job;
+                var id = groupedPresets[OpenPvPJob.Value].First().Attr.CustomComboInfo.Job;
 
                 DrawHeader(id, true);
                 DrawSearchBar();
@@ -227,8 +227,7 @@ internal class PvPFeatures : FeaturesWindow
                     alreadyShown.Any(y => y == attributes.GreatGrandParent))
                     continue;
 
-                var info = attributes.CustomComboInfo;
-                InfoBox presetBox = new() { ContentsOffset = 5f.Scale(), ContentsAction = () => { Presets.DrawPreset(preset.Key, info!); } };
+                InfoBox presetBox = new() { ContentsOffset = 5f.Scale(), ContentsAction = () => { Presets.DrawPreset(preset.Key, attributes); } };
                 presetBox.Draw();
                 ImGuiEx.Spacing(new Vector2(0, 12));
                 alreadyShown.Add(preset.Key);

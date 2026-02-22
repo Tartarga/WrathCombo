@@ -343,11 +343,10 @@ internal class FeaturesWindow : ConfigWindow
                 alreadyShown.Any(y => y == attributes.GreatGrandParent))
                 continue;
 
-            var info = attributes.CustomComboInfo;
             InfoBox presetBox = new()
             {
                 ContentsOffset = 5f.Scale(),
-                ContentsAction = () => { Presets.DrawPreset(preset, info!); }
+                ContentsAction = () => { Presets.DrawPreset(preset, attributes!); }
             };
             presetBox.Draw();
             ImGuiEx.Spacing(new Vector2(0, 12));

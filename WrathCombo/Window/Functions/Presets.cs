@@ -35,23 +35,23 @@ internal class Presets : ConfigWindow
     internal static Dictionary<Preset, bool> GetJobAutorots => P
         .IPCSearch.AutoActions.Where(x => x.Key.Attributes().IsPvP == CustomComboFunctions.InPvP() && (Player.Job == x.Key.Attributes().CustomComboInfo.Job || Player.Job.GetUpgradedJob() == x.Key.Attributes().CustomComboInfo.Job) && x.Value && CustomComboFunctions.IsEnabled(x.Key) && x.Key.Attributes().Parent == null).ToDictionary();
 
-    internal static void DrawPreset(Preset preset, CustomComboInfoAttribute info)
+    internal static void DrawPreset(Preset preset, PresetAttributes attr)
     {
         bool enabled = PresetStorage.IsEnabled(preset);
-        bool pvp = AllPresets[preset].IsPvP;
-        var conflicts = AllPresets[preset].Conflicts;
-        var parent = AllPresets[preset].Parent;
-        var blueAttr = AllPresets[preset].BlueInactive;
-        var bozjaParents = AllPresets[preset].BozjaParent;
-        var eurekaParents = AllPresets[preset].EurekaParent;
-        var auto = AllPresets[preset].AutoAction;
-        var hidden = AllPresets[preset].Hidden;
-        var presetName = info.Name;
-        var currentJob = AllPresets[preset].CustomComboInfo.Job;
+        bool pvp = attr.IsPvP;
+        var conflicts = attr.Conflicts;
+        var parent = attr.Parent;
+        var blueAttr = attr.BlueInactive;
+        var bozja = attr.Bozja;
+        var eurekaParents = attr.EurekaParent;
+        var auto = attr.AutoAction;
+        var hidden = attr.Hidden;
+        var presetName = attr.CustomComboInfo.Name;
+        var currentJob = attr.CustomComboInfo.Job;
 
         ImGui.Spacing();
 
-        if (auto != null)
+        if (attr.AutoAction != null)
         {
             Service.Configuration.AutoActions.TryAdd(preset, false);
 
@@ -73,12 +73,12 @@ internal class Presets : ConfigWindow
         if (ipcControl is not null)
             enabled = ipcControl.Value.enabled;
 
-        if (info.Name.Contains(" - AoE") || info.Name.Contains(" - Sin"))
+        if (presetName.Contains(" - AoE") || presetName.Contains(" - Sin"))
             if (ipcControl is not null)
                 P.UIHelper.ShowIPCControlledIndicatorIfNeeded(preset);
 
         if (IsSearching)
-            presetName = preset.NameWithFullLineage(currentJob);
+            presetName = preset.NameWithFullLineage(attr.CustomComboInfo.Job);
 
         if (P.UIHelper.ShowIPCControlledCheckboxIfNeeded
             ($"{presetName}###{preset}", ref enabled, preset, true))
@@ -115,7 +115,7 @@ internal class Presets : ConfigWindow
                 ImGui.PushItemWidth(length.Length());
             }
 
-            ImGui.TextWrapped($"{info.Description}");
+            ImGui.TextWrapped($"{attr.CustomComboInfo.Description}");
 
             if (AllPresets[preset].HoverInfo != null)
             {
@@ -164,31 +164,6 @@ internal class Presets : ConfigWindow
             }
         }
 
-        if (bozjaParents is not null)
-        {
-            ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.HealerGreen);
-            ImGui.TextWrapped($"Part of normal combo{(bozjaParents.ParentPresets.Length > 1 ? "s" : "")}:");
-            StringBuilder builder = new();
-            foreach (var par in bozjaParents.ParentPresets)
-            {
-                builder.Insert(0, PresetStorage.AllPresets[par].CustomComboInfo.Name);
-                var par2 = par;
-                while (PresetStorage.GetParent(par2) != null)
-                {
-                    var subpar = PresetStorage.GetParent(par2);
-                    if (subpar != null)
-                    {
-                        builder.Insert(0, PresetStorage.AllPresets[subpar.Value].CustomComboInfo.Name + " -> ");
-                        par2 = subpar!.Value;
-                    }
-                }
-
-                ImGui.TextWrapped($"- {builder}");
-                builder.Clear();
-            }
-            ImGui.PopStyleColor();
-        }
-
         if (eurekaParents is not null)
         {
             ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.HealerGreen);
@@ -223,7 +198,7 @@ internal class Presets : ConfigWindow
         {
             if (!pvp)
             {
-                switch (info.Job)
+                switch (attr.CustomComboInfo.Job)
                 {
                     case Job.ADV:
                         {
@@ -262,7 +237,7 @@ internal class Presets : ConfigWindow
             }
             else
             {
-                switch (info.Job)
+                switch (attr.CustomComboInfo.Job)
                 {
                     case Job.ADV: PvPCommon.Config.Draw(preset); break;
                     case Job.AST: ASTPvP.Config.Draw(preset); break;
@@ -550,7 +525,7 @@ internal class Presets : ConfigWindow
         DrawOccultJobIcon(null, jobID);
 
 
-    internal static int AllChildren((Preset Preset, CustomComboInfoAttribute Info)[] children)
+    internal static int AllChildren((Preset Preset, PresetAttributes Info)[] children)
     {
         var output = 0;
 

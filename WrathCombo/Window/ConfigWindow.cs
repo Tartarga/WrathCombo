@@ -17,14 +17,15 @@ using WrathCombo.Core;
 using WrathCombo.Data.Conflicts;
 using WrathCombo.Services;
 using WrathCombo.Window.Tabs;
+using static WrathCombo.Core.PresetStorage;
 using PunishGui = PunishLib.ImGuiMethods;
 namespace WrathCombo.Window;
 
 /// <summary> Plugin configuration window. </summary>
 internal class ConfigWindow : Dalamud.Interface.Windowing.Window
 {
-    internal static readonly Dictionary<Job, List<(Preset Preset, CustomComboInfoAttribute Info)>> groupedPresets = GetGroupedPresets();
-    internal static readonly Dictionary<Preset, (Preset Preset, CustomComboInfoAttribute Info)[]> presetChildren = GetPresetChildren();
+    internal static readonly Dictionary<Job, List<(Preset Preset, PresetAttributes Attr)>> groupedPresets = GetGroupedPresets();
+    internal static readonly Dictionary<Preset, (Preset Preset, PresetAttributes Attr)[]> presetChildren = GetPresetChildren();
 
     internal static float lastLeftColumnWidth;
 
@@ -37,37 +38,37 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
                                         UsableSearch.Length > 2;
     #endregion
 
-    internal static Dictionary<Job, List<(Preset Preset, CustomComboInfoAttribute Info)>> GetGroupedPresets()
+    internal static Dictionary<Job, List<(Preset Preset, PresetAttributes Info)>> GetGroupedPresets()
     {
         return Enum
             .GetValues<Preset>()
             .Where(preset => (int)preset > 100)
-            .Select(preset => (Preset: preset, Info: PresetStorage.AllPresets[preset].CustomComboInfo))
-            .Where(tpl => tpl.Info != null && PresetStorage.GetParent(tpl.Preset) == null)
-            .OrderByDescending(tpl => tpl.Info.Role is JobRole.Tank)
-            .ThenByDescending(tpl => tpl.Info.Role is JobRole.Healer)
-            .ThenByDescending(tpl => tpl.Info.Role is JobRole.MeleeDPS)
-            .ThenByDescending(tpl => tpl.Info.Role is JobRole.RangedDPS)
-            .ThenByDescending(tpl => tpl.Info.Role is JobRole.MagicalDPS)
-            .ThenByDescending(tpl => tpl.Info.Job is Job.ADV)
-            .ThenByDescending(tpl => tpl.Info.Job is Job.MIN)
+            .Select(preset => (Preset: preset, Info: AllPresets[preset]))
+            .Where(tpl => tpl.Info != null && GetParent(tpl.Preset) == null)
+            .OrderByDescending(tpl => tpl.Info.CustomComboInfo.Role is JobRole.Tank)
+            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Role is JobRole.Healer)
+            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Role is JobRole.MeleeDPS)
+            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Role is JobRole.RangedDPS)
+            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Role is JobRole.MagicalDPS)
+            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Job is Job.ADV)
+            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Job is Job.MIN)
             //.ThenBy(tpl => tpl.Info.ClassJobCategory)
-            .ThenBy(tpl => tpl.Info.Job)
-            .ThenBy(tpl => tpl.Info.Order)
-            .GroupBy(tpl => tpl.Info.Job)
+            .ThenBy(tpl => tpl.Info.CustomComboInfo.Job)
+            .ThenBy(tpl => tpl.Info.CustomComboInfo.Order)
+            .GroupBy(tpl => tpl.Info.CustomComboInfo.Job)
             .ToDictionary(
                 tpl => tpl.Key,
                 tpl => tpl.ToList())!;
     }
 
-    internal static Dictionary<Preset, (Preset Preset, CustomComboInfoAttribute Info)[]> GetPresetChildren()
+    internal static Dictionary<Preset, (Preset Preset, PresetAttributes Info)[]> GetPresetChildren()
     {
         // Initialize dictionary with all presets as keys
-        var childCombos = PresetStorage.AllPresets.Keys
+        var childCombos = AllPresets.Keys
             .ToDictionary(p => p, _ => new List<Preset>());
 
         // Build parent → children map using cached Parent
-        foreach (var (preset, attrs) in PresetStorage.AllPresets)
+        foreach (var (preset, attrs) in AllPresets)
         {
             if (attrs.Parent is { } parent)
             {
@@ -81,10 +82,10 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
             kvp => kvp.Value
                 .Select(child =>
                 {
-                    var info = PresetStorage.AllPresets[child].CustomComboInfo!;
+                    var info = PresetStorage.AllPresets[child]!;
                     return (Preset: child, Info: info);
                 })
-                .OrderBy(tpl => tpl.Info.Order)
+                .OrderBy(tpl => tpl.Info.CustomComboInfo.Order)
                 .ToArray()
         );
     }

@@ -50,10 +50,10 @@ internal class PvEFeatures : FeaturesWindow
 
                     foreach (Job job in groupedPresets.Keys)
                     {
-                        string jobName = groupedPresets[job].First().Info.JobName;
-                        string abbreviation = groupedPresets[job].First().Info.JobShorthand;
+                        string jobName = groupedPresets[job].First().Attr.CustomComboInfo.JobName;
+                        string abbreviation = groupedPresets[job].First().Attr.CustomComboInfo.JobShorthand;
                         string header = string.IsNullOrEmpty(abbreviation) ? jobName : $"{jobName} - {abbreviation}";
-                        var id = groupedPresets[job].First().Info.Job;
+                        var id = groupedPresets[job].First().Attr.CustomComboInfo.Job;
                         IDalamudTextureWrap? icon = Icons.GetJobIcon(id);
                         ImGuiEx.Spacing(new Vector2(0, 2f.Scale()));
                         using (var disabled = ImRaii.Disabled(DisabledJobsPVE.Any(x => x == id)))
@@ -96,7 +96,7 @@ internal class PvEFeatures : FeaturesWindow
             else
             {
                 var openJob = OpenJob.Value;
-                var id = groupedPresets[openJob].First().Info.Job;
+                var id = groupedPresets[openJob].First().Attr.CustomComboInfo.Job;
 
                 DrawHeader(id);
                 DrawSearchBar();
@@ -182,7 +182,7 @@ internal class PvEFeatures : FeaturesWindow
     private static void DrawVariantContents(Job job)
     {
         List<Preset> alreadyShown = [];
-        foreach (var (preset, info) in groupedPresets[job].Where(x =>
+        foreach (var (preset, attr) in groupedPresets[job].Where(x =>
             PresetStorage.IsVariant(x.Preset) &&
             !PresetStorage.ShouldBeHidden(x.Preset)))
         {
@@ -190,7 +190,7 @@ internal class PvEFeatures : FeaturesWindow
                 continue;
             alreadyShown.Add(preset);
 
-            InfoBox presetBox = new() { CurveRadius = 8f, ContentsAction = () => { Presets.DrawPreset(preset, info); } };
+            InfoBox presetBox = new() { CurveRadius = 8f, ContentsAction = () => { Presets.DrawPreset(preset, attr); } };
             presetBox.Draw();
             ImGuiEx.Spacing(new Vector2(0, 12));
         }

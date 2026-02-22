@@ -43,7 +43,7 @@ internal static class PresetStorage
         public RetargetedAttribute? RetargetedAttribute;
         public uint[] RetargetedActions =>
             GetRetargetedActions(Preset, RetargetedAttribute, PossiblyRetargeted, Parent);
-        public BozjaParentAttribute? BozjaParent;
+        public BozjaAttribute? Bozja;
         public EurekaParentAttribute? EurekaParent;
         public OccultCrescentAttribute? OccultCrescentJob;
         public HoverInfoAttribute? HoverInfo;
@@ -64,7 +64,7 @@ internal static class PresetStorage
             Variant = preset.GetAttribute<VariantAttribute>();
             PossiblyRetargeted = preset.GetAttribute<PossiblyRetargetedAttribute>();
             RetargetedAttribute = preset.GetAttribute<RetargetedAttribute>();
-            BozjaParent = preset.GetAttribute<BozjaParentAttribute>();
+            Bozja = preset.GetAttribute<BozjaAttribute>();
             EurekaParent = preset.GetAttribute<EurekaParentAttribute>();
             OccultCrescentJob = preset.GetAttribute<OccultCrescentAttribute>();
             HoverInfo = preset.GetAttribute<HoverInfoAttribute>();
@@ -215,7 +215,7 @@ internal static class PresetStorage
             .ToFrozenSet();
 
         BozjaCombos = AllPresets
-            .Where(kvp => kvp.Value.BozjaParent != null)
+            .Where(kvp => kvp.Value.Bozja != null)
             .Select(kvp => kvp.Key)
             .ToFrozenSet();
 
@@ -591,7 +591,6 @@ internal static class PresetStorage
         var healing = preset.GetAttribute<HealingCombo>();
         var mitigation = preset.GetAttribute<MitigationCombo>();
         var parent = (object?)preset.GetAttribute<ParentComboAttribute>() ??
-                     (object?)preset.GetAttribute<BozjaParentAttribute>() ??
                      (object?)preset.GetAttribute<EurekaParentAttribute>();
 
         if (simple != null)

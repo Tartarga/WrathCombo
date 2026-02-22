@@ -23,6 +23,7 @@ using WrathCombo.CustomComboNS.Functions;
 using WrathCombo.Data;
 using WrathCombo.Extensions;
 using WrathCombo.Services;
+using WrathCombo.Window;
 using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 namespace WrathCombo.Window.Functions;
@@ -33,7 +34,7 @@ internal class Presets : ConfigWindow
     private static bool _animFrame = false;
     internal class PresetAttributes
     {
-        private Preset Preset;
+        private readonly Preset Preset;
         public bool IsPvP;
         public Preset[] Conflicts;
         public Preset? Parent;
@@ -72,6 +73,8 @@ internal class Presets : ConfigWindow
             HoverInfo = preset.GetAttribute<HoverInfoAttribute>();
             ReplaceSkill = preset.GetAttribute<ReplaceSkillAttribute>();
             CustomComboInfo = preset.GetAttribute<CustomComboInfoAttribute>();
+            CustomComboInfo.Name = Text.GetPresetString($"{preset}_Name");
+            CustomComboInfo.Description = Text.GetPresetString($"{preset}_Desc");
             AutoAction = preset.GetAttribute<AutoActionAttribute>();
             RoleAttribute = preset.GetAttribute<RoleAttribute>();
             Hidden = preset.GetAttribute<HiddenAttribute>();

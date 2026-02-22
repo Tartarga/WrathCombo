@@ -1,33 +1,56 @@
 ﻿using ECommons.DalamudServices;
 using System.Globalization;
+using System.Resources;
+using WrathCombo.Resources.Localization;
 
 namespace WrathCombo.Window
 {
     internal class Text
     {
-        private static TextInfo? _cachedTextInfo;
-        
-        //Used to format job names based on region
-        public static TextInfo GetTextInfo()
+        // Pre-allocated cultures
+        private static readonly CultureInfo Ja = new("ja");
+        private static readonly CultureInfo En = new("en");
+        private static readonly CultureInfo De = new("de");
+        private static readonly CultureInfo Fr = new("fr");
+
+        // Cache the game culture
+        private static readonly CultureInfo GameCulture = GetGameCulture();
+
+        // Expose TextInfo for formatting purposes (Job Names)
+        public static TextInfo TextFormatting => GameCulture.TextInfo;
+
+        private static CultureInfo GetGameCulture()
         {
-            // Use cached TextInfo if available
-            // Otherwise create new and cache for future use
-            if (_cachedTextInfo is null)
+            return (int)Svc.ClientState.ClientLanguage switch
             {
-                // Job names are lowercase by default
-                // This capitalizes based on regional rules
-                var cultureId = Svc.ClientState.ClientLanguage switch
-                {
-                    Dalamud.Game.ClientLanguage.French => "fr-FR",
-                    Dalamud.Game.ClientLanguage.Japanese => "ja-JP",
-                    Dalamud.Game.ClientLanguage.German => "de-DE",
-                    _ => "en-US",
-                };
-
-                _cachedTextInfo = new CultureInfo(cultureId, useUserOverride: false).TextInfo;
-            }
-
-            return _cachedTextInfo;
+                0 => Ja,
+                1 => En,
+                2 => De,
+                3 => Fr,
+                _ => CultureInfo.CurrentUICulture
+            };
         }
+
+        /// <summary>
+        /// Core localized string resolver.
+        /// Lets ResourceManager handle fallback chain.
+        /// </summary>
+        private static string GetLocalizedString(string key, ResourceManager rm)
+        {
+            var value = rm.GetString(key, GameCulture);
+
+            // If missing entirely, return key (debug-friendly)
+            return value ?? key;
+        }
+
+        /// <summary>
+        /// Preset localization
+        /// </summary>
+        public static string GetPresetString(string key) => GetLocalizedString(key, CustomComboPresets.ResourceManager);
+
+        /// <summary>
+        /// Settings UI localization
+        /// </summary>
+        public static string GetSettingsUIString(string key) => GetLocalizedString(key, Menu_Settings.ResourceManager);
     }
 }

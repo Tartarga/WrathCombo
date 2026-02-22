@@ -2,8 +2,6 @@
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility.Raii;
-using Dalamud.Utility;
-using ECommons;
 using ECommons.DalamudServices;
 using ECommons.ExcelServices;
 using ECommons.GameHelpers;
@@ -11,7 +9,6 @@ using ECommons.ImGuiMethods;
 using ECommons.Logging;
 using ECommons.Throttlers;
 using System;
-using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -39,12 +36,6 @@ internal class Presets : ConfigWindow
 
     internal static void DrawPreset(Preset preset, CustomComboInfoAttribute info)
     {
-
-        //if (!AllPresets.ContainsKey(preset))
-        //{
-        //    PresetAttributes attributes = new(preset);
-        //    Attributes[preset] = attributes;
-        //}
         bool enabled = PresetStorage.IsEnabled(preset);
         bool pvp = AllPresets[preset].IsPvP;
         var conflicts = AllPresets[preset].Conflicts;

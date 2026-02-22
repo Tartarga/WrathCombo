@@ -54,8 +54,12 @@ public partial class Configuration
 
         try
         {
+            PluginLog.Verbose(
+                "[Saving] Attempting to save ...");
             Svc.PluginInterface.SavePluginConfig(config);
             _isSaving = false;
+            PluginLog.Verbose(
+                $"[Saving] Saved (queue size now: {SaveQueue.Count})");
         }
         catch (Exception)
         {
@@ -73,8 +77,12 @@ public partial class Configuration
         {
             try
             {
+                PluginLog.Verbose(
+                    "[Saving] Retrying save ...");
                 Svc.PluginInterface.SavePluginConfig(config);
                 success = true;
+                PluginLog.Verbose(
+                    $"[Saving] Saved (queue size now: {SaveQueue.Count})");
             }
             catch (Exception e)
             {
@@ -86,7 +94,7 @@ public partial class Configuration
                 }
 
                 PluginLog.Error(
-                    "Failed to save configuration after 3 retries.\n" +
+                    "[Saving] Failed to save configuration after 3 retries.\n" +
                     e.Message + "\n" + trace);
                 _isSaving = false;
                 return;
@@ -108,6 +116,8 @@ public partial class Configuration
             return;
 
         SaveQueue.Enqueue((this, new StackTrace()));
+        PluginLog.Verbose(
+            $"[Saving] Save queued (queue size: {SaveQueue.Count})");
     }
 
     #endregion

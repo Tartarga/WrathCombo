@@ -7,16 +7,12 @@ using ECommons.ExcelServices;
 using ECommons.ImGuiMethods;
 using ECommons.Logging;
 using ECommons.Throttlers;
-using PunishLib;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Numerics;
 using WrathCombo.Attributes;
-using WrathCombo.Combos;
-using WrathCombo.Combos.PvE;
 using WrathCombo.Core;
 using WrathCombo.Data.Conflicts;
 using WrathCombo.Services;
@@ -27,8 +23,8 @@ namespace WrathCombo.Window;
 /// <summary> Plugin configuration window. </summary>
 internal class ConfigWindow : Dalamud.Interface.Windowing.Window
 {
-    internal static readonly ImmutableDictionary<Job, ImmutableArray<(Preset Preset, CustomComboInfoAttribute Info)>> groupedPresets = GetGroupedPresets();
-    internal static readonly ImmutableDictionary<Preset, ImmutableArray<(Preset Preset, CustomComboInfoAttribute Info)>> presetChildren = GetPresetChildren();
+    internal static readonly Dictionary<Job, List<(Preset Preset, CustomComboInfoAttribute Info)>> groupedPresets = GetGroupedPresets();
+    internal static readonly Dictionary<Preset, (Preset Preset, CustomComboInfoAttribute Info)[]> presetChildren = GetPresetChildren();
 
     internal static float lastLeftColumnWidth;
 
@@ -41,63 +37,56 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
                                         UsableSearch.Length > 2;
     #endregion
 
-    internal static ImmutableDictionary<Job, ImmutableArray<(Preset Preset, CustomComboInfoAttribute Info)>> GetGroupedPresets()
+    internal static Dictionary<Job, List<(Preset Preset, CustomComboInfoAttribute Info)>> GetGroupedPresets()
     {
-        return PresetStorage.AllPresets
-            .Values
-            .Where(attrs => (int)attrs.Preset > 100 && attrs.Parent is null && attrs.CustomComboInfo != null)
-            .Select(attrs => (Preset: attrs.Preset, Info: attrs.CustomComboInfo!))
-            .OrderByDescending(tpl => tpl.Info.Role == JobRole.Tank)
-            .ThenByDescending(tpl => tpl.Info.Role == JobRole.Healer)
-            .ThenByDescending(tpl => tpl.Info.Role == JobRole.MeleeDPS)
-            .ThenByDescending(tpl => tpl.Info.Role == JobRole.RangedDPS)
-            .ThenByDescending(tpl => tpl.Info.Role == JobRole.MagicalDPS)
-            .ThenByDescending(tpl => tpl.Info.Job == Job.ADV)
-            .ThenByDescending(tpl => tpl.Info.Job == Job.MIN)
+        return Enum
+            .GetValues<Preset>()
+            .Where(preset => (int)preset > 100)
+            .Select(preset => (Preset: preset, Info: PresetStorage.AllPresets[preset].CustomComboInfo))
+            .Where(tpl => tpl.Info != null && PresetStorage.GetParent(tpl.Preset) == null)
+            .OrderByDescending(tpl => tpl.Info.Role is JobRole.Tank)
+            .ThenByDescending(tpl => tpl.Info.Role is JobRole.Healer)
+            .ThenByDescending(tpl => tpl.Info.Role is JobRole.MeleeDPS)
+            .ThenByDescending(tpl => tpl.Info.Role is JobRole.RangedDPS)
+            .ThenByDescending(tpl => tpl.Info.Role is JobRole.MagicalDPS)
+            .ThenByDescending(tpl => tpl.Info.Job is Job.ADV)
+            .ThenByDescending(tpl => tpl.Info.Job is Job.MIN)
             //.ThenBy(tpl => tpl.Info.ClassJobCategory)
             .ThenBy(tpl => tpl.Info.Job)
             .ThenBy(tpl => tpl.Info.Order)
-            // Group by Job
             .GroupBy(tpl => tpl.Info.Job)
-            // Convert each group to ImmutableArray
-            .ToImmutableDictionary(
-                g => g.Key,
-                g => g.ToImmutableArray()
-            );
+            .ToDictionary(
+                tpl => tpl.Key,
+                tpl => tpl.ToList())!;
     }
 
-    internal static ImmutableDictionary<Preset, ImmutableArray<(Preset Preset, CustomComboInfoAttribute Info)>> GetPresetChildren()
+    internal static Dictionary<Preset, (Preset Preset, CustomComboInfoAttribute Info)[]> GetPresetChildren()
     {
-        // Build temporary parent → list of children
+        // Initialize dictionary with all presets as keys
         var childCombos = PresetStorage.AllPresets.Keys
-            .ToDictionary(
-                preset => preset,
-                _ => new List<Preset>()
-            );
+            .ToDictionary(p => p, _ => new List<Preset>());
 
-        // Fill children based on Parent property in PresetAttributes
-        foreach (var attrs in PresetStorage.AllPresets.Values)
+        // Build parent → children map using cached Parent
+        foreach (var (preset, attrs) in PresetStorage.AllPresets)
         {
-            if (attrs.Parent.HasValue)
+            if (attrs.Parent is { } parent)
             {
-                var parent = attrs.Parent.Value;
-                childCombos[parent].Add(attrs.Preset);
+                childCombos[parent].Add(preset);
             }
         }
 
-        // 3️⃣ Convert each list to sorted ImmutableArray using cached CustomComboInfo
-        return childCombos
-            .ToImmutableDictionary(
-                kvp => kvp.Key,
-                kvp => kvp.Value
-                    .Select(childPreset =>
-                    {
-                        var childAttrs = PresetStorage.AllPresets[childPreset];
-                        return (Preset: childPreset, Info: childAttrs.CustomComboInfo!);
-                    })
-                    .OrderBy(tpl => tpl.Info.Order)
-                    .ToImmutableArray()
-            );
+        // Project to final structure using cached CustomComboInfo
+        return childCombos.ToDictionary(
+            kvp => kvp.Key,
+            kvp => kvp.Value
+                .Select(child =>
+                {
+                    var info = PresetStorage.AllPresets[child].CustomComboInfo!;
+                    return (Preset: child, Info: info);
+                })
+                .OrderBy(tpl => tpl.Info.Order)
+                .ToArray()
+        );
     }
 
     public OpenWindow OpenWindow

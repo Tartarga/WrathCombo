@@ -5,13 +5,14 @@ using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using WrathCombo.Attributes;
 using WrathCombo.Extensions;
 using WrathCombo.Services;
 using WrathCombo.Window.Functions;
+using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 using static WrathCombo.Core.Configuration;
 using static WrathCombo.Window.Functions.Presets;
-using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 using EZ = ECommons.Throttlers.EzThrottler;
 using TS = System.TimeSpan;
 
@@ -76,6 +77,24 @@ internal static class PresetStorage
             Hidden = preset.GetAttribute<HiddenAttribute>();
             ComboType = GetComboType(preset);
         }
+    }
+
+    // Override Dalamud's GetCustomAttribute
+    // It creates a new instance of every attribute every time, which is bad for performance when we want to cache them
+    // This returns strictly the one and only attribute we want, and we can cache it in our own structures
+    public static TAttribute? GetAttribute<TAttribute>(this Enum value)
+    where TAttribute : Attribute
+    {
+        var type = value.GetType();
+        var name = Enum.GetName(type, value);
+        if (string.IsNullOrEmpty(name))
+            return null;
+
+        var field = type.GetField(name);
+        if (field == null)
+            return null;
+
+        return field.GetCustomAttribute<TAttribute>(false);
     }
 
     private static uint[] GetRetargetedActions

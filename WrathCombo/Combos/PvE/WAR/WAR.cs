@@ -242,7 +242,34 @@ internal partial class WAR
     internal class WAR_NascentFlash : CustomCombo
     {
         protected internal override Preset Preset => Preset.WAR_NascentFlash;
-        protected override uint Invoke(uint actionID) => actionID != NascentFlash ? actionID : LevelChecked(NascentFlash) ? NascentFlash : RawIntuition;
+        protected override uint Invoke(uint actionID)
+        {
+            if (actionID != NascentFlash)
+                return actionID;
+                    
+            if (!LevelChecked(NascentFlash)) 
+                return OriginalHook(RawIntuition);
+            
+            IGameObject? target =
+                //Mouseover Retarget
+                (IsEnabled(Preset.WAR_NascentFlash_MO)
+                    ? SimpleTarget.UIMouseOverTarget.IfNotThePlayer().IfInParty()
+                    : null) ??
+                //Hard Target
+                SimpleTarget.HardTarget.IfInParty().IfNotThePlayer() ??
+                //Target's Target Retarget
+                (IsEnabled(Preset.WAR_NascentFlash_TT) && !PlayerHasAggro
+                    ? SimpleTarget.TargetsTarget.IfInParty().IfNotThePlayer()
+                    : null);
+
+            // Nascent if trying to heal an ally
+            if (ActionReady(NascentFlash) &&
+                target != null &&
+                CanApplyStatus(target, Buffs.NascentFlashTarget))
+                return NascentFlash.Retarget(NascentFlash, target);
+            
+            return actionID;
+        }
     }
     #endregion
 

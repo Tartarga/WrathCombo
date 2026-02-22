@@ -8,7 +8,7 @@ using System.Reflection;
 using WrathCombo.Attributes;
 using WrathCombo.Extensions;
 using WrathCombo.Services;
-using WrathCombo.Window;
+using static WrathCombo.Window.Text;
 using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 using static WrathCombo.Core.Configuration;
 using EZ = ECommons.Throttlers.EzThrottler;
@@ -24,7 +24,7 @@ internal static class PresetStorage
     private static FrozenSet<Preset>? OccultCrescentCombos;
     private static FrozenSet<Preset>? EurekaCombos;
     private static FrozenDictionary<Preset, Preset[]>? ConflictingCombos;
-    private static FrozenDictionary<Preset, Preset?>? ParentCombos; // child: Parent
+    private static FrozenDictionary<Preset, Preset?>? ParentCombos; // child: parent
 
     public static FrozenDictionary<Preset, PresetAttributes>? AllPresets;
 
@@ -70,8 +70,8 @@ internal static class PresetStorage
             HoverInfo = preset.GetAttribute<HoverInfoAttribute>();
             ReplaceSkill = preset.GetAttribute<ReplaceSkillAttribute>();
             CustomComboInfo = preset.GetAttribute<CustomComboInfoAttribute>();
-            CustomComboInfo.Name = Text.GetPresetString($"{preset}_Name");
-            CustomComboInfo.Description = Text.GetPresetString($"{preset}_Desc");
+            CustomComboInfo.Name = GetPresetString($"{preset}_Name");
+            CustomComboInfo.Description = GetPresetString($"{preset}_Desc");
             AutoAction = preset.GetAttribute<AutoActionAttribute>();
             RoleAttribute = preset.GetAttribute<RoleAttribute>();
             Hidden = preset.GetAttribute<HiddenAttribute>();

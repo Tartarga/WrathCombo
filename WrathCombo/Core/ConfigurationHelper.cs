@@ -52,6 +52,13 @@ public partial class Configuration
         _isSaving = true;
         var (config, trace) = SaveQueue.Dequeue();
 
+        if (Debug.DebugConfig)
+        {
+            PluginLog.Warning(
+                $"[Saving] Saving attempted when we shouldn't!\n{trace}");
+            return;
+        }
+
         try
         {
             PluginLog.Verbose(
@@ -73,12 +80,19 @@ public partial class Configuration
         var success = false;
         var retryCount = 0;
 
+        if (Debug.DebugConfig)
+        {
+            PluginLog.Warning(
+                $"[Saving] Saving attempted when we shouldn't!\n{trace}");
+            return;
+        }
+
         while (!success)
         {
             try
             {
                 PluginLog.Verbose(
-                    "[Saving] Retrying save ...");
+                    $"[Saving] Retrying save ... (attempt {retryCount})");
                 Svc.PluginInterface.SavePluginConfig(config);
                 success = true;
                 PluginLog.Verbose(

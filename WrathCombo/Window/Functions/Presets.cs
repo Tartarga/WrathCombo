@@ -38,16 +38,11 @@ internal class Presets : ConfigWindow
     internal static void DrawPreset(Preset preset, PresetAttributes attr)
     {
         bool enabled = PresetStorage.IsEnabled(preset);
-        bool pvp = attr.IsPvP;
         var conflicts = attr.Conflicts;
         var parent = attr.Parent;
         var blueAttr = attr.BlueInactive;
-        var bozja = attr.Bozja;
         var eurekaParents = attr.EurekaParent;
-        var auto = attr.AutoAction;
-        var hidden = attr.Hidden;
         var presetName = attr.CustomComboInfo.Name;
-        var currentJob = attr.CustomComboInfo.Job;
 
         ImGui.Spacing();
 
@@ -141,7 +136,7 @@ internal class Presets : ConfigWindow
                         CustomComboFunctions.IsEnabled(conflict)
                             ? ImGuiColors.HealerGreen
                             : ImGuiColors.DalamudRed, 1500),
-                    $"- {conflict.NameWithFullLineage(currentJob)}");
+                    $"- {conflict.NameWithFullLineage(attr.CustomComboInfo.Job)}");
             ImGui.Unindent();
             ImGui.Spacing();
         }
@@ -196,7 +191,7 @@ internal class Presets : ConfigWindow
         }
         if (enabled)
         {
-            if (!pvp)
+            if (!attr.IsPvP)
             {
                 switch (attr.CustomComboInfo.Job)
                 {

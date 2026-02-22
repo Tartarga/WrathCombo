@@ -24,7 +24,6 @@ using System.Threading.Tasks;
 using WrathCombo.API.Enum;
 using WrathCombo.AutoRotation;
 using WrathCombo.Core;
-using WrathCombo.Combos;
 using WrathCombo.CustomComboNS;
 using WrathCombo.CustomComboNS.Functions;
 using WrathCombo.Data;

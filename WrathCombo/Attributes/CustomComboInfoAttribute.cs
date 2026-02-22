@@ -1,9 +1,8 @@
-using ECommons.DalamudServices;
+using ECommons.ExcelServices;
 using System;
 using System.Runtime.CompilerServices;
 using WrathCombo.Extensions;
 using static WrathCombo.Window.Text;
-using ECommonsJob = ECommons.ExcelServices.Job;
 
 namespace WrathCombo.Attributes;
 
@@ -15,7 +14,7 @@ internal class CustomComboInfoAttribute : Attribute
     /// <param name="preset"> Preset enum value for localization keys. </param>
     /// <param name="order"> Display order. </param>
     internal CustomComboInfoAttribute(
-        ECommonsJob job,
+        Job job,
         Preset preset,
         [CallerLineNumber] int order = 0)
     {
@@ -26,7 +25,7 @@ internal class CustomComboInfoAttribute : Attribute
 
         Job = job switch
         {
-            ECommonsJob.BTN or ECommonsJob.MIN or ECommonsJob.FSH => ECommonsJob.MIN,
+            Job.BTN or Job.MIN or Job.FSH => Job.MIN,
             _ => job
         };
 
@@ -46,7 +45,7 @@ internal class CustomComboInfoAttribute : Attribute
     public string Description { get; }
 
     /// <summary> Associated job ID (with gathering jobs mapped to MIN). </summary>
-    public ECommonsJob Job { get; }
+    public Job Job { get; }
 
     /// <summary> Display order (auto-filled via CallerLineNumber). </summary>
     public int Order { get; }

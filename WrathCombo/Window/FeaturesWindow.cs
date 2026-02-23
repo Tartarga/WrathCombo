@@ -24,7 +24,6 @@ internal class FeaturesWindow : ConfigWindow
         Normal,
         Variant,
         Bozja,
-        Eureka,
         OccultCrescent,
     }
 

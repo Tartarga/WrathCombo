@@ -24,7 +24,7 @@ namespace WrathCombo.Window;
 /// <summary> Plugin configuration window. </summary>
 internal class ConfigWindow : Dalamud.Interface.Windowing.Window
 {
-    internal static readonly Dictionary<Job, List<(Preset Preset, PresetAttributes Attr)>> groupedPresets = GetGroupedPresets();
+    internal static readonly Dictionary<Job, List<(Preset Preset, PresetAttributes Attr)>> jobLevelPresets = GetJobLevelPresets();
     internal static readonly Dictionary<Preset, (Preset Preset, PresetAttributes Attr)[]> presetChildren = GetPresetChildren();
 
     internal static float lastLeftColumnWidth;
@@ -38,27 +38,32 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
                                         UsableSearch.Length > 2;
     #endregion
 
-    internal static Dictionary<Job, List<(Preset Preset, PresetAttributes Info)>> GetGroupedPresets()
+    private static int GetRoleOrder(JobRole role) => role switch
     {
-        return Enum
-            .GetValues<Preset>()
-            .Where(preset => (int)preset > 100)
-            .Select(preset => (Preset: preset, Info: AllPresets[preset]))
-            .Where(tpl => tpl.Info != null && GetParent(tpl.Preset) == null)
-            .OrderByDescending(tpl => tpl.Info.CustomComboInfo.Role is JobRole.Tank)
-            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Role is JobRole.Healer)
-            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Role is JobRole.MeleeDPS)
-            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Role is JobRole.RangedDPS)
-            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Role is JobRole.MagicalDPS)
-            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Job is Job.ADV)
-            .ThenByDescending(tpl => tpl.Info.CustomComboInfo.Job is Job.MIN)
-            //.ThenBy(tpl => tpl.Info.ClassJobCategory)
-            .ThenBy(tpl => tpl.Info.CustomComboInfo.Job)
-            .ThenBy(tpl => tpl.Info.CustomComboInfo.Order)
-            .GroupBy(tpl => tpl.Info.CustomComboInfo.Job)
+        JobRole.Tank => 0,
+        JobRole.Healer => 1,
+        JobRole.MeleeDPS => 2,
+        JobRole.RangedDPS => 3,
+        JobRole.MagicalDPS => 4,
+        _ => 5
+    };
+
+    internal static Dictionary<Job, List<(Preset Preset, PresetAttributes Attr)>> GetJobLevelPresets()
+    {
+        return AllPresets
+            .Where(kvp => (int)kvp.Key > 100)
+            .Where(kvp => kvp.Value.Parent == null)
+            .Where(kvp => kvp.Value.CustomComboInfo != null)
+            .OrderBy(kvp => GetRoleOrder(kvp.Value.CustomComboInfo.Role))
+            .ThenByDescending(kvp => kvp.Value.CustomComboInfo.Job is Job.ADV)
+            .ThenByDescending(kvp => kvp.Value.CustomComboInfo.Job is Job.MIN)
+            .ThenBy(kvp => kvp.Value.CustomComboInfo.Job)
+            .ThenBy(kvp => kvp.Value.CustomComboInfo.Order)
+            .GroupBy(kvp => kvp.Value.CustomComboInfo.Job)
             .ToDictionary(
-                tpl => tpl.Key,
-                tpl => tpl.ToList())!;
+                g => g.Key,
+                g => g.Select(kvp => (kvp.Key, kvp.Value)).ToList()
+            );
     }
 
     internal static Dictionary<Preset, (Preset Preset, PresetAttributes Info)[]> GetPresetChildren()

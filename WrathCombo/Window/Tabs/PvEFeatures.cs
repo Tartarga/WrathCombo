@@ -48,12 +48,12 @@ internal class PvEFeatures : FeaturesWindow
                     if (!tab)
                         return;
 
-                    foreach (Job job in groupedPresets.Keys)
+                    foreach (Job job in jobLevelPresets.Keys)
                     {
-                        string jobName = groupedPresets[job].First().Attr.CustomComboInfo.JobName;
-                        string abbreviation = groupedPresets[job].First().Attr.CustomComboInfo.JobShorthand;
+                        string jobName = jobLevelPresets[job].First().Attr.CustomComboInfo.JobName;
+                        string abbreviation = jobLevelPresets[job].First().Attr.CustomComboInfo.JobShorthand;
                         string header = string.IsNullOrEmpty(abbreviation) ? jobName : $"{jobName} - {abbreviation}";
-                        var id = groupedPresets[job].First().Attr.CustomComboInfo.Job;
+                        var id = jobLevelPresets[job].First().Attr.CustomComboInfo.Job;
                         IDalamudTextureWrap? icon = Icons.GetJobIcon(id);
                         ImGuiEx.Spacing(new Vector2(0, 2f.Scale()));
                         using (var disabled = ImRaii.Disabled(DisabledJobsPVE.Any(x => x == id)))
@@ -96,7 +96,7 @@ internal class PvEFeatures : FeaturesWindow
             else
             {
                 var openJob = OpenJob.Value;
-                var id = groupedPresets[openJob].First().Attr.CustomComboInfo.Job;
+                var id = jobLevelPresets[openJob].First().Attr.CustomComboInfo.Job;
 
                 DrawHeader(id);
                 DrawSearchBar();
@@ -123,7 +123,7 @@ internal class PvEFeatures : FeaturesWindow
                         ImGui.EndTabItem();
                     }
 
-                    if (groupedPresets[openJob].Any(x =>
+                    if (jobLevelPresets[openJob].Any(x =>
                             PresetStorage.IsVariant(x.Preset)))
                     {
                         if (ImGui.BeginTabItem("Variant Dungeons"))
@@ -134,7 +134,7 @@ internal class PvEFeatures : FeaturesWindow
                         }
                     }
 
-                    if (groupedPresets[openJob].Any(x =>
+                    if (jobLevelPresets[openJob].Any(x =>
                             PresetStorage.IsBozja(x.Preset)))
                     {
                         if (ImGui.BeginTabItem("Bozja"))
@@ -145,18 +145,7 @@ internal class PvEFeatures : FeaturesWindow
                         }
                     }
 
-                    if (groupedPresets[openJob].Any(x =>
-                            PresetStorage.IsEureka(x.Preset)))
-                    {
-                        if (ImGui.BeginTabItem("Eureka"))
-                        {
-                            SetCurrentTab(FeatureTab.Eureka);
-                            //DrawEurekaContents(openJob);
-                            ImGui.EndTabItem();
-                        }
-                    }
-
-                    if (groupedPresets[openJob].Any(x =>
+                    if (jobLevelPresets[openJob].Any(x =>
                             PresetStorage.IsOccultCrescent(x.Preset)))
                     {
                         if (ImGui.BeginTabItem("Occult Crescent"))
@@ -182,7 +171,7 @@ internal class PvEFeatures : FeaturesWindow
     private static void DrawVariantContents(Job job)
     {
         List<Preset> alreadyShown = [];
-        foreach (var (preset, attr) in groupedPresets[job].Where(x =>
+        foreach (var (preset, attr) in jobLevelPresets[job].Where(x =>
             PresetStorage.IsVariant(x.Preset) &&
             !PresetStorage.ShouldBeHidden(x.Preset)))
         {
@@ -210,7 +199,7 @@ internal class PvEFeatures : FeaturesWindow
     private static void DrawBozjaContents(Job job)
     {
         List<Preset> alreadyShown = [];
-        foreach (var (preset, info) in groupedPresets[job].Where(x =>
+        foreach (var (preset, info) in jobLevelPresets[job].Where(x =>
             PresetStorage.IsBozja(x.Preset) &&
             !PresetStorage.ShouldBeHidden(x.Preset)))
         {
@@ -238,7 +227,7 @@ internal class PvEFeatures : FeaturesWindow
     private static void DrawOccultContents(Job job)
     {
         List<Preset> alreadyShown = [];
-        foreach (var (preset, info) in groupedPresets[job].Where(x =>
+        foreach (var (preset, info) in jobLevelPresets[job].Where(x =>
             PresetStorage.IsOccultCrescent(x.Preset) &&
             !PresetStorage.ShouldBeHidden(x.Preset)))
         {
@@ -272,13 +261,12 @@ internal class PvEFeatures : FeaturesWindow
             return !PresetStorage.IsPvP(preset) &&
                    !PresetStorage.IsVariant(preset) &&
                    !PresetStorage.IsBozja(preset) &&
-                   !PresetStorage.IsEureka(preset) &&
                    !PresetStorage.IsOccultCrescent(preset) &&
                    !PresetStorage.ShouldBeHidden(preset);
         }
 
         List<Preset> alreadyShown = [];
-        foreach (var (preset, info) in groupedPresets[job].Where(x =>
+        foreach (var (preset, info) in jobLevelPresets[job].Where(x =>
                      IsPvECombo(x.Preset)))
         {
             if (IsSearching && !PresetMatchesSearch(preset))
@@ -346,7 +334,7 @@ internal class PvEFeatures : FeaturesWindow
         }
 
         var job = Player.Job.GetUpgradedJob();
-        if (groupedPresets.ContainsKey(job))
+        if (jobLevelPresets.ContainsKey(job))
             OpenJob = job;
     }
 }

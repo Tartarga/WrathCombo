@@ -18,35 +18,29 @@ namespace WrathCombo.Core;
 
 internal static class PresetStorage
 {
-    private static FrozenSet<Preset>? PvPCombos;
-    private static FrozenSet<Preset>? VariantCombos;
-    private static FrozenSet<Preset>? BozjaCombos;
     private static FrozenSet<Preset>? OccultCrescentCombos;
-    private static FrozenSet<Preset>? EurekaCombos;
     private static FrozenDictionary<Preset, Preset[]>? ConflictingCombos;
-    private static FrozenDictionary<Preset, Preset?>? ParentCombos; // child: parent
 
-    public static FrozenDictionary<Preset, PresetAttributes>? AllPresets;
+    internal static readonly FrozenDictionary<Preset, PresetAttributes> AllPresets = BuildPresets();
 
     internal class PresetAttributes
     {
         public Preset Preset { get; }
-        public bool IsPvP;
+        public bool IsPvP { get; }
         public Preset[] Conflicts;
         public Preset? Parent;
         public Preset? GrandParent;
         public Preset? GreatGrandParent;
         public Preset RootParent;
         public BlueInactiveAttribute? BlueInactive;
-        public VariantAttribute? Variant;
+        public bool IsVariant { get; }
         public PossiblyRetargetedAttribute? PossiblyRetargeted;
         public RetargetedAttribute? RetargetedAttribute;
         public uint[] RetargetedActions =>
             GetRetargetedActions(Preset, RetargetedAttribute, PossiblyRetargeted, Parent);
-        public BozjaAttribute? Bozja;
-        public EurekaParentAttribute? EurekaParent;
+        public bool IsBozja { get; }
         public OccultCrescentAttribute? OccultCrescentJob;
-        public HoverInfoAttribute? HoverInfo;
+        public string HoverText { get; }
         public ReplaceSkillAttribute? ReplaceSkill;
         public CustomComboInfoAttribute? CustomComboInfo;
         public AutoActionAttribute? AutoAction;
@@ -61,13 +55,12 @@ internal static class PresetStorage
             Conflicts = preset.GetAttribute<ConflictingCombosAttribute>()?.ConflictingPresets ?? [];
             Parent = preset.GetAttribute<ParentComboAttribute>()?.ParentPreset;
             BlueInactive = preset.GetAttribute<BlueInactiveAttribute>();
-            Variant = preset.GetAttribute<VariantAttribute>();
+            IsVariant = preset.GetAttribute<VariantAttribute>() != null;
             PossiblyRetargeted = preset.GetAttribute<PossiblyRetargetedAttribute>();
             RetargetedAttribute = preset.GetAttribute<RetargetedAttribute>();
-            Bozja = preset.GetAttribute<BozjaAttribute>();
-            EurekaParent = preset.GetAttribute<EurekaParentAttribute>();
+            IsBozja = preset.GetAttribute<BozjaAttribute>() != null;
             OccultCrescentJob = preset.GetAttribute<OccultCrescentAttribute>();
-            HoverInfo = preset.GetAttribute<HoverInfoAttribute>();
+            HoverText = preset.GetAttribute<HoverInfoAttribute>().HoverText;
             ReplaceSkill = preset.GetAttribute<ReplaceSkillAttribute>();
             CustomComboInfo = preset.GetAttribute<CustomComboInfoAttribute>();
             CustomComboInfo.Name = GetPresetString($"{preset}_Name");
@@ -150,8 +143,8 @@ internal static class PresetStorage
         {
             if (!EZ.Throttle("allRetargetedActions", TS.FromSeconds(3)))
                 return field;
-            var result = Enum.GetValues<Preset>()
-                .SelectMany(preset => preset.Attributes()?.RetargetedActions ?? [])
+            var result = AllPresets.Values
+                .SelectMany(attr => attr.RetargetedActions ?? [])
                 .ToHashSet();
             PluginLog.Verbose($"Retrieved {result.Count} retargeted actions");
             field = result;
@@ -159,73 +152,54 @@ internal static class PresetStorage
         }
     } = null!;
 
-    public static void Init()
+    private static FrozenDictionary<Preset, PresetAttributes> BuildPresets()
     {
-        // Master Dictionary of Presets and Attributes
+        // Master dictionary of presets and attributes
         var dict = new Dictionary<Preset, PresetAttributes>();
+
         foreach (var preset in Enum.GetValues<Preset>())
         {
             dict[preset] = new PresetAttributes(preset);
         }
 
-        AllPresets = dict.ToFrozenDictionary();
-        // Update Parents
+        var frozen = dict.ToFrozenDictionary();
 
-        // Precompute RootParent for all Presets
-        foreach (var (preset, attrs) in AllPresets)
+        // Precompute parent hierarchy
+        foreach (var (preset, attrs) in frozen)
         {
             if (attrs.Parent.HasValue)
             {
-                // Start from the direct parent
-                var root = attrs.Parent!.Value;
+                var root = attrs.Parent.Value;
 
-                // Walk up the parent chain until we reach a top-level preset (Parent is null)
-                while (AllPresets[root].Parent.HasValue)
+                while (frozen[root].Parent.HasValue)
                 {
-                    root = AllPresets[root].Parent!.Value;
+                    root = frozen[root].Parent!.Value;
                 }
 
                 attrs.RootParent = root;
 
-                // Also compute GrandParent and GreatGrandParent safely
-                attrs.GrandParent = attrs.Parent.HasValue ? AllPresets[attrs.Parent!.Value].Parent : null;
-                attrs.GreatGrandParent = attrs.GrandParent.HasValue ? AllPresets[attrs.GrandParent!.Value].Parent : null;
+                attrs.GrandParent = frozen[attrs.Parent.Value].Parent;
+                attrs.GreatGrandParent = attrs.GrandParent.HasValue
+                    ? frozen[attrs.GrandParent.Value].Parent
+                    : null;
             }
             else
             {
-                // Top-level preset → root is self
                 attrs.RootParent = preset;
                 attrs.GrandParent = null;
                 attrs.GreatGrandParent = null;
             }
         }
 
-        PluginLog.Information($"Cached {AllPresets.Count} presets & attributes.");
+        PluginLog.Information($"Cached {frozen.Count} presets & attributes.");
 
+        return frozen;
+    }
 
-        // Build frozen sets
-        PvPCombos = AllPresets
-            .Where(kvp => kvp.Value.IsPvP)
-            .Select(kvp => kvp.Key)
-            .ToFrozenSet();
-
-        VariantCombos = AllPresets
-            .Where(kvp => kvp.Value.Variant != null)
-            .Select(kvp => kvp.Key)
-            .ToFrozenSet();
-
-        BozjaCombos = AllPresets
-            .Where(kvp => kvp.Value.Bozja != null)
-            .Select(kvp => kvp.Key)
-            .ToFrozenSet();
-
+    public static void Init()
+    {
         OccultCrescentCombos = AllPresets
             .Where(kvp => kvp.Value.OccultCrescentJob != null)
-            .Select(kvp => kvp.Key)
-            .ToFrozenSet();
-
-        EurekaCombos = AllPresets
-            .Where(kvp => kvp.Value.EurekaParent != null)
             .Select(kvp => kvp.Key)
             .ToFrozenSet();
 
@@ -233,12 +207,6 @@ internal static class PresetStorage
             .ToDictionary(
                 kvp => kvp.Key,
                 kvp => kvp.Value.Conflicts ?? [])
-            .ToFrozenDictionary();
-
-        ParentCombos = AllPresets
-            .ToDictionary(
-                kvp => kvp.Key,
-                kvp => kvp.Value.Parent)
             .ToFrozenDictionary();
     }
 
@@ -260,12 +228,12 @@ internal static class PresetStorage
     /// <summary> Gets a value indicating whether a preset is secret. </summary>
     /// <param name="preset"> Preset to check. </param>
     /// <returns> The boolean representation. </returns>
-    public static bool IsPvP(Preset preset) => PvPCombos.Contains(preset);
+    public static bool IsPvP(Preset preset) => AllPresets[preset].IsPvP;
 
     /// <summary> Gets a value indicating whether a preset is secret. </summary>
     /// <param name="preset"> Preset to check. </param>
     /// <returns> The boolean representation. </returns>
-    public static bool IsVariant(Preset preset) => VariantCombos.Contains(preset);
+    public static bool IsVariant(Preset preset) => AllPresets[preset].IsVariant;
 
     /// <summary>
     ///     Gets a value indicating whether a preset can be retargeted under some
@@ -274,7 +242,7 @@ internal static class PresetStorage
     /// <param name="preset"> Preset to check. </param>
     /// <returns> The boolean representation. </returns>
     public static bool IsPossiblyRetargeted(Preset preset) =>
-        AllPresets[preset].RetargetedAttribute != null;
+        AllPresets[preset].PossiblyRetargeted != null;
 
     /// <summary>
     ///     Gets a value indicating whether a preset is possibly retargeted with
@@ -288,27 +256,22 @@ internal static class PresetStorage
     /// <summary> Gets a value indicating whether a preset is secret. </summary>
     /// <param name="preset"> Preset to check. </param>
     /// <returns> The boolean representation. </returns>
-    public static bool IsBozja(Preset preset) => BozjaCombos.Contains(preset);
+    public static bool IsBozja(Preset preset) => AllPresets[preset].IsBozja;
 
     /// <summary> Gets a value indicating whether a preset is secret. </summary>
     /// <param name="preset"> Preset to check. </param>
     /// <returns> The boolean representation. </returns>
     public static bool IsOccultCrescent(Preset preset) => OccultCrescentCombos.Contains(preset);
 
-    /// <summary> Gets a value indicating whether a preset is secret. </summary>
-    /// <param name="preset"> Preset to check. </param>
-    /// <returns> The boolean representation. </returns>
-    public static bool IsEureka(Preset preset) => EurekaCombos.Contains(preset);
-
     /// <summary> Gets the parent combo preset if it exists, or null. </summary>
     /// <param name="preset"> Preset to check. </param>
     /// <returns> The parent preset. </returns>
-    public static Preset? GetParent(Preset preset) => ParentCombos[preset];
+    public static Preset? GetParent(Preset preset) => AllPresets[preset].Parent;
 
     /// <summary> Gets an array of conflicting combo presets. </summary>
     /// <param name="preset"> Preset to check. </param>
     /// <returns> The conflicting presets. </returns>
-    public static Preset[] GetConflicts(Preset preset) => ConflictingCombos[preset];
+    public static Preset[] GetConflicts(Preset preset) => AllPresets[preset].Conflicts;
 
     /// <summary> Gets the full list of conflicted combos. </summary>
     public static List<Preset> GetAllConflicts() => ConflictingCombos.Keys.ToList();
@@ -318,18 +281,24 @@ internal static class PresetStorage
 
     public static Preset? GetPresetByString(string value)
     {
-        if (Enum.GetValues<Preset>().TryGetFirst(x => x.ToString().ToLower() == value.ToLower(), out var pre))
+        if (string.IsNullOrEmpty(value))
+            return null;
+
+        foreach (var preset in AllPresets.Keys)
         {
-            return pre;
+            if (string.Equals(preset.ToString(), value, StringComparison.OrdinalIgnoreCase))
+                return preset;
         }
+
         return null;
     }
 
     public static Preset? GetPresetByInt(int value)
     {
-        if (Enum.GetValues<Preset>().TryGetFirst(x => (int)x == value, out var pre))
+        foreach (var preset in AllPresets.Keys)
         {
-            return pre;
+            if ((int)preset == value)
+                return preset;
         }
         return null;
     }
@@ -590,8 +559,7 @@ internal static class PresetStorage
         var basic = preset.GetAttribute<BasicCombo>();
         var healing = preset.GetAttribute<HealingCombo>();
         var mitigation = preset.GetAttribute<MitigationCombo>();
-        var parent = (object?)preset.GetAttribute<ParentComboAttribute>() ??
-                     (object?)preset.GetAttribute<EurekaParentAttribute>();
+        var parent = (object?)preset.GetAttribute<ParentComboAttribute>();
 
         if (simple != null)
             return ComboType.Simple;

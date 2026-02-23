@@ -237,7 +237,7 @@ public class Search(Leasing leasing)
                 InternalName = preset.Key.ToString(),
                 Info = preset.Value.CustomComboInfo!,
                 HasParentCombo = preset.Value.Parent != null,
-                IsVariant = preset.Value.Variant != null,
+                IsVariant = preset.Value.IsVariant,
                 ParentComboName = preset.Value.Parent != null
                     ? preset.Value.RootParent.ToString()
                     : string.Empty,

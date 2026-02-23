@@ -136,29 +136,29 @@ public partial class Configuration
         {
             bool needToResetMessagePrinted = false;
 
-            var presets = Enum.GetValues<Preset>().Cast<int>();
-
             foreach (int value in values)
             {
                 Svc.Log.Debug(value.ToString());
-                if (presets.Contains(value))
+
+                var preset = PresetStorage.AllPresets.Keys
+                 .FirstOrDefault(p => (int)p == value);
+
+                // If not found, skip
+                if (!PresetStorage.AllPresets.ContainsKey(preset))
+                    continue;
+
+                if (!PresetStorage.IsEnabled(preset))
+                    continue;
+
+                if (!needToResetMessagePrinted)
                 {
-                    var preset = Enum.GetValues<Preset>()
-                        .Where(preset => (int)preset == value)
-                        .First();
-
-                    if (!PresetStorage.IsEnabled(preset)) continue;
-
-                    if (!needToResetMessagePrinted)
-                    {
-                        DuoLog.Error($"Some features have been disabled due to an internal configuration update:");
-                        needToResetMessagePrinted = !needToResetMessagePrinted;
-                    }
-
-                    var info = preset.GetComboAttribute();
-                    DuoLog.Error($"- {info.JobName}: {info.Name}");
-                    EnabledActions.Remove(preset);
+                    DuoLog.Error($"Some features have been disabled due to an internal configuration update:");
+                    needToResetMessagePrinted = !needToResetMessagePrinted;
                 }
+
+                var info = preset.GetComboAttribute();
+                DuoLog.Error($"- {info.JobName}: {info.Name}");
+                EnabledActions.Remove(preset);
             }
 
             if (needToResetMessagePrinted)

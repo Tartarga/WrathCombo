@@ -282,8 +282,9 @@ public partial class WrathCombo
     /// </param>
     private void HandleListCommands(string[] argument)
     {
-        IEnumerable<Preset> presets = Enum.GetValues<Preset>()
-            .Where(x => x.Attributes().Hidden is null);
+        IEnumerable<Preset> presets = PresetStorage.AllPresets
+            .Where(kvp => kvp.Value.Hidden is null)
+            .Select(kvp => kvp.Key);
         const StringComparison lower = StringComparison.InvariantCultureIgnoreCase;
         var filter =
             argument.Length > 1 && argument[0].Trim().Equals("list", lower)

@@ -41,7 +41,6 @@ internal class Presets : ConfigWindow
         var conflicts = attr.Conflicts;
         var parent = attr.Parent;
         var blueAttr = attr.BlueInactive;
-        var eurekaParents = attr.EurekaParent;
         var presetName = attr.CustomComboInfo.Name;
 
         ImGui.Spacing();
@@ -112,12 +111,12 @@ internal class Presets : ConfigWindow
 
             ImGui.TextWrapped($"{attr.CustomComboInfo.Description}");
 
-            if (AllPresets[preset].HoverInfo != null)
+            if (attr.HoverText != null)
             {
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.TextUnformatted(AllPresets[preset].HoverInfo.HoverText);
+                    ImGui.TextUnformatted(attr.HoverText);
                     ImGui.EndTooltip();
                 }
             }
@@ -159,36 +158,7 @@ internal class Presets : ConfigWindow
             }
         }
 
-        if (eurekaParents is not null)
-        {
-            ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.HealerGreen);
-            ImGui.TextWrapped($"Part of normal combo{(eurekaParents.ParentPresets.Length > 1 ? "s" : "")}:");
-            StringBuilder builder = new();
-            foreach (var par in eurekaParents.ParentPresets)
-            {
-                builder.Insert(
-                    0,
-                    AllPresets.TryGetValue(par, out var attrs) &&
-                    attrs.CustomComboInfo is not null
-                        ? attrs.CustomComboInfo.Name
-                        : par.ToString());
-                var par2 = par;
-                while (PresetStorage.GetParent(par2) != null)
-                {
-                    var subpar = PresetStorage.GetParent(par2);
-                    if (subpar != null)
-                    {
-                        builder.Insert(0, PresetStorage.AllPresets[subpar.Value].CustomComboInfo.Name + " -> ");
-                        par2 = subpar!.Value;
-                    }
-
-                }
-
-                ImGui.TextWrapped($"- {builder}");
-                builder.Clear();
-            }
-            ImGui.PopStyleColor();
-        }
+        // Draw UserOpts
         if (enabled)
         {
             if (!attr.IsPvP)

@@ -93,15 +93,15 @@ internal class PvPFeatures : FeaturesWindow
                     if (!tab)
                         return;
 
-                    foreach (Job job in groupedPresets.Where(x =>
+                    foreach (Job job in jobLevelPresets.Where(x =>
                             x.Value.Any(y => PresetStorage.IsPvP(y.Preset) &&
                                              !PresetStorage.ShouldBeHidden(y.Preset)))
                         .Select(x => x.Key))
                     {
-                        string jobName = groupedPresets[job].First().Attr.CustomComboInfo.JobName;
-                        string abbreviation = groupedPresets[job].First().Attr.CustomComboInfo.JobShorthand;
+                        string jobName = jobLevelPresets[job].First().Attr.CustomComboInfo.JobName;
+                        string abbreviation = jobLevelPresets[job].First().Attr.CustomComboInfo.JobShorthand;
                         string header = string.IsNullOrEmpty(abbreviation) ? jobName : $"{jobName} - {abbreviation}";
-                        var id = groupedPresets[job].First().Attr.CustomComboInfo.Job;
+                        var id = jobLevelPresets[job].First().Attr.CustomComboInfo.Job;
                         IDalamudTextureWrap? icon = Icons.GetJobIcon(id);
                         ImGuiEx.Spacing(new Vector2(0, 2f.Scale()));
                         using (var disabled = ImRaii.Disabled(DisabledJobsPVP.Any(x => x == id)))
@@ -135,7 +135,7 @@ internal class PvPFeatures : FeaturesWindow
             }
             else
             {
-                var id = groupedPresets[OpenPvPJob.Value].First().Attr.CustomComboInfo.Job;
+                var id = jobLevelPresets[OpenPvPJob.Value].First().Attr.CustomComboInfo.Job;
 
                 DrawHeader(id, true);
                 DrawSearchBar();
@@ -171,7 +171,7 @@ internal class PvPFeatures : FeaturesWindow
 
     private static void DrawHeadingContents(Job job)
     {
-        foreach (var (preset, info) in groupedPresets[job].Where(x => PresetStorage.IsPvP(x.Preset)))
+        foreach (var (preset, info) in jobLevelPresets[job].Where(x => PresetStorage.IsPvP(x.Preset)))
         {
             InfoBox presetBox = new() { ContentsOffset = 5f.Scale(), ContentsAction = () => { Presets.DrawPreset(preset, info); } };
 

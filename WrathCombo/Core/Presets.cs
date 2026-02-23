@@ -40,7 +40,7 @@ internal static class PresetStorage
             GetRetargetedActions(Preset, RetargetedAttribute, PossiblyRetargeted, Parent);
         public bool IsBozja { get; }
         public OccultCrescentAttribute? OccultCrescentJob;
-        public string HoverText { get; }
+        public string? HoverText { get; }
         public ReplaceSkillAttribute? ReplaceSkill;
         public CustomComboInfoAttribute? CustomComboInfo;
         public AutoActionAttribute? AutoAction;
@@ -60,7 +60,7 @@ internal static class PresetStorage
             RetargetedAttribute = preset.GetAttribute<RetargetedAttribute>();
             IsBozja = preset.GetAttribute<BozjaAttribute>() != null;
             OccultCrescentJob = preset.GetAttribute<OccultCrescentAttribute>();
-            HoverText = preset.GetAttribute<HoverInfoAttribute>().HoverText;
+            HoverText = preset.GetAttribute<HoverInfoAttribute>()?.HoverText;
             ReplaceSkill = preset.GetAttribute<ReplaceSkillAttribute>();
             CustomComboInfo = preset.GetAttribute<CustomComboInfoAttribute>();
             CustomComboInfo.Name = GetPresetString($"{preset}_Name");

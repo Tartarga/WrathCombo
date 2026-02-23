@@ -15,10 +15,4 @@ internal static partial class PresetExtensions
     {
         return PresetStorage.AllPresets[preset].CustomComboInfo;
     }
-
-    ///<summary> Retrieves the <see cref="HoverInfoAttribute"/> for the preset if it exists.</summary>
-    internal static HoverInfoAttribute? GetHoverAttribute(this Preset preset)
-    {
-        return PresetStorage.AllPresets[preset].HoverInfo;
-    }
 }

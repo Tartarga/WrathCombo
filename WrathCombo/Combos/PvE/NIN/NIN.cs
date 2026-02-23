@@ -402,7 +402,7 @@ internal partial class NIN : Melee
                             _ => OnTargetsFlank() || !TargetNeedsPositionals() ? ArmorCrush : AeolianEdge
                         };
                     case GustSlash when !LevelChecked(ArmorCrush) && LevelChecked(AeolianEdge):
-                        return TNAeolianEdge ? Role.TrueNorth : AeolianEdge;
+                        return TNAeolianEdge && NIN_ST_AdvancedMode_TrueNorth ? Role.TrueNorth : AeolianEdge;
                 }
             }
             return actionID;

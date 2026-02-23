@@ -536,7 +536,7 @@ internal partial class NIN : Melee
                     case SpinningEdge when LevelChecked(GustSlash) && !LevelChecked(DeathBlossom):
                         return OriginalHook(GustSlash);
                     case GustSlash when !LevelChecked(ArmorCrush) && LevelChecked(AeolianEdge) && !LevelChecked(DeathBlossom):
-                        return TNAeolianEdge ? Role.TrueNorth : AeolianEdge;
+                        return AeolianEdge;
                     case DeathBlossom when LevelChecked(HakkeMujinsatsu):
                         return HakkeMujinsatsu;
                 }

@@ -23,7 +23,8 @@ internal class PvPFeatures : FeaturesWindow
     {
         using (ImRaii.Child("scrolling", new Vector2(ImGui.GetContentRegionAvail().X, ImGui.GetContentRegionAvail().Y), true))
         {
-            if (OpenPvPJob is null)
+            var openPvPJob = OpenPvPJob; // Cache because back button will set it to null while running
+            if (openPvPJob is null)
             {
                 var userwarned = false;
 
@@ -136,9 +137,7 @@ internal class PvPFeatures : FeaturesWindow
             }
             else
             {
-                var id = groupedPresets[OpenPvPJob.Value][0].CustomComboInfo.Job;
-
-                DrawHeader(id, true);
+                DrawHeader(openPvPJob.Value, true);
                 DrawSearchBar();
                 ImGuiEx.Spacing(new Vector2(0, 10));
 
@@ -150,11 +149,11 @@ internal class PvPFeatures : FeaturesWindow
 
                 try
                 {
-                    if (ImGui.BeginTabBar($"subTab{OpenPvPJob.Value.Name()}", ImGuiTabBarFlags.Reorderable | ImGuiTabBarFlags.AutoSelectNewTabs))
+                    if (ImGui.BeginTabBar($"subTab{openPvPJob.Value.Name()}", ImGuiTabBarFlags.Reorderable | ImGuiTabBarFlags.AutoSelectNewTabs))
                     {
                         if (ImGui.BeginTabItem("Normal"))
                         {
-                            DrawHeadingContents(OpenPvPJob.Value);
+                            DrawHeadingContents(openPvPJob.Value);
                             ImGui.EndTabItem();
                         }
 
@@ -163,7 +162,7 @@ internal class PvPFeatures : FeaturesWindow
                 }
                 catch (Exception e)
                 {
-                    PluginLog.Error($"Error while drawing Job's PvP UI:\n{e.ToStringFull()}");
+                    PluginLog.Error($"Error while drawing {openPvPJob} PvP UI:\n{e.ToStringFull()}");
                 }
             }
 

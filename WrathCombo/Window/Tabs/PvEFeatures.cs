@@ -31,7 +31,8 @@ internal class PvEFeatures : FeaturesWindow
 
         using (ImRaii.Child("scrolling", new Vector2(AvailableWidth, ImGui.GetContentRegionAvail().Y), true))
         {
-            if (OpenJob is null)
+            var openJob = OpenJob; // Cache because back button will set it to null while running
+            if (openJob is null)
             {
                 ImGui.SameLine(IndentWidth);
                 ImGuiEx.LineCentered(() =>
@@ -97,10 +98,7 @@ internal class PvEFeatures : FeaturesWindow
             }
             else
             {
-                var openJob = OpenJob.Value;
-                var id = groupedPresets[openJob][0].CustomComboInfo.Job;
-
-                DrawHeader(id);
+                DrawHeader(openJob.Value);
                 DrawSearchBar();
                 ImGuiEx.Spacing(new Vector2(0, 10));
 
@@ -112,48 +110,48 @@ internal class PvEFeatures : FeaturesWindow
 
                 try
                 {
-                    if (!ImGui.BeginTabBar($"subTab{openJob.Name()}",
+                    if (!ImGui.BeginTabBar($"subTab{openJob.Value.Name()}",
                             ImGuiTabBarFlags.Reorderable |
                             ImGuiTabBarFlags.AutoSelectNewTabs))
                         return;
 
-                    var mainTabName = OpenJob is Job.ADV ? "Job Roles" : "Normal";
+                    var mainTabName = openJob.Value is Job.ADV ? "Job Roles" : "Normal";
                     if (ImGui.BeginTabItem(mainTabName))
                     {
                         SetCurrentTab(FeatureTab.Normal);
-                        DrawHeadingContents(openJob); // This draws all the normal PvE Combos for a job
+                        DrawHeadingContents(openJob.Value); // This draws all the normal PvE Combos for a job
                         ImGui.EndTabItem();
                     }
 
                     if (OpenJob is Job.ADV)
                     {
-                        if (groupedPresets[openJob].Any(x => x.IsVariant))
+                        if (groupedPresets[openJob.Value].Any(x => x.IsVariant))
                         {
                             if (ImGui.BeginTabItem("Variant Dungeons"))
                             {
                                 SetCurrentTab(FeatureTab.Variant);
-                                DrawVariantContents(openJob);
+                                DrawVariantContents(openJob.Value);
                                 ImGui.EndTabItem();
                             }
                         }
 
-                        if (groupedPresets[openJob].Any(x => x.IsBozja))
+                        if (groupedPresets[openJob.Value].Any(x => x.IsBozja))
                         {
                             if (ImGui.BeginTabItem("Bozja"))
                             {
                                 SetCurrentTab(FeatureTab.Bozja);
-                                DrawBozjaContents(openJob);
+                                DrawBozjaContents(openJob.Value);
                                 ImGui.EndTabItem();
                             }
                         }
 
-                        if (groupedPresets[openJob].Any(x =>
+                        if (groupedPresets[openJob.Value].Any(x =>
                                 PresetStorage.IsOccultCrescent(x.Preset)))
                         {
                             if (ImGui.BeginTabItem("Occult Crescent"))
                             {
                                 SetCurrentTab(FeatureTab.OccultCrescent);
-                                DrawOccultContents(openJob);
+                                DrawOccultContents(openJob.Value);
                                 ImGui.EndTabItem();
                             }
                         }

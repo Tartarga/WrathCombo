@@ -10,7 +10,7 @@ namespace WrathCombo.Extensions;
 
 internal static partial class PresetExtensions
 {
-    public static PresetStorage.PresetAttributes? Attributes(this Preset preset)
+    public static PresetStorage.PresetData? Attributes(this Preset preset)
     {
         if (PresetStorage.AllPresets.TryGetValue(preset, out var atts))
             return atts;
@@ -36,9 +36,9 @@ internal static partial class PresetExtensions
         public string NameWithFullLineage
             (Job? currentJob = null)
         {
-            var attributes = preset.Attributes();
+            var pdata = preset.Attributes();
 
-            if (attributes?.CustomComboInfo is null)
+            if (pdata?.CustomComboInfo is null)
                 return preset.ToString();
 
             var name = new StringBuilder(preset.Name());
@@ -55,22 +55,21 @@ internal static partial class PresetExtensions
                 else
                 {
                     string lastPresetJob;
-                    var lastPresetInfo = inspectingPreset.Value.Attributes()
-                        .CustomComboInfo;
+                    var lastPresetData = inspectingPreset.Value.Attributes();
 
-                    if (currentJob is not null && lastPresetInfo.Job == currentJob)
+                    if (currentJob is not null && lastPresetData.CustomComboInfo.Job == currentJob)
                         break;
 
-                    if (lastPresetInfo.Job == Job.ADV)
+                    if (lastPresetData.CustomComboInfo.Job == Job.ADV)
                     {
                         lastPresetJob = "[Roles And Content] ";
-                        if (PresetStorage.IsVariant(inspectingPreset.Value))
+                        if (lastPresetData.IsVariant)
                             lastPresetJob += "Variant > ";
                         if (PresetStorage.IsOccultCrescent(inspectingPreset.Value))
                             lastPresetJob += "Occult Crescent > ";
                     }
                     else
-                        lastPresetJob = $"[{lastPresetInfo.JobShorthand}] ";
+                        lastPresetJob = $"[{lastPresetData.CustomComboInfo.JobShorthand}] ";
 
                     name.Insert(0, lastPresetJob);
                 }

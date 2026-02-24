@@ -520,7 +520,7 @@ internal unsafe class AutoRotationController
 
     }
 
-    private static bool AutomateDPS(Preset preset, PresetStorage.PresetAttributes attributes, uint gameAct)
+    private static bool AutomateDPS(Preset preset, PresetStorage.PresetData attributes, uint gameAct)
     {
         var mode = cfg.DPSRotationMode;
         if (attributes.AutoAction!.IsAoE)
@@ -533,7 +533,7 @@ internal unsafe class AutoRotationController
         }
     }
 
-    private static bool AutomateTanking(Preset preset, PresetStorage.PresetAttributes attributes, uint gameAct)
+    private static bool AutomateTanking(Preset preset, PresetStorage.PresetData attributes, uint gameAct)
     {
         var mode = cfg.DPSRotationMode;
         if (attributes.AutoAction!.IsAoE)
@@ -546,7 +546,7 @@ internal unsafe class AutoRotationController
         }
     }
 
-    private static bool AutomateHealing(Preset preset, PresetStorage.PresetAttributes attributes, uint gameAct)
+    private static bool AutomateHealing(Preset preset, PresetStorage.PresetData attributes, uint gameAct)
     {
         var mode = cfg.HealerRotationMode;
         if (Player.Object?.IsCasting() is true) return false;
@@ -620,7 +620,7 @@ internal unsafe class AutoRotationController
             return null;
         }
 
-        public static bool ExecuteAoE(Enum mode, Preset preset, PresetStorage.PresetAttributes attributes, uint gameAct)
+        public static bool ExecuteAoE(Enum mode, Preset preset, PresetStorage.PresetData attributes, uint gameAct)
         {
             if (LocalPlayer is not { } player)
                 return false;
@@ -743,7 +743,7 @@ internal unsafe class AutoRotationController
             return false;
         }
 
-        public static bool ExecuteST(Enum mode, Preset preset, PresetStorage.PresetAttributes attributes, uint gameAct)
+        public static bool ExecuteST(Enum mode, Preset preset, PresetStorage.PresetData attributes, uint gameAct)
         {
             if (LocalPlayer is not { } player)
                 return false;
@@ -817,7 +817,7 @@ internal unsafe class AutoRotationController
             return false;
         }
 
-        private static bool SwitchOnDChole(PresetStorage.PresetAttributes attributes, uint outAct, ref IGameObject? newtarget)
+        private static bool SwitchOnDChole(PresetStorage.PresetData attributes, uint outAct, ref IGameObject? newtarget)
         {
             if (outAct is SGE.Druochole && !attributes.AutoAction!.IsHeal)
             {
@@ -837,7 +837,7 @@ internal unsafe class AutoRotationController
             return false;
         }
 
-        public static uint InvokeCombo(Preset preset, PresetStorage.PresetAttributes attributes, ref uint originalAct, IGameObject? optionalTarget = null)
+        public static uint InvokeCombo(Preset preset, PresetStorage.PresetData attributes, ref uint originalAct, IGameObject? optionalTarget = null)
         {
             if (attributes.ReplaceSkill is null) return originalAct;
             var outAct = attributes.ReplaceSkill.ActionIDs.FirstOrDefault();

@@ -68,17 +68,17 @@ internal class Presets : ConfigWindow
         }
     }
 
-    internal static void DrawPreset(Preset preset, PresetAttributes attr)
+    internal static void DrawPreset(Preset preset, PresetData pdata)
     {
         bool enabled = PresetStorage.IsEnabled(preset);
-        var conflicts = attr.Conflicts;
-        var parent = attr.Parent;
-        var blueAttr = attr.BlueInactive;
-        var presetName = attr.CustomComboInfo.Name;
+        var conflicts = pdata.Conflicts;
+        var parent = pdata.Parent;
+        var blueAttr = pdata.BlueInactive;
+        var presetName = pdata.CustomComboInfo.Name;
 
         ImGui.Spacing();
 
-        if (attr.AutoAction != null)
+        if (pdata.AutoAction != null)
         {
             Service.Configuration.AutoActions.TryAdd(preset, false);
 
@@ -105,20 +105,20 @@ internal class Presets : ConfigWindow
                 P.UIHelper.ShowIPCControlledIndicatorIfNeeded(preset);
 
         if (IsSearching)
-            presetName = preset.NameWithFullLineage(attr.CustomComboInfo.Job);
+            presetName = preset.NameWithFullLineage(pdata.CustomComboInfo.Job);
 
         if (P.UIHelper.ShowIPCControlledCheckboxIfNeeded
             ($"{presetName}###{preset}", ref enabled, preset, true))
             PresetStorage.TogglePreset(preset);
 
-        DrawReplaceAttribute(attr);
+        DrawReplaceAttribute(pdata);
 
         DrawRetargetedAttribute(preset);
 
-        if (DrawRoleIcon(attr))
+        if (DrawRoleIcon(pdata))
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 8f.Scale());
 
-        if (DrawOccultJobIcon(attr))
+        if (DrawOccultJobIcon(pdata))
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 8f.Scale());
 
         Vector2 length = new();
@@ -142,14 +142,14 @@ internal class Presets : ConfigWindow
                 ImGui.PushItemWidth(length.Length());
             }
 
-            ImGui.TextWrapped($"{attr.CustomComboInfo.Description}");
+            ImGui.TextWrapped($"{pdata.CustomComboInfo.Description}");
 
-            if (attr.HoverText != null)
+            if (pdata.HoverText != null)
             {
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.TextUnformatted(attr.HoverText);
+                    ImGui.TextUnformatted(pdata.HoverText);
                     ImGui.EndTooltip();
                 }
             }
@@ -168,7 +168,7 @@ internal class Presets : ConfigWindow
                         CustomComboFunctions.IsEnabled(conflict)
                             ? ImGuiColors.HealerGreen
                             : ImGuiColors.DalamudRed, 1500),
-                    $"- {conflict.NameWithFullLineage(attr.CustomComboInfo.Job)}");
+                    $"- {conflict.NameWithFullLineage(pdata.CustomComboInfo.Job)}");
             ImGui.Unindent();
             ImGui.Spacing();
         }
@@ -194,9 +194,9 @@ internal class Presets : ConfigWindow
         // Draw UserOpts
         if (enabled)
         {
-            if (!attr.IsPvP)
+            if (!pdata.IsPvP)
             {
-                switch (attr.CustomComboInfo.Job)
+                switch (pdata.CustomComboInfo.Job)
                 {
                     case Job.ADV:
                         {
@@ -235,7 +235,7 @@ internal class Presets : ConfigWindow
             }
             else
             {
-                switch (attr.CustomComboInfo.Job)
+                switch (pdata.CustomComboInfo.Job)
                 {
                     case Job.ADV: PvPCommon.Config.Draw(preset); break;
                     case Job.AST: ASTPvP.Config.Draw(preset); break;
@@ -279,7 +279,7 @@ internal class Presets : ConfigWindow
 
                 foreach (var (childPreset, childInfo) in children)
                 {
-                    if (PresetStorage.ShouldBeHidden(childPreset)) continue;
+                    if (childInfo.ShouldBeHidden) continue;
 
                     if (presetChildren.TryGetValue(childPreset, out var grandchildren))
                     {
@@ -332,9 +332,9 @@ internal class Presets : ConfigWindow
         }
     }
 
-    private static void DrawReplaceAttribute(PresetAttributes attr)
+    private static void DrawReplaceAttribute(PresetData pdata)
     {
-        if (attr.ReplaceSkill is ReplaceSkillAttribute att)
+        if (pdata.ReplaceSkill is ReplaceSkillAttribute att)
         {
             string skills = string.Join(", ", att.ActionNames);
 
@@ -450,10 +450,10 @@ internal class Presets : ConfigWindow
         }
     }
 
-    private static bool DrawRoleIcon(PresetAttributes attr)
+    private static bool DrawRoleIcon(PresetData pdata)
     {
-        if (attr.Role is not JobRole role) return false;
-        if (attr.Parent != null) return false;
+        if (pdata.Role is not JobRole role) return false;
+        if (pdata.Parent != null) return false;
         //if (jobID == -1) return false;
         var icon = Icons.Role.GetRoleIcon(role);
         if (icon is null) return false;
@@ -464,13 +464,13 @@ internal class Presets : ConfigWindow
         return true;
     }
 
-    private static bool DrawOccultJobIcon(PresetAttributes? attr, int? jobID = null)
+    private static bool DrawOccultJobIcon(PresetData? pdata, int? jobID = null)
     {
         int baseJobID;
-        if (attr is {} realattr)
+        if (pdata is {} realpdata)
         {
-            if (realattr.OccultCrescentJob == null) return false;
-            baseJobID = realattr.OccultCrescentJob.JobId;
+            if (realpdata.OccultCrescentJob == null) return false;
+            baseJobID = realpdata.OccultCrescentJob.JobId;
             if (baseJobID == -1) return false;
         }
         else if (jobID is not null)
@@ -498,7 +498,7 @@ internal class Presets : ConfigWindow
 
         if (error is not null)
         {
-            PluginLog.Error($"Failed to {error} Occult Crescent job icon for Preset:{attr.Preset} using JobID:{baseJobID}");
+            PluginLog.Error($"Failed to {error} Occult Crescent job icon for Preset:{pdata.Preset} using JobID:{baseJobID}");
             return false;
         }
         #endregion
@@ -520,14 +520,14 @@ internal class Presets : ConfigWindow
     internal static void DrawOccultJobIcon(int jobID) =>
         DrawOccultJobIcon(null, jobID);
 
-    internal static int AllChildren((Preset Preset, PresetAttributes Info)[] children)
+    internal static int AllChildren((Preset preset, PresetData pdata)[] children)
     {
         var output = 0;
 
-        foreach (var (Preset, Info) in children)
+        foreach (var (preset, pdata) in children)
         {
             output++;
-            output += AllChildren(presetChildren[Preset].ToArray());
+            output += AllChildren(presetChildren[preset].ToArray());
         }
 
         return output;

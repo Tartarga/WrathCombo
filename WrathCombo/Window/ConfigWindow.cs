@@ -24,8 +24,8 @@ namespace WrathCombo.Window;
 /// <summary> Plugin configuration window. </summary>
 internal class ConfigWindow : Dalamud.Interface.Windowing.Window
 {
-    internal static readonly Dictionary<Job, List<(Preset Preset, PresetAttributes Attr)>> jobLevelPresets = GetJobLevelPresets();
-    internal static readonly Dictionary<Preset, (Preset Preset, PresetAttributes Attr)[]> presetChildren = GetPresetChildren();
+    internal static readonly Dictionary<Job, List<PresetData>> groupedPresets = GetGroupedPresets();
+    internal static readonly Dictionary<Preset, (Preset Preset, PresetData Attr)[]> presetChildren = GetPresetChildren();
 
     internal static float lastLeftColumnWidth;
 
@@ -48,7 +48,7 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
         _ => 5
     };
 
-    internal static Dictionary<Job, List<(Preset Preset, PresetAttributes Attr)>> GetJobLevelPresets()
+    internal static Dictionary<Job, List<PresetData>> GetGroupedPresets()
     {
         return AllPresets
             .Where(kvp => (int)kvp.Key > 100)
@@ -62,11 +62,11 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
             .GroupBy(kvp => kvp.Value.CustomComboInfo.Job)
             .ToDictionary(
                 g => g.Key,
-                g => g.Select(kvp => (kvp.Key, kvp.Value)).ToList()
+                g => g.Select(kvp => kvp.Value).ToList()
             );
     }
 
-    internal static Dictionary<Preset, (Preset Preset, PresetAttributes Info)[]> GetPresetChildren()
+    internal static Dictionary<Preset, (Preset Preset, PresetData Info)[]> GetPresetChildren()
     {
         // Initialize dictionary with all presets as keys
         var childCombos = AllPresets.Keys

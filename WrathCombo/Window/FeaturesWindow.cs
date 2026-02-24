@@ -205,7 +205,7 @@ internal class FeaturesWindow : ConfigWindow
             return false;
 
         if (!PresetStorage.AllPresets.TryGetValue(preset, out var attributes))
-            attributes = new PresetStorage.PresetAttributes(preset);
+            attributes = new PresetStorage.PresetData(preset);
 
         if (UsableSearch == "erp")
             return false;
@@ -293,7 +293,7 @@ internal class FeaturesWindow : ConfigWindow
             case "!secret":
             case "!hidden":
                 matchesKeyWords = Service.Configuration.ShowHiddenFeatures &&
-                                  attributes.Hidden;
+                                  attributes.IsHidden;
                 return true;
 
             case "!retargeting":

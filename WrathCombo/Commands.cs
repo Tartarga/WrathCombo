@@ -283,7 +283,7 @@ public partial class WrathCombo
     private void HandleListCommands(string[] argument)
     {
         IEnumerable<Preset> presets = PresetStorage.AllPresets
-            .Where(kvp => !kvp.Value.Hidden)
+            .Where(kvp => !kvp.Value.IsHidden)
             .Select(kvp => kvp.Key);
         const StringComparison lower = StringComparison.InvariantCultureIgnoreCase;
         var filter =

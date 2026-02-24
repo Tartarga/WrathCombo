@@ -22,9 +22,9 @@ internal static class PresetStorage
     private static FrozenSet<Preset>? OccultCrescentCombos;
     private static FrozenDictionary<Preset, Preset[]>? ConflictingCombos;
 
-    internal static readonly FrozenDictionary<Preset, PresetAttributes> AllPresets = BuildPresets();
+    internal static readonly FrozenDictionary<Preset, PresetData> AllPresets = BuildPresets();
 
-    internal class PresetAttributes
+    internal class PresetData
     {
         public Preset Preset { get; }
         public bool IsPvP { get; }
@@ -46,10 +46,11 @@ internal static class PresetStorage
         public CustomComboInfoAttribute? CustomComboInfo;
         public AutoActionAttribute? AutoAction;
         public JobRole? Role;
-        public bool Hidden { get; }
+        public bool IsHidden { get; }
+        public bool ShouldBeHidden => (IsHidden && !Service.Configuration.ShowHiddenFeatures);
         public ComboType ComboType;
 
-        public PresetAttributes(Preset preset)
+        public PresetData(Preset preset)
         {
             Preset = preset;
             IsPvP = preset.GetAttribute<PvPCustomComboAttribute>() != null;
@@ -68,7 +69,7 @@ internal static class PresetStorage
             CustomComboInfo.Description = GetPresetString($"{preset}_Desc");
             AutoAction = preset.GetAttribute<AutoActionAttribute>();
             Role = preset.GetAttribute<RoleAttribute>()?.Role;
-            Hidden = preset.GetAttribute<HiddenAttribute>() != null;
+            IsHidden = preset.GetAttribute<HiddenAttribute>() != null;
             ComboType = GetComboType(preset);
         }
     }
@@ -153,14 +154,14 @@ internal static class PresetStorage
         }
     } = null!;
 
-    private static FrozenDictionary<Preset, PresetAttributes> BuildPresets()
+    private static FrozenDictionary<Preset, PresetData> BuildPresets()
     {
         // Master dictionary of presets and attributes
-        var dict = new Dictionary<Preset, PresetAttributes>();
+        var dict = new Dictionary<Preset, PresetData>();
 
         foreach (var preset in Enum.GetValues<Preset>())
         {
-            dict[preset] = new PresetAttributes(preset);
+            dict[preset] = new PresetData(preset);
         }
 
         var frozen = dict.ToFrozenDictionary();
@@ -223,18 +224,8 @@ internal static class PresetStorage
     /// <param name="preset"></param>
     /// <returns></returns>
     public static bool ShouldBeHidden(Preset preset) =>
-        AllPresets[preset].Hidden &&
+        AllPresets[preset].IsHidden &&
         !Service.Configuration.ShowHiddenFeatures;
-
-    /// <summary> Gets a value indicating whether a preset is secret. </summary>
-    /// <param name="preset"> Preset to check. </param>
-    /// <returns> The boolean representation. </returns>
-    public static bool IsPvP(Preset preset) => AllPresets[preset].IsPvP;
-
-    /// <summary> Gets a value indicating whether a preset is secret. </summary>
-    /// <param name="preset"> Preset to check. </param>
-    /// <returns> The boolean representation. </returns>
-    public static bool IsVariant(Preset preset) => AllPresets[preset].IsVariant;
 
     /// <summary>
     ///     Gets a value indicating whether a preset can be retargeted under some
@@ -253,11 +244,6 @@ internal static class PresetStorage
     /// <returns> The boolean representation. </returns>
     public static bool IsRetargeted(Preset preset) =>
         AllPresets[preset].RetargetedAttribute != null;
-
-    /// <summary> Gets a value indicating whether a preset is secret. </summary>
-    /// <param name="preset"> Preset to check. </param>
-    /// <returns> The boolean representation. </returns>
-    public static bool IsBozja(Preset preset) => AllPresets[preset].IsBozja;
 
     /// <summary> Gets a value indicating whether a preset is secret. </summary>
     /// <param name="preset"> Preset to check. </param>

@@ -230,16 +230,16 @@ internal class FeaturesWindow : ConfigWindow
             return true;
 
         // Title matching
-        if (attributes.CustomComboInfo.Name.Contains(UsableSearch, Lower))
+        if (attributes.JobInfo.Name.Contains(UsableSearch, Lower))
             return true;
 
         // Title matching (without spaces)
-        if (attributes.CustomComboInfo.Name.Replace(" ", "")
+        if (attributes.JobInfo.Name.Replace(" ", "")
             .Contains(UsableSearch.Replace(" ", ""), Lower))
             return true;
 
         // Title matching (without punctuation or spaces)
-        if (new string(attributes.CustomComboInfo.Name.Replace(" ", "")
+        if (new string(attributes.JobInfo.Name.Replace(" ", "")
                 .Where(c => c == '!' || !char.IsPunctuation(c))
                 .ToArray())
             .Contains(new string(UsableSearch.Replace(" ", "")
@@ -250,16 +250,16 @@ internal class FeaturesWindow : ConfigWindow
         if (SearchDescription)
         {
             // Description matching
-            if (attributes.CustomComboInfo.Description.Contains(UsableSearch, Lower))
+            if (attributes.JobInfo.Description.Contains(UsableSearch, Lower))
                 return true;
 
             // Description matching (without spaces)
-            if (attributes.CustomComboInfo.Description.Replace(" ", "")
+            if (attributes.JobInfo.Description.Replace(" ", "")
                 .Contains(UsableSearch.Replace(" ", ""), Lower))
                 return true;
 
             // Description matching (without punctuation or spaces)
-            if (new string(attributes.CustomComboInfo.Description.Replace(" ", "")
+            if (new string(attributes.JobInfo.Description.Replace(" ", "")
                     .Where(c => c == '!' || !char.IsPunctuation(c))
                     .ToArray())
                 .Contains(new string(UsableSearch.Replace(" ", "")

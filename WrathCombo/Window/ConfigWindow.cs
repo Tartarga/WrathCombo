@@ -53,13 +53,13 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
         return AllPresets
             .Where(kvp => (int)kvp.Key > 100)
             .Where(kvp => kvp.Value.Parent == null)
-            .Where(kvp => kvp.Value.CustomComboInfo != null)
-            .OrderBy(kvp => GetRoleOrder(kvp.Value.CustomComboInfo.Role))
-            .ThenByDescending(kvp => kvp.Value.CustomComboInfo.Job is Job.ADV)
-            .ThenByDescending(kvp => kvp.Value.CustomComboInfo.Job is Job.MIN)
-            .ThenBy(kvp => kvp.Value.CustomComboInfo.Job)
-            .ThenBy(kvp => kvp.Value.CustomComboInfo.Order)
-            .GroupBy(kvp => kvp.Value.CustomComboInfo.Job)
+            .Where(kvp => kvp.Value.JobInfo != null)
+            .OrderBy(kvp => GetRoleOrder(kvp.Value.JobInfo.Role))
+            .ThenByDescending(kvp => kvp.Value.JobInfo.Job is Job.ADV)
+            .ThenByDescending(kvp => kvp.Value.JobInfo.Job is Job.MIN)
+            .ThenBy(kvp => kvp.Value.JobInfo.Job)
+            .ThenBy(kvp => kvp.Value.JobInfo.Order)
+            .GroupBy(kvp => kvp.Value.JobInfo.Job)
             .ToDictionary(
                 g => g.Key,
                 g => g.Select(kvp => kvp.Value).ToList()
@@ -90,7 +90,7 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
                     var info = PresetStorage.AllPresets[child]!;
                     return (Preset: child, Info: info);
                 })
-                .OrderBy(tpl => tpl.Info.CustomComboInfo.Order)
+                .OrderBy(tpl => tpl.Info.JobInfo.Order)
                 .ToArray()
         );
     }

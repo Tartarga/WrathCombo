@@ -22,7 +22,7 @@ internal abstract partial class CustomCombo : CustomComboFunctions
     /// <summary> Initializes a new instance of the <see cref="CustomCombo"/> class. </summary>
     protected CustomCombo()
     {
-        CustomComboInfoAttribute? presetInfo = PresetStorage.AllPresets[Preset].CustomComboInfo;
+        JobInfoAttribute? presetInfo = PresetStorage.AllPresets[Preset].JobInfo;
         Job = presetInfo.Job;
     }
 

@@ -224,7 +224,7 @@ public class Search(Leasing leasing)
     [field: AllowNull, MaybeNull]
     // ReSharper disable once MemberCanBePrivate.Global
     internal Dictionary<string, (Job Job, Preset ID,
-        CustomComboInfoAttribute Info, bool HasParentCombo, bool IsVariant, string
+        JobInfoAttribute Info, bool HasParentCombo, bool IsVariant, string
         ParentComboName, ComboType ComboType)> Presets
     {
         get
@@ -233,9 +233,9 @@ public class Search(Leasing leasing)
             .Select(preset => new
             {
                 ID = preset.Key,
-                JobId = preset.Value.CustomComboInfo!.Job,
+                JobId = preset.Value.JobInfo!.Job,
                 InternalName = preset.Key.ToString(),
-                Info = preset.Value.CustomComboInfo!,
+                Info = preset.Value.JobInfo!,
                 HasParentCombo = preset.Value.Parent != null,
                 IsVariant = preset.Value.IsVariant,
                 ParentComboName = preset.Value.Parent != null

@@ -88,9 +88,9 @@ public partial class Helper(ref Leasing leasing)
 
         // Detect the target type
         var targetType =
-            attr.CustomComboInfo.Name.Contains("single target", lower)
+            attr.JobInfo.Name.Contains("single target", lower)
                 ? ComboTargetTypeKeys.SingleTarget
-                : (attr.CustomComboInfo.Name.Contains("- aoe", lower))
+                : (attr.JobInfo.Name.Contains("- aoe", lower))
                     ? ComboTargetTypeKeys.MultiTarget
                     : ComboTargetTypeKeys.Other;
 
@@ -114,7 +114,7 @@ public partial class Helper(ref Leasing leasing)
             // Get the opposite mode
             var categorizedPreset =
                 P.IPCSearch.CurrentJobComboStatesCategorized
-                        [attr.CustomComboInfo.Job]
+                        [attr.JobInfo.Job]
                     [targetType][simplicityLevelToSearchFor];
 
             // Return the opposite mode, as a proper preset

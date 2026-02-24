@@ -50,7 +50,7 @@ internal class Presets : ConfigWindow
                         return false;
 
                     // Job check (including upgraded job)
-                    var job = attrs.CustomComboInfo.Job;
+                    var job = attrs.JobInfo.Job;
                     if (Player.Job != job && Player.Job.GetUpgradedJob() != job)
                         return false;
 
@@ -74,7 +74,7 @@ internal class Presets : ConfigWindow
         var conflicts = pdata.Conflicts;
         var parent = pdata.Parent;
         var blueAttr = pdata.BlueInactive;
-        var presetName = pdata.CustomComboInfo.Name;
+        var presetName = pdata.JobInfo.Name;
 
         ImGui.Spacing();
 
@@ -105,7 +105,7 @@ internal class Presets : ConfigWindow
                 P.UIHelper.ShowIPCControlledIndicatorIfNeeded(preset);
 
         if (IsSearching)
-            presetName = preset.NameWithFullLineage(pdata.CustomComboInfo.Job);
+            presetName = preset.NameWithFullLineage(pdata.JobInfo.Job);
 
         if (P.UIHelper.ShowIPCControlledCheckboxIfNeeded
             ($"{presetName}###{preset}", ref enabled, preset, true))
@@ -142,7 +142,7 @@ internal class Presets : ConfigWindow
                 ImGui.PushItemWidth(length.Length());
             }
 
-            ImGui.TextWrapped($"{pdata.CustomComboInfo.Description}");
+            ImGui.TextWrapped($"{pdata.JobInfo.Description}");
 
             if (pdata.HoverText != null)
             {
@@ -168,7 +168,7 @@ internal class Presets : ConfigWindow
                         CustomComboFunctions.IsEnabled(conflict)
                             ? ImGuiColors.HealerGreen
                             : ImGuiColors.DalamudRed, 1500),
-                    $"- {conflict.NameWithFullLineage(pdata.CustomComboInfo.Job)}");
+                    $"- {conflict.NameWithFullLineage(pdata.JobInfo.Job)}");
             ImGui.Unindent();
             ImGui.Spacing();
         }
@@ -196,7 +196,7 @@ internal class Presets : ConfigWindow
         {
             if (!pdata.IsPvP)
             {
-                switch (pdata.CustomComboInfo.Job)
+                switch (pdata.JobInfo.Job)
                 {
                     case Job.ADV:
                         {
@@ -235,7 +235,7 @@ internal class Presets : ConfigWindow
             }
             else
             {
-                switch (pdata.CustomComboInfo.Job)
+                switch (pdata.JobInfo.Job)
                 {
                     case Job.ADV: PvPCommon.Config.Draw(preset); break;
                     case Job.AST: ASTPvP.Config.Draw(preset); break;
@@ -452,7 +452,7 @@ internal class Presets : ConfigWindow
 
     private static bool DrawRoleIcon(PresetData pdata)
     {
-        if (pdata.Role is not JobRole role) return false;
+        if (pdata.JobInfo.RoleForIcon is not JobRole role) return false;
         if (pdata.Parent != null) return false;
         //if (jobID == -1) return false;
         var icon = Icons.Role.GetRoleIcon(role);

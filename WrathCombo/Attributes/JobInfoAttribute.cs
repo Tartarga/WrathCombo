@@ -7,14 +7,15 @@ using static WrathCombo.CustomComboNS.Functions.Jobs;
 namespace WrathCombo.Attributes;
 
 [AttributeUsage(AttributeTargets.Field)]
-internal class CustomComboInfoAttribute : Attribute
+internal class JobInfoAttribute : Attribute
 {
-    /// <summary> Initializes a new instance of the <see cref="CustomComboInfoAttribute"/> class. </summary>
+    /// <summary> Initializes a new instance of the <see cref="JobInfoAttribute"/> class. </summary>
     /// <param name="job"> Associated job ID. </param>
     /// <param name="order"> Display order. </param>
     ///
-    internal CustomComboInfoAttribute(
+    internal JobInfoAttribute(
         Job job,
+        JobRole jobRoleIcon = JobRole.All,
         [CallerLineNumber] int order = 0)
     {
         Job = job switch
@@ -28,6 +29,7 @@ internal class CustomComboInfoAttribute : Attribute
 
         Order = order;
         Role = GetRoleFromJob(Job);
+        RoleForIcon = jobRoleIcon == JobRole.All ? null : jobRoleIcon;
         JobName = Job.Name();
         JobShorthand = Job.Shorthand();
     }
@@ -46,6 +48,9 @@ internal class CustomComboInfoAttribute : Attribute
 
     /// <summary> Gets the job role. </summary>
     public JobRole Role { get; }
+
+    /// <summary> Gets the job role used for adding an icon override. </summary>
+    public JobRole? RoleForIcon { get; }
 
     /// <summary> Gets the job name. </summary>
     public string JobName { get; }

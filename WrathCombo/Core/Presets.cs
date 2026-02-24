@@ -42,9 +42,8 @@ internal static class PresetStorage
         public OccultCrescentAttribute? OccultCrescentJob;
         public string? HoverText { get; }
         public ReplaceSkillAttribute? ReplaceSkill;
-        public CustomComboInfoAttribute? CustomComboInfo;
+        public JobInfoAttribute? JobInfo;
         public AutoActionAttribute? AutoAction;
-        public JobRole? Role;
         public bool IsHidden { get; }
         public bool ShouldBeHidden => (IsHidden && !Service.Configuration.ShowHiddenFeatures);
         public ComboType ComboType;
@@ -63,11 +62,10 @@ internal static class PresetStorage
             OccultCrescentJob = preset.GetAttribute<OccultCrescentAttribute>();
             HoverText = preset.GetAttribute<HoverInfoAttribute>()?.HoverText;
             ReplaceSkill = preset.GetAttribute<ReplaceSkillAttribute>();
-            CustomComboInfo = preset.GetAttribute<CustomComboInfoAttribute>();
-            CustomComboInfo.Name = GetPresetString($"{preset}_Name");
-            CustomComboInfo.Description = GetPresetString($"{preset}_Desc");
+            JobInfo = preset.GetAttribute<JobInfoAttribute>();
+            JobInfo.Name = GetPresetString($"{preset}_Name");
+            JobInfo.Description = GetPresetString($"{preset}_Desc");
             AutoAction = preset.GetAttribute<AutoActionAttribute>();
-            Role = preset.GetAttribute<RoleAttribute>()?.Role;
             IsHidden = preset.GetAttribute<HiddenAttribute>() != null;
             ComboType = GetComboType(preset);
         }

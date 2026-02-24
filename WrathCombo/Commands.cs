@@ -261,7 +261,7 @@ public partial class WrathCombo
 
             if (!Service.Configuration.SuppressSetCommands && ctrlText == "")
                 DuoLog.Information(
-                    $"{usablePreset.Attributes().CustomComboInfo.Name} {action} {ctrlText}");
+                    $"{usablePreset.Attributes().JobInfo.Name} {action} {ctrlText}");
         }
     }
 
@@ -367,7 +367,7 @@ public partial class WrathCombo
             if (jobShort is not null)
             {
                 presetsList = presetsList.Where(preset =>
-                    preset.Attributes().CustomComboInfo.JobShorthand
+                    preset.Attributes().JobInfo.JobShorthand
                         .Equals(jobShort, lower));
             }
 

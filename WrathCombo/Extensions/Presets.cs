@@ -10,9 +10,9 @@ internal static partial class PresetExtensions
         return PresetStorage.AllPresets[preset].ReplaceSkill;
     }
 
-    ///<summary> Retrieves the <see cref="CustomComboInfoAttribute"/> for the preset if it exists.</summary>
-    internal static CustomComboInfoAttribute? GetComboAttribute(this Preset preset)
+    ///<summary> Retrieves the <see cref="JobInfoAttribute"/> for the preset if it exists.</summary>
+    internal static JobInfoAttribute? GetComboAttribute(this Preset preset)
     {
-        return PresetStorage.AllPresets[preset].CustomComboInfo;
+        return PresetStorage.AllPresets[preset].JobInfo;
     }
 }

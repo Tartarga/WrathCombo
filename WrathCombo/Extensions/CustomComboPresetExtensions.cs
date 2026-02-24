@@ -27,10 +27,10 @@ internal static partial class PresetExtensions
         {
             var attributes = preset.Attributes();
 
-            if (attributes?.CustomComboInfo is null)
+            if (attributes?.JobInfo is null)
                 return preset.ToString();
 
-            return attributes.CustomComboInfo.Name;
+            return attributes.JobInfo.Name;
         }
 
         public string NameWithFullLineage
@@ -38,7 +38,7 @@ internal static partial class PresetExtensions
         {
             var pdata = preset.Attributes();
 
-            if (pdata?.CustomComboInfo is null)
+            if (pdata?.JobInfo is null)
                 return preset.ToString();
 
             var name = new StringBuilder(preset.Name());
@@ -57,10 +57,10 @@ internal static partial class PresetExtensions
                     string lastPresetJob;
                     var lastPresetData = inspectingPreset.Value.Attributes();
 
-                    if (currentJob is not null && lastPresetData.CustomComboInfo.Job == currentJob)
+                    if (currentJob is not null && lastPresetData.JobInfo.Job == currentJob)
                         break;
 
-                    if (lastPresetData.CustomComboInfo.Job == Job.ADV)
+                    if (lastPresetData.JobInfo.Job == Job.ADV)
                     {
                         lastPresetJob = "[Roles And Content] ";
                         if (lastPresetData.IsVariant)
@@ -69,7 +69,7 @@ internal static partial class PresetExtensions
                             lastPresetJob += "Occult Crescent > ";
                     }
                     else
-                        lastPresetJob = $"[{lastPresetData.CustomComboInfo.JobShorthand}] ";
+                        lastPresetJob = $"[{lastPresetData.JobInfo.JobShorthand}] ";
 
                     name.Insert(0, lastPresetJob);
                 }

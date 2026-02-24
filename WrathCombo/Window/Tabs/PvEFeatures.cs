@@ -52,7 +52,7 @@ internal class PvEFeatures : FeaturesWindow
                     // The "Main Menu" of PvE features, showing each job to click on
                     foreach (var (job, pdata) in groupedPresets)
                     {
-                        var info = pdata[0].CustomComboInfo;
+                        var info = pdata[0].JobInfo;
                         string jobName = info.JobName;
                         string abbreviation = info.JobShorthand;
                         string header = string.IsNullOrEmpty(abbreviation) ? jobName : $"{jobName} - {abbreviation}";
@@ -191,7 +191,7 @@ internal class PvEFeatures : FeaturesWindow
                 .Where(kvp =>
                     kvp.Value.IsVariant &&
                     !PresetStorage.ShouldBeHidden(kvp.Key) &&
-                    kvp.Value.CustomComboInfo.Job == job)
+                    kvp.Value.JobInfo.Job == job)
                 .Select(x => x.Key)],
                 alreadyShown);
         ShowSearchErrorIfNoResults();
@@ -219,7 +219,7 @@ internal class PvEFeatures : FeaturesWindow
                 .Where(kvp =>
                     kvp.Value.IsBozja &&
                     !PresetStorage.ShouldBeHidden(kvp.Key) &&
-                    kvp.Value.CustomComboInfo.Job == job)
+                    kvp.Value.JobInfo.Job == job)
                 .Select(kvp => kvp.Key)],
                 alreadyShown);
         ShowSearchErrorIfNoResults();
@@ -247,7 +247,7 @@ internal class PvEFeatures : FeaturesWindow
                 .Where(kvp =>
                     PresetStorage.IsOccultCrescent(kvp.Key) &&
                     !PresetStorage.ShouldBeHidden(kvp.Key) &&
-                    kvp.Value.CustomComboInfo.Job == job)
+                    kvp.Value.JobInfo.Job == job)
                 .Select(kvp => kvp.Key)],
                 alreadyShown);
         ShowSearchErrorIfNoResults();
@@ -310,7 +310,7 @@ internal class PvEFeatures : FeaturesWindow
             SearchMorePresets([.. PresetStorage.AllPresets!
                 .Where(kvp =>
                     IsPvECombo(kvp.Value) &&
-                    kvp.Value.CustomComboInfo.Job == job)
+                    kvp.Value.JobInfo.Job == job)
                 .Select(x => x.Key)],
                 alreadyShown);
         ShowSearchErrorIfNoResults();

@@ -225,16 +225,16 @@ internal sealed class ActionReplacer : IDisposable
             if (attr.IsPvP != CustomComboFunctions.InPvP()) // Are we in PvP?
                 return false;
 
-            return (attr.Role is JobRole role &&
+            return (attr.JobInfo.Role is JobRole role &&
                 role.MatchesPlayerJob())
-                || attr.CustomComboInfo.Job == upgradedJob;
+                || attr.JobInfo.Job == upgradedJob;
         });
 
         var filteredCombos = FilteredCombos as CustomCombo[] ?? FilteredCombos.ToArray();
 
         Svc.Log.Debug(
             $"Now running {filteredCombos.Length} combos\n" +
-            string.Join("\n", filteredCombos.Select(x => x.Preset.Attributes().CustomComboInfo.Name)));
+            string.Join("\n", filteredCombos.Select(x => x.Preset.Attributes().JobInfo.Name)));
     }
 
     #endregion

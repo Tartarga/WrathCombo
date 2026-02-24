@@ -94,12 +94,10 @@ internal class PvPFeatures : FeaturesWindow
                     if (!tab)
                         return;
 
-                    foreach (Job job in groupedPresets.Where(x =>
-                            x.Value.Any(y => y.IsPvP &&
-                                             !PresetStorage.ShouldBeHidden(y.Preset)))
-                        .Select(x => x.Key))
+                    foreach (var (job, pdata) in groupedPresets
+                        .Where(x => x.Value.Any(y => y.IsPvP && !y.ShouldBeHidden)))
                     {
-                        var info = groupedPresets[job][0].CustomComboInfo;
+                        var info = pdata[0].CustomComboInfo;
                         string jobName = info.JobName;
                         string abbreviation = info.JobShorthand;
                         string header = string.IsNullOrEmpty(abbreviation) ? jobName : $"{jobName} - {abbreviation}";

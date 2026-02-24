@@ -31,7 +31,7 @@ internal class PvEFeatures : FeaturesWindow
 
         using (ImRaii.Child("scrolling", new Vector2(AvailableWidth, ImGui.GetContentRegionAvail().Y), true))
         {
-            var openJob = OpenJob; // Cache because back button will set it to null while running
+            var openJob = OpenJob; // Cache because back button will set it to null while this is running
             if (openJob is null)
             {
                 ImGui.SameLine(IndentWidth);

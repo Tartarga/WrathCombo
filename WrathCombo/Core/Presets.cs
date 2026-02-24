@@ -19,10 +19,9 @@ namespace WrathCombo.Core;
 
 internal static class PresetStorage
 {
-    private static FrozenSet<Preset>? OccultCrescentCombos;
-    private static FrozenDictionary<Preset, Preset[]>? ConflictingCombos;
-
     internal static readonly FrozenDictionary<Preset, PresetData> AllPresets = BuildPresets();
+    private static readonly FrozenSet<Preset>? OccultCrescentCombos = BuildOccultCrescentCombos();
+    private static readonly FrozenDictionary<Preset, Preset[]>? ConflictingCombos = BuildConflictingCombos();
 
     internal class PresetData
     {
@@ -198,20 +197,22 @@ internal static class PresetStorage
         return frozen;
     }
 
-    public static void Init()
+    private static FrozenSet<Preset> BuildOccultCrescentCombos()
     {
-        OccultCrescentCombos = AllPresets
+        return AllPresets
             .Where(kvp => kvp.Value.OccultCrescentJob != null)
             .Select(kvp => kvp.Key)
             .ToFrozenSet();
+    }
 
-        ConflictingCombos = AllPresets
+    private static FrozenDictionary<Preset, Preset[]>? BuildConflictingCombos()
+    {
+        return AllPresets
             .ToDictionary(
                 kvp => kvp.Key,
                 kvp => kvp.Value.Conflicts ?? [])
             .ToFrozenDictionary();
     }
-
 
     /// <summary> Gets a value indicating whether a preset is enabled. </summary>
     /// <param name="preset"> Preset to check. </param>

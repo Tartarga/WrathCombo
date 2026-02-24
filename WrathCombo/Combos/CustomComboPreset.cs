@@ -5,6 +5,7 @@ using WrathCombo.Attributes;
 using WrathCombo.Combos.PvE;
 using WrathCombo.Combos.PvP;
 using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
+using JobRole = WrathCombo.CustomComboNS.Functions.Jobs.JobRole;
 
 // ReSharper disable EmptyRegion
 // ReSharper disable InconsistentNaming

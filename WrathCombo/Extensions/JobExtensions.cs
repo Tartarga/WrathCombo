@@ -1,6 +1,8 @@
 ﻿using ECommons.ExcelServices;
+using ECommons.GameHelpers;
 using Lumina.Excel.Sheets;
 using static WrathCombo.Window.Text;
+using static WrathCombo.CustomComboNS.Functions.Jobs;
 
 namespace WrathCombo.Extensions
 {
@@ -39,6 +41,14 @@ namespace WrathCombo.Extensions
             };
 
             return TextFormatting.ToTitleCase(jobName);
+        }
+
+        public static bool MatchesPlayerJob(this JobRole role)
+        {
+            if (role == JobRole.All)
+                return true;
+
+            return role == GetRoleFromJob(Player.Job);
         }
 
     }

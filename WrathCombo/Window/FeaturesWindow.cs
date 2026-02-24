@@ -293,7 +293,7 @@ internal class FeaturesWindow : ConfigWindow
             case "!secret":
             case "!hidden":
                 matchesKeyWords = Service.Configuration.ShowHiddenFeatures &&
-                                  attributes.Hidden is not null;
+                                  attributes.Hidden;
                 return true;
 
             case "!retargeting":

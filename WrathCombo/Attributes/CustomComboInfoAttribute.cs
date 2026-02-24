@@ -2,6 +2,7 @@ using ECommons.ExcelServices;
 using System;
 using System.Runtime.CompilerServices;
 using WrathCombo.Extensions;
+using static WrathCombo.CustomComboNS.Functions.Jobs;
 
 namespace WrathCombo.Attributes;
 
@@ -26,7 +27,7 @@ internal class CustomComboInfoAttribute : Attribute
         Description = "";
 
         Order = order;
-        Role = RoleAttribute.GetRoleFromJob(Job);
+        Role = GetRoleFromJob(Job);
         JobName = Job.Name();
         JobShorthand = Job.Shorthand();
     }

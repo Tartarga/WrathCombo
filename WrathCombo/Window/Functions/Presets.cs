@@ -24,6 +24,7 @@ using WrathCombo.Services;
 using WrathCombo.Window;
 using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
+using static WrathCombo.CustomComboNS.Functions.Jobs;
 using static WrathCombo.Core.PresetStorage;
 namespace WrathCombo.Window.Functions;
 
@@ -32,8 +33,40 @@ internal class Presets : ConfigWindow
 
     private static bool _animFrame = false;
 
-    internal static Dictionary<Preset, bool> GetJobAutorots => P
-        .IPCSearch.AutoActions.Where(x => x.Key.Attributes().IsPvP == CustomComboFunctions.InPvP() && (Player.Job == x.Key.Attributes().CustomComboInfo.Job || Player.Job.GetUpgradedJob() == x.Key.Attributes().CustomComboInfo.Job) && x.Value && CustomComboFunctions.IsEnabled(x.Key) && x.Key.Attributes().Parent == null).ToDictionary();
+    internal static Dictionary<Preset, bool> GetJobAutorots
+    {
+        get
+        {
+            var autoActions = P.IPCSearch.AutoActions;
+
+            return autoActions
+                .Where(kvp =>
+                {
+                    var preset = kvp.Key;
+                    var attrs = preset.Attributes();
+
+                    // PvP check
+                    if (attrs.IsPvP != CustomComboFunctions.InPvP())
+                        return false;
+
+                    // Job check (including upgraded job)
+                    var job = attrs.CustomComboInfo.Job;
+                    if (Player.Job != job && Player.Job.GetUpgradedJob() != job)
+                        return false;
+
+                    // Enabled & active
+                    if (!kvp.Value || !CustomComboFunctions.IsEnabled(preset))
+                        return false;
+
+                    // Only top-level presets
+                    if (attrs.Parent != null)
+                        return false;
+
+                    return true;
+                })
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        }
+    }
 
     internal static void DrawPreset(Preset preset, PresetAttributes attr)
     {
@@ -78,14 +111,14 @@ internal class Presets : ConfigWindow
             ($"{presetName}###{preset}", ref enabled, preset, true))
             PresetStorage.TogglePreset(preset);
 
-        DrawReplaceAttribute(preset);
+        DrawReplaceAttribute(attr);
 
         DrawRetargetedAttribute(preset);
 
-        if (DrawRoleIcon(preset))
+        if (DrawRoleIcon(attr))
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 8f.Scale());
 
-        if (DrawOccultJobIcon(preset))
+        if (DrawOccultJobIcon(attr))
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 8f.Scale());
 
         Vector2 length = new();
@@ -299,10 +332,9 @@ internal class Presets : ConfigWindow
         }
     }
 
-    private static void DrawReplaceAttribute(Preset preset)
+    private static void DrawReplaceAttribute(PresetAttributes attr)
     {
-        var att = AllPresets[preset].ReplaceSkill;
-        if (att != null)
+        if (attr.ReplaceSkill is ReplaceSkillAttribute att)
         {
             string skills = string.Join(", ", att.ActionNames);
 
@@ -418,11 +450,10 @@ internal class Presets : ConfigWindow
         }
     }
 
-    private static bool DrawRoleIcon(Preset preset)
+    private static bool DrawRoleIcon(PresetAttributes attr)
     {
-        if (preset.Attributes().RoleAttribute == null) return false;
-        if (preset.Attributes().Parent != null) return false;
-        var role = preset.Attributes().RoleAttribute.Role;
+        if (attr.Role is not JobRole role) return false;
+        if (attr.Parent != null) return false;
         //if (jobID == -1) return false;
         var icon = Icons.Role.GetRoleIcon(role);
         if (icon is null) return false;
@@ -433,13 +464,13 @@ internal class Presets : ConfigWindow
         return true;
     }
 
-    private static bool DrawOccultJobIcon(Preset? preset, int? jobID = null)
+    private static bool DrawOccultJobIcon(PresetAttributes? attr, int? jobID = null)
     {
         int baseJobID;
-        if (preset is {} realPreset)
+        if (attr is {} realattr)
         {
-            if (realPreset.Attributes().OccultCrescentJob == null) return false;
-            baseJobID = realPreset.Attributes().OccultCrescentJob.JobId;
+            if (realattr.OccultCrescentJob == null) return false;
+            baseJobID = realattr.OccultCrescentJob.JobId;
             if (baseJobID == -1) return false;
         }
         else if (jobID is not null)
@@ -467,7 +498,7 @@ internal class Presets : ConfigWindow
 
         if (error is not null)
         {
-            PluginLog.Error($"Failed to {error} Occult Crescent job icon for Preset:{preset} using JobID:{baseJobID}");
+            PluginLog.Error($"Failed to {error} Occult Crescent job icon for Preset:{attr.Preset} using JobID:{baseJobID}");
             return false;
         }
         #endregion
@@ -488,7 +519,6 @@ internal class Presets : ConfigWindow
 
     internal static void DrawOccultJobIcon(int jobID) =>
         DrawOccultJobIcon(null, jobID);
-
 
     internal static int AllChildren((Preset Preset, PresetAttributes Info)[] children)
     {

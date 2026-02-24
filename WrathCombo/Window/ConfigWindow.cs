@@ -12,12 +12,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using WrathCombo.Attributes;
 using WrathCombo.Core;
 using WrathCombo.Data.Conflicts;
 using WrathCombo.Services;
 using WrathCombo.Window.Tabs;
 using static WrathCombo.Core.PresetStorage;
+using static WrathCombo.CustomComboNS.Functions.Jobs;
 using PunishGui = PunishLib.ImGuiMethods;
 namespace WrathCombo.Window;
 

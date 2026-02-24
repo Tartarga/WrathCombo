@@ -26,6 +26,7 @@ using WrathCombo.Services.IPC_Subscriber;
 using WrathCombo.Window.Functions;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using static WrathCombo.Data.ActionWatching;
+using static WrathCombo.CustomComboNS.Functions.Jobs;
 using ActionType = FFXIVClientStructs.FFXIV.Client.Game.ActionType;
 
 #endregion
@@ -424,7 +425,7 @@ internal unsafe class AutoRotationController
                 if (resSpell is Variant.Raise)
                 {
                     //Try to Swiftcast if Magic DPS
-                    if (RoleAttribute.GetRoleFromJob(Player.Job) is JobRole.MagicalDPS)
+                    if (GetRoleFromJob(Player.Job) is JobRole.MagicalDPS)
                     {
                         if (ActionReady(RoleActions.Magic.Swiftcast) && !HasStatusEffect(RDM.Buffs.Dualcast))
                         {

@@ -11,6 +11,7 @@ using WrathCombo.Services;
 using static WrathCombo.Window.Text;
 using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 using static WrathCombo.Core.Configuration;
+using static WrathCombo.CustomComboNS.Functions.Jobs;
 using EZ = ECommons.Throttlers.EzThrottler;
 using TS = System.TimeSpan;
 
@@ -44,8 +45,8 @@ internal static class PresetStorage
         public ReplaceSkillAttribute? ReplaceSkill;
         public CustomComboInfoAttribute? CustomComboInfo;
         public AutoActionAttribute? AutoAction;
-        public RoleAttribute? RoleAttribute;
-        public HiddenAttribute? Hidden;
+        public JobRole? Role;
+        public bool Hidden { get; }
         public ComboType ComboType;
 
         public PresetAttributes(Preset preset)
@@ -66,8 +67,8 @@ internal static class PresetStorage
             CustomComboInfo.Name = GetPresetString($"{preset}_Name");
             CustomComboInfo.Description = GetPresetString($"{preset}_Desc");
             AutoAction = preset.GetAttribute<AutoActionAttribute>();
-            RoleAttribute = preset.GetAttribute<RoleAttribute>();
-            Hidden = preset.GetAttribute<HiddenAttribute>();
+            Role = preset.GetAttribute<RoleAttribute>()?.Role;
+            Hidden = preset.GetAttribute<HiddenAttribute>() != null;
             ComboType = GetComboType(preset);
         }
     }
@@ -222,7 +223,7 @@ internal static class PresetStorage
     /// <param name="preset"></param>
     /// <returns></returns>
     public static bool ShouldBeHidden(Preset preset) =>
-        preset.Attributes().Hidden != null &&
+        AllPresets[preset].Hidden &&
         !Service.Configuration.ShowHiddenFeatures;
 
     /// <summary> Gets a value indicating whether a preset is secret. </summary>

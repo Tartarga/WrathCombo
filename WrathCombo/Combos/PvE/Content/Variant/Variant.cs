@@ -1,7 +1,7 @@
 ﻿using ECommons.DalamudServices;
 using ECommons.GameHelpers;
-using static WrathCombo.CustomComboNS.Functions.Jobs;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
+using static WrathCombo.CustomComboNS.Functions.Jobs;
 
 namespace WrathCombo.Combos.PvE;
 

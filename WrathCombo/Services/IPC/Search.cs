@@ -224,7 +224,7 @@ public class Search(Leasing leasing)
     [field: AllowNull, MaybeNull]
     // ReSharper disable once MemberCanBePrivate.Global
     internal Dictionary<string, (Job Job, Preset ID,
-        JobInfoAttribute Info, bool HasParentCombo, bool IsVariant, string
+        PresetStorage.PresetData PData, bool HasParentCombo, bool IsVariant, string
         ParentComboName, ComboType ComboType)> Presets
     {
         get
@@ -235,7 +235,7 @@ public class Search(Leasing leasing)
                 ID = preset.Key,
                 JobId = preset.Value.JobInfo!.Job,
                 InternalName = preset.Key.ToString(),
-                Info = preset.Value.JobInfo!,
+                PData = preset.Value,
                 HasParentCombo = preset.Value.Parent != null,
                 IsVariant = preset.Value.IsVariant,
                 ParentComboName = preset.Value.Parent != null
@@ -250,7 +250,7 @@ public class Search(Leasing leasing)
                 combo => (
                     combo.JobId,
                     combo.ID,
-                    combo.Info,
+                    combo.PData,
                     combo.HasParentCombo,
                     combo.IsVariant,
                     combo.ParentComboName,
@@ -406,9 +406,9 @@ public class Search(Leasing leasing)
                 {
                     new
                     {
-                        Job = preset.Value.Info.Job,
+                        Job = preset.Value.Job,
                         Combo = preset.Key,
-                        preset.Value.Info,
+                        preset.Value,
                         preset.Value.ComboType,
                     },
                 })
@@ -419,11 +419,11 @@ public class Search(Leasing leasing)
                             x.ComboType switch
                             {
                                 ComboType.Healing =>
-                                    x.Info.Name.Contains("single target", ToLower)
+                                    x.Value.PData.Name.Contains("single target", ToLower)
                                         ? ComboTargetTypeKeys.HealST
                                         : ComboTargetTypeKeys.HealMT,
                                 ComboType.Advanced or ComboType.Simple =>
-                                    x.Info.Name.Contains("single target", ToLower)
+                                    x.Value.PData.Name.Contains("single target", ToLower)
                                         ? ComboTargetTypeKeys.SingleTarget
                                         : ComboTargetTypeKeys.MultiTarget,
                                 _ => ComboTargetTypeKeys.Other,

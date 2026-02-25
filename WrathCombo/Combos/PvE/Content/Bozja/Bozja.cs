@@ -1,10 +1,9 @@
 ﻿using ECommons.GameHelpers;
-using WrathCombo.Attributes;
 using WrathCombo.Data;
-using ContentHelper = ECommons.GameHelpers;
-using IntendedUse = ECommons.ExcelServices.TerritoryIntendedUseEnum;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using static WrathCombo.CustomComboNS.Functions.Jobs;
+using ContentHelper = ECommons.GameHelpers;
+using IntendedUse = ECommons.ExcelServices.TerritoryIntendedUseEnum;
 
 namespace WrathCombo.Combos.PvE;
 

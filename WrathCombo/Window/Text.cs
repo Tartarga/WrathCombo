@@ -1,7 +1,8 @@
 ﻿using ECommons.DalamudServices;
 using System.Globalization;
 using System.Resources;
-using WrathCombo.Resources.Localization;
+using WrathCombo.Resources.Localization.Presets;
+using WrathCombo.Resources.Localization.UI.Settings;
 
 namespace WrathCombo.Window
 {
@@ -12,8 +13,9 @@ namespace WrathCombo.Window
         private static readonly CultureInfo En = new("en");
         private static readonly CultureInfo De = new("de");
         private static readonly CultureInfo Fr = new("fr");
-        private static readonly CultureInfo ZhHans = new("zh-CN"); // Simplified
-        private static readonly CultureInfo ZhHant = new("zh-TW"); // Traditional
+        private static readonly CultureInfo ZhHans = new("zh-Hans"); // Simplified
+        private static readonly CultureInfo ZhHant = new("zh-Hant"); // Traditional
+        private static readonly CultureInfo ZhTW = new("zh-TW"); // Traditional
         private static readonly CultureInfo Ko = new("ko-KR");
 
         // Cache the game culture
@@ -38,7 +40,7 @@ namespace WrathCombo.Window
                 4 => ZhHans, // ChineseSimplified
                 5 => ZhHant, // ChineseTraditional (CHT), unknown if correct
                 6 => Ko,     // Korean
-                7 => ZhHant, // TraditionalChinese (TC), unknown if correct
+                7 => ZhTW, // TraditionalChinese (TC), unknown if correct
 
                 // Fallback to current UI culture if we somehow get an unexpected value
                 _ => CultureInfo.CurrentUICulture
@@ -65,6 +67,6 @@ namespace WrathCombo.Window
         /// <summary>
         /// Settings UI localization
         /// </summary>
-        public static string GetSettingsUIString(string key) => GetLocalizedString(key, Menu_Settings.ResourceManager);
+        public static string GetSettingsUIString(string key) => GetLocalizedString(key, Settings.ResourceManager);
     }
 }

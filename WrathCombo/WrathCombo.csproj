@@ -22,7 +22,7 @@
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
         <NoWarn>CS1591</NoWarn>
         <LangVersion>preview</LangVersion>
-        
+
         <Platforms>x64</Platforms>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -132,25 +132,25 @@
 
     </ItemGroup>
     <ItemGroup>
-      <Compile Update="Resources\Localization\CustomComboPresets.Designer.cs">
+      <Compile Update="Resources\Localization\Presets\CustomComboPresets.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>CustomComboPresets.resx</DependentUpon>
       </Compile>
-      <Compile Update="Resources\Localization\Menu_Settings.Designer.cs">
+      <Compile Update="Resources\Localization\UI\Settings\Settings.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
-        <DependentUpon>Menu_Settings.resx</DependentUpon>
+        <DependentUpon>Settings.resx</DependentUpon>
       </Compile>
     </ItemGroup>
     <ItemGroup>
-      <EmbeddedResource Update="Resources\Localization\CustomComboPresets.resx">
+      <EmbeddedResource Update="Resources\Localization\Presets\CustomComboPresets.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>CustomComboPresets.Designer.cs</LastGenOutput>
       </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Localization\Menu_Settings.resx">
+      <EmbeddedResource Update="Resources\Localization\UI\Settings\Settings.resx">
         <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Menu_Settings.Designer.cs</LastGenOutput>
+        <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       </EmbeddedResource>
     </ItemGroup>
 

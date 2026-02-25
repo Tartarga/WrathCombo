@@ -1,7 +1,7 @@
 ﻿#region
 
-using System.Text;
 using ECommons.ExcelServices;
+using System.Text;
 using WrathCombo.Core;
 
 #endregion
@@ -25,12 +25,9 @@ internal static partial class PresetExtensions
     {
         public string Name()
         {
-            var attributes = preset.Attributes();
-
-            if (attributes?.JobInfo is null)
-                return preset.ToString();
-
-            return attributes.JobInfo.Name;
+            return PresetStorage.AllPresets.TryGetValue(preset, out var attr)
+                ? attr.Name
+                : preset.ToString();
         }
 
         public string NameWithFullLineage

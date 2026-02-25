@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
 using WrathCombo.Attributes;
 using WrathCombo.Combos.PvE;
 using WrathCombo.Combos.PvP;
@@ -21,11 +20,10 @@ using WrathCombo.CustomComboNS.Functions;
 using WrathCombo.Data;
 using WrathCombo.Extensions;
 using WrathCombo.Services;
-using WrathCombo.Window;
 using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
+using static WrathCombo.Core.PresetStorage;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using static WrathCombo.CustomComboNS.Functions.Jobs;
-using static WrathCombo.Core.PresetStorage;
 namespace WrathCombo.Window.Functions;
 
 internal class Presets : ConfigWindow
@@ -74,7 +72,7 @@ internal class Presets : ConfigWindow
         var conflicts = pdata.Conflicts;
         var parent = pdata.Parent;
         var blueAttr = pdata.BlueInactive;
-        var presetName = pdata.JobInfo.Name;
+        var presetName = pdata.Name;
 
         ImGui.Spacing();
 
@@ -142,7 +140,7 @@ internal class Presets : ConfigWindow
                 ImGui.PushItemWidth(length.Length());
             }
 
-            ImGui.TextWrapped($"{pdata.JobInfo.Description}");
+            ImGui.TextWrapped($"{pdata.Description}");
 
             if (pdata.HoverText != null)
             {
@@ -467,7 +465,7 @@ internal class Presets : ConfigWindow
     private static bool DrawOccultJobIcon(PresetData? pdata, int? jobID = null)
     {
         int baseJobID;
-        if (pdata is {} realpdata)
+        if (pdata is { } realpdata)
         {
             if (realpdata.OccultCrescentJob == null) return false;
             baseJobID = realpdata.OccultCrescentJob.JobId;

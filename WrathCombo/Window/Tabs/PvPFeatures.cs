@@ -232,7 +232,8 @@ internal class PvPFeatures : FeaturesWindow
             }
 
             // Show error message if still nothing was found
-            if (CurrentPreset == 1) {
+            if (CurrentPreset == 1)
+            {
                 ImGuiEx.LineCentered(() =>
                 {
                     ImGui.TextUnformatted("Nothing matched your search.");

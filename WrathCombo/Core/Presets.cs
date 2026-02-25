@@ -8,10 +8,9 @@ using System.Reflection;
 using WrathCombo.Attributes;
 using WrathCombo.Extensions;
 using WrathCombo.Services;
-using static WrathCombo.Window.Text;
 using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 using static WrathCombo.Core.Configuration;
-using static WrathCombo.CustomComboNS.Functions.Jobs;
+using static WrathCombo.Window.Text;
 using EZ = ECommons.Throttlers.EzThrottler;
 using TS = System.TimeSpan;
 
@@ -26,6 +25,8 @@ internal static class PresetStorage
     internal class PresetData
     {
         public Preset Preset { get; }
+        public string Name { get; }
+        public string Description { get; }
         public bool IsPvP { get; }
         public Preset[] Conflicts;
         public Preset? Parent;
@@ -51,6 +52,8 @@ internal static class PresetStorage
         public PresetData(Preset preset)
         {
             Preset = preset;
+            Name = GetPresetString($"{preset}_Name");
+            Description = GetPresetString($"{preset}_Desc");
             IsPvP = preset.GetAttribute<PvPCustomComboAttribute>() != null;
             Conflicts = preset.GetAttribute<ConflictingCombosAttribute>()?.ConflictingPresets ?? [];
             Parent = preset.GetAttribute<ParentComboAttribute>()?.ParentPreset;
@@ -63,8 +66,6 @@ internal static class PresetStorage
             HoverText = preset.GetAttribute<HoverInfoAttribute>()?.HoverText;
             ReplaceSkill = preset.GetAttribute<ReplaceSkillAttribute>();
             JobInfo = preset.GetAttribute<JobInfoAttribute>();
-            JobInfo.Name = GetPresetString($"{preset}_Name");
-            JobInfo.Description = GetPresetString($"{preset}_Desc");
             AutoAction = preset.GetAttribute<AutoActionAttribute>();
             IsHidden = preset.GetAttribute<HiddenAttribute>() != null;
             ComboType = GetComboType(preset);

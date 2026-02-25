@@ -12,6 +12,9 @@ namespace WrathCombo.Window
         private static readonly CultureInfo En = new("en");
         private static readonly CultureInfo De = new("de");
         private static readonly CultureInfo Fr = new("fr");
+        private static readonly CultureInfo ZhHans = new("zh-CN"); // Simplified
+        private static readonly CultureInfo ZhHant = new("zh-TW"); // Traditional
+        private static readonly CultureInfo Ko = new("ko-KR");
 
         // Cache the game culture
         private static readonly CultureInfo GameCulture = GetGameCulture();
@@ -23,10 +26,21 @@ namespace WrathCombo.Window
         {
             return (int)Svc.ClientState.ClientLanguage switch
             {
+                // Global Client
+                // https://github.com/goatcorp/Dalamud/blob/master/Dalamud/Game/ClientLanguage.cs
                 0 => Ja,
                 1 => En,
                 2 => De,
                 3 => Fr,
+
+                // Forked Client (AtmoOmen's Dalamud)
+                // https://github.com/AtmoOmen/Dalamud/blob/master/Dalamud/Game/ClientLanguage.cs
+                4 => ZhHans, // ChineseSimplified
+                5 => ZhHant, // ChineseTraditional (CHT), unknown if correct
+                6 => Ko,     // Korean
+                7 => ZhHant, // TraditionalChinese (TC), unknown if correct
+
+                // Fallback to current UI culture if we somehow get an unexpected value
                 _ => CultureInfo.CurrentUICulture
             };
         }

@@ -1,12 +1,12 @@
 #region
 
+using Dalamud.Interface.Utility.Raii;
+using ECommons.ExcelServices;
+using ECommons.ImGuiMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Dalamud.Interface.Utility.Raii;
-using ECommons.ExcelServices;
-using ECommons.ImGuiMethods;
 using WrathCombo.Attributes;
 using WrathCombo.Core;
 using WrathCombo.Extensions;
@@ -204,8 +204,8 @@ internal class FeaturesWindow : ConfigWindow
         if (PresetStorage.ShouldBeHidden(preset))
             return false;
 
-        if (!PresetStorage.AllPresets.TryGetValue(preset, out var attributes))
-            attributes = new PresetStorage.PresetData(preset);
+        if (!PresetStorage.AllPresets.TryGetValue(preset, out var pdata))
+            pdata = new PresetStorage.PresetData(preset);
 
         if (UsableSearch == "erp")
             return false;
@@ -230,16 +230,16 @@ internal class FeaturesWindow : ConfigWindow
             return true;
 
         // Title matching
-        if (attributes.JobInfo.Name.Contains(UsableSearch, Lower))
+        if (pdata.Name.Contains(UsableSearch, Lower))
             return true;
 
         // Title matching (without spaces)
-        if (attributes.JobInfo.Name.Replace(" ", "")
+        if (pdata.Name.Replace(" ", "")
             .Contains(UsableSearch.Replace(" ", ""), Lower))
             return true;
 
         // Title matching (without punctuation or spaces)
-        if (new string(attributes.JobInfo.Name.Replace(" ", "")
+        if (new string(pdata.Name.Replace(" ", "")
                 .Where(c => c == '!' || !char.IsPunctuation(c))
                 .ToArray())
             .Contains(new string(UsableSearch.Replace(" ", "")
@@ -250,16 +250,16 @@ internal class FeaturesWindow : ConfigWindow
         if (SearchDescription)
         {
             // Description matching
-            if (attributes.JobInfo.Description.Contains(UsableSearch, Lower))
+            if (pdata.Description.Contains(UsableSearch, Lower))
                 return true;
 
             // Description matching (without spaces)
-            if (attributes.JobInfo.Description.Replace(" ", "")
+            if (pdata.Description.Replace(" ", "")
                 .Contains(UsableSearch.Replace(" ", ""), Lower))
                 return true;
 
             // Description matching (without punctuation or spaces)
-            if (new string(attributes.JobInfo.Description.Replace(" ", "")
+            if (new string(pdata.Description.Replace(" ", "")
                     .Where(c => c == '!' || !char.IsPunctuation(c))
                     .ToArray())
                 .Contains(new string(UsableSearch.Replace(" ", "")

@@ -11,6 +11,7 @@ internal class JobInfoAttribute : Attribute
 {
     /// <summary> Initializes a new instance of the <see cref="JobInfoAttribute"/> class. </summary>
     /// <param name="job"> Associated job ID. </param>
+    /// <param name="jobRoleIcon"> Job role to use for the optional icon. Only available for top level presets. </param>
     /// <param name="order"> Display order. </param>
     ///
     internal JobInfoAttribute(
@@ -24,21 +25,12 @@ internal class JobInfoAttribute : Attribute
             _ => job
         };
 
-        Name = "";
-        Description = "";
-
         Order = order;
         Role = GetRoleFromJob(Job);
         RoleForIcon = jobRoleIcon == JobRole.All ? null : jobRoleIcon;
         JobName = Job.Name();
         JobShorthand = Job.Shorthand();
     }
-
-    /// <summary> Gets the display name. </summary>
-    public string Name { get; set; }
-
-    /// <summary> Gets the description. </summary>
-    public string Description { get; set; }
 
     /// <summary> Associated job ID (with gathering jobs mapped to MIN). </summary>
     public Job Job { get; }
@@ -49,7 +41,7 @@ internal class JobInfoAttribute : Attribute
     /// <summary> Gets the job role. </summary>
     public JobRole Role { get; }
 
-    /// <summary> Gets the job role used for adding an icon override. </summary>
+    /// <summary> Gets the job role used for adding an icon override. Not used on child presets </summary>
     public JobRole? RoleForIcon { get; }
 
     /// <summary> Gets the job name. </summary>

@@ -261,7 +261,7 @@ public partial class WrathCombo
 
             if (!Service.Configuration.SuppressSetCommands && ctrlText == "")
                 DuoLog.Information(
-                    $"{usablePreset.Attributes().JobInfo.Name} {action} {ctrlText}");
+                    $"{usablePreset.Attributes().Name} {action} {ctrlText}");
         }
     }
 

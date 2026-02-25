@@ -1,6 +1,5 @@
 ﻿#region
 
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.Types;
 using ECommons;
 using ECommons.DalamudServices;
@@ -14,7 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using WrathCombo.API.Enum;
-using WrathCombo.Attributes;
 using WrathCombo.Combos.PvE;
 using WrathCombo.Combos.PvE.Enums;
 using WrathCombo.Core;
@@ -25,8 +23,8 @@ using WrathCombo.Services;
 using WrathCombo.Services.IPC_Subscriber;
 using WrathCombo.Window.Functions;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
-using static WrathCombo.Data.ActionWatching;
 using static WrathCombo.CustomComboNS.Functions.Jobs;
+using static WrathCombo.Data.ActionWatching;
 using ActionType = FFXIVClientStructs.FFXIV.Client.Game.ActionType;
 
 #endregion

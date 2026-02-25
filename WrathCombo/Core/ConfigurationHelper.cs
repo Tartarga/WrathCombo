@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using ECommons.DalamudServices;
 using ECommons.Logging;
 using Newtonsoft.Json;
-using WrathCombo.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using WrathCombo.Services;
 using Debug = WrathCombo.Window.Tabs.Debug;
 
@@ -140,8 +138,10 @@ public partial class Configuration
             {
                 Svc.Log.Debug(value.ToString());
 
-                var preset = PresetStorage.AllPresets.Keys
-                 .FirstOrDefault(p => (int)p == value);
+                var preset = (Preset)value;
+
+                if (!PresetStorage.AllPresets.TryGetValue(preset, out var pdata))
+                    continue;
 
                 // If not found, skip
                 if (!PresetStorage.AllPresets.ContainsKey(preset))
@@ -156,8 +156,7 @@ public partial class Configuration
                     needToResetMessagePrinted = !needToResetMessagePrinted;
                 }
 
-                var info = preset.GetComboAttribute();
-                DuoLog.Error($"- {info.JobName}: {info.Name}");
+                DuoLog.Error($"- {pdata.JobInfo.JobName}: {pdata.Name}");
                 EnabledActions.Remove(preset);
             }
 

@@ -1,8 +1,8 @@
 ﻿using ECommons.ExcelServices;
 using ECommons.GameHelpers;
 using Lumina.Excel.Sheets;
-using static WrathCombo.Window.Text;
 using static WrathCombo.CustomComboNS.Functions.Jobs;
+using static WrathCombo.Window.Text;
 
 namespace WrathCombo.Extensions
 {

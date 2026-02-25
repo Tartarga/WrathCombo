@@ -1,5 +1,6 @@
 ﻿using Dalamud.Interface.Textures.TextureWraps;
 using Dalamud.Interface.Utility.Raii;
+using ECommons;
 using ECommons.ExcelServices;
 using ECommons.GameHelpers;
 using ECommons.ImGuiMethods;
@@ -8,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using ECommons;
 using WrathCombo.Core;
 using WrathCombo.Extensions;
 using WrathCombo.Services;

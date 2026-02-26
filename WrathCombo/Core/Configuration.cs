@@ -323,7 +323,7 @@ public partial class Configuration : IPluginConfiguration
         defaultValue: "4.0",
         unitLabel: "seconds",
         type: Setting.Type.Number_Float,
-        sliderMin: 0,
+        sliderMin: 4f,
         sliderMax: 20)]
     public float OpenerTimeout = 4f;
 

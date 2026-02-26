@@ -288,10 +288,9 @@ internal class Presets : ConfigWindow
 
                         if (Service.Configuration.HideConflictedCombos)
                         {
-                            var conflictOriginals = PresetStorage.GetConflicts(childPreset);    // Presets that are contained within a ConflictedAttribute
-                            var conflictsSource = PresetStorage.GetAllConflicts();              // Presets with the ConflictedAttribute
+                            var conflictOriginals = childInfo.Conflicts;    // Presets that are contained within a ConflictedAttribute
 
-                            if (!conflictsSource.Where(x => x == childPreset || x == preset).Any() || conflictOriginals.Length == 0)
+                            if (!ConflictingCombos.Where(x => x == childPreset || x == preset).Any() || conflictOriginals.Length == 0)
                             {
                                 draw();
                                 if (grandchildren.Length > 0)

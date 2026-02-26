@@ -178,10 +178,9 @@ internal class PvPFeatures : FeaturesWindow
 
             if (Service.Configuration.HideConflictedCombos && !IsSearching)
             {
-                var conflictOriginals = PresetStorage.GetConflicts(pdata.Preset); // Presets that are contained within a ConflictedAttribute
-                var conflictsSource = PresetStorage.GetAllConflicts();      // Presets with the ConflictedAttribute
+                var conflictOriginals = pdata.Conflicts;                    // Presets that are contained within a ConflictedAttribute
 
-                if (conflictsSource.All(x => x != pdata.Preset) || conflictOriginals.Length == 0)
+                if (PresetStorage.ConflictingCombos.All(x => x != pdata.Preset) || conflictOriginals.Length == 0)
                 {
                     presetBox.Draw();
                     ImGuiEx.Spacing(new Vector2(0, 12));

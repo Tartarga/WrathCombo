@@ -18,9 +18,17 @@ namespace WrathCombo.Core;
 
 internal static class PresetStorage
 {
+    /// <summary>
+    /// A frozen dictionary containing the Preset as the key, and a PresetData object containing all of its relevant attributes as the value.
+    /// </summary>
     internal static readonly FrozenDictionary<Preset, PresetData> AllPresets = BuildPresets();
+
     private static readonly FrozenSet<Preset>? OccultCrescentCombos = BuildOccultCrescentCombos();
-    private static readonly FrozenDictionary<Preset, Preset[]>? ConflictingCombos = BuildConflictingCombos();
+
+    /// <summary>
+    /// A frozen set of presets that have at least one conflict with another preset
+    /// </summary>
+    internal static readonly FrozenSet<Preset> ConflictingCombos = BuildConflictingCombos();
 
     internal class PresetData
     {
@@ -28,6 +36,7 @@ internal static class PresetStorage
         public string Name { get; }
         public string Description { get; }
         public bool IsPvP { get; }
+        public bool IsAoE { get; }
         public Preset[] Conflicts;
         public Preset? Parent;
         public Preset? GrandParent;
@@ -55,6 +64,7 @@ internal static class PresetStorage
             Name = GetPresetString($"{preset}_Name");
             Description = GetPresetString($"{preset}_Desc");
             IsPvP = preset.GetAttribute<PvPCustomComboAttribute>() != null;
+            IsAoE = preset.ToString().Contains("_AoE_", StringComparison.OrdinalIgnoreCase);
             Conflicts = preset.GetAttribute<ConflictingCombosAttribute>()?.ConflictingPresets ?? [];
             Parent = preset.GetAttribute<ParentComboAttribute>()?.ParentPreset;
             BlueInactive = preset.GetAttribute<BlueInactiveAttribute>();
@@ -204,13 +214,12 @@ internal static class PresetStorage
             .ToFrozenSet();
     }
 
-    private static FrozenDictionary<Preset, Preset[]>? BuildConflictingCombos()
+    internal static FrozenSet<Preset> BuildConflictingCombos()
     {
         return AllPresets
-            .ToDictionary(
-                kvp => kvp.Key,
-                kvp => kvp.Value.Conflicts ?? [])
-            .ToFrozenDictionary();
+            .Where(kvp => kvp.Value.Conflicts is { Length: > 0 })
+            .Select(kvp => kvp.Key)
+            .ToFrozenSet();
     }
 
     /// <summary> Gets a value indicating whether a preset is enabled. </summary>
@@ -259,12 +268,6 @@ internal static class PresetStorage
     /// <param name="preset"> Preset to check. </param>
     /// <returns> The conflicting presets. </returns>
     public static Preset[] GetConflicts(Preset preset) => AllPresets[preset].Conflicts;
-
-    /// <summary> Gets the full list of conflicted combos. </summary>
-    public static List<Preset> GetAllConflicts() => ConflictingCombos.Keys.ToList();
-
-    /// <summary> Get all the info from conflicted combos. </summary>
-    public static List<Preset[]> GetAllConflictOriginals() => ConflictingCombos.Values.ToList();
 
     public static Preset? GetPresetByString(string value)
     {

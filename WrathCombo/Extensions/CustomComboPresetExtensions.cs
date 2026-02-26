@@ -1,6 +1,7 @@
 ﻿#region
 
 using ECommons.ExcelServices;
+using System.Collections.Generic;
 using System.Text;
 using WrathCombo.Core;
 
@@ -10,12 +11,10 @@ namespace WrathCombo.Extensions;
 
 internal static partial class PresetExtensions
 {
-    public static PresetStorage.PresetData? Attributes(this Preset preset)
+    public static PresetStorage.PresetData Attributes(this Preset preset)
     {
-        if (PresetStorage.AllPresets.TryGetValue(preset, out var atts))
-            return atts;
 
-        return null;
+        return PresetStorage.AllPresets[preset];
     }
 
     public static string Name(this Preset? preset) =>
@@ -30,51 +29,59 @@ internal static partial class PresetExtensions
                 : preset.ToString();
         }
 
-        public string NameWithFullLineage
-            (Job? currentJob = null)
+        public string NameWithFullLineage(Job? currentJob = null)
         {
-            var pdata = preset.Attributes();
-
-            if (pdata?.JobInfo is null)
-                return preset.ToString();
-
-            var name = new StringBuilder(preset.Name());
-
-            Preset? inspectingPreset = preset;
-            while (inspectingPreset is not null)
+            var segments = new List<string>
             {
-                var parent = PresetStorage.AllPresets[inspectingPreset.Value].Parent;
+                // Start with the current preset name
+                preset.Name()
+            };
+
+            var current = preset;
+
+            while (true)
+            {
+                var attr = current.Attributes();
+                var parent = attr.Parent;
+
                 if (parent is not null)
                 {
-                    name.Insert(0, $"{parent.Name()} > ");
+                    segments.Add(parent.Value.Name());
+                    current = parent.Value;
+                    continue;
                 }
-                // Insert the job name at the beginning
+
+                // We hit root level — now add job header
+                if (currentJob is not null && attr.JobInfo.Job == currentJob)
+                    break;
+
+                if (attr.JobInfo.Job == Job.ADV)
+                {
+                    var header = "[Roles And Content]";
+
+                    if (attr.IsVariant)
+                        header += " Variant";
+
+                    else if (attr.IsBozja)
+                        header += " Bozja";
+
+                    else if (attr.OccultCrescentJob is not null)
+                        header += " Occult Crescent";
+
+                    else header += " Job Roles";
+
+                    segments.Add(header);
+                }
                 else
                 {
-                    string lastPresetJob;
-                    var lastPresetData = inspectingPreset.Value.Attributes();
-
-                    if (currentJob is not null && lastPresetData.JobInfo.Job == currentJob)
-                        break;
-
-                    if (lastPresetData.JobInfo.Job == Job.ADV)
-                    {
-                        lastPresetJob = "[Roles And Content] ";
-                        if (lastPresetData.IsVariant)
-                            lastPresetJob += "Variant > ";
-                        if (PresetStorage.IsOccultCrescent(inspectingPreset.Value))
-                            lastPresetJob += "Occult Crescent > ";
-                    }
-                    else
-                        lastPresetJob = $"[{lastPresetData.JobInfo.JobShorthand}] ";
-
-                    name.Insert(0, lastPresetJob);
+                    segments.Add($"[{attr.JobInfo.JobShorthand}]");
                 }
 
-                inspectingPreset = parent;
+                break;
             }
 
-            return name.ToString();
+            segments.Reverse();
+            return string.Join(" > ", segments);
         }
 
         public bool Enabled() =>

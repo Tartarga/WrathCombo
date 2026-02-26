@@ -127,7 +127,7 @@ internal static class PresetStorage
                 !Service.Configuration.EnabledActions
                     .Contains((Preset)parent))
                 return [];
-            if (parent?.Attributes()?.Parent is { } grandParent &&
+            if (parent?.Attributes().Parent is { } grandParent &&
                 !Service.Configuration.EnabledActions
                     .Contains(grandParent))
                 return [];

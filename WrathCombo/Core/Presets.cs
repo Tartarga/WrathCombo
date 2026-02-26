@@ -76,6 +76,8 @@ internal static class PresetStorage
             ReplaceSkill = preset.GetAttribute<ReplaceSkillAttribute>();
             JobInfo = preset.GetAttribute<JobInfoAttribute>();
             AutoAction = preset.GetAttribute<AutoActionAttribute>();
+            IsAoE = AutoAction?.IsAoE
+                ?? preset.ToString().Contains("_AoE_", StringComparison.OrdinalIgnoreCase);
             IsHidden = preset.GetAttribute<HiddenAttribute>() != null;
             ComboType = GetComboType(preset);
         }

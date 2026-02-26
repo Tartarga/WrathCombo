@@ -74,12 +74,24 @@ internal class Settings : ConfigWindow
             if (setting.Type is Attributes.Setting.Type.Number_Float or Attributes.Setting.Type.Slider_Float)
             {
                 var val = (float)setting.Value;
-                if (val < setting.SliderMin)
-                    val = setting.SliderMin ?? val;
-                if (val > setting.SliderMax)
-                    val = setting.SliderMax ?? val;
+                if (val < setting.MinFLoat)
+                    val = setting.MinFLoat ?? val;
+                if (val > setting.MaxFloat)
+                    val = setting.MaxFloat ?? val;
 
                 setting.Value = Math.Round(val, 1);
+            }
+            if (setting.Type is Attributes.Setting.Type.Number_Int or Attributes.Setting.Type.Slider_Int)
+            {
+                if (int.TryParse(setting.Value.ToString(), out var val))
+                {
+                    if (val < setting.MinInt)
+                        val = setting.MinInt ?? val;
+                    if (val > setting.MaxInt)
+                        val = setting.MaxInt ?? val;
+
+                    setting.Value = val;
+                }
             }
         }
     }
@@ -298,7 +310,17 @@ internal class Settings : ConfigWindow
                     ImGui.PushItemWidth(75);
                     changed = ImGui.InputInt(label, ref value);
                     if (changed)
-                        setting.Value = value;
+                    {
+                        if (int.TryParse(value.ToString(), out var val))
+                        {
+                            if (val < setting.MinInt)
+                                val = setting.MinInt ?? val;
+                            if (val > setting.MaxInt)
+                                val = setting.MaxInt ?? val;
+
+                            setting.Value = val;
+                        }
+                    }
                     ImGui.SameLine();
                     cursorXAfterInput = ImGui.GetCursorPosX();
                     ImGui.Text(setting.UnitLabel ?? setting.Name);
@@ -310,18 +332,12 @@ internal class Settings : ConfigWindow
                     var value = (float)setting.Value;
                     ImGui.PushItemWidth(75);
                     changed = ImGui.InputFloat(label, ref value, format: $"{value:N1}");
-
-                    bool interacted =
-                        changed ||
-                        ImGui.IsItemActivated() || 
-                        ImGui.IsItemDeactivatedAfterEdit();
-
-                    if (interacted)
+                    if (changed)
                     {
-                        if (value < setting.SliderMin)
-                            value = setting.SliderMin ?? value;
-                        if (value > setting.SliderMax)
-                            value = setting.SliderMax ?? value;
+                        if (value < setting.MinFLoat)
+                            value = setting.MinFLoat ?? value;
+                        if (value > setting.MaxFloat)
+                            value = setting.MaxFloat ?? value;
 
                         setting.Value = Math.Round(value, 1);
                     }
@@ -333,39 +349,59 @@ internal class Settings : ConfigWindow
                 }
             case Attributes.Setting.Type.Slider_Int:
                 {
-                    var value = Convert.ToInt32(setting.Value);
-                    ImGui.PushItemWidth(75);
-                    if (setting.SliderMin is null ||
-                        setting.SliderMax is null)
-                        changed = ImGui.SliderInt(label, ref value);
-                    else
-                        changed = ImGui.SliderInt(label,
-                            ref value,
-                            (int)setting.SliderMin,
-                            (int)setting.SliderMax);
-                    if (changed)
-                        setting.Value = value;
-                    ImGui.SameLine();
-                    cursorXAfterInput = ImGui.GetCursorPosX();
-                    ImGui.Text(setting.UnitLabel ?? setting.Name);
+                    if (int.TryParse(setting.Value.ToString(), out var value))
+                    {
+                        ImGui.PushItemWidth(75);
+                        if (setting.MinInt is null ||
+                            setting.MaxInt is null)
+                            changed = ImGui.SliderInt(label, ref value);
+                        else
+                            changed = ImGui.SliderInt(label,
+                                ref value,
+                                setting.MinInt.Value,
+                                setting.MaxInt.Value);
 
+                        if (changed)
+                        {
+                            if (int.TryParse(value.ToString(), out var val))
+                            {
+                                if (val < setting.MinInt)
+                                    val = setting.MinInt ?? val;
+                                if (val > setting.MaxInt)
+                                    val = setting.MaxInt ?? val;
+
+                                setting.Value = val;
+                            }
+                        }
+                        ImGui.SameLine();
+                        cursorXAfterInput = ImGui.GetCursorPosX();
+                        ImGui.Text(setting.UnitLabel ?? setting.Name);
+                    }
                     break;
                 }
             case Attributes.Setting.Type.Slider_Float:
                 {
                     var value = (float)setting.Value;
                     ImGui.PushItemWidth(75);
-                    if (setting.SliderMin is null ||
-                        setting.SliderMax is null)
+                    if (setting.MinFLoat is null ||
+                        setting.MaxFloat is null)
                         changed = ImGui.SliderFloat(label, ref value, format: $"{value:N1}");
                     else
                         changed = ImGui.SliderFloat(label,
                             ref value,
-                            (float)setting.SliderMin,
-                            (float)setting.SliderMax,
+                            (float)setting.MinFLoat,
+                            (float)setting.MaxFloat,
                             $"{value:N1}");
+
                     if (changed)
+                    {
+                        if (value < setting.MinFLoat)
+                            value = setting.MinFLoat ?? value;
+                        if (value > setting.MaxFloat)
+                            value = setting.MaxFloat ?? value;
+
                         setting.Value = Math.Round(value, 1);
+                    }
                     ImGui.SameLine();
                     cursorXAfterInput = ImGui.GetCursorPosX();
                     ImGui.Text(setting.UnitLabel ?? setting.Name);

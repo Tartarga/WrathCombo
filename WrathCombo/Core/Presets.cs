@@ -31,8 +31,8 @@ internal static class PresetStorage
     internal class PresetData
     {
         public Preset Preset { get; }
-        public string Name { get; }
-        public string Description { get; }
+        public string Name => PresetLocalization.GetName(Preset);
+        public string Description => PresetLocalization.GetDescription(Preset);
         public bool IsPvP { get; }
         public bool IsAoE { get; }
         public Preset[] Conflicts;
@@ -60,8 +60,6 @@ internal static class PresetStorage
         public PresetData(Preset preset)
         {
             Preset = preset;
-            Name = GetPresetString($"{preset}_Name");
-            Description = GetPresetString($"{preset}_Desc");
             IsPvP = preset.GetAttribute<PvPCustomComboAttribute>() != null;
             IsAoE = preset.ToString().Contains("_AoE_", StringComparison.OrdinalIgnoreCase);
             Conflicts = preset.GetAttribute<ConflictingCombosAttribute>()?.ConflictingPresets ?? [];

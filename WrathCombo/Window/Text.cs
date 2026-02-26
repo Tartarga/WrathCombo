@@ -1,50 +1,131 @@
 ﻿using ECommons.DalamudServices;
+using System.Collections.Frozen;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
+using System.Threading;
+using WrathCombo.Core;
 using WrathCombo.Resources.Localization.Presets;
 using WrathCombo.Resources.Localization.UI.Settings;
 
 namespace WrathCombo.Window
 {
-    internal class Text
+    internal static class Text
     {
+        // Cache for localized preset info, keyed by preset
+        private sealed record LocalizedPresetInfo(string Name, string Description);
+        private static FrozenDictionary<Preset, LocalizedPresetInfo>? presetCache;
+        private static readonly Lock presetCacheLock = new();
+
+        // For Reference: Dalamud supports these languages
+        // https://github.com/goatcorp/Dalamud/blob/master/Dalamud/Localization.cs#L21
+        // ApplicableLangCodes = ["de", "ja", "fr", "it", "es", "ko", "no", "ru", "zh", "tw"];
+
         // Pre-allocated cultures
-        private static readonly CultureInfo Ja = new("ja");
         private static readonly CultureInfo En = new("en");
         private static readonly CultureInfo De = new("de");
+        private static readonly CultureInfo Ja = new("ja");
         private static readonly CultureInfo Fr = new("fr");
-        private static readonly CultureInfo ZhHans = new("zh-Hans"); // Simplified
-        private static readonly CultureInfo ZhHant = new("zh-Hant"); // Traditional
-        private static readonly CultureInfo ZhTW = new("zh-TW"); // Traditional
-        private static readonly CultureInfo Ko = new("ko-KR");
+        private static readonly CultureInfo It = new("it");
+        private static readonly CultureInfo Es = new("es");
+        private static readonly CultureInfo Ko = new("ko");
+        private static readonly CultureInfo No = new("no");
+        private static readonly CultureInfo Ru = new("ru");
+        private static readonly CultureInfo Zh = new("zh-Hans"); // Simplified
+        private static readonly CultureInfo Tw = new("zh-Hant"); // Traditional
 
-        // Cache the game culture
-        private static readonly CultureInfo GameCulture = GetGameCulture();
+        // Cache the game culture.
+        private static CultureInfo GameCulture = Svc.PluginInterface.UiLanguage.ToCulture();
 
         // Expose TextInfo for formatting purposes (Job Names)
         public static TextInfo TextFormatting => GameCulture.TextInfo;
 
-        private static CultureInfo GetGameCulture()
-        {
-            return (int)Svc.ClientState.ClientLanguage switch
+        // Subscribe to language change event to clear caches / change GameCulture
+        static Text() =>
+            Svc.PluginInterface.LanguageChanged += newLang =>
             {
-                // Global Client
-                // https://github.com/goatcorp/Dalamud/blob/master/Dalamud/Game/ClientLanguage.cs
-                0 => Ja,
-                1 => En,
-                2 => De,
-                3 => Fr,
+                // Update the global culture
+                GameCulture = newLang.ToCulture();
 
-                // Forked Client (AtmoOmen's Dalamud)
-                // https://github.com/AtmoOmen/Dalamud/blob/master/Dalamud/Game/ClientLanguage.cs
-                4 => ZhHans, // ChineseSimplified
-                5 => ZhHant, // ChineseTraditional (CHT), unknown if correct
-                6 => Ko,     // Korean
-                7 => ZhTW, // TraditionalChinese (TC), unknown if correct
-
-                // Fallback to current UI culture if we somehow get an unexpected value
-                _ => CultureInfo.CurrentUICulture
+                // Invalidate the preset cache safely
+                lock (presetCacheLock)
+                {
+                    presetCache = null;
+                }
             };
+
+        /// <summary>
+        /// Takes known Dalamud string codes and maps to CultureInfo, with a fallback to English.
+        /// </summary>
+        /// <param name="uiLang"></param>
+        /// <returns></returns>
+        public static CultureInfo ToCulture(this string uiLang)
+        {
+            // Map specific language codes
+            return uiLang switch
+            {
+                "de" => De,
+                "ja" => Ja,
+                "fr" => Fr,
+                "it" => It,
+                "es" => Es,
+                "ko" => Ko,
+                "no" => No,
+                "ru" => Ru,
+                "zh" => Zh,
+                "tw" => Tw,
+                _ => En // handles "en" and any unexpected codes by falling back to English
+            };
+        }
+
+        internal static class PresetLocalization
+        {
+            public static string GetName(Preset preset)
+                => GetCache()[preset].Name;
+
+            public static string GetDescription(Preset preset)
+                => GetCache()[preset].Description;
+
+            private static FrozenDictionary<Preset, LocalizedPresetInfo> GetCache()
+            {
+                lock (presetCacheLock)
+                {
+                    presetCache ??= BuildCache();
+                    return presetCache;
+                }
+            }
+
+            /// <summary>
+            /// Rebuilds the cache of Preset Strings, called on first access and whenever language changes.
+            /// </summary>
+            /// <returns></returns>
+            private static FrozenDictionary<Preset, LocalizedPresetInfo> BuildCache()
+            {
+                var dict = new Dictionary<Preset, LocalizedPresetInfo>(
+                    PresetStorage.AllPresets.Count);
+
+                foreach (var preset in PresetStorage.AllPresets.Keys)
+                {
+                    dict[preset] = new LocalizedPresetInfo(
+                        // To Do: process string for magic placeholders that'll pull from sheets
+                        GetLocalizedString($"{preset}_Name", CustomComboPresets.ResourceManager).ProcessSheetLookups(),
+                        GetLocalizedString($"{preset}_Desc", CustomComboPresets.ResourceManager).ProcessSheetLookups()
+                    );
+                }
+
+                return dict.ToFrozenDictionary();
+            }
+        }
+
+        /// <summary>
+        /// Processes any magic placeholders in the string that pull from game data sheets.
+        /// </summary>
+        /// <param name="astring"></param>
+        /// <returns></returns>
+        private static string ProcessSheetLookups(this string astring)
+        {
+            // To Do: implement actual lookup processing. For now, just return the string.
+            return astring;
         }
 
         /// <summary>
@@ -58,11 +139,6 @@ namespace WrathCombo.Window
             // If missing entirely, return key (debug-friendly)
             return value ?? key;
         }
-
-        /// <summary>
-        /// Preset localization
-        /// </summary>
-        public static string GetPresetString(string key) => GetLocalizedString(key, CustomComboPresets.ResourceManager);
 
         /// <summary>
         /// Settings UI localization

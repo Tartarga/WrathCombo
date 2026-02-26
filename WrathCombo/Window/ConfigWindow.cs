@@ -24,7 +24,14 @@ namespace WrathCombo.Window;
 /// <summary> Plugin configuration window. </summary>
 internal class ConfigWindow : Dalamud.Interface.Windowing.Window
 {
+    /// <summary>
+    /// Dictionary of top level presets grouped by job, ordered by role and then job order, with their preset data pre-cached for quick access.
+    /// </summary>
     internal static readonly Dictionary<Job, List<PresetData>> groupedPresets = GetGroupedPresets();
+
+    /// <summary>
+    ///  Dictionary of a preset and an array of it's children, with their preset data pre-cached for quick access.
+    /// </summary>
     internal static readonly Dictionary<Preset, (Preset Preset, PresetData Attr)[]> presetChildren = GetPresetChildren();
 
     internal static float lastLeftColumnWidth;

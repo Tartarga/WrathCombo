@@ -23,8 +23,6 @@ internal static class PresetStorage
     /// </summary>
     internal static readonly FrozenDictionary<Preset, PresetData> AllPresets = BuildPresets();
 
-    private static readonly FrozenSet<Preset>? OccultCrescentCombos = BuildOccultCrescentCombos();
-
     /// <summary>
     /// A frozen set of presets that have at least one conflict with another preset
     /// </summary>
@@ -49,6 +47,7 @@ internal static class PresetStorage
         public uint[] RetargetedActions =>
             GetRetargetedActions(Preset, RetargetedAttribute, PossiblyRetargeted, Parent);
         public bool IsBozja { get; }
+        public bool IsOccultCrescent => OccultCrescentJob != null;
         public OccultCrescentAttribute? OccultCrescentJob;
         public string? HoverText { get; }
         public ReplaceSkillAttribute? ReplaceSkill;
@@ -232,7 +231,7 @@ internal static class PresetStorage
     /// </summary>
     /// <param name="preset"></param>
     /// <returns></returns>
-    public static bool ShouldBeHidden(Preset preset) =>
+    private static bool ShouldBeHidden(Preset preset) =>
         AllPresets[preset].IsHidden &&
         !Service.Configuration.ShowHiddenFeatures;
 
@@ -253,11 +252,6 @@ internal static class PresetStorage
     /// <returns> The boolean representation. </returns>
     public static bool IsRetargeted(Preset preset) =>
         AllPresets[preset].RetargetedAttribute != null;
-
-    /// <summary> Gets a value indicating whether a preset is secret. </summary>
-    /// <param name="preset"> Preset to check. </param>
-    /// <returns> The boolean representation. </returns>
-    public static bool IsOccultCrescent(Preset preset) => OccultCrescentCombos.Contains(preset);
 
     /// <summary> Gets the parent combo preset if it exists, or null. </summary>
     /// <param name="preset"> Preset to check. </param>

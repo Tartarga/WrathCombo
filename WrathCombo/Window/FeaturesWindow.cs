@@ -201,11 +201,10 @@ internal class FeaturesWindow : ConfigWindow
         if (!IsSearching)
             return false;
 
-        if (PresetStorage.ShouldBeHidden(preset))
-            return false;
+        var pdata = PresetStorage.AllPresets[preset];
 
-        if (!PresetStorage.AllPresets.TryGetValue(preset, out var pdata))
-            pdata = new PresetStorage.PresetData(preset);
+        if (pdata.ShouldBeHidden)
+            return false;
 
         if (UsableSearch == "erp")
             return false;

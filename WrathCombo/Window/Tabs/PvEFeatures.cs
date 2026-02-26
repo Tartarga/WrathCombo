@@ -146,7 +146,7 @@ internal class PvEFeatures : FeaturesWindow
                         }
 
                         if (groupedPresets[openJob.Value].Any(x =>
-                                PresetStorage.IsOccultCrescent(x.Preset)))
+                                x.IsOccultCrescent))
                         {
                             if (ImGui.BeginTabItem("Occult Crescent"))
                             {
@@ -190,7 +190,7 @@ internal class PvEFeatures : FeaturesWindow
             SearchMorePresets([.. PresetStorage.AllPresets!
                 .Where(kvp =>
                     kvp.Value.IsVariant &&
-                    !PresetStorage.ShouldBeHidden(kvp.Key) &&
+                    !kvp.Value.ShouldBeHidden &&
                     kvp.Value.JobInfo.Job == job)
                 .Select(x => x.Key)],
                 alreadyShown);
@@ -218,7 +218,7 @@ internal class PvEFeatures : FeaturesWindow
             SearchMorePresets([.. PresetStorage.AllPresets!
                 .Where(kvp =>
                     kvp.Value.IsBozja &&
-                    !PresetStorage.ShouldBeHidden(kvp.Key) &&
+                    !kvp.Value.ShouldBeHidden &&
                     kvp.Value.JobInfo.Job == job)
                 .Select(kvp => kvp.Key)],
                 alreadyShown);
@@ -229,8 +229,8 @@ internal class PvEFeatures : FeaturesWindow
     {
         List<Preset> alreadyShown = [];
         foreach (var pdata in groupedPresets[job].Where(x =>
-            PresetStorage.IsOccultCrescent(x.Preset) &&
-            !PresetStorage.ShouldBeHidden(x.Preset)))
+            x.IsOccultCrescent &&
+            !x.ShouldBeHidden))
         {
             if (IsSearching && !PresetMatchesSearch(pdata.Preset))
                 continue;
@@ -245,8 +245,8 @@ internal class PvEFeatures : FeaturesWindow
         if (IsSearching)
             SearchMorePresets([.. PresetStorage.AllPresets!
                 .Where(kvp =>
-                    PresetStorage.IsOccultCrescent(kvp.Key) &&
-                    !PresetStorage.ShouldBeHidden(kvp.Key) &&
+                    kvp.Value.IsOccultCrescent &&
+                    !kvp.Value.ShouldBeHidden &&
                     kvp.Value.JobInfo.Job == job)
                 .Select(kvp => kvp.Key)],
                 alreadyShown);
@@ -263,7 +263,7 @@ internal class PvEFeatures : FeaturesWindow
             return !pdata.IsPvP &&
                    !pdata.IsVariant &&
                    !pdata.IsBozja &&
-                   !PresetStorage.IsOccultCrescent(pdata.Preset) &&
+                   !pdata.IsOccultCrescent &&
                    !pdata.ShouldBeHidden;
         }
 

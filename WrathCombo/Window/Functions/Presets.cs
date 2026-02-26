@@ -66,17 +66,17 @@ internal class Presets : ConfigWindow
         }
     }
 
-    internal static void DrawPreset(Preset preset, PresetData pdata)
+    internal static void DrawPreset(Preset preset, PresetData presetdata)
     {
         bool enabled = PresetStorage.IsEnabled(preset);
-        var conflicts = pdata.Conflicts;
-        var parent = pdata.Parent;
-        var blueAttr = pdata.BlueInactive;
-        var presetName = pdata.Name;
+        var conflicts = presetdata.Conflicts;
+        var parent = presetdata.Parent;
+        var blueAttr = presetdata.BlueInactive;
+        var presetName = presetdata.Name;
 
         ImGui.Spacing();
 
-        if (pdata.AutoAction != null)
+        if (presetdata.AutoAction != null)
         {
             Service.Configuration.AutoActions.TryAdd(preset, false);
 
@@ -103,20 +103,20 @@ internal class Presets : ConfigWindow
                 P.UIHelper.ShowIPCControlledIndicatorIfNeeded(preset);
 
         if (IsSearching)
-            presetName = preset.NameWithFullLineage(pdata.JobInfo.Job);
+            presetName = preset.NameWithFullLineage(presetdata.JobInfo.Job);
 
         if (P.UIHelper.ShowIPCControlledCheckboxIfNeeded
             ($"{presetName}###{preset}", ref enabled, preset, true))
             PresetStorage.TogglePreset(preset);
 
-        DrawReplaceAttribute(pdata);
+        DrawReplaceAttribute(presetdata);
 
-        DrawRetargetedAttribute(preset);
+        DrawRetargetedAttribute(presetdata);
 
-        if (DrawRoleIcon(pdata))
+        if (DrawRoleIcon(presetdata))
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 8f.Scale());
 
-        if (DrawOccultJobIcon(pdata))
+        if (DrawOccultJobIcon(presetdata))
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 8f.Scale());
 
         Vector2 length = new();
@@ -140,14 +140,14 @@ internal class Presets : ConfigWindow
                 ImGui.PushItemWidth(length.Length());
             }
 
-            ImGui.TextWrapped($"{pdata.Description}");
+            ImGui.TextWrapped($"{presetdata.Description}");
 
-            if (pdata.HoverText != null)
+            if (presetdata.HoverText != null)
             {
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.TextUnformatted(pdata.HoverText);
+                    ImGui.TextUnformatted(presetdata.HoverText);
                     ImGui.EndTooltip();
                 }
             }
@@ -166,7 +166,7 @@ internal class Presets : ConfigWindow
                         CustomComboFunctions.IsEnabled(conflict)
                             ? ImGuiColors.HealerGreen
                             : ImGuiColors.DalamudRed, 1500),
-                    $"- {conflict.NameWithFullLineage(pdata.JobInfo.Job)}");
+                    $"- {conflict.NameWithFullLineage(presetdata.JobInfo.Job)}");
             ImGui.Unindent();
             ImGui.Spacing();
         }
@@ -192,9 +192,9 @@ internal class Presets : ConfigWindow
         // Draw UserOpts
         if (enabled)
         {
-            if (!pdata.IsPvP)
+            if (!presetdata.IsPvP)
             {
-                switch (pdata.JobInfo.Job)
+                switch (presetdata.JobInfo.Job)
                 {
                     case Job.ADV:
                         {
@@ -233,7 +233,7 @@ internal class Presets : ConfigWindow
             }
             else
             {
-                switch (pdata.JobInfo.Job)
+                switch (presetdata.JobInfo.Job)
                 {
                     case Job.ADV: PvPCommon.Config.Draw(preset); break;
                     case Job.AST: ASTPvP.Config.Draw(preset); break;
@@ -329,9 +329,9 @@ internal class Presets : ConfigWindow
         }
     }
 
-    private static void DrawReplaceAttribute(PresetData pdata)
+    private static void DrawReplaceAttribute(PresetData presetData)
     {
-        if (pdata.ReplaceSkill is ReplaceSkillAttribute att)
+        if (presetData.ReplaceSkill is ReplaceSkillAttribute att)
         {
             string skills = string.Join(", ", att.ActionNames);
 
@@ -358,7 +358,7 @@ internal class Presets : ConfigWindow
             thirdLine: "Using plugins like Redirect or Reaction with configurations\n" +
                        "affecting the same actions will Conflict and may cause issues.");
 
-    private static void DrawRetargetedAttribute
+    private static void DrawRetargetedAttributeOld
     (Preset? preset = null,
         string? firstLine = null,
         string? secondLine = null,
@@ -447,10 +447,96 @@ internal class Presets : ConfigWindow
         }
     }
 
-    private static bool DrawRoleIcon(PresetData pdata)
+    private static void DrawRetargetedAttribute
+    (PresetData? presetdata = null,
+        string? firstLine = null,
+        string? secondLine = null,
+        string? thirdLine = null)
     {
-        if (pdata.JobInfo.RoleForIcon is not JobRole role) return false;
-        if (pdata.Parent != null) return false;
+        // Determine what symbol to show
+        var possiblyRetargeted = false;
+        bool retargeted;
+        if (presetdata is null)
+            retargeted = true;
+        else
+        {
+            possiblyRetargeted = presetdata.PossiblyRetargeted != null;
+            retargeted = presetdata.RetargetedAttribute != null;
+        }
+
+        if (!possiblyRetargeted && !retargeted) return;
+
+        // Resolved the conditions if possibly retargeted
+        if (possiblyRetargeted)
+            if (IsConditionSatisfied(presetdata.PossiblyRetargeted!.PossibleCondition) == true)
+            {
+                retargeted = true;
+                possiblyRetargeted = false;
+            }
+
+        ImGui.SameLine();
+
+        // Color the icon for whether it is possibly or certainly retargeted
+        var color = retargeted
+            ? ImGuiColors.ParsedGreen
+            : ImGuiColors.DalamudYellow;
+
+        using var col = new ImRaii.Color();
+        col.Push(ImGuiCol.TextDisabled, color);
+
+        using (ImRaii.PushFont(UiBuilder.IconFont))
+        {
+            ImGui.TextDisabled(FontAwesomeIcon.Random.ToIconString());
+        }
+
+        if (ImGui.IsItemHovered())
+        {
+            using (ImRaii.Tooltip())
+            {
+                using (ImRaii.TextWrapPos(ImGui.GetFontSize() * 35.0f))
+                {
+                    if (possiblyRetargeted)
+                        ImGui.TextUnformatted(
+                            "This Feature's actions may be retargeted.");
+                    if (retargeted)
+                        ImGui.TextUnformatted(
+                            firstLine ??
+                            "This Feature's actions are retargeted.");
+
+                    ImGui.TextUnformatted(
+                        secondLine ??
+                        "The actions from this Feature will automatically be\n" +
+                        "targeted onto what the developers feel is the best target\n" +
+                        "(following The Balance where applicable).");
+
+                    ImGui.TextUnformatted(
+                        thirdLine ??
+                        "Using plugins like Redirect or Reaction with configurations\n" +
+                        "affecting this action will Conflict and may cause issues.");
+
+                    var settingInfo = "";
+                    if (presetdata is not null)
+                        settingInfo =
+                            presetdata.PossiblyRetargeted is not
+                                null
+                                ? presetdata.PossiblyRetargeted.SettingInfo
+                                : "";
+                    if (settingInfo != "")
+                    {
+                        ImGui.NewLine();
+                        ImGui.TextUnformatted(
+                            "The setting that controls if this action is retargeted is:\n" +
+                            settingInfo);
+                    }
+                }
+            }
+        }
+    }
+
+    private static bool DrawRoleIcon(PresetData presetData)
+    {
+        if (presetData.JobInfo.RoleForIcon is not JobRole role) return false;
+        if (presetData.Parent != null) return false;
         //if (jobID == -1) return false;
         var icon = Icons.Role.GetRoleIcon(role);
         if (icon is null) return false;
@@ -461,13 +547,13 @@ internal class Presets : ConfigWindow
         return true;
     }
 
-    private static bool DrawOccultJobIcon(PresetData? pdata, int? jobID = null)
+    private static bool DrawOccultJobIcon(PresetData? presetData, int? jobID = null)
     {
         int baseJobID;
-        if (pdata is { } realpdata)
+        if (presetData is { } realPresetData)
         {
-            if (realpdata.OccultCrescentJob == null) return false;
-            baseJobID = realpdata.OccultCrescentJob.JobId;
+            if (realPresetData.OccultCrescentJob == null) return false;
+            baseJobID = realPresetData.OccultCrescentJob.JobId;
             if (baseJobID == -1) return false;
         }
         else if (jobID is not null)
@@ -495,7 +581,7 @@ internal class Presets : ConfigWindow
 
         if (error is not null)
         {
-            PluginLog.Error($"Failed to {error} Occult Crescent job icon for Preset:{pdata.Preset} using JobID:{baseJobID}");
+            PluginLog.Error($"Failed to {error} Occult Crescent job icon for Preset:{presetData.Preset} using JobID:{baseJobID}");
             return false;
         }
         #endregion
@@ -517,11 +603,11 @@ internal class Presets : ConfigWindow
     internal static void DrawOccultJobIcon(int jobID) =>
         DrawOccultJobIcon(null, jobID);
 
-    internal static int AllChildren((Preset preset, PresetData pdata)[] children)
+    internal static int AllChildren((Preset preset, PresetData presetData)[] children)
     {
         var output = 0;
 
-        foreach (var (preset, pdata) in children)
+        foreach (var (preset, presetData) in children)
         {
             output++;
             output += AllChildren(presetChildren[preset].ToArray());

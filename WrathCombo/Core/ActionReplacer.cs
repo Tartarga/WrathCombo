@@ -218,16 +218,16 @@ internal sealed class ActionReplacer : IDisposable
 
         FilteredCombos = CustomCombos.Where(x =>
         {
-            var pdata = x.Preset.Attributes();
-            if (pdata is null)
+            var presetData = x.Preset.Attributes();
+            if (presetData is null)
                 return false;
 
-            if (pdata.IsPvP != CustomComboFunctions.InPvP()) // Are we in PvP?
+            if (presetData.IsPvP != CustomComboFunctions.InPvP()) // Are we in PvP?
                 return false;
 
-            return (pdata.JobInfo.Role is JobRole role &&
+            return (presetData.JobInfo.Role is JobRole role &&
                 role.MatchesPlayerJob())
-                || pdata.JobInfo.Job == upgradedJob;
+                || presetData.JobInfo.Job == upgradedJob;
         });
 
         var filteredCombos = FilteredCombos as CustomCombo[] ?? FilteredCombos.ToArray();

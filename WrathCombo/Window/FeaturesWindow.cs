@@ -201,9 +201,9 @@ internal class FeaturesWindow : ConfigWindow
         if (!IsSearching)
             return false;
 
-        var pdata = PresetStorage.AllPresets[preset];
+        var presetData = PresetStorage.AllPresets[preset];
 
-        if (pdata.ShouldBeHidden)
+        if (presetData.ShouldBeHidden)
             return false;
 
         if (UsableSearch == "erp")
@@ -229,16 +229,16 @@ internal class FeaturesWindow : ConfigWindow
             return true;
 
         // Title matching
-        if (pdata.Name.Contains(UsableSearch, Lower))
+        if (presetData.Name.Contains(UsableSearch, Lower))
             return true;
 
         // Title matching (without spaces)
-        if (pdata.Name.Replace(" ", "")
+        if (presetData.Name.Replace(" ", "")
             .Contains(UsableSearch.Replace(" ", ""), Lower))
             return true;
 
         // Title matching (without punctuation or spaces)
-        if (new string(pdata.Name.Replace(" ", "")
+        if (new string(presetData.Name.Replace(" ", "")
                 .Where(c => c == '!' || !char.IsPunctuation(c))
                 .ToArray())
             .Contains(new string(UsableSearch.Replace(" ", "")
@@ -249,16 +249,16 @@ internal class FeaturesWindow : ConfigWindow
         if (SearchDescription)
         {
             // Description matching
-            if (pdata.Description.Contains(UsableSearch, Lower))
+            if (presetData.Description.Contains(UsableSearch, Lower))
                 return true;
 
             // Description matching (without spaces)
-            if (pdata.Description.Replace(" ", "")
+            if (presetData.Description.Replace(" ", "")
                 .Contains(UsableSearch.Replace(" ", ""), Lower))
                 return true;
 
             // Description matching (without punctuation or spaces)
-            if (new string(pdata.Description.Replace(" ", "")
+            if (new string(presetData.Description.Replace(" ", "")
                     .Where(c => c == '!' || !char.IsPunctuation(c))
                     .ToArray())
                 .Contains(new string(UsableSearch.Replace(" ", "")

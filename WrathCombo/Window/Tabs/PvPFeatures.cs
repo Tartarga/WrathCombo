@@ -94,10 +94,10 @@ internal class PvPFeatures : FeaturesWindow
                     if (!tab)
                         return;
 
-                    foreach (var (job, pdata) in groupedPresets
+                    foreach (var (job, presetData) in groupedPresets
                         .Where(x => x.Value.Any(y => y.IsPvP && !y.ShouldBeHidden)))
                     {
-                        var info = pdata[0].JobInfo;
+                        var info = presetData[0].JobInfo;
                         string jobName = info.JobName;
                         string abbreviation = info.JobShorthand;
                         string header = string.IsNullOrEmpty(abbreviation) ? jobName : $"{jobName} - {abbreviation}";
@@ -169,18 +169,18 @@ internal class PvPFeatures : FeaturesWindow
 
     private static void DrawHeadingContents(Job job)
     {
-        foreach (var pdata in groupedPresets[job].Where(x => x.IsPvP))
+        foreach (var presetData in groupedPresets[job].Where(x => x.IsPvP))
         {
-            InfoBox presetBox = new() { ContentsOffset = 5f.Scale(), ContentsAction = () => { Presets.DrawPreset(pdata.Preset, pdata); } };
+            InfoBox presetBox = new() { ContentsOffset = 5f.Scale(), ContentsAction = () => { Presets.DrawPreset(presetData.Preset, presetData); } };
 
-            if (IsSearching && !PvEFeatures.PresetMatchesSearch(pdata.Preset))
+            if (IsSearching && !PvEFeatures.PresetMatchesSearch(presetData.Preset))
                 continue;
 
             if (Service.Configuration.HideConflictedCombos && !IsSearching)
             {
-                var conflictOriginals = pdata.Conflicts;                    // Presets that are contained within a ConflictedAttribute
+                var conflictOriginals = presetData.Conflicts;                    // Presets that are contained within a ConflictedAttribute
 
-                if (PresetStorage.ConflictingCombos.All(x => x != pdata.Preset) || conflictOriginals.Length == 0)
+                if (PresetStorage.ConflictingCombos.All(x => x != presetData.Preset) || conflictOriginals.Length == 0)
                 {
                     presetBox.Draw();
                     ImGuiEx.Spacing(new Vector2(0, 12));
@@ -190,7 +190,7 @@ internal class PvPFeatures : FeaturesWindow
                 if (conflictOriginals.Any(PresetStorage.IsEnabled))
                 {
                     // Keep conflicted items in the counter
-                    var parent = pdata.Parent ?? pdata.Preset;
+                    var parent = presetData.Parent ?? presetData.Preset;
                     CurrentPreset += 1 + Presets.AllChildren(presetChildren[parent].ToArray());
                 }
                 else

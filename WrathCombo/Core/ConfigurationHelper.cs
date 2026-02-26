@@ -140,7 +140,7 @@ public partial class Configuration
 
                 var preset = (Preset)value;
 
-                if (!PresetStorage.AllPresets.TryGetValue(preset, out var pdata))
+                if (!PresetStorage.AllPresets.TryGetValue(preset, out var presetData))
                     continue;
 
                 // If not found, skip
@@ -156,7 +156,7 @@ public partial class Configuration
                     needToResetMessagePrinted = !needToResetMessagePrinted;
                 }
 
-                DuoLog.Error($"- {pdata.JobInfo.JobName}: {pdata.Name}");
+                DuoLog.Error($"- {presetData.JobInfo.JobName}: {presetData.Name}");
                 EnabledActions.Remove(preset);
             }
 

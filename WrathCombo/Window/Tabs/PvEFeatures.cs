@@ -50,9 +50,9 @@ internal class PvEFeatures : FeaturesWindow
                         return;
 
                     // The "Main Menu" of PvE features, showing each job to click on
-                    foreach (var (job, pdata) in groupedPresets)
+                    foreach (var (job, presetData) in groupedPresets)
                     {
-                        var info = pdata[0].JobInfo;
+                        var info = presetData[0].JobInfo;
                         string jobName = info.JobName;
                         string abbreviation = info.JobShorthand;
                         string header = string.IsNullOrEmpty(abbreviation) ? jobName : $"{jobName} - {abbreviation}";
@@ -172,15 +172,15 @@ internal class PvEFeatures : FeaturesWindow
     private static void DrawVariantContents(Job job)
     {
         List<Preset> alreadyShown = [];
-        foreach (var pdata in groupedPresets[job].Where(x =>
+        foreach (var presetData in groupedPresets[job].Where(x =>
             x.IsVariant &&
             !x.IsHidden))
         {
-            if (IsSearching && !PresetMatchesSearch(pdata.Preset))
+            if (IsSearching && !PresetMatchesSearch(presetData.Preset))
                 continue;
-            alreadyShown.Add(pdata.Preset);
+            alreadyShown.Add(presetData.Preset);
 
-            InfoBox presetBox = new() { CurveRadius = 8f, ContentsAction = () => { Presets.DrawPreset(pdata.Preset, pdata); } };
+            InfoBox presetBox = new() { CurveRadius = 8f, ContentsAction = () => { Presets.DrawPreset(presetData.Preset, presetData); } };
             presetBox.Draw();
             ImGuiEx.Spacing(new Vector2(0, 12));
         }
@@ -200,15 +200,15 @@ internal class PvEFeatures : FeaturesWindow
     private static void DrawBozjaContents(Job job)
     {
         List<Preset> alreadyShown = [];
-        foreach (var pdata in groupedPresets[job].Where(x =>
+        foreach (var presetData in groupedPresets[job].Where(x =>
             x.IsBozja &&
             !x.IsHidden))
         {
-            if (IsSearching && !PresetMatchesSearch(pdata.Preset))
+            if (IsSearching && !PresetMatchesSearch(presetData.Preset))
                 continue;
-            alreadyShown.Add(pdata.Preset);
+            alreadyShown.Add(presetData.Preset);
 
-            InfoBox presetBox = new() { CurveRadius = 8f, ContentsAction = () => { Presets.DrawPreset(pdata.Preset, pdata); } };
+            InfoBox presetBox = new() { CurveRadius = 8f, ContentsAction = () => { Presets.DrawPreset(presetData.Preset, presetData); } };
             presetBox.Draw();
             ImGuiEx.Spacing(new Vector2(0, 12));
         }
@@ -228,15 +228,15 @@ internal class PvEFeatures : FeaturesWindow
     private static void DrawOccultContents(Job job)
     {
         List<Preset> alreadyShown = [];
-        foreach (var pdata in groupedPresets[job].Where(x =>
+        foreach (var presetData in groupedPresets[job].Where(x =>
             x.IsOccultCrescent &&
             !x.ShouldBeHidden))
         {
-            if (IsSearching && !PresetMatchesSearch(pdata.Preset))
+            if (IsSearching && !PresetMatchesSearch(presetData.Preset))
                 continue;
-            alreadyShown.Add(pdata.Preset);
+            alreadyShown.Add(presetData.Preset);
 
-            InfoBox presetBox = new() { CurveRadius = 8f, ContentsAction = () => { Presets.DrawPreset(pdata.Preset, pdata); } };
+            InfoBox presetBox = new() { CurveRadius = 8f, ContentsAction = () => { Presets.DrawPreset(presetData.Preset, presetData); } };
             presetBox.Draw();
             ImGuiEx.Spacing(new Vector2(0, 12));
         }
@@ -258,29 +258,29 @@ internal class PvEFeatures : FeaturesWindow
     {
         if (!Messages.PrintBLUMessage(job)) return;
 
-        static bool IsPvECombo(PresetStorage.PresetData pdata)
+        static bool IsPvECombo(PresetStorage.PresetData presetData)
         {
-            return !pdata.IsPvP &&
-                   !pdata.IsVariant &&
-                   !pdata.IsBozja &&
-                   !pdata.IsOccultCrescent &&
-                   !pdata.ShouldBeHidden;
+            return !presetData.IsPvP &&
+                   !presetData.IsVariant &&
+                   !presetData.IsBozja &&
+                   !presetData.IsOccultCrescent &&
+                   !presetData.ShouldBeHidden;
         }
 
         List<Preset> alreadyShown = [];
-        foreach (var pdata in groupedPresets[job].Where(IsPvECombo))
+        foreach (var presetData in groupedPresets[job].Where(IsPvECombo))
         {
-            if (IsSearching && !PresetMatchesSearch(pdata.Preset))
+            if (IsSearching && !PresetMatchesSearch(presetData.Preset))
                 continue;
-            alreadyShown.Add(pdata.Preset);
+            alreadyShown.Add(presetData.Preset);
 
-            InfoBox presetBox = new() { ContentsOffset = 5f.Scale(), ContentsAction = () => { Presets.DrawPreset(pdata.Preset, pdata); } };
+            InfoBox presetBox = new() { ContentsOffset = 5f.Scale(), ContentsAction = () => { Presets.DrawPreset(presetData.Preset, presetData); } };
 
             if (Service.Configuration.HideConflictedCombos && !IsSearching)
             {
-                var conflictOriginals = pdata.Conflicts; // Presets that are contained within a ConflictedAttribute
+                var conflictOriginals = presetData.Conflicts; // Presets that are contained within a ConflictedAttribute
 
-                if (PresetStorage.ConflictingCombos.All(x => x != pdata.Preset) || conflictOriginals.Length == 0)
+                if (PresetStorage.ConflictingCombos.All(x => x != presetData.Preset) || conflictOriginals.Length == 0)
                 {
                     presetBox.Draw();
                     ImGuiEx.Spacing(new Vector2(0, 12));
@@ -290,7 +290,7 @@ internal class PvEFeatures : FeaturesWindow
                 if (conflictOriginals.Any(PresetStorage.IsEnabled))
                 {
                     // Keep conflicted items in the counter
-                    var parent = pdata.Parent ?? pdata.Preset;
+                    var parent = presetData.Parent ?? presetData.Preset;
                     CurrentPreset += 1 + Presets.AllChildren(presetChildren[parent].ToArray());
                 }
                 else

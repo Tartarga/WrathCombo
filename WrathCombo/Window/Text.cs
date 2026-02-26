@@ -17,8 +17,10 @@ namespace WrathCombo.Window
         private static FrozenDictionary<Preset, LocalizedPresetInfo>? presetCache;
         private static readonly Lock presetCacheLock = new();
 
-        // For Reference: Dalamud supports these languages
+        // For Reference: Dalamud supports these languages, and Ottercorp (CN)
         // https://github.com/goatcorp/Dalamud/blob/master/Dalamud/Localization.cs#L21
+        // ApplicableLangCodes = ["de", "ja", "fr", "it", "es", "ko", "no", "ru", "zh", "tw"];
+        // https://github.com/ottercorp/Dalamud/blob/master/Dalamud/Localization.cs#L21
         // ApplicableLangCodes = ["de", "ja", "fr", "it", "es", "ko", "no", "ru", "zh", "tw"];
 
         // Pre-allocated cultures
@@ -59,7 +61,7 @@ namespace WrathCombo.Window
         /// </summary>
         /// <param name="uiLang"></param>
         /// <returns></returns>
-        public static CultureInfo ToCulture(this string uiLang)
+        private static CultureInfo ToCulture(this string uiLang)
         {
             // Map specific language codes
             return uiLang switch

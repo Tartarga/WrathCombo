@@ -7550,6 +7550,16 @@ public enum Preset
     [JobInfo(Job.WAR)]
     WAR_NascentFlash = 18017,
 
+    [ParentCombo(WAR_NascentFlash)]
+    [JobInfo(Job.WAR)]
+    [Retargeted]
+    WAR_NascentFlash_MO = 18154,
+
+    [ParentCombo(WAR_NascentFlash)]
+    [JobInfo(Job.WAR)]
+    [Retargeted]
+    WAR_NascentFlash_TT = 18155,
+
     [ReplaceSkill(WAR.RawIntuition, WAR.Bloodwhetting)]
     [JobInfo(Job.WAR)]
     [Retargeted(WAR.NascentFlash)]
@@ -7580,7 +7590,7 @@ public enum Preset
     WAR_RetargetHolmgang = 18130,
 
     #endregion
-    // Last value = 18153
+    // Last value = 18155
     #endregion
 
     #region WHITE MAGE
@@ -8087,6 +8097,7 @@ public enum Preset
 
     #region ASTROLOGIAN
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(ASTPvP.Malefic)]
     [JobInfo(Job.AST)]
@@ -8150,6 +8161,7 @@ public enum Preset
 
     #region BLACK MAGE
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(BLMPvP.Fire, BLMPvP.Blizzard)]
     [JobInfo(Job.BLM)]
@@ -8197,6 +8209,7 @@ public enum Preset
 
     #region BARD
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(BRDPvP.PowerfulShot)]
     [JobInfo(Job.BRD)]
@@ -8243,6 +8256,7 @@ public enum Preset
 
     #region DANCER
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(DNCPvP.Fountain)]
     [JobInfo(Job.DNC)]
@@ -8279,6 +8293,7 @@ public enum Preset
 
     #region DARK KNIGHT
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(DRKPvP.Souleater)]
     [JobInfo(Job.DRK)]
@@ -8335,6 +8350,7 @@ public enum Preset
 
     #region DRAGOON
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(DRGPvP.Drakesbane)]
     [JobInfo(Job.DRG)]
@@ -8393,6 +8409,7 @@ public enum Preset
 
     #region Burst Mode
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(GNBPvP.SolidBarrel)]
     [JobInfo(Job.GNB)]
@@ -8450,6 +8467,7 @@ public enum Preset
 
     #region MACHINIST
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(MCHPvP.BlastCharge)]
     [JobInfo(Job.MCH)]
@@ -8516,6 +8534,7 @@ public enum Preset
 
     #region MONK
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(MNKPvP.PhantomRush)]
     [JobInfo(Job.MNK)]
@@ -8562,6 +8581,7 @@ public enum Preset
 
     #region NINJA
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(NINPvP.AeolianEdge)]
     [JobInfo(Job.NIN)]
@@ -8663,6 +8683,7 @@ public enum Preset
 
     #region PALADIN
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(PLDPvP.RoyalAuthority)]
     [JobInfo(Job.PLD)]
@@ -8719,6 +8740,7 @@ public enum Preset
 
     #region PICTOMANCER
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(PCTPvP.FireInRed)]
     [JobInfo(Job.PCT)]
@@ -8785,6 +8807,7 @@ public enum Preset
 
     #region REAPER
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(RPRPvP.Slice)]
     [JobInfo(Job.RPR)]
@@ -8845,6 +8868,7 @@ public enum Preset
 
     #region RED MAGE
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(RDMPvP.Jolt3)]
     [JobInfo(Job.RDM)]
@@ -8896,6 +8920,7 @@ public enum Preset
 
     #region SAGE
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(SGEPvP.Dosis)]
     [JobInfo(Job.SGE)]
@@ -8953,6 +8978,7 @@ public enum Preset
 
     #region SAMURAI
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(SAMPvP.Yukikaze)]
     [JobInfo(Job.SAM)]
@@ -8994,6 +9020,7 @@ public enum Preset
 
     #region SCHOLAR
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(SCHPvP.Broil)]
     [JobInfo(Job.SCH)]
@@ -9042,6 +9069,7 @@ public enum Preset
 
     #region SUMMONER
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(SMNPvP.Ruin3)]
     [JobInfo(Job.SMN)]
@@ -9098,6 +9126,7 @@ public enum Preset
 
     #region VIPER
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(VPRPvP.SteelFangs)]
     [JobInfo(Job.VPR)]
@@ -9144,6 +9173,7 @@ public enum Preset
 
     #region WARRIOR
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(WARPvP.HeavySwing)]
     [JobInfo(Job.WAR)]
@@ -9195,6 +9225,7 @@ public enum Preset
 
     #region WHITE MAGE
 
+    [AutoAction(false, false)]
     [PvPCustomCombo]
     [ReplaceSkill(WHMPvP.Glare)]
     [JobInfo(Job.WHM)]

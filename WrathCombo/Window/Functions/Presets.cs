@@ -66,17 +66,18 @@ internal class Presets : ConfigWindow
         }
     }
 
-    internal static void DrawPreset(Preset preset, PresetData presetdata)
+    internal static void DrawPreset(Preset preset, PresetData presetData)
     {
         bool enabled = PresetStorage.IsEnabled(preset);
-        var conflicts = presetdata.Conflicts;
-        var parent = presetdata.Parent;
-        var blueAttr = presetdata.BlueInactive;
-        var presetName = presetdata.Name;
+        var conflicts = presetData.Conflicts;
+        var parent = presetData.Parent;
+        var blueAttr = presetData.BlueInactive;
+        var presetName = presetData.Name;
+        var comboType = presetData.ComboType;
 
         ImGui.Spacing();
 
-        if (presetdata.AutoAction != null)
+        if (presetData.AutoAction != null && (!presetData.IsPvP || HiddenFeaturesData.FeaturesEnabled))
         {
             Service.Configuration.AutoActions.TryAdd(preset, false);
 
@@ -98,25 +99,25 @@ internal class Presets : ConfigWindow
         if (ipcControl is not null)
             enabled = ipcControl.Value.enabled;
 
-        if (presetName.Contains(" - AoE") || presetName.Contains(" - Sin"))
+        if (comboType is (ComboType.Advanced or ComboType.Simple))
             if (ipcControl is not null)
                 P.UIHelper.ShowIPCControlledIndicatorIfNeeded(preset);
 
         if (IsSearching)
-            presetName = preset.NameWithFullLineage(presetdata.JobInfo.Job);
+            presetName = preset.NameWithFullLineage(presetData.JobInfo.Job);
 
         if (P.UIHelper.ShowIPCControlledCheckboxIfNeeded
             ($"{presetName}###{preset}", ref enabled, preset, true))
             PresetStorage.TogglePreset(preset);
 
-        DrawReplaceAttribute(presetdata);
+        DrawReplaceAttribute(presetData);
 
-        DrawRetargetedAttribute(presetdata);
+        DrawRetargetedAttribute(presetData);
 
-        if (DrawRoleIcon(presetdata))
+        if (DrawRoleIcon(presetData))
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 8f.Scale());
 
-        if (DrawOccultJobIcon(presetdata))
+        if (DrawOccultJobIcon(presetData))
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 8f.Scale());
 
         Vector2 length = new();
@@ -140,14 +141,14 @@ internal class Presets : ConfigWindow
                 ImGui.PushItemWidth(length.Length());
             }
 
-            ImGui.TextWrapped($"{presetdata.Description}");
+            ImGui.TextWrapped($"{presetData.Description}");
 
-            if (presetdata.HoverText != null)
+            if (presetData.HoverText != null)
             {
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.TextUnformatted(presetdata.HoverText);
+                    ImGui.TextUnformatted(presetData.HoverText);
                     ImGui.EndTooltip();
                 }
             }
@@ -166,7 +167,7 @@ internal class Presets : ConfigWindow
                         CustomComboFunctions.IsEnabled(conflict)
                             ? ImGuiColors.HealerGreen
                             : ImGuiColors.DalamudRed, 1500),
-                    $"- {conflict.NameWithFullLineage(presetdata.JobInfo.Job)}");
+                    $"- {conflict.NameWithFullLineage(presetData.JobInfo.Job)}");
             ImGui.Unindent();
             ImGui.Spacing();
         }
@@ -192,9 +193,9 @@ internal class Presets : ConfigWindow
         // Draw UserOpts
         if (enabled)
         {
-            if (!presetdata.IsPvP)
+            if (!presetData.IsPvP)
             {
-                switch (presetdata.JobInfo.Job)
+                switch (presetData.JobInfo.Job)
                 {
                     case Job.ADV:
                         {
@@ -233,7 +234,7 @@ internal class Presets : ConfigWindow
             }
             else
             {
-                switch (presetdata.JobInfo.Job)
+                switch (presetData.JobInfo.Job)
                 {
                     case Job.ADV: PvPCommon.Config.Draw(preset); break;
                     case Job.AST: ASTPvP.Config.Draw(preset); break;

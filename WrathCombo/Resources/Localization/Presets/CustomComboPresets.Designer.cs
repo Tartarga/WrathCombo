@@ -13169,6 +13169,24 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Replace Snap Punch with its combo chain..
+        /// </summary>
+        internal static string MNK_ST_BasicCombo_Desc {
+            get {
+                return ResourceManager.GetString("MNK_ST_BasicCombo_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Basic Combo.
+        /// </summary>
+        internal static string MNK_ST_BasicCombo_Name {
+            get {
+                return ResourceManager.GetString("MNK_ST_BasicCombo_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adds Bloodbath and Second Wind to the rotation..
         /// </summary>
         internal static string MNK_ST_ComboHeals_Desc {

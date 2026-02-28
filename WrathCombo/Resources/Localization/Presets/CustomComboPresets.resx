@@ -11302,4 +11302,16 @@ Only uses Crimson Cyclone when in melee range.</value>
   <data name="MNK_ST_BasicCombo_Desc" xml:space="preserve">
     <value>Replace Snap Punch with its combo chain.</value>
   </data>
+  <data name="WAR_NascentFlash_MO_Name" xml:space="preserve">
+    <value>Include MouseOver Target</value>
+  </data>
+  <data name="WAR_NascentFlash_MO_Desc" xml:space="preserve">
+    <value>If mousing over an ally in the UI, will Retarget Nascent Flash onto them.</value>
+  </data>
+  <data name="WAR_NascentFlash_TT_Name" xml:space="preserve">
+    <value>Include Target's Target</value>
+  </data>
+  <data name="WAR_NascentFlash_TT_Desc" xml:space="preserve">
+    <value>If your target's target is not you or in your party, will Retarget Nascent Flash onto them.</value>
+  </data>
 </root>

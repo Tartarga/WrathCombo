@@ -205,14 +205,6 @@ internal static class PresetStorage
         return frozen;
     }
 
-    private static FrozenSet<Preset> BuildOccultCrescentCombos()
-    {
-        return AllPresets
-            .Where(kvp => kvp.Value.OccultCrescentJob != null)
-            .Select(kvp => kvp.Key)
-            .ToFrozenSet();
-    }
-
     internal static FrozenSet<Preset> BuildConflictingCombos()
     {
         return AllPresets

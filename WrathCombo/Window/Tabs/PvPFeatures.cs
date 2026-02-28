@@ -24,6 +24,8 @@ internal class PvPFeatures : FeaturesWindow
         using (ImRaii.Child("scrolling", new Vector2(ImGui.GetContentRegionAvail().X, ImGui.GetContentRegionAvail().Y), true))
         {
             var openPvPJob = OpenPvPJob; // Cache because back button will set it to null while running
+
+            // The "Main Menu" of PvP features, showing each job to click on
             if (openPvPJob is null)
             {
                 var userwarned = false;
@@ -135,6 +137,7 @@ internal class PvPFeatures : FeaturesWindow
             }
             else
             {
+                // Draw Presets for a selected Job
                 DrawHeader(openPvPJob.Value, true);
                 DrawSearchBar();
                 ImGuiEx.Spacing(new Vector2(0, 10));

@@ -34,6 +34,7 @@ internal class PvEFeatures : FeaturesWindow
             var openJob = OpenJob; // Cache because back button will set it to null while this is running
             if (openJob is null)
             {
+                // The "Main Menu" of PvE features, showing each job to click on
                 ImGui.SameLine(IndentWidth);
                 ImGuiEx.LineCentered(() =>
                 {
@@ -49,7 +50,6 @@ internal class PvEFeatures : FeaturesWindow
                     if (!tab)
                         return;
 
-                    // The "Main Menu" of PvE features, showing each job to click on
                     foreach (var (job, presetData) in groupedPresets)
                     {
                         var info = presetData[0].JobInfo;
@@ -98,6 +98,7 @@ internal class PvEFeatures : FeaturesWindow
             }
             else
             {
+                // Draw Presets for a selected Job
                 DrawHeader(openJob.Value);
                 DrawSearchBar();
                 ImGuiEx.Spacing(new Vector2(0, 10));
@@ -115,7 +116,7 @@ internal class PvEFeatures : FeaturesWindow
                             ImGuiTabBarFlags.AutoSelectNewTabs))
                         return;
 
-                    var mainTabName = openJob.Value is Job.ADV ? "Job Roles" : "Normal";
+                    string mainTabName = openJob.Value is Job.ADV ? "Job Roles" : "Normal";
                     if (ImGui.BeginTabItem(mainTabName))
                     {
                         SetCurrentTab(FeatureTab.Normal);
@@ -123,7 +124,7 @@ internal class PvEFeatures : FeaturesWindow
                         ImGui.EndTabItem();
                     }
 
-                    if (OpenJob is Job.ADV)
+                    if (openJob is Job.ADV)
                     {
                         if (groupedPresets[openJob.Value].Any(x => x.IsVariant))
                         {

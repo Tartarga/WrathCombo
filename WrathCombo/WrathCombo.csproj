@@ -137,10 +137,15 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>CustomComboPresets.resx</DependentUpon>
       </Compile>
-      <Compile Update="Resources\Localization\UI\Settings\Settings.Designer.cs">
+      <Compile Update="Resources\Localization\UI\MainWindow\MainWindow.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
-        <DependentUpon>Settings.resx</DependentUpon>
+        <DependentUpon>MainWindow.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Localization\UI\Settings\SettingsUI.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>SettingsUI.resx</DependentUpon>
       </Compile>
     </ItemGroup>
     <ItemGroup>
@@ -148,9 +153,13 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>CustomComboPresets.Designer.cs</LastGenOutput>
       </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Localization\UI\Settings\Settings.resx">
+      <EmbeddedResource Update="Resources\Localization\UI\MainWindow\MainWindow.resx">
         <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+        <LastGenOutput>MainWindow.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Localization\UI\Settings\SettingsUI.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>SettingsUI.Designer.cs</LastGenOutput>
       </EmbeddedResource>
     </ItemGroup>
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WrathCombo.Resources.Localization.UI.Settings {
+namespace WrathCombo.Resources.Localization.UI.MainWindow {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace WrathCombo.Resources.Localization.UI.Settings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Settings {
+    internal class MainWindow {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Settings() {
+        internal MainWindow() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace WrathCombo.Resources.Localization.UI.Settings {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WrathCombo.Resources.Localization.UI.Settings.Settings", typeof(Settings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WrathCombo.Resources.Localization.UI.MainWindow.MainWindow", typeof(MainWindow).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,25 @@ namespace WrathCombo.Resources.Localization.UI.Settings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Category name, Setting name, Internal Name, etc.
+        ///   Looks up a localized string similar to The following plugins are known to conflict with {0}:
+        ///
+        ///{1}
+        ///
+        ///It is recommended you disable these plugins, or their rotation
+        ///components, to prevent unexpected behavior and bugs..
         /// </summary>
-        internal static string searchHintText {
+        internal static string Tooltip_ConflictingPlugins {
             get {
-                return ResourceManager.GetString("searchHintText", resourceCulture);
+                return ResourceManager.GetString("Tooltip_ConflictingPlugins", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search:.
+        ///   Looks up a localized string similar to Wrath Combo.
         /// </summary>
-        internal static string searchLabelText {
+        internal static string Wrath_Combo {
             get {
-                return ResourceManager.GetString("searchLabelText", resourceCulture);
+                return ResourceManager.GetString("Wrath_Combo", resourceCulture);
             }
         }
     }

@@ -14,6 +14,7 @@ using ECommons.Logging;
 using WrathCombo.Attributes;
 using WrathCombo.Core;
 using WrathCombo.Data.Conflicts;
+using WrathCombo.Resources.Localization.UI.Settings;
 using WrathCombo.Services;
 using WrathCombo.Window.Functions;
 using Setting = WrathCombo.Window.Functions.Setting;
@@ -549,8 +550,8 @@ internal class Settings : ConfigWindow
         if (!id)
             return;
 
-        var searchLabelText = GetSettingsUIString("searchLabelText");
-        var searchHintText = GetSettingsUIString("searchHintText");
+        var searchLabelText = SettingsUI.searchLabelText;
+        var searchHintText = SettingsUI.searchHintText;
 
         var searchWidth = letterWidth * 30f + 4f.Scale();
 

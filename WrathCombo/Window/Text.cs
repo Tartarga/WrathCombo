@@ -6,6 +6,7 @@ using System.Resources;
 using System.Threading;
 using WrathCombo.Core;
 using WrathCombo.Resources.Localization.Presets;
+using WrathCombo.Resources.Localization.UI.MainWindow;
 using WrathCombo.Resources.Localization.UI.Settings;
 
 namespace WrathCombo.Window
@@ -42,26 +43,28 @@ namespace WrathCombo.Window
         // Expose TextInfo for formatting purposes (Job Names)
         public static TextInfo TextFormatting => GameCulture.TextInfo;
 
-        // Subscribe to language change event to clear caches / change GameCulture
-        static Text() =>
-            Svc.PluginInterface.LanguageChanged += newLang =>
-            {
-                // Update the global culture
-                GameCulture = newLang.ToCulture();
+        internal static void OnLanguageChanged(string newLang)
+        {
+            // Update the global culture
+            GameCulture = newLang.ToCulture();
 
-                // Invalidate the preset cache safely
-                lock (presetCacheLock)
-                {
-                    presetCache = null;
-                }
-            };
+            // Update any static cultures in resource managers
+            MainWindow.Culture = GameCulture;
+            SettingsUI.Culture = GameCulture;
+
+            // Invalidate the preset cache safely
+            lock (presetCacheLock)
+            {
+                presetCache = null;
+            }
+        }
 
         /// <summary>
         /// Takes known Dalamud string codes and maps to CultureInfo, with a fallback to English.
         /// </summary>
         /// <param name="uiLang"></param>
         /// <returns></returns>
-        private static CultureInfo ToCulture(this string uiLang)
+        internal static CultureInfo ToCulture(this string uiLang)
         {
             // Map specific language codes
             return uiLang switch
@@ -141,10 +144,5 @@ namespace WrathCombo.Window
             // If missing entirely, return key (debug-friendly)
             return value ?? key;
         }
-
-        /// <summary>
-        /// Settings UI localization
-        /// </summary>
-        public static string GetSettingsUIString(string key) => GetLocalizedString(key, Settings.ResourceManager);
     }
 }

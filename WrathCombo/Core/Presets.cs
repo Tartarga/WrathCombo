@@ -61,7 +61,6 @@ internal static class PresetStorage
         {
             Preset = preset;
             IsPvP = preset.GetAttribute<PvPCustomComboAttribute>() != null;
-            IsAoE = preset.ToString().Contains("_AoE_", StringComparison.OrdinalIgnoreCase);
             Conflicts = preset.GetAttribute<ConflictingCombosAttribute>()?.ConflictingPresets ?? [];
             Parent = preset.GetAttribute<ParentComboAttribute>()?.ParentPreset;
             BlueInactive = preset.GetAttribute<BlueInactiveAttribute>();
@@ -287,11 +286,8 @@ internal static class PresetStorage
         return ctrlText;
     }
 
-    public static void HandleDuplicatePresets()
+    public static void RemoveRedundantPresets()
     {
-        if (!EZ.Throttle("PeriodicPresetDeDuplicating", TS.FromSeconds(15)))
-            return;
-
         var redundantIDs = Service.Configuration.EnabledActions.Where(x => int.TryParse(x.ToString(), out _)).OrderBy(x => x).Cast<int>().ToList();
         foreach (var id in redundantIDs)
             Service.Configuration.EnabledActions.RemoveWhere(x => (int)x == id);

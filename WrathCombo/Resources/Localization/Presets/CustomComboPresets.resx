@@ -11296,4 +11296,10 @@ Only uses Crimson Cyclone when in melee range.</value>
   <data name="WHMPvP_Seraphstrike_Desc" xml:space="preserve">
     <value>Replaces Seraph Strike with Glare 4</value>
   </data>
+  <data name="MNK_ST_BasicCombo_Name" xml:space="preserve">
+    <value>Basic Combo</value>
+  </data>
+  <data name="MNK_ST_BasicCombo_Desc" xml:space="preserve">
+    <value>Replace Snap Punch with its combo chain.</value>
+  </data>
 </root>

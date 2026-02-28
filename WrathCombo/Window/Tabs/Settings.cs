@@ -3,14 +3,14 @@
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility.Raii;
+using ECommons;
+using ECommons.DalamudServices;
 using ECommons.ImGuiMethods;
+using ECommons.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using ECommons;
-using ECommons.DalamudServices;
-using ECommons.Logging;
 using WrathCombo.Attributes;
 using WrathCombo.Core;
 using WrathCombo.Data.Conflicts;
@@ -18,7 +18,6 @@ using WrathCombo.Resources.Localization.UI.Settings;
 using WrathCombo.Services;
 using WrathCombo.Window.Functions;
 using Setting = WrathCombo.Window.Functions.Setting;
-using static WrathCombo.Window.Text;
 
 #endregion
 
@@ -26,12 +25,12 @@ namespace WrathCombo.Window.Tabs;
 
 internal class Settings : ConfigWindow
 {
-    private static          SettingCategory.Category? _currentCategory;
-    private static          int                       _settingCount;
-    private static          string?                   _longestLabel;
-    private static readonly Dictionary<string, bool>  UnCollapsedGroup       = [];
+    private static SettingCategory.Category? _currentCategory;
+    private static int _settingCount;
+    private static string? _longestLabel;
+    private static readonly Dictionary<string, bool> UnCollapsedGroup = [];
     private static readonly Dictionary<string, float> UnCollapsedGroupHeight = [];
-    private static          string[]                  _drawnCollapseGroups    = [];
+    private static string[] _drawnCollapseGroups = [];
 
     /// <summary>
     ///     A set of dictionaries to store the latest value for grouped settings,
@@ -69,6 +68,35 @@ internal class Settings : ConfigWindow
         .Select(s => s!)
         .ToList();
 
+    public static void SanitiseSettings()
+    {
+        foreach (var setting in SettingsList)
+        {
+            if (setting.Type is Attributes.Setting.Type.Number_Float or Attributes.Setting.Type.Slider_Float)
+            {
+                var val = (float)setting.Value;
+                if (val < setting.MinFLoat)
+                    val = setting.MinFLoat ?? val;
+                if (val > setting.MaxFloat)
+                    val = setting.MaxFloat ?? val;
+
+                setting.Value = Math.Round(val, 1);
+            }
+            if (setting.Type is Attributes.Setting.Type.Number_Int or Attributes.Setting.Type.Slider_Int)
+            {
+                if (int.TryParse(setting.Value.ToString(), out var val))
+                {
+                    if (val < setting.MinInt)
+                        val = setting.MinInt ?? val;
+                    if (val > setting.MaxInt)
+                        val = setting.MaxInt ?? val;
+
+                    setting.Value = val;
+                }
+            }
+        }
+    }
+
     #endregion
 
     internal new static void Draw()
@@ -80,7 +108,7 @@ internal class Settings : ConfigWindow
             DrawSearchBar();
 
             _currentCategory = null;
-            _settingCount   = 0;
+            _settingCount = 0;
             _drawnCollapseGroups = [];
 
             var settings = SettingsList;
@@ -129,9 +157,9 @@ internal class Settings : ConfigWindow
         #region Variables
 
         _settingCount++;
-        bool   changed;
-        var    disabled          = false;
-        var    label             = setting.Name;
+        bool changed;
+        var disabled = false;
+        var label = setting.Name;
         float? cursorXAfterInput = null;
 
         const string stackHelp =
@@ -251,126 +279,163 @@ internal class Settings : ConfigWindow
         switch (setting.Type)
         {
             case Attributes.Setting.Type.Toggle:
-            {
-                var value = (bool)setting.Value;
-
-                // Update group value if applicable
-                if (setting.GroupName is not null)
-                    _groupValues[setting.GroupNameSpace!][setting.GroupName!] =
-                        value;
-
-                changed = ImGui.Checkbox(label, ref value);
-                if (changed)
-                    setting.Value = value;
-
-                break;
-            }
-            case Attributes.Setting.Type.Color:
-            {
-                var value = (Vector4)setting.Value;
-                changed = ImGui.ColorEdit4(label, ref value,
-                    ImGuiColorEditFlags.NoInputs |
-                    ImGuiColorEditFlags.AlphaPreview |
-                    ImGuiColorEditFlags.AlphaBar);
-                if (changed)
-                    setting.Value = value;
-
-                break;
-            }
-            case Attributes.Setting.Type.Number_Int:
-            {
-                var value = Convert.ToInt32(setting.Value);
-                ImGui.PushItemWidth(75);
-                changed = ImGui.InputInt(label, ref value);
-                if (changed)
-                    setting.Value = value;
-                ImGui.SameLine();
-                cursorXAfterInput = ImGui.GetCursorPosX();
-                ImGui.Text(setting.UnitLabel ?? setting.Name);
-
-                break;
-            }
-            case Attributes.Setting.Type.Number_Float:
-            {
-                var value = (float)setting.Value;
-                ImGui.PushItemWidth(75);
-                changed = ImGui.InputFloat(label, ref value, format: $"{value:N1}");
-                if (changed)
-                    setting.Value = Math.Round(value,1);
-                ImGui.SameLine();
-                cursorXAfterInput = ImGui.GetCursorPosX();
-                ImGui.Text(setting.UnitLabel ?? setting.Name);
-
-                break;
-            }
-            case Attributes.Setting.Type.Slider_Int:
-            {
-                var value = Convert.ToInt32(setting.Value);
-                ImGui.PushItemWidth(75);
-                if (setting.SliderMin is null ||
-                    setting.SliderMax is null)
-                    changed = ImGui.SliderInt(label, ref value);
-                else
-                    changed = ImGui.SliderInt(label,
-                        ref value,
-                        (int)setting.SliderMin,
-                        (int)setting.SliderMax);
-                if (changed)
-                    setting.Value = value;
-                ImGui.SameLine();
-                cursorXAfterInput = ImGui.GetCursorPosX();
-                ImGui.Text(setting.UnitLabel ?? setting.Name);
-
-                break;
-            }
-            case Attributes.Setting.Type.Slider_Float:
-            {
-                var value = (float)setting.Value;
-                ImGui.PushItemWidth(75);
-                if (setting.SliderMin is null ||
-                    setting.SliderMax is null)
-                    changed = ImGui.SliderFloat(label, ref value, format: $"{value:N1}");
-                else
-                    changed = ImGui.SliderFloat(label,
-                        ref value,
-                        (float)setting.SliderMin,
-                        (float)setting.SliderMax,
-                        $"{value:N1}");
-                if (changed)
-                    setting.Value = Math.Round(value,1);
-                ImGui.SameLine();
-                cursorXAfterInput = ImGui.GetCursorPosX();
-                ImGui.Text(setting.UnitLabel ?? setting.Name);
-
-                break;
-            }
-            case Attributes.Setting.Type.Stack:
-            {
-                ImGui.PushItemWidth(300);
-                // ReSharper disable once SuggestVarOrType_BuiltInTypes
-                ref string[] t = ref Service.Configuration.CustomHealStack;
-                if (setting.Name.Contains("Raise"))
-                    t = ref Service.Configuration.RaiseStack;
-                ImGui.Text($"{setting.Name}:");
-                if (setting.ExtraText is not null)
                 {
-                    ImGui.SameLine();
-                    ImGui.TextColored(ImGuiColors.DalamudGrey,
-                        setting.ExtraText);
-                }
-                UserConfig.DrawCustomStackManager(
-                    setting.Name,
-                    ref t,
-                    setting.StackStringsToExclude,
-                    setting.HelpMark +
-                    $"\n\nRecommended Value: {setting.RecommendedValue}\n" +
-                    $"Default Value: {setting.DefaultValue}" +
-                    $"\n\n{stackHelp}",
-                    setting.Name.Contains("Raise")
-                );
+                    var value = (bool)setting.Value;
 
-                break;
-            }
+                    // Update group value if applicable
+                    if (setting.GroupName is not null)
+                        _groupValues[setting.GroupNameSpace!][setting.GroupName!] =
+                            value;
+
+                    changed = ImGui.Checkbox(label, ref value);
+                    if (changed)
+                        setting.Value = value;
+
+                    break;
+                }
+            case Attributes.Setting.Type.Color:
+                {
+                    var value = (Vector4)setting.Value;
+                    changed = ImGui.ColorEdit4(label, ref value,
+                        ImGuiColorEditFlags.NoInputs |
+                        ImGuiColorEditFlags.AlphaPreview |
+                        ImGuiColorEditFlags.AlphaBar);
+                    if (changed)
+                        setting.Value = value;
+
+                    break;
+                }
+            case Attributes.Setting.Type.Number_Int:
+                {
+                    var value = Convert.ToInt32(setting.Value);
+                    ImGui.PushItemWidth(75);
+                    changed = ImGui.InputInt(label, ref value);
+                    if (changed)
+                    {
+                        if (int.TryParse(value.ToString(), out var val))
+                        {
+                            if (val < setting.MinInt)
+                                val = setting.MinInt ?? val;
+                            if (val > setting.MaxInt)
+                                val = setting.MaxInt ?? val;
+
+                            setting.Value = val;
+                        }
+                    }
+                    ImGui.SameLine();
+                    cursorXAfterInput = ImGui.GetCursorPosX();
+                    ImGui.Text(setting.UnitLabel ?? setting.Name);
+
+                    break;
+                }
+            case Attributes.Setting.Type.Number_Float:
+                {
+                    var value = (float)setting.Value;
+                    ImGui.PushItemWidth(75);
+                    changed = ImGui.InputFloat(label, ref value, format: $"{value:N1}");
+                    if (changed)
+                    {
+                        if (value < setting.MinFLoat)
+                            value = setting.MinFLoat ?? value;
+                        if (value > setting.MaxFloat)
+                            value = setting.MaxFloat ?? value;
+
+                        setting.Value = Math.Round(value, 1);
+                    }
+                    ImGui.SameLine();
+                    cursorXAfterInput = ImGui.GetCursorPosX();
+                    ImGui.Text(setting.UnitLabel ?? setting.Name);
+
+                    break;
+                }
+            case Attributes.Setting.Type.Slider_Int:
+                {
+                    if (int.TryParse(setting.Value.ToString(), out var value))
+                    {
+                        ImGui.PushItemWidth(75);
+                        if (setting.MinInt is null ||
+                            setting.MaxInt is null)
+                            changed = ImGui.SliderInt(label, ref value);
+                        else
+                            changed = ImGui.SliderInt(label,
+                                ref value,
+                                setting.MinInt.Value,
+                                setting.MaxInt.Value);
+
+                        if (changed)
+                        {
+                            if (int.TryParse(value.ToString(), out var val))
+                            {
+                                if (val < setting.MinInt)
+                                    val = setting.MinInt ?? val;
+                                if (val > setting.MaxInt)
+                                    val = setting.MaxInt ?? val;
+
+                                setting.Value = val;
+                            }
+                        }
+                        ImGui.SameLine();
+                        cursorXAfterInput = ImGui.GetCursorPosX();
+                        ImGui.Text(setting.UnitLabel ?? setting.Name);
+                    }
+                    break;
+                }
+            case Attributes.Setting.Type.Slider_Float:
+                {
+                    var value = (float)setting.Value;
+                    ImGui.PushItemWidth(75);
+                    if (setting.MinFLoat is null ||
+                        setting.MaxFloat is null)
+                        changed = ImGui.SliderFloat(label, ref value, format: $"{value:N1}");
+                    else
+                        changed = ImGui.SliderFloat(label,
+                            ref value,
+                            (float)setting.MinFLoat,
+                            (float)setting.MaxFloat,
+                            $"{value:N1}");
+
+                    if (changed)
+                    {
+                        if (value < setting.MinFLoat)
+                            value = setting.MinFLoat ?? value;
+                        if (value > setting.MaxFloat)
+                            value = setting.MaxFloat ?? value;
+
+                        setting.Value = Math.Round(value, 1);
+                    }
+                    ImGui.SameLine();
+                    cursorXAfterInput = ImGui.GetCursorPosX();
+                    ImGui.Text(setting.UnitLabel ?? setting.Name);
+
+                    break;
+                }
+            case Attributes.Setting.Type.Stack:
+                {
+                    ImGui.PushItemWidth(300);
+                    // ReSharper disable once SuggestVarOrType_BuiltInTypes
+                    ref string[] t = ref Service.Configuration.CustomHealStack;
+                    if (setting.Name.Contains("Raise"))
+                        t = ref Service.Configuration.RaiseStack;
+                    ImGui.Text($"{setting.Name}:");
+                    if (setting.ExtraText is not null)
+                    {
+                        ImGui.SameLine();
+                        ImGui.TextColored(ImGuiColors.DalamudGrey,
+                            setting.ExtraText);
+                    }
+                    UserConfig.DrawCustomStackManager(
+                        setting.Name,
+                        ref t,
+                        setting.StackStringsToExclude,
+                        setting.HelpMark +
+                        $"\n\nRecommended Value: {setting.RecommendedValue}\n" +
+                        $"Default Value: {setting.DefaultValue}" +
+                        $"\n\n{stackHelp}",
+                        setting.Name.Contains("Raise")
+                    );
+
+                    break;
+                }
             default:
                 PluginLog.Warning(
                     $"Unsupported setting type `{setting.Type}` " +
@@ -543,7 +608,7 @@ internal class Settings : ConfigWindow
             return;
 
         var availableWidth = ImGui.GetContentRegionAvail().X;
-        var letterWidth    = ImGui.CalcTextSize("W").X.Scale();
+        var letterWidth = ImGui.CalcTextSize("W").X.Scale();
 
         using var id = ImRaii.Child("SearchBar",
             new Vector2(availableWidth, 22f.Scale()));

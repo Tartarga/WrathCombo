@@ -88,6 +88,15 @@ namespace WrathCombo.Resources.Localization.UI.AutoRotation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disable After Leaving Instanced Content.
+        /// </summary>
+        internal static string Checkbox_DisableInstanceExit {
+            get {
+                return ResourceManager.GetString("Checkbox_DisableInstanceExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Auto-Rotation.
         /// </summary>
         internal static string Checkbox_EnableAutoRotation {
@@ -97,11 +106,29 @@ namespace WrathCombo.Resources.Localization.UI.AutoRotation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Automatically in Instanced Content.
+        /// </summary>
+        internal static string Checkbox_EnableInstancedEnter {
+            get {
+                return ResourceManager.GetString("Checkbox_EnableInstancedEnter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only in Combat.
         /// </summary>
         internal static string Checkbox_OnlyInCombat {
             get {
                 return ResourceManager.GetString("Checkbox_OnlyInCombat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Damage Settings.
+        /// </summary>
+        internal static string Header_DamageSettings {
+            get {
+                return ResourceManager.GetString("Header_DamageSettings", resourceCulture);
             }
         }
         
@@ -133,12 +160,64 @@ namespace WrathCombo.Resources.Localization.UI.AutoRotation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manual - Leaves all targeting decisions to you.
+        ///Highest Max - Prioritises enemies with the highest max HP.
+        ///Lowest Max - Prioritises enemies with the lowest max HP.
+        ///Highest Current - Prioritises the enemy with the highest current HP.
+        ///Lowest Current - Prioritises the enemy with the lowest current HP.
+        ///Tank Target - Prioritises the same target as the first tank in your group.
+        ///Nearest - Prioritises the closest target to you.
+        ///Furthest - Prioritises the furthest target from you..
+        /// </summary>
+        internal static string HelpText_DPSTargettingMode {
+            get {
+                return ResourceManager.GetString("HelpText_DPSTargettingMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This will determine how soon before the GCD is finished to queue up the next weaponskill or spell. Your latency may have an effect on what actions are performed so please adjust this if you&apos;re noticing improper action use, i.e double Blizzard IV casts due to MP not updating in time..
+        /// </summary>
+        internal static string HelpText_QueueWindow {
+            get {
+                return ResourceManager.GetString("HelpText_QueueWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is where you can configure the parameters in which Auto-Rotation will operate.
         ///Features marked with an &apos;Auto-Mode&apos; checkbox are able to be used with Auto-Rotation..
         /// </summary>
         internal static string Info_Header {
             get {
                 return ResourceManager.GetString("Info_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delay to activate Auto-Rotation once combat starts (seconds).
+        /// </summary>
+        internal static string Input_AutoRotationDelay {
+            get {
+                return ResourceManager.GetString("Input_AutoRotationDelay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Queue Window (s).
+        /// </summary>
+        internal static string Input_QueueWindow {
+            get {
+                return ResourceManager.GetString("Input_QueueWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Targeting Mode.
+        /// </summary>
+        internal static string Label_DPSTargetingMode {
+            get {
+                return ResourceManager.GetString("Label_DPSTargetingMode", resourceCulture);
             }
         }
     }

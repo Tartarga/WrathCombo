@@ -126,11 +126,20 @@
   <data name="Checkbox_BypassSelfUse" xml:space="preserve">
     <value>Bypass When Combo Suggests Self-Use Action</value>
   </data>
+  <data name="Checkbox_DisableInstanceExit" xml:space="preserve">
+    <value>Disable After Leaving Instanced Content</value>
+  </data>
   <data name="Checkbox_EnableAutoRotation" xml:space="preserve">
     <value>Enable Auto-Rotation</value>
   </data>
+  <data name="Checkbox_EnableInstancedEnter" xml:space="preserve">
+    <value>Enable Automatically in Instanced Content</value>
+  </data>
   <data name="Checkbox_OnlyInCombat" xml:space="preserve">
     <value>Only in Combat</value>
+  </data>
+  <data name="Header_DamageSettings" xml:space="preserve">
+    <value>Damage Settings</value>
   </data>
   <data name="HelpText_BypassFATETargets" xml:space="preserve">
     <value>Disables Auto-Mode outside of combat unless you're synced to a FATE.</value>
@@ -141,8 +150,30 @@
   <data name="HelpText_BypassSelfUse" xml:space="preserve">
     <value>Many jobs have an out of combat action that can be used, for example, {0} or {1}. This will allow these to be used without being in combat.</value>
   </data>
+  <data name="HelpText_DPSTargettingMode" xml:space="preserve">
+    <value>Manual - Leaves all targeting decisions to you.
+Highest Max - Prioritises enemies with the highest max HP.
+Lowest Max - Prioritises enemies with the lowest max HP.
+Highest Current - Prioritises the enemy with the highest current HP.
+Lowest Current - Prioritises the enemy with the lowest current HP.
+Tank Target - Prioritises the same target as the first tank in your group.
+Nearest - Prioritises the closest target to you.
+Furthest - Prioritises the furthest target from you.</value>
+  </data>
+  <data name="HelpText_QueueWindow" xml:space="preserve">
+    <value>This will determine how soon before the GCD is finished to queue up the next weaponskill or spell. Your latency may have an effect on what actions are performed so please adjust this if you're noticing improper action use, i.e double Blizzard IV casts due to MP not updating in time.</value>
+  </data>
   <data name="Info_Header" xml:space="preserve">
     <value>This is where you can configure the parameters in which Auto-Rotation will operate.
 Features marked with an 'Auto-Mode' checkbox are able to be used with Auto-Rotation.</value>
+  </data>
+  <data name="Input_AutoRotationDelay" xml:space="preserve">
+    <value>Delay to activate Auto-Rotation once combat starts (seconds)</value>
+  </data>
+  <data name="Input_QueueWindow" xml:space="preserve">
+    <value>Queue Window (s)</value>
+  </data>
+  <data name="Label_DPSTargetingMode" xml:space="preserve">
+    <value>Targeting Mode</value>
   </data>
 </root>

@@ -66,42 +66,35 @@ internal class AutoRotationTab : ConfigWindow
 
                 ImGuiExtensions.Prefix(true);
                 ImGuiEx.SetNextItemWidthScaled(100);
-                changed |= ImGui.InputInt("Delay to activate Auto-Rotation once combat starts (seconds)", ref cfg.CombatDelay);
+                changed |= ImGui.InputInt(AutoRotationUI.Input_AutoRotationDelay, ref cfg.CombatDelay);
 
                 if (cfg.CombatDelay < 0)
                     cfg.CombatDelay = 0;
             }
         }
 
-        changed |= ImGui.Checkbox("Enable Automatically in Instanced Content", ref cfg.EnableInInstance);
-        changed |= ImGui.Checkbox("Disable After Leaving Instanced Content", ref cfg.DisableAfterInstance);
+        changed |= ImGui.Checkbox(AutoRotationUI.Checkbox_EnableInstancedEnter, ref cfg.EnableInInstance);
+        changed |= ImGui.Checkbox(AutoRotationUI.Checkbox_DisableInstanceExit, ref cfg.DisableAfterInstance);
 
         ImGuiEx.SetNextItemWidthScaled(100);
-        changed |= ImGuiEx.SliderFloat("Queue Window (s)", ref cfg.QueueWindow, 0f, 0.5f, $"{cfg.QueueWindow:N1}");
+        changed |= ImGuiEx.SliderFloat(AutoRotationUI.Input_QueueWindow, ref cfg.QueueWindow, 0f, 0.5f, $"{cfg.QueueWindow:N1}");
         cfg.QueueWindow = (float)Math.Round(cfg.QueueWindow, 1);
-        ImGuiComponents.HelpMarker("This will determine how soon before the GCD is finished to queue up the next weaponskill or spell. Your latency may have an effect on what actions are performed so please adjust this if you're noticing improper action use, i.e double Blizzard IV casts due to MP not updating in time.");
+        ImGuiComponents.HelpMarker(AutoRotationUI.HelpText_QueueWindow);
         if (cfg.QueueWindow > 0.5f)
             cfg.QueueWindow = 0.5f;
         if (cfg.QueueWindow < 0)
             cfg.QueueWindow = 0;
 
-        if (ImGui.CollapsingHeader("Damage Settings"))
+        if (ImGui.CollapsingHeader(AutoRotationUI.Header_DamageSettings))
         {
-            ImGuiEx.TextUnderlined($"Targeting Mode");
+            ImGuiEx.TextUnderlined(AutoRotationUI.Label_DPSTargetingMode);
 
             P.UIHelper.ShowIPCControlledIndicatorIfNeeded("DPSRotationMode");
             changed |= P.UIHelper.ShowIPCControlledComboIfNeeded(
                 "###DPSTargetingMode", true, ref cfg.DPSRotationMode,
                 ref cfg.HealerRotationMode, "DPSRotationMode");
 
-            ImGuiComponents.HelpMarker("Manual - Leaves all targeting decisions to you.\n" +
-                                       "Highest Max - Prioritises enemies with the highest max HP.\n" +
-                                       "Lowest Max - Prioritises enemies with the lowest max HP.\n" +
-                                       "Highest Current - Prioritises the enemy with the highest current HP.\n" +
-                                       "Lowest Current - Prioritises the enemy with the lowest current HP.\n" +
-                                       "Tank Target - Prioritises the same target as the first tank in your group.\n" +
-                                       "Nearest - Prioritises the closest target to you.\n" +
-                                       "Furthest - Prioritises the furthest target from you.");
+            ImGuiComponents.HelpMarker(AutoRotationUI.HelpText_DPSTargettingMode);
             ImGui.Spacing();
 
             if (cfg.DPSRotationMode is DPSRotationMode.Manual)

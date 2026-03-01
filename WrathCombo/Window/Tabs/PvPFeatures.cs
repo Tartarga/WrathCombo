@@ -12,6 +12,7 @@ using System.Linq;
 using System.Numerics;
 using WrathCombo.Core;
 using WrathCombo.Extensions;
+using WrathCombo.Resources.Localization.UI.Features;
 using WrathCombo.Services;
 using WrathCombo.Window.Functions;
 
@@ -39,7 +40,7 @@ internal class PvPFeatures : FeaturesWindow
                         ImGuiEx.TextWrapped(ImGuiColors.DalamudYellow, $"{FontAwesomeIcon.ExclamationTriangle.ToIconString()}");
                         ImGui.PopFont();
                         ImGui.SameLine();
-                        ImGuiEx.TextWrapped(ImGuiColors.DalamudYellow, "Auto-Rotation is unavailable for PvP.");
+                        ImGuiEx.TextWrapped(ImGuiColors.DalamudYellow, FeaturesUI.pvpAutoRotationWarning);
                         ImGui.SameLine();
                         ImGui.PushFont(UiBuilder.IconFont);
                         ImGuiEx.TextWrapped(ImGuiColors.DalamudYellow, $"{FontAwesomeIcon.ExclamationTriangle.ToIconString()}");
@@ -57,7 +58,7 @@ internal class PvPFeatures : FeaturesWindow
                         ImGuiEx.TextWrapped(ImGuiColors.DalamudRed, $"{FontAwesomeIcon.ExclamationTriangle.ToIconString()}");
                         ImGui.PopFont();
                         ImGui.SameLine();
-                        ImGuiEx.TextWrapped(ImGuiColors.DalamudRed, "Action Replacing is Disabled in Settings! PvP Combos will not work!");
+                        ImGuiEx.TextWrapped(ImGuiColors.DalamudRed, FeaturesUI.pvpAutoRotationWarning);
                         ImGui.SameLine();
                         ImGui.PushFont(UiBuilder.IconFont);
                         ImGuiEx.TextWrapped(ImGuiColors.DalamudRed, $"{FontAwesomeIcon.ExclamationTriangle.ToIconString()}");
@@ -75,7 +76,7 @@ internal class PvPFeatures : FeaturesWindow
                     ImGui.TextWrapped($"{FontAwesomeIcon.SkullCrossbones.ToIconString()}");
                     ImGui.PopFont();
                     ImGui.SameLine();
-                    ImGui.TextWrapped("These are PvP features. They will only work in PvP-enabled zones.");
+                    ImGui.TextWrapped(FeaturesUI.pvpDesc);
                     ImGui.SameLine();
                     ImGui.PushFont(UiBuilder.IconFont);
                     ImGui.TextWrapped($"{FontAwesomeIcon.SkullCrossbones.ToIconString()}");
@@ -83,7 +84,7 @@ internal class PvPFeatures : FeaturesWindow
                 });
                 ImGuiEx.LineCentered($"pvpDesc2", () =>
                 {
-                    ImGuiEx.TextUnderlined("Select a job from below to enable and configure features for it.");
+                    ImGuiEx.TextUnderlined(FeaturesUI.SelectAJob);
                 });
                 ImGui.Spacing();
 
@@ -128,7 +129,7 @@ internal class PvPFeatures : FeaturesWindow
                             }
                             ImGui.SameLine(LargerIndentWidth);
                             ImGuiEx.Spacing(new Vector2(0, VerticalCenteringPadding));
-                            ImGui.Text($"{header} {(disabled ? "(Disabled due to update)" : "")}");
+                            ImGui.Text($"{header} {(disabled ? FeaturesUI.DisabledDueToUpdate : "")}");
                         }
 
                         ImGui.TableNextColumn();
@@ -152,7 +153,7 @@ internal class PvPFeatures : FeaturesWindow
                 {
                     if (ImGui.BeginTabBar($"subTab{openPvPJob.Value.Name()}", ImGuiTabBarFlags.Reorderable | ImGuiTabBarFlags.AutoSelectNewTabs))
                     {
-                        if (ImGui.BeginTabItem("Normal"))
+                        if (ImGui.BeginTabItem(FeaturesUI.Normal))
                         {
                             DrawHeadingContents(openPvPJob.Value);
                             ImGui.EndTabItem();
@@ -238,7 +239,7 @@ internal class PvPFeatures : FeaturesWindow
             {
                 ImGuiEx.LineCentered(() =>
                 {
-                    ImGui.TextUnformatted("Nothing matched your search.");
+                    ImGui.TextUnformatted(FeaturesUI.pvpNothing);
                 });
             }
         }

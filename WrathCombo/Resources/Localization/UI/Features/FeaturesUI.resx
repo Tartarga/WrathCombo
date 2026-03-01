@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,8 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Wrath_Combo" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="DisabledDueToUpdate" xml:space="preserve">
+    <value>Disabled due to update</value>
+  </data>
+  <data name="EquipJobStone" xml:space="preserve">
+    <value>Equip your job stone to re-unlock features.</value>
+  </data>
+  <data name="Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="pvpActionReplacingWarning" xml:space="preserve">
+    <value>Action Replacing is Disabled in Settings! PvP Combos will not work!</value>
+  </data>
+  <data name="pvpAutoRotationWarning" xml:space="preserve">
+    <value>Auto-Rotation is unavailable for PvP.</value>
+  </data>
+  <data name="pvpDesc" xml:space="preserve">
+    <value>These are PvP features. They will only work in PvP-enabled zones.</value>
+  </data>
+  <data name="pvpNothing" xml:space="preserve">
+    <value>Nothing matched your search.</value>
+  </data>
+  <data name="SelectAJob" xml:space="preserve">
+    <value>Select a job from below to enable and configure features for it.</value>
   </data>
 </root>

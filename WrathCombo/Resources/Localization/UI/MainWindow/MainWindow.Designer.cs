@@ -75,6 +75,110 @@ namespace WrathCombo.Resources.Localization.UI.MainWindow {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The following plugins are known to conflict with
+        ///{0}&apos;s Settings, which you have enabled:
+        ///{1}
+        ///
+        ///It is recommended you disable these plugins, or
+        ///remove the conflicting setting in the plugins
+        ///to prevent unexpected behavior and bugs..
+        /// </summary>
+        internal static string Tooltip_ConflictingPluginSettings {
+            get {
+                return ResourceManager.GetString("Tooltip_ConflictingPluginSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following Wrath settings are known to conflict with {0}&apos;s Settings:
+        ///{1}
+        ///
+        ///It is recommended you disable these settings to prevent unexpected behavior and bugs..
+        /// </summary>
+        internal static string Tooltip_ConflictingWrathSettings {
+            get {
+                return ResourceManager.GetString("Tooltip_ConflictingWrathSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Setting: {0}
+        ///    Problem: {1}.
+        /// </summary>
+        internal static string Tooltip_Conflicts_Reason {
+            get {
+                return ResourceManager.GetString("Tooltip_Conflicts_Reason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have conflict(s) in your Dalamud config:
+        ///.
+        /// </summary>
+        internal static string Tooltip_DalamudConfigConflicts {
+            get {
+                return ResourceManager.GetString("Tooltip_DalamudConfigConflicts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following game settings are known to conflict with {0}&apos;s Settings:
+        ///{1}
+        ///
+        ///It is recommended you change these settings to prevent unexpected behavior and bugs..
+        /// </summary>
+        internal static string Tooltip_GameConflicts {
+            get {
+                return ResourceManager.GetString("Tooltip_GameConflicts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your configuration in the following plugins will conflict
+        ///with {0}&apos;s enabled Action Retargeting:
+        ///{1}
+        ///
+        ///It is recommended you disable these plugins, or
+        ///remove the conflicting actions from their settings, or
+        ///disable Retargeting for the action in {0},
+        ///to prevent unexpected behavior and bugs..
+        /// </summary>
+        internal static string Tooltip_TargettingConflicts {
+            get {
+                return ResourceManager.GetString("Tooltip_TargettingConflicts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to         - {0}.
+        /// </summary>
+        internal static string Tooltip_TargettingConflicts_Action {
+            get {
+                return ResourceManager.GetString("Tooltip_TargettingConflicts_Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - {0} {1}
+        ///    Actions Retargeted there and in {2}:
+        ///{3}.
+        /// </summary>
+        internal static string Tooltip_TargettingConflicts_Plugin {
+            get {
+                return ResourceManager.GetString("Tooltip_TargettingConflicts_Plugin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown conflict type:.
+        /// </summary>
+        internal static string Warning_UnknownConflictType {
+            get {
+                return ResourceManager.GetString("Warning_UnknownConflictType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrath Combo.
         /// </summary>
         internal static string Wrath_Combo {

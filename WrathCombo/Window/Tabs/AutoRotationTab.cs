@@ -12,6 +12,7 @@ using System.Linq;
 using WrathCombo.Combos.PvE;
 using WrathCombo.Extensions;
 using WrathCombo.Services;
+using WrathCombo.Services.IPC;
 using WrathCombo.Services.IPC_Subscriber;
 using WrathCombo.API.Enum;
 using WrathCombo.Resources.Localization.UI.AutoRotation;
@@ -60,8 +61,8 @@ internal class AutoRotationTab : ConfigWindow
                 ImGuiComponents.HelpMarker(AutoRotationUI.HelpText_BypassQuestTargets);
 
                 ImGuiExtensions.Prefix(false);
-                changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded($"Bypass Only in Combat for FATE Targets", ref cfg.BypassFATE, "BypassFATE");
-                ImGuiComponents.HelpMarker("Disables Auto-Mode outside of combat unless you're synced to a FATE.");
+                changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded(AutoRotationUI.Checkbox_BypassFATETargets, ref cfg.BypassFATE, "BypassFATE");
+                ImGuiComponents.HelpMarker(AutoRotationUI.HelpText_BypassFATETargets);
 
                 ImGuiExtensions.Prefix(true);
                 ImGuiEx.SetNextItemWidthScaled(100);

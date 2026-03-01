@@ -92,18 +92,18 @@ namespace WrathCombo.Resources.Localization.UI.Settings {
         /// <summary>
         ///   Looks up a localized string similar to Category name, Setting name, Internal Name, etc.
         /// </summary>
-        internal static string searchHintText {
+        internal static string Info_searchHintText {
             get {
-                return ResourceManager.GetString("searchHintText", resourceCulture);
+                return ResourceManager.GetString("Info_searchHintText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Search:.
         /// </summary>
-        internal static string searchLabelText {
+        internal static string Label_searchLabelText {
             get {
-                return ResourceManager.GetString("searchLabelText", resourceCulture);
+                return ResourceManager.GetString("Label_searchLabelText", resourceCulture);
             }
         }
     }

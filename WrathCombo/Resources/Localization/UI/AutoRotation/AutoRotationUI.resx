@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Checkbox_BypassFATETargets" xml:space="preserve">
+    <value>Bypass Only in Combat for FATE Targets</value>
+  </data>
   <data name="Checkbox_BypassQuestTargets" xml:space="preserve">
     <value>Bypass Only in Combat for Quest Targets</value>
   </data>
@@ -125,6 +128,12 @@
   </data>
   <data name="Checkbox_EnableAutoRotation" xml:space="preserve">
     <value>Enable Auto-Rotation</value>
+  </data>
+  <data name="Checkbox_OnlyInCombat" xml:space="preserve">
+    <value>Only in Combat</value>
+  </data>
+  <data name="HelpText_BypassFATETargets" xml:space="preserve">
+    <value>Disables Auto-Mode outside of combat unless you're synced to a FATE.</value>
   </data>
   <data name="HelpText_BypassQuestTargets" xml:space="preserve">
     <value>Disables Auto-Mode outside of combat unless you're within range of a quest target.</value>

@@ -61,6 +61,15 @@ namespace WrathCombo.Resources.Localization.UI.AutoRotation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bypass Only in Combat for FATE Targets.
+        /// </summary>
+        internal static string Checkbox_BypassFATETargets {
+            get {
+                return ResourceManager.GetString("Checkbox_BypassFATETargets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bypass Only in Combat for Quest Targets.
         /// </summary>
         internal static string Checkbox_BypassQuestTargets {
@@ -93,6 +102,15 @@ namespace WrathCombo.Resources.Localization.UI.AutoRotation {
         internal static string Checkbox_OnlyInCombat {
             get {
                 return ResourceManager.GetString("Checkbox_OnlyInCombat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disables Auto-Mode outside of combat unless you&apos;re synced to a FATE..
+        /// </summary>
+        internal static string HelpText_BypassFATETargets {
+            get {
+                return ResourceManager.GetString("HelpText_BypassFATETargets", resourceCulture);
             }
         }
         

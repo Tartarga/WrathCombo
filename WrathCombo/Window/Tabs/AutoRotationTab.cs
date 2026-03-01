@@ -42,7 +42,7 @@ internal class AutoRotationTab : ConfigWindow
                 Enum.Parse<AutoRotationConfigOption>("InCombatOnly"))!;
             ImGuiExtensions.Prefix(!inCombatOnly);
             changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded(
-                "Only in Combat", ref cfg.InCombatOnly, "InCombatOnly");
+                AutoRotationUI.Checkbox_OnlyInCombat, ref cfg.InCombatOnly, "InCombatOnly");
 
             if (inCombatOnly)
             {
@@ -50,14 +50,14 @@ internal class AutoRotationTab : ConfigWindow
                 changed |= ImGui.Checkbox(AutoRotationUI.Checkbox_BypassSelfUse, ref cfg.BypassBuffs);
                 ImGuiComponents.HelpMarker(
                     Text.FormatAndCache(
-                        AutoRotationUI.HoverText_BypassSelfUse,
+                        AutoRotationUI.HelpText_BypassSelfUse,
                         RPR.Soulsow.ActionName(),
                         MNK.ForbiddenMeditation.ActionName())
                 );
 
                 ImGuiExtensions.Prefix(false);
-                changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded($"Bypass Only in Combat for Quest Targets", ref cfg.BypassQuest, "BypassQuest");
-                ImGuiComponents.HelpMarker("Disables Auto-Mode outside of combat unless you're within range of a quest target.");
+                changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded(AutoRotationUI.Checkbox_BypassQuestTargets, ref cfg.BypassQuest, "BypassQuest");
+                ImGuiComponents.HelpMarker(AutoRotationUI.HelpText_BypassQuestTargets);
 
                 ImGuiExtensions.Prefix(false);
                 changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded($"Bypass Only in Combat for FATE Targets", ref cfg.BypassFATE, "BypassFATE");

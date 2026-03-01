@@ -61,6 +61,15 @@ namespace WrathCombo.Resources.Localization.UI.AutoRotation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bypass Only in Combat for Quest Targets.
+        /// </summary>
+        internal static string Checkbox_BypassQuestTargets {
+            get {
+                return ResourceManager.GetString("Checkbox_BypassQuestTargets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bypass When Combo Suggests Self-Use Action.
         /// </summary>
         internal static string Checkbox_BypassSelfUse {
@@ -79,11 +88,29 @@ namespace WrathCombo.Resources.Localization.UI.AutoRotation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only in Combat.
+        /// </summary>
+        internal static string Checkbox_OnlyInCombat {
+            get {
+                return ResourceManager.GetString("Checkbox_OnlyInCombat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disables Auto-Mode outside of combat unless you&apos;re within range of a quest target..
+        /// </summary>
+        internal static string HelpText_BypassQuestTargets {
+            get {
+                return ResourceManager.GetString("HelpText_BypassQuestTargets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Many jobs have an out of combat action that can be used, for example, {0} or {1}. This will allow these to be used without being in combat..
         /// </summary>
-        internal static string HoverText_BypassSelfUse {
+        internal static string HelpText_BypassSelfUse {
             get {
-                return ResourceManager.GetString("HoverText_BypassSelfUse", resourceCulture);
+                return ResourceManager.GetString("HelpText_BypassSelfUse", resourceCulture);
             }
         }
         

@@ -23,12 +23,10 @@ namespace WrathCombo.Window
 
         // Cache for Job names, keyed by Job enum.
         private sealed record LocalizedJobInfo(string Name, string ShortName);
-        private static readonly ConcurrentDictionary<Job, LocalizedJobInfo> jobNameCache = new();
-        private static readonly Lock jobNameCacheLock = new();
+        private static readonly ConcurrentDictionary<Job, LocalizedJobInfo> _jobNameCache = new();
 
         // Cache for localized strings with format parameters that read gamedata
         private static readonly ConcurrentDictionary<string, string> _formatCache = new();
-        private static readonly Lock _formatCacheLock = new();
 
         // For Reference: Dalamud supports these languages, and Ottercorp (CN)
         // https://github.com/goatcorp/Dalamud/blob/master/Dalamud/Localization.cs#L21
@@ -69,14 +67,8 @@ namespace WrathCombo.Window
             {
                 presetCache = null;
             }
-            lock (jobNameCacheLock)
-            {
-                jobNameCache.Clear();
-            }
-            lock (_formatCacheLock)
-            {
-                _formatCache.Clear();
-            }
+            _jobNameCache.Clear();
+            _formatCache.Clear();
         }
 
         /// <summary>
@@ -145,10 +137,10 @@ namespace WrathCombo.Window
         internal static class JobNameLocalization
         {
             public static string GetJobName(Job job)
-                => jobNameCache.GetOrAdd(job, BuildEntry).Name;
+                => _jobNameCache.GetOrAdd(job, BuildEntry).Name;
 
             public static string GetJobShortName(Job job)
-                => jobNameCache.GetOrAdd(job, BuildEntry).ShortName;
+                => _jobNameCache.GetOrAdd(job, BuildEntry).ShortName;
 
             private static LocalizedJobInfo BuildEntry(Job job)
             {
@@ -182,6 +174,12 @@ namespace WrathCombo.Window
             return value ?? key;
         }
 
+        /// <summary>
+        /// String.Format, but caches!
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static string FormatAndCache(string format, params object[] args)
         {
             // Create a unique cache key based on the format string and arguments

@@ -97,11 +97,29 @@ namespace WrathCombo.Resources.Localization.UI.Misc {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Normal.
+        /// </summary>
+        internal static string Normal {
+            get {
+                return ResourceManager.GetString("Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Occult Crescent.
         /// </summary>
         internal static string Occult_Crescent {
             get {
                 return ResourceManager.GetString("Occult Crescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replaces.
+        /// </summary>
+        internal static string Replaces {
+            get {
+                return ResourceManager.GetString("Replaces", resourceCulture);
             }
         }
         

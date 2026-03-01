@@ -61,6 +61,35 @@ namespace WrathCombo.Resources.Localization.UI.Settings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This Feature will involve retargeting actions if enabled..
+        /// </summary>
+        internal static string Hover_Retargetting1 {
+            get {
+                return ResourceManager.GetString("Hover_Retargetting1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The actions this Feature affects will automatically be
+        ///targeted onto the targets in the priority you have configured..
+        /// </summary>
+        internal static string Hover_Retargetting2 {
+            get {
+                return ResourceManager.GetString("Hover_Retargetting2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using plugins like Redirect or Reaction with configurations
+        ///affecting the same actions will Conflict and may cause issues..
+        /// </summary>
+        internal static string Hover_Retargetting3 {
+            get {
+                return ResourceManager.GetString("Hover_Retargetting3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category name, Setting name, Internal Name, etc.
         /// </summary>
         internal static string searchHintText {

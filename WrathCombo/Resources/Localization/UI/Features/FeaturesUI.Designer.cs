@@ -61,74 +61,168 @@ namespace WrathCombo.Resources.Localization.UI.Features {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disabled due to update.
+        ///   Looks up a localized string similar to Add this feature to Auto-Rotation.
+        ///Auto-Rotation will automatically use the actions selected within the feature, allowing you to focus on movement. Configure the settings in the &apos;Auto-Rotation&apos; section..
         /// </summary>
-        internal static string DisabledDueToUpdate {
+        internal static string Hover_AutoMode {
             get {
-                return ResourceManager.GetString("DisabledDueToUpdate", resourceCulture);
+                return ResourceManager.GetString("Hover_AutoMode", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equip your job stone to re-unlock features..
+        ///   Looks up a localized string similar to The setting that controls if this action is retargeted is:.
         /// </summary>
-        internal static string EquipJobStone {
+        internal static string Hover_Retargetting_ControllingSetting {
             get {
-                return ResourceManager.GetString("EquipJobStone", resourceCulture);
+                return ResourceManager.GetString("Hover_Retargetting_ControllingSetting", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Normal.
+        ///   Looks up a localized string similar to This Feature&apos;s actions are retargeted.
         /// </summary>
-        internal static string Normal {
+        internal static string Hover_Retargetting_IsRetargetted {
             get {
-                return ResourceManager.GetString("Normal", resourceCulture);
+                return ResourceManager.GetString("Hover_Retargetting_IsRetargetted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The actions from this Feature will automatically be
+        ///targeted onto what the developers feel is the best target
+        ///(following The Balance where applicable)..
+        /// </summary>
+        internal static string Hover_Retargetting_Line2 {
+            get {
+                return ResourceManager.GetString("Hover_Retargetting_Line2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using plugins like Redirect or Reaction with configurations
+        ///affecting this action will Conflict and may cause issues..
+        /// </summary>
+        internal static string Hover_Retargetting_Line3 {
+            get {
+                return ResourceManager.GetString("Hover_Retargetting_Line3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This Feature&apos;s actions may be retargeted..
+        /// </summary>
+        internal static string Hover_Retargetting_MaybeRetargetted {
+            get {
+                return ResourceManager.GetString("Hover_Retargetting_MaybeRetargetted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All required spells active!.
+        /// </summary>
+        internal static string Info_BLUAllGoodSpells {
+            get {
+                return ResourceManager.GetString("Info_BLUAllGoodSpells", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Action Replacing is Disabled in Settings! PvP Combos will not work!.
         /// </summary>
-        internal static string pvpActionReplacingWarning {
+        internal static string Info_pvpActionReplacingWarning {
             get {
-                return ResourceManager.GetString("pvpActionReplacingWarning", resourceCulture);
+                return ResourceManager.GetString("Info_pvpActionReplacingWarning", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Auto-Rotation is unavailable for PvP..
         /// </summary>
-        internal static string pvpAutoRotationWarning {
+        internal static string Info_pvpAutoRotationWarning {
             get {
-                return ResourceManager.GetString("pvpAutoRotationWarning", resourceCulture);
+                return ResourceManager.GetString("Info_pvpAutoRotationWarning", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to These are PvP features. They will only work in PvP-enabled zones..
         /// </summary>
-        internal static string pvpDesc {
+        internal static string Info_pvpDesc {
             get {
-                return ResourceManager.GetString("pvpDesc", resourceCulture);
+                return ResourceManager.GetString("Info_pvpDesc", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Nothing matched your search..
         /// </summary>
-        internal static string pvpNothing {
+        internal static string Info_pvpNothing {
             get {
-                return ResourceManager.GetString("pvpNothing", resourceCulture);
+                return ResourceManager.GetString("Info_pvpNothing", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Select a job from below to enable and configure features for it..
         /// </summary>
-        internal static string SelectAJob {
+        internal static string Info_SelectAJob {
             get {
-                return ResourceManager.GetString("SelectAJob", resourceCulture);
+                return ResourceManager.GetString("Info_SelectAJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto-Mode.
+        /// </summary>
+        internal static string Label_AutoMode {
+            get {
+                return ResourceManager.GetString("Label_AutoMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conflicts with:.
+        /// </summary>
+        internal static string Label_ConflictsWith {
+            get {
+                return ResourceManager.GetString("Label_ConflictsWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing active spells:.
+        /// </summary>
+        internal static string Warning_BLUMissingSpells {
+            get {
+                return ResourceManager.GetString("Warning_BLUMissingSpells", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Required Spells Active:.
+        /// </summary>
+        internal static string Warning_BLUNoSpells {
+            get {
+                return ResourceManager.GetString("Warning_BLUNoSpells", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disabled due to update.
+        /// </summary>
+        internal static string Warning_DisabledDueToUpdate {
+            get {
+                return ResourceManager.GetString("Warning_DisabledDueToUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equip your job stone to re-unlock features..
+        /// </summary>
+        internal static string Warning_EquipJobStone {
+            get {
+                return ResourceManager.GetString("Warning_EquipJobStone", resourceCulture);
             }
         }
     }

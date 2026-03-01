@@ -129,8 +129,14 @@
   <data name="Job Roles" xml:space="preserve">
     <value>Job Roles</value>
   </data>
+  <data name="Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
   <data name="Occult Crescent" xml:space="preserve">
     <value>Occult Crescent</value>
+  </data>
+  <data name="Replaces" xml:space="preserve">
+    <value>Replaces</value>
   </data>
   <data name="Roles and Content" xml:space="preserve">
     <value>Roles and Content</value>

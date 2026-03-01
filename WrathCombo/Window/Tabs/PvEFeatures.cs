@@ -26,7 +26,7 @@ internal class PvEFeatures : FeaturesWindow
         //#if !DEBUG
         if (ActionReplacer.ClassLocked())
         {
-            ImGui.TextWrapped(FeaturesUI.EquipJobStone);
+            ImGui.TextWrapped(FeaturesUI.Warning_EquipJobStone);
             return;
         }
         //#endif
@@ -40,7 +40,7 @@ internal class PvEFeatures : FeaturesWindow
                 ImGui.SameLine(IndentWidth);
                 ImGuiEx.LineCentered(() =>
                 {
-                    ImGuiEx.TextUnderlined(FeaturesUI.SelectAJob);
+                    ImGuiEx.TextUnderlined(FeaturesUI.Info_SelectAJob);
                 });
 
                 ColCount = Math.Max(1, (int)(AvailableWidth / 200f.Scale()));
@@ -83,7 +83,7 @@ internal class PvEFeatures : FeaturesWindow
                             }
                             ImGui.SameLine(LargerIndentWidth);
                             ImGuiEx.Spacing(new Vector2(0, VerticalCenteringPadding));
-                            ImGui.Text($"{header} {(disabled ? FeaturesUI.DisabledDueToUpdate : "")}");
+                            ImGui.Text($"{header} {(disabled ? FeaturesUI.Warning_DisabledDueToUpdate : "")}");
 
                             if (!string.IsNullOrEmpty(abbreviation) &&
                                 P.UIHelper.JobControlled(id) is not null)
@@ -118,7 +118,7 @@ internal class PvEFeatures : FeaturesWindow
                             ImGuiTabBarFlags.AutoSelectNewTabs))
                         return;
 
-                    string mainTabName = openJob.Value is Job.ADV ? MiscUI.Job_Roles : FeaturesUI.Normal;
+                    string mainTabName = openJob.Value is Job.ADV ? MiscUI.Job_Roles : MiscUI.Normal;
                     if (ImGui.BeginTabItem(mainTabName))
                     {
                         SetCurrentTab(FeatureTab.Normal);

@@ -12,9 +12,9 @@ using System.Linq;
 using WrathCombo.Combos.PvE;
 using WrathCombo.Extensions;
 using WrathCombo.Services;
-using WrathCombo.Services.IPC;
 using WrathCombo.Services.IPC_Subscriber;
 using WrathCombo.API.Enum;
+using WrathCombo.Resources.Localization.UI.AutoRotation;
 
 #endregion
 
@@ -25,8 +25,7 @@ internal class AutoRotationTab : ConfigWindow
     private static uint _selectedNpc = 0;
     internal static new void Draw()
     {
-        ImGui.TextWrapped($"This is where you can configure the parameters in which Auto-Rotation will operate. " +
-                          $"Features marked with an 'Auto-Mode' checkbox are able to be used with Auto-Rotation.");
+        ImGui.TextWrapped(AutoRotationUI.Info_Header);
         ImGui.Separator();
 
         var cfg = Service.Configuration.RotationConfig;
@@ -34,9 +33,9 @@ internal class AutoRotationTab : ConfigWindow
 
         if (P.UIHelper.ShowIPCControlledIndicatorIfNeeded())
             changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded(
-                "Enable Auto-Rotation", ref cfg.Enabled);
+                AutoRotationUI.Checkbox_EnableAutoRotation, ref cfg.Enabled);
         else
-            changed |= ImGui.Checkbox($"Enable Auto-Rotation", ref cfg.Enabled);
+            changed |= ImGui.Checkbox(AutoRotationUI.Checkbox_EnableAutoRotation, ref cfg.Enabled);
         if (P.IPC.GetAutoRotationState())
         {
             var inCombatOnly = (bool)P.IPC.GetAutoRotationConfigState(
@@ -48,8 +47,13 @@ internal class AutoRotationTab : ConfigWindow
             if (inCombatOnly)
             {
                 ImGuiExtensions.Prefix(false);
-                changed |= ImGui.Checkbox($"Bypass When Combo Suggests Self-Use Action", ref cfg.BypassBuffs);
-                ImGuiComponents.HelpMarker($"Many jobs have an out of combat action that can be used, for example, {RPR.Soulsow.ActionName()} or {MNK.ForbiddenMeditation.ActionName()}. This will allow these to be used without being in combat.");
+                changed |= ImGui.Checkbox(AutoRotationUI.Checkbox_BypassSelfUse, ref cfg.BypassBuffs);
+                ImGuiComponents.HelpMarker(
+                    Text.FormatAndCache(
+                        AutoRotationUI.HoverText_BypassSelfUse,
+                        RPR.Soulsow.ActionName(),
+                        MNK.ForbiddenMeditation.ActionName())
+                );
 
                 ImGuiExtensions.Prefix(false);
                 changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded($"Bypass Only in Combat for Quest Targets", ref cfg.BypassQuest, "BypassQuest");
@@ -106,7 +110,7 @@ internal class AutoRotationTab : ConfigWindow
                 ImGuiComponents.HelpMarker("For all other targeting modes, AoE will target based on highest number of targets hit. In manual mode, it will only do this if you tick this box.");
             }
 
-                
+
             P.UIHelper.ShowIPCControlledIndicatorIfNeeded("DPSAoETargets");
             var input = P.UIHelper.ShowIPCControlledNumberInputIfNeeded(
                 "Targets Required for AoE Damage Features", ref cfg.DPSSettings.DPSAoETargets, "DPSAoETargets");
@@ -217,7 +221,7 @@ internal class AutoRotationTab : ConfigWindow
             changed |= P.UIHelper.ShowIPCControlledSliderIfNeeded(
                 "Single Target HP% Threshold (target has Regen/Aspected Benefic)", ref cfg.HealerSettings.SingleTargetRegenHPP, "SingleTargetRegenHPP");
             ImGuiComponents.HelpMarker("You typically want to set this lower than the above setting.");
-                
+
             P.UIHelper.ShowIPCControlledIndicatorIfNeeded("SingleTargetExcogHPP");
             changed |= P.UIHelper.ShowIPCControlledSliderIfNeeded(
                 "Single Target HP% Threshold (target has Excogitation)", ref cfg.HealerSettings.SingleTargetExcogHPP, "SingleTargetExcogHPP");
@@ -269,7 +273,7 @@ internal class AutoRotationTab : ConfigWindow
                 changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded(
                     $"Apply to {Job.SMN.Shorthand()} & {Job.RDM.Shorthand()}", ref cfg.HealerSettings.AutoRezDPSJobs, "AutoRezDPSJobs");
                 ImGuiComponents.HelpMarker($"When playing as {Job.SMN.Shorthand()} or {Job.RDM.Shorthand()}, also attempt to raise a dead party member. {Job.RDM.Shorthand()} will only resurrect with {RoleActions.Magic.Buffs.Swiftcast.StatusName()} or {RDM.Buffs.Dualcast.StatusName()} active.");
-                
+
                 if (cfg.HealerSettings.AutoRezDPSJobs)
                 {
                     ImGuiExtensions.Prefix(true);

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WrathCombo.Resources.Localization.UI.MainWindow {
+namespace WrathCombo.Resources.Localization.UI.MainWindowUI {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace WrathCombo.Resources.Localization.UI.MainWindow {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class MainWindow {
+    internal class MainWindowUI {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal MainWindow() {
+        internal MainWindowUI() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace WrathCombo.Resources.Localization.UI.MainWindow {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WrathCombo.Resources.Localization.UI.MainWindow.MainWindow", typeof(MainWindow).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WrathCombo.Resources.Localization.UI.MainWindow.MainWindowUI", typeof(MainWindowUI).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

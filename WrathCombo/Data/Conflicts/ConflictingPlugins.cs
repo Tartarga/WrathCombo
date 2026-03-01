@@ -10,7 +10,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using WrathCombo.Extensions;
-using WrathCombo.Resources.Localization.UI.MainWindow;
+using WrathCombo.Resources.Localization.UI.MainWindowUI;
 using WrathCombo.Resources.Localization.UI.Misc;
 using EZ = ECommons.Throttlers.EzThrottler;
 using TS = System.TimeSpan;
@@ -169,8 +169,8 @@ public static class ConflictingPlugins
                                      : $" ({x.Reason})")));
 
             var tooltipText = string.Format(
-                MainWindow.Tooltip_ConflictingPlugins,
-                MainWindow.Wrath_Combo,
+                MainWindowUI.Tooltip_ConflictingPlugins,
+                MainWindowUI.Wrath_Combo,
                 conflictingPluginsText
             );
 
@@ -185,8 +185,8 @@ public static class ConflictingPlugins
                     .Select(x => $"{x.Name} {x.Version} ({MiscUI.Setting}: {x.Reason})"));
 
             var tooltipText = string.Format(
-                MainWindow.Tooltip_ConflictingPluginSettings,
-                MainWindow.Wrath_Combo,
+                MainWindowUI.Tooltip_ConflictingPluginSettings,
+                MainWindowUI.Wrath_Combo,
                 conflictingSettingsText
             );
 
@@ -205,14 +205,14 @@ public static class ConflictingPlugins
                 var reasonSplit = conflict.Reason.Split("    ");
 
                 conflictLines.AppendLine(string.Format(
-                    MainWindow.Tooltip_Conflicts_Reason,
+                    MainWindowUI.Tooltip_Conflicts_Reason,
                     reasonSplit[0],
                     reasonSplit[1]));
             }
 
             var tooltipText = string.Format(
-                MainWindow.Tooltip_GameConflicts,
-                MainWindow.Wrath_Combo,
+                MainWindowUI.Tooltip_GameConflicts,
+                MainWindowUI.Wrath_Combo,
                 conflictLines.ToString());
 
             ShowWarning(ConflictType.GameSetting, tooltipText,
@@ -230,13 +230,13 @@ public static class ConflictingPlugins
                 var reasonSplit = conflict.Reason.Split("    ");
 
                 conflictLines.AppendLine(string.Format(
-                    MainWindow.Tooltip_Conflicts_Reason,
+                    MainWindowUI.Tooltip_Conflicts_Reason,
                     reasonSplit[0],
                     reasonSplit[1]));
             }
 
             var tooltipText = string.Format(
-                MainWindow.Tooltip_ConflictingWrathSettings,
+                MainWindowUI.Tooltip_ConflictingWrathSettings,
                 P.Name,
                 conflictLines.ToString());
 
@@ -257,12 +257,12 @@ public static class ConflictingPlugins
                 foreach (var action in conflict.Reason.Split(','))
                 {
                     actionLines.AppendLine(string.Format(
-                        MainWindow.Tooltip_TargettingConflicts_Action,
+                        MainWindowUI.Tooltip_TargettingConflicts_Action,
                         action));
                 }
 
                 pluginLines.AppendLine(string.Format(
-                    MainWindow.Tooltip_TargettingConflicts_Plugin,
+                    MainWindowUI.Tooltip_TargettingConflicts_Plugin,
                     conflict.Name,
                     conflict.Version,
                     P.Name,
@@ -270,7 +270,7 @@ public static class ConflictingPlugins
             }
 
             var tooltipText = string.Format(
-                MainWindow.Tooltip_TargettingConflicts,
+                MainWindowUI.Tooltip_TargettingConflicts,
                 P.Name,
                 pluginLines.ToString());
 
@@ -283,7 +283,7 @@ public static class ConflictingPlugins
         {
             currentConflicts = conflicts[ConflictType.Dalamud];
 
-            var tooltipText = MainWindow.Tooltip_DalamudConfigConflicts;
+            var tooltipText = MainWindowUI.Tooltip_DalamudConfigConflicts;
 
             foreach (var conflict in conflicts[ConflictType.Dalamud])
             {
@@ -308,7 +308,7 @@ public static class ConflictingPlugins
                 ConflictType.GameSetting  => ImGuiColors.DalamudOrange,
                 ConflictType.Dalamud      => ImGuiColors.DalamudYellow,
                 _ => throw new ArgumentOutOfRangeException(nameof(type),
-                    $"{MainWindow.Warning_UnknownConflictType} {type}"),
+                    $"{MainWindowUI.Warning_UnknownConflictType} {type}"),
             };
 
             if (hasWarningAbove)

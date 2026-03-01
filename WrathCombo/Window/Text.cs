@@ -9,7 +9,7 @@ using System.Threading;
 using WrathCombo.Core;
 using WrathCombo.Extensions;
 using WrathCombo.Resources.Localization.Presets;
-using WrathCombo.Resources.Localization.UI.MainWindow;
+using WrathCombo.Resources.Localization.UI.MainWindowUI;
 using WrathCombo.Resources.Localization.UI.Settings;
 
 namespace WrathCombo.Window
@@ -25,6 +25,10 @@ namespace WrathCombo.Window
         private sealed record LocalizedJobInfo(string Name, string ShortName);
         private static readonly ConcurrentDictionary<Job, LocalizedJobInfo> jobNameCache = new();
         private static readonly Lock jobNameCacheLock = new();
+
+        // Cache for localized strings with format parameters that read gamedata
+        private static readonly ConcurrentDictionary<string, string> _formatCache = new();
+        private static readonly Lock _formatCacheLock = new();
 
         // For Reference: Dalamud supports these languages, and Ottercorp (CN)
         // https://github.com/goatcorp/Dalamud/blob/master/Dalamud/Localization.cs#L21
@@ -57,7 +61,7 @@ namespace WrathCombo.Window
             GameCulture = newLang.ToCulture();
 
             // Update cultures in resource managers
-            MainWindow.Culture = GameCulture;
+            MainWindowUI.Culture = GameCulture;
             SettingsUI.Culture = GameCulture;
 
             // Invalidate the caches safely
@@ -68,6 +72,10 @@ namespace WrathCombo.Window
             lock (jobNameCacheLock)
             {
                 jobNameCache.Clear();
+            }
+            lock (_formatCacheLock)
+            {
+                _formatCache.Clear();
             }
         }
 
@@ -172,6 +180,13 @@ namespace WrathCombo.Window
 
             // If missing entirely, return key (debug-friendly)
             return value ?? key;
+        }
+
+        public static string FormatAndCache(string format, params object[] args)
+        {
+            // Create a unique cache key based on the format string and arguments
+            var key = format + "|" + string.Join("|", args);
+            return _formatCache.GetOrAdd(key, _ => string.Format(format, args));
         }
     }
 }

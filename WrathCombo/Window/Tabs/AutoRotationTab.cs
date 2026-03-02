@@ -99,65 +99,65 @@ internal class AutoRotationTab : ConfigWindow
 
             if (cfg.DPSRotationMode is DPSRotationMode.Manual)
             {
-                changed |= ImGui.Checkbox("Enforce Best AoE Target Selection", ref cfg.DPSSettings.AoEIgnoreManual);
+                changed |= ImGui.Checkbox(AutoRotationUI.Checkbox_EnforceBestAoETarget, ref cfg.DPSSettings.AoEIgnoreManual);
 
-                ImGuiComponents.HelpMarker("For all other targeting modes, AoE will target based on highest number of targets hit. In manual mode, it will only do this if you tick this box.");
+                ImGuiComponents.HelpMarker(AutoRotationUI.HelpText_EnforceBestAoETarget);
             }
 
 
             P.UIHelper.ShowIPCControlledIndicatorIfNeeded("DPSAoETargets");
             var input = P.UIHelper.ShowIPCControlledNumberInputIfNeeded(
-                "Targets Required for AoE Damage Features", ref cfg.DPSSettings.DPSAoETargets, "DPSAoETargets");
+                AutoRotationUI.Input_AoETargetCount, ref cfg.DPSSettings.DPSAoETargets, "DPSAoETargets");
             if (input)
             {
                 changed |= input;
                 if (cfg.DPSSettings.DPSAoETargets < 0)
                     cfg.DPSSettings.DPSAoETargets = 0;
             }
-            ImGuiComponents.HelpMarker($"Disabling this will turn off AoE DPS features. Otherwise will require the amount of targets required to be in range of an AoE feature's attack to use. This applies to all 3 roles, and for any features that deal AoE damage.");
+            ImGuiComponents.HelpMarker(AutoRotationUI.HelpText_AoETargetCount);
 
             ImGuiEx.SetNextItemWidthScaled(100);
-            changed |= ImGui.SliderFloat("Max Target Distance", ref cfg.DPSSettings.MaxDistance, 1, 30, $"{cfg.DPSSettings.MaxDistance:0}");
+            changed |= ImGui.SliderFloat(AutoRotationUI.Label_DPSMaxTargetDistance, ref cfg.DPSSettings.MaxDistance, 1, 30, $"{cfg.DPSSettings.MaxDistance:0}");
             cfg.DPSSettings.MaxDistance =
                 Math.Clamp(cfg.DPSSettings.MaxDistance, 1, 30);
 
-            ImGuiComponents.HelpMarker("Max distance all targeting modes (except Manual) will look for a target. Values from 1 to 30 only.");
+            ImGuiComponents.HelpMarker(AutoRotationUI.HelpText_DPSMaxTargetDistance);
 
             P.UIHelper.ShowIPCControlledIndicatorIfNeeded("IgnoreRangeInBoss");
-            changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded("Ignore Max Target Distance In Boss Fights", ref cfg.DPSSettings.IgnoreRangeInBoss, "IgnoreRangeInBoss");
+            changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded(AutoRotationUI.Label_IgnoreRangeInBoss, ref cfg.DPSSettings.IgnoreRangeInBoss, "IgnoreRangeInBoss");
 
-            ImGuiComponents.HelpMarker("When in boss fights only, any target regardless of distance can be eligible to be attacked.");
+            ImGuiComponents.HelpMarker(AutoRotationUI.HelpTest_IgnoreRangeInBoss);
 
             P.UIHelper.ShowIPCControlledIndicatorIfNeeded("FATEPriority");
             changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded(
-                "Prioritise FATE Targets", ref cfg.DPSSettings.FATEPriority, "FATEPriority");
+                AutoRotationUI.Checkbox_FATEPriority, ref cfg.DPSSettings.FATEPriority, "FATEPriority");
             P.UIHelper.ShowIPCControlledIndicatorIfNeeded("QuestPriority");
             changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded(
-                "Prioritise Quest Targets", ref cfg.DPSSettings.QuestPriority, "QuestPriority");
-            changed |= ImGui.Checkbox($"Prioritise Targets Not In Combat", ref cfg.DPSSettings.PreferNonCombat);
+                AutoRotationUI.Checkbox_QuestPriority, ref cfg.DPSSettings.QuestPriority, "QuestPriority");
+            changed |= ImGui.Checkbox(AutoRotationUI.Checkbox_PreferNonCombat, ref cfg.DPSSettings.PreferNonCombat);
 
             if (cfg.DPSSettings.PreferNonCombat && changed)
                 cfg.DPSSettings.OnlyAttackInCombat = false;
 
             changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded(
-                "Only Attack Targets Already In Combat", ref cfg.DPSSettings.OnlyAttackInCombat,
+                AutoRotationUI.Checkbox_OnlyAttackInCombat, ref cfg.DPSSettings.OnlyAttackInCombat,
                 "OnlyAttackInCombat");
 
             if (cfg.DPSSettings.OnlyAttackInCombat && changed)
                 cfg.DPSSettings.PreferNonCombat = false;
 
-            changed |= ImGui.Checkbox("Un-Target and Stop Actions for Pyretics", ref cfg.DPSSettings.UnTargetAndDisableForPenalty);
+            changed |= ImGui.Checkbox(AutoRotationUI.Checkbox_UnTargetAndDisableForPenalty, ref cfg.DPSSettings.UnTargetAndDisableForPenalty);
 
-            ImGuiComponents.HelpMarker("This will un-set any current target and disable Auto-Rotation actions if there is a current detected Pyretic (or similar, like Acceleration Bomb) mechanic affecting the player, that would harm them if they took any action.");
+            ImGuiComponents.HelpMarker(AutoRotationUI.HelpText_UnTargetAndDisableForPenalty);
 
-            changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded("Always Set Hard Target", ref cfg.DPSSettings.DPSAlwaysHardTarget, "DPSAlwaysHardTarget");
+            changed |= P.UIHelper.ShowIPCControlledCheckboxIfNeeded(AutoRotationUI.Checkbox_DPSAlwaysHardTarget, ref cfg.DPSSettings.DPSAlwaysHardTarget, "DPSAlwaysHardTarget");
 
-            ImGuiComponents.HelpMarker("Auto-rotation does not need to target enemies to work, however with this setting enabled it will always set your hard target when it executes an attack.");
+            ImGuiComponents.HelpMarker(AutoRotationUI.HelpText_DPSAlwaysHardTarget);
 
             var npcs = Service.Configuration.IgnoredNPCs.ToList();
             var selected = npcs.FirstOrNull(x => x.Key == _selectedNpc);
             var prev = selected is null ? "" : $"{Svc.Data.Excel.GetSheet<BNpcName>().GetRow(selected.Value.Value).Singular} (ID: {selected.Value.Key})";
-            ImGuiEx.TextUnderlined($"Ignored NPCs");
+            ImGuiEx.TextUnderlined(AutoRotationUI.Label_IgnoredNPCs);
             using (var combo = ImRaii.Combo("###Ignore", prev))
             {
                 if (combo)
@@ -178,14 +178,11 @@ internal class AutoRotationTab : ConfigWindow
                     }
                 }
             }
-            ImGuiComponents.HelpMarker("These NPCs will be ignored by Auto-Rotation.\n" +
-                                       "Every instance of this NPC will be excluded from automatic targeting (Manual will still work).\n" +
-                                       "To remove an NPC from this list, select it and press the Delete button below.\n" +
-                                       "To add an NPC to this list, target the NPC and use the command: /wrath ignore");
+            ImGuiComponents.HelpMarker(AutoRotationUI.HelpText_IgnoredNPCs);
 
             if (_selectedNpc > 0)
             {
-                if (ImGui.Button("Delete From Ignored"))
+                if (ImGui.Button(AutoRotationUI.Button_DeleteFromIgnored))
                 {
                     Service.Configuration.IgnoredNPCs.Remove(_selectedNpc);
                     Service.Configuration.Save();

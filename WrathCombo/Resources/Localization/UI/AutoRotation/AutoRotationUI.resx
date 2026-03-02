@@ -135,11 +135,17 @@
   <data name="Checkbox_EnableInstancedEnter" xml:space="preserve">
     <value>Enable Automatically in Instanced Content</value>
   </data>
+  <data name="Checkbox_EnforceBestAoETarget" xml:space="preserve">
+    <value>Enforce Best AoE Target Selection</value>
+  </data>
   <data name="Checkbox_OnlyInCombat" xml:space="preserve">
     <value>Only in Combat</value>
   </data>
   <data name="Header_DamageSettings" xml:space="preserve">
     <value>Damage Settings</value>
+  </data>
+  <data name="HelpText_AoETargetCount" xml:space="preserve">
+    <value>Disabling this will turn off AoE DPS features. Otherwise will require the amount of targets required to be in range of an AoE feature's attack to use. This applies to all 3 roles, and for any features that deal AoE damage.</value>
   </data>
   <data name="HelpText_BypassFATETargets" xml:space="preserve">
     <value>Disables Auto-Mode outside of combat unless you're synced to a FATE.</value>
@@ -160,12 +166,18 @@ Tank Target - Prioritises the same target as the first tank in your group.
 Nearest - Prioritises the closest target to you.
 Furthest - Prioritises the furthest target from you.</value>
   </data>
+  <data name="HelpText_EnforceBestAoETarget" xml:space="preserve">
+    <value>For all other targeting modes, AoE will target based on highest number of targets hit. In manual mode, it will only do this if you tick this box.</value>
+  </data>
   <data name="HelpText_QueueWindow" xml:space="preserve">
     <value>This will determine how soon before the GCD is finished to queue up the next weaponskill or spell. Your latency may have an effect on what actions are performed so please adjust this if you're noticing improper action use, i.e double Blizzard IV casts due to MP not updating in time.</value>
   </data>
   <data name="Info_Header" xml:space="preserve">
     <value>This is where you can configure the parameters in which Auto-Rotation will operate.
 Features marked with an 'Auto-Mode' checkbox are able to be used with Auto-Rotation.</value>
+  </data>
+  <data name="Input_AoETargetCount" xml:space="preserve">
+    <value>Targets Required for AoE Damage Features</value>
   </data>
   <data name="Input_AutoRotationDelay" xml:space="preserve">
     <value>Delay to activate Auto-Rotation once combat starts (seconds)</value>
@@ -175,5 +187,53 @@ Features marked with an 'Auto-Mode' checkbox are able to be used with Auto-Rotat
   </data>
   <data name="Label_DPSTargetingMode" xml:space="preserve">
     <value>Targeting Mode</value>
+  </data>
+  <data name="Label_DPSMaxTargetDistance" xml:space="preserve">
+    <value>Max Target Distance</value>
+  </data>
+  <data name="HelpText_DPSMaxTargetDistance" xml:space="preserve">
+    <value>Max distance all targeting modes (except Manual) will look for a target. Values from 1 to 30 only.</value>
+  </data>
+  <data name="Label_IgnoreRangeInBoss" xml:space="preserve">
+    <value>Ignore Max Target Distance In Boss Fights</value>
+  </data>
+  <data name="HelpTest_IgnoreRangeInBoss" xml:space="preserve">
+    <value>When in boss fights only, any target regardless of distance can be eligible to be attacked.</value>
+  </data>
+  <data name="Checkbox_FATEPriority" xml:space="preserve">
+    <value>Prioritise FATE Targets</value>
+  </data>
+  <data name="Checkbox_QuestPriority" xml:space="preserve">
+    <value>Prioritise Quest Targets</value>
+  </data>
+  <data name="Checkbox_PreferNonCombat" xml:space="preserve">
+    <value>Prioritise Targets Not in Combat</value>
+  </data>
+  <data name="Checkbox_OnlyAttackInCombat" xml:space="preserve">
+    <value>Only Attack Targets Already In Combat</value>
+  </data>
+  <data name="Checkbox_UnTargetAndDisableForPenalty" xml:space="preserve">
+    <value>Un-Target and Stop Actions for Pyretics</value>
+  </data>
+  <data name="Checkbox_DPSAlwaysHardTarget" xml:space="preserve">
+    <value>Always Set Hard Target</value>
+  </data>
+  <data name="Label_IgnoredNPCs" xml:space="preserve">
+    <value>Ignored NPCs</value>
+  </data>
+  <data name="HelpText_UnTargetAndDisableForPenalty" xml:space="preserve">
+    <value>This will un-set any current target and disable Auto-Rotation actions if there is a current detected Pyretic (or similar, like Acceleration Bomb) mechanic affecting the player, that would harm them if they took any action.</value>
+  </data>
+  <data name="HelpText_DPSAlwaysHardTarget" xml:space="preserve">
+    <value>Auto-rotation does not need to target enemies to work, however with this setting enabled it will always set your hard target when it executes an attack.</value>
+  </data>
+  <data name="HelpText_IgnoredNPCs" xml:space="preserve">
+    <value>These NPCs will be ignored by Auto-Rotation.
+Every instance of this NPC will be excluded from automatic targeting (Manual will still work).
+To remove an NPC from this list, select it and press the Delete button below.
+To add an NPC to this list, target the NPC and use the command: /wrath ignore</value>
+  </data>
+  <data name="Button_DeleteFromIgnored" xml:space="preserve">
+    <value>Delete From Ignored</value>
   </data>
 </root>

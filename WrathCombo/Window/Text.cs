@@ -18,15 +18,15 @@ namespace WrathCombo.Window
     {
         // Cache for localized preset info, keyed by preset
         private sealed record LocalizedPresetInfo(string Name, string Description);
-        private static FrozenDictionary<Preset, LocalizedPresetInfo>? presetCache;
-        private static readonly Lock presetCacheLock = new();
+        private static FrozenDictionary<Preset, LocalizedPresetInfo>? _presetCache;
+        private static readonly Lock PresetCacheLock = new();
 
         // Cache for Job names, keyed by Job enum.
         private sealed record LocalizedJobInfo(string Name, string ShortName);
-        private static readonly ConcurrentDictionary<Job, LocalizedJobInfo> _jobNameCache = new();
+        private static readonly ConcurrentDictionary<Job, LocalizedJobInfo> JobNameCache = new();
 
-        // Cache for localized strings with format parameters that read gamedata
-        private static readonly ConcurrentDictionary<string, string> _formatCache = new();
+        // Cache for localized strings with format parameters that read game data
+        private static readonly ConcurrentDictionary<string, string> FormatCache = new();
 
         // For Reference: Dalamud supports these languages, and Ottercorp (CN)
         // https://github.com/goatcorp/Dalamud/blob/master/Dalamud/Localization.cs#L21
@@ -48,27 +48,27 @@ namespace WrathCombo.Window
         private static readonly CultureInfo Tw = new("zh-Hant"); // Traditional
 
         // Cache the game culture.
-        private static CultureInfo GameCulture = Svc.PluginInterface.UiLanguage.ToCulture();
+        private static CultureInfo _gameCulture = Svc.PluginInterface.UiLanguage.ToCulture();
 
         // Expose TextInfo for formatting purposes (Job Names)
-        public static TextInfo TextFormatting => GameCulture.TextInfo;
+        public static TextInfo TextFormatting => _gameCulture.TextInfo;
 
         internal static void OnLanguageChanged(string newLang)
         {
             // Update the global culture
-            GameCulture = newLang.ToCulture();
+            _gameCulture = newLang.ToCulture();
 
             // Update cultures in resource managers
-            MainWindowUI.Culture = GameCulture;
-            SettingsUI.Culture = GameCulture;
+            MainWindowUI.Culture = _gameCulture;
+            SettingsUI.Culture = _gameCulture;
 
             // Invalidate the caches safely
-            lock (presetCacheLock)
+            lock (PresetCacheLock)
             {
-                presetCache = null;
+                _presetCache = null;
             }
-            _jobNameCache.Clear();
-            _formatCache.Clear();
+            JobNameCache.Clear();
+            FormatCache.Clear();
         }
 
         /// <summary>
@@ -105,10 +105,10 @@ namespace WrathCombo.Window
 
             private static FrozenDictionary<Preset, LocalizedPresetInfo> GetCache()
             {
-                lock (presetCacheLock)
+                lock (PresetCacheLock)
                 {
-                    presetCache ??= BuildCache();
-                    return presetCache;
+                    _presetCache ??= BuildCache();
+                    return _presetCache;
                 }
             }
 
@@ -137,10 +137,10 @@ namespace WrathCombo.Window
         internal static class JobNameLocalization
         {
             public static string GetJobName(Job job)
-                => _jobNameCache.GetOrAdd(job, BuildEntry).Name;
+                => JobNameCache.GetOrAdd(job, BuildEntry).Name;
 
             public static string GetJobShortName(Job job)
-                => _jobNameCache.GetOrAdd(job, BuildEntry).ShortName;
+                => JobNameCache.GetOrAdd(job, BuildEntry).ShortName;
 
             private static LocalizedJobInfo BuildEntry(Job job)
             {
@@ -168,7 +168,7 @@ namespace WrathCombo.Window
         /// </summary>
         private static string GetLocalizedString(string key, ResourceManager rm)
         {
-            var value = rm.GetString(key, GameCulture);
+            var value = rm.GetString(key, _gameCulture);
 
             // If missing entirely, return key (debug-friendly)
             return value ?? key;
@@ -184,7 +184,7 @@ namespace WrathCombo.Window
         {
             // Create a unique cache key based on the format string and arguments
             var key = format + "|" + string.Join("|", args);
-            return _formatCache.GetOrAdd(key, _ => string.Format(format, args));
+            return FormatCache.GetOrAdd(key, _ => string.Format(format, args));
         }
     }
 }

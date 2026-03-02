@@ -12,7 +12,6 @@ using System.Linq;
 using WrathCombo.Combos.PvE;
 using WrathCombo.Extensions;
 using WrathCombo.Services;
-using WrathCombo.Services.IPC;
 using WrathCombo.Services.IPC_Subscriber;
 using WrathCombo.API.Enum;
 using WrathCombo.Resources.Localization.UI.AutoRotation;
@@ -24,7 +23,7 @@ namespace WrathCombo.Window.Tabs;
 internal class AutoRotationTab : ConfigWindow
 {
     private static uint _selectedNpc = 0;
-    internal static new void Draw()
+    internal new static void Draw()
     {
         ImGui.TextWrapped(AutoRotationUI.Info_Header);
         ImGui.Separator();

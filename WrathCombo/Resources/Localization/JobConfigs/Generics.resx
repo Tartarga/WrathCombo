@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="_0Option" xml:space="preserve">
-    <value>{0} Option</value>
+  <data name="Action_Opener" xml:space="preserve">
+    <value>{0} Opener</value>
   </data>
   <data name="Action_Priority" xml:space="preserve">
     <value>{0} Priority: </value>
@@ -140,6 +140,9 @@
   </data>
   <data name="Add0ToTheRotation" xml:space="preserve">
     <value>Add {0} to the rotation.</value>
+  </data>
+  <data name="Add0WhenApplicable" xml:space="preserve">
+    <value>Add {0} when applicable.</value>
   </data>
   <data name="Add0WhenAverageHpPercentofPartyIsAtOrBelow" xml:space="preserve">
     <value>Add {0} when average HP% of the party is at or below.</value>
@@ -330,6 +333,15 @@
     <value>On {0}</value>
     <comment>Used for simple "On {Action}" strings</comment>
   </data>
+  <data name="OnlyUse0WhenInMeleeRange" xml:space="preserve">
+    <value>Only uses {0} when in melee range.</value>
+  </data>
+  <data name="OnlyUse0WhenNotMoving" xml:space="preserve">
+    <value>Only uses {0} when not moving.</value>
+  </data>
+  <data name="OnlyUseOpenerWhenCountdownActive" xml:space="preserve">
+    <value>Only use the opener when a countdown is active.</value>
+  </data>
   <data name="OnlyUseWhenTargetIsBoss" xml:space="preserve">
     <value>Only use {0} when the targeted enemy is a boss.</value>
   </data>
@@ -339,8 +351,14 @@
   <data name="OnlyWeave" xml:space="preserve">
     <value>Only Weave</value>
   </data>
+  <data name="OnlyWithCountdown" xml:space="preserve">
+    <value>Only with countdown</value>
+  </data>
   <data name="PlayerHPGreaterOrEqual" xml:space="preserve">
     <value>Player HP% to be greater than or equal to:</value>
+  </data>
+  <data name="PlayerHPLessOrEqual" xml:space="preserve">
+    <value>Player HP% to be less than or equal to:</value>
   </data>
   <data name="PlayerHPToUseAction" xml:space="preserve">
     <value>Player HP% to use {0} at or below.  Set to 100 to disable this check</value>
@@ -466,6 +484,9 @@ NOTE: This could possibly get you killed</value>
   <data name="UsesStandardOpener" xml:space="preserve">
     <value>Uses Standard opener</value>
   </data>
+  <data name="UseWhenDistanceFromTargetIsGreaterThanOrEqualTo" xml:space="preserve">
+    <value> Use when Distance from target is greater than or equal to:</value>
+  </data>
   <data name="UseWhenDistanceFromTargetIsLessThanOrEqualTo" xml:space="preserve">
     <value> Use when Distance from target is less than or equal to:</value>
   </data>
@@ -484,25 +505,7 @@ NOTE: This could possibly get you killed</value>
   <data name="WillOnlyWeaveThisAction" xml:space="preserve">
     <value>Will only weave this action.</value>
   </data>
-  <data name="OnlyUse0WhenInMeleeRange" xml:space="preserve">
-    <value>Only uses {0} when in melee range.</value>
-  </data>
-  <data name="OnlyUse0WhenNotMoving" xml:space="preserve">
-    <value>Only uses {0} when not moving.</value>
-  </data>
-  <data name="OnlyWithCountdown" xml:space="preserve">
-    <value>Only with countdown</value>
-  </data>
-  <data name="OnlyUseOpenerWhenCountdownActive" xml:space="preserve">
-    <value>Only use the opener when a countdown is active.</value>
-  </data>
-  <data name="Action_Opener" xml:space="preserve">
-    <value>{0} Opener</value>
-  </data>
-  <data name="PlayerHPLessOrEqual" xml:space="preserve">
-    <value>Player HP% to be less than or equal to:</value>
-  </data>
-  <data name="UseWhenDistanceFromTargetIsGreaterThanOrEqualTo" xml:space="preserve">
-    <value> Use when Distance from target is greater than or equal to:</value>
+  <data name="_0Option" xml:space="preserve">
+    <value>{0} Option</value>
   </data>
 </root>

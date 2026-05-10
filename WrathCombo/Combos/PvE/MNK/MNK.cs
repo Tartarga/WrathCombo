@@ -448,6 +448,11 @@ internal partial class MNK : Melee
 
             if (!HasStatusEffect(Buffs.PerfectBalance))
             {
+                if (LevelChecked(MasterfulBlitz) &&
+                    !HasStatusEffect(Buffs.PerfectBalance) &&
+                    !IsOriginal(MasterfulBlitz))
+                    return OriginalHook(MasterfulBlitz);
+                    
                 if (!LevelChecked(TrueStrike))
                     return Bootshine;
 

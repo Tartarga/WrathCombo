@@ -100,8 +100,8 @@ internal partial class PLD
                     break;
 
                 case Preset.PLD_ST_AdvancedMode_GoringBlade:
-                    DrawHorizontalRadioButton(PLD_ST_AdvancedMode_GoringBladePrioritize, "Prioritize Goring Blade", "Prioritizes Goring Blade before Confiteor Combo is if Melee Range.", 0);
-                    DrawHorizontalRadioButton(PLD_ST_AdvancedMode_GoringBladePrioritize, "Prioritize Confiteor Combo", "Will Goring Blade after Confiteor Combo.", 1);
+                    DrawHorizontalRadioButton(PLD_ST_AdvancedMode_GoringBladePrioritize, "Prioritize Confiteor Combo", "Will Goring Blade after Confiteor Combo.", 0);
+                    DrawHorizontalRadioButton(PLD_ST_AdvancedMode_GoringBladePrioritize, "Prioritize Goring Blade", "Prioritizes Goring Blade before Confiteor Combo is if Melee Range.", 1);
                     break;
 
                 // Fight or Flight
@@ -166,7 +166,24 @@ internal partial class PLD
                 #region AoE
 
                 case Preset.PLD_AoE_AdvancedMode_FoF:
-                    DrawSliderInt(0, 50, PLD_AoE_FoF_Trigger, "Target HP%", 200);
+                    DrawSliderInt(0, 50, PLD_ST_FoF_HPOption, Generics.StopEnemyHpPercent, 200);
+                    
+                    ImGui.Indent();
+
+                    ImGui.TextColored(ImGuiColors.DalamudYellow,
+                        Generics.EnemyTypeCheck);
+
+                    DrawHorizontalRadioButton(PLD_AoE_FoF_BossOption,
+                        Generics.NonBosses, Generics.HPCheckNonBosses, 0);
+
+                    DrawHorizontalRadioButton(PLD_AoE_FoF_BossOption,
+                        Generics.AllEnemies, Generics.HPCheckAllEnemies, 1);
+                    ImGui.Unindent();
+                    break;
+                
+                case Preset.PLD_AoE_AdvancedMode_GoringBlade:
+                    DrawHorizontalRadioButton(PLD_AoE_AdvancedMode_GoringBladePrioritize, "Prioritize Confiteor Combo", "Will Goring Blade after Confiteor Combo.", 0);
+                    DrawHorizontalRadioButton(PLD_AoE_AdvancedMode_GoringBladePrioritize, "Prioritize Goring Blade", "Prioritizes Goring Blade before Confiteor Combo is if Melee Range.", 1);
                     break;
 
                 case Preset.PLD_AoE_AdvancedMode_Intervene:
@@ -192,6 +209,16 @@ internal partial class PLD
 
                 case Preset.PLD_AoE_AdvancedMode_MP_Reserve:
                     DrawSliderInt(1000, 5000, PLD_AoE_MP_Reserve, "Minimum MP", sliderIncrement: 100);
+
+                    break;
+                
+                // Shield Lob
+                case Preset.PLD_AoE_AdvancedMode_ShieldLob:
+                    DrawHorizontalRadioButton(PLD_AoE_ShieldLob_SubOption, "Shield Lob Only",
+                        "", 0);
+
+                    DrawHorizontalRadioButton(PLD_AoE_ShieldLob_SubOption, "Add Holy Circle",
+                        "Attempts to hardcast Holy Circle when not moving.\n- Requires sufficient MP to cast.", 1);
 
                     break;
 
@@ -378,10 +405,13 @@ internal partial class PLD
             PLD_ST_AdvancedMode_GoringBladePrioritize = new("PLD_ST_AdvancedMode_GoringBladePrioritize"),
 
             //AoE
-            PLD_AoE_FoF_Trigger = new("PLD_AoE_FoF_Trigger", 25),
+            PLD_AoE_FoF_HPOption = new("PLD_AoE_FoF_HPOption", 25),
+            PLD_AoE_FoF_BossOption = new("PLD_AoE_FoF_BossOption"),
+            PLD_AoE_AdvancedMode_GoringBladePrioritize = new("PLD_AoE_AdvancedMode_GoringBladePrioritize"),
             PLD_AoE_Intervene_Charges = new("PLD_AoE_Intervene_Charges"),
             PLD_AoE_Intervene_Movement = new("PLD_AoE_Intervene_Movement"),
             PLD_AoE_Intervene_Distance = new("PLD_AoE_Intervene_Distance", 3),
+            PLD_AoE_ShieldLob_SubOption = new("PLD_AoE_ShieldLob_SubOption"),
             PLD_AoE_MP_Reserve = new("PLD_AoE_MP_Reserve", 1000),
 
             //Standalone

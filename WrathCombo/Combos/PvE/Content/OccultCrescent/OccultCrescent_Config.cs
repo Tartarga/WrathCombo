@@ -133,6 +133,10 @@ internal partial class OccultCrescent
                     ImGui.Indent();
                     ImGuiEx.TextWrapped(ImGuiColors.DalamudYellow,
                         Resources.Localization.Content.OccultCrescent.BuffOnlyNotRecommended);
+                    ImGuiEx.TextWrapped(ImGuiColors.DalamudRed,
+                        Resources.Localization.Content.OccultCrescent.BuffOnlyDont);
+                    ImGuiEx.TextWrapped(ImGuiColors.DalamudGrey,
+                        Resources.Localization.Content.OccultCrescent.BuffOnlyList);
                     ImGui.Unindent();
                     break;
             }

@@ -17511,7 +17511,9 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Will restrict damaging Phantom Abilities to when you or your party have damage buffs (including minor ones on yourself, like Paladin&apos;s Fight or Flight)..
+        ///   Looks up a localized string similar to Will restrict damaging Phantom Abilities to when you or your party have damage buffs (including minor ones on yourself, like Paladin&apos;s Fight or Flight).
+        ///
+        ///NOT RECOMMENDED!.
         /// </summary>
         internal static string Phantom_RestrictToBuff_Desc {
             get {

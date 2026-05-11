@@ -78,8 +78,8 @@ public class Bursting
                     HasBuff.Target(NIN.Debuffs.TrickAttack) ||
                     HasBuff.Target(NIN.Debuffs.KunaisBane) ||
                     HasBuff.Target(BRD.Buffs.RagingStrikes) ||
-                    HasBuff.Target(BRD.Buffs.RagingStrikes) ||
                     HasBuff.Target(BRD.Buffs.RadiantFinale) ||
+                    HasBuff.Target(BRD.Buffs.WanderersMinuet) ||
                     HasBuff.Target(DNC.Buffs.Devilment) ||
                     HasBuff.Target(BLM.Buffs.LeyLines);
 

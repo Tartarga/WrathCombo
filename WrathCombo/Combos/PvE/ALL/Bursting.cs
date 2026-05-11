@@ -96,7 +96,7 @@ public class Bursting
             field = Buffs.Self.Any(buff =>
                         HasBuff.Self(buff, anyOwner: false)) ||
                     Buffs.Target.Any(buff =>
-                        HasBuff.Self(buff, anyOwner: false)) ||
+                        HasBuff.Target(buff, anyOwner: false)) ||
                     GetCooldownRemainingTime(DRK.LivingShadow) > 98;
 
             return field;
@@ -117,7 +117,7 @@ public class Bursting
             field = Buffs.Self.Any(buff =>
                         HasBuff.Self(buff, anyOwner: true)) ||
                     Buffs.Target.Any(buff =>
-                        HasBuff.Self(buff, anyOwner: true));
+                        HasBuff.Target(buff, anyOwner: true));
 
             return field;
         }
@@ -133,7 +133,7 @@ public class Bursting
             var count = Buffs.Self.Count(buff =>
                             HasBuff.Self(buff, anyOwner: true)) +
                         Buffs.Target.Count(buff =>
-                            HasBuff.Self(buff, anyOwner: true)) +
+                            HasBuff.Target(buff, anyOwner: true)) +
                         (GetCooldownRemainingTime(DRK.LivingShadow) > 98
                             ? 1
                             : 0);

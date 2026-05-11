@@ -141,4 +141,11 @@
   <data name="VeryCostly" xml:space="preserve">
     <value>This is a VERY costly Feature!</value>
   </data>
+  <data name="BuffOnlyNotRecommended" xml:space="preserve">
+      <value>Not Recommended!
+Many jobs do not have self buffs that are up regularly, many burst phases cannot accommodate extra Phantom Abilities, and many Phantom Abilities are up more often than this on would be on many jobs!</value>
+  </data>
+  <data name="Costly" xml:space="preserve">
+      <value>This is a costly Feature!</value>
+  </data>
 </root>

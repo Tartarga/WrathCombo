@@ -115,6 +115,11 @@ internal partial class OccultCrescent
             return true;
         }
 
+        // Skip if no damage buff, and user wants things under buffs
+        if (IsEnabled(Preset.Phantom_RestrictToBuff) &&
+            !Bursting.PlayerIsDamageBuffed)
+            return false;
+
         if (IsEnabledAndUsable(Preset.Phantom_Monk_PhantomKick, PhantomKick) &&
             !IsMovingNow && InActionRange(PhantomKick))
         {
@@ -163,6 +168,11 @@ internal partial class OccultCrescent
                 return true;
             }
 
+            // Skip if no damage buff, and user wants things under buffs
+            if (IsEnabled(Preset.Phantom_RestrictToBuff) &&
+                !Bursting.PlayerIsDamageBuffed)
+                return false;
+
             if (IsEnabledAndUsable(Preset.Phantom_Thief_PilferWeapon, PilferWeapon) &&
                 !HasStatusEffect(Debuffs.WeaponPlifered, CurrentTarget))
             {
@@ -196,6 +206,11 @@ internal partial class OccultCrescent
                 return true;
             }
 
+            // Skip if no damage buff, and user wants things under buffs
+            if (IsEnabled(Preset.Phantom_RestrictToBuff) &&
+                !Bursting.PlayerIsDamageBuffed)
+                return false;
+
             if (IsEnabledAndUsable(Preset.Phantom_Samurai_Zeninage, Zeninage) &&
                 ActionWatching.NumberOfGcdsUsed > 4)
             {
@@ -220,6 +235,11 @@ internal partial class OccultCrescent
             return false;
 
         if (!HasTargetNow) return false;
+
+        // Skip if no damage buff, and user wants things under buffs
+        if (IsEnabled(Preset.Phantom_RestrictToBuff) &&
+            !Bursting.PlayerIsDamageBuffed)
+            return false;
 
         if (IsEnabledAndUsable(Preset.Phantom_Berserker_Rage, Rage) &&
             InActionRange(Rage) && CanWeaveNow)
@@ -252,6 +272,11 @@ internal partial class OccultCrescent
             actionID = OccultUnicorn; // heal
             return true;
         }
+
+        // Skip if no damage buff, and user wants things under buffs
+        if (IsEnabled(Preset.Phantom_RestrictToBuff) &&
+            !Bursting.PlayerIsDamageBuffed)
+            return false;
 
         if (IsEnabledAndUsable(Preset.Phantom_Ranger_PhantomAim, PhantomAim) &&
             TargetHP >= Phantom_Ranger_PhantomAim_Stop)
@@ -295,6 +320,12 @@ internal partial class OccultCrescent
 
         if (IsEnabledAndUsable(Preset.Phantom_TimeMage_OccultComet, OccultComet))
         {
+
+            // Skip if no damage buff, and user wants things under buffs
+            if (IsEnabled(Preset.Phantom_RestrictToBuff) &&
+                !Bursting.PlayerIsDamageBuffed)
+                return false;
+
             // Make the comet fast
             if (Phantom_TimeMage_Comet_RequireSpeed &&
                 Phantom_TimeMage_Comet_UseSpeed &&
@@ -388,17 +419,25 @@ internal partial class OccultCrescent
 
         if (!CanWeaveNow) return false;
 
-        if (IsEnabledAndUsable(Preset.Phantom_Bard_HerosRime, HerosRime))
-        {
-            actionID = HerosRime; // burst song
-            return true;
-        }
+        // Skip if no damage buff, and user wants things under buffs
+        if (IsEnabled(Preset.Phantom_RestrictToBuff) &&
+            !Bursting.PlayerIsDamageBuffed)
+            return false;
 
-        if (IsEnabledAndUsable(Preset.Phantom_Bard_OffensiveAria, OffensiveAria) &&
-            !HasStatusEffect(Buffs.OffensiveAria) && !HasStatusEffect(Buffs.HerosRime, anyOwner: true))
+        if (!IsEnabled(Preset.Phantom_RestrictToBuff) || Bursting.PlayerIsDamageBuffed)
         {
-            actionID = OffensiveAria; // off-song
-            return true;
+            if (IsEnabledAndUsable(Preset.Phantom_Bard_HerosRime, HerosRime))
+            {
+                actionID = HerosRime; // burst song
+                return true;
+            }
+
+            if (IsEnabledAndUsable(Preset.Phantom_Bard_OffensiveAria, OffensiveAria) &&
+                !HasStatusEffect(Buffs.OffensiveAria) && !HasStatusEffect(Buffs.HerosRime, anyOwner: true))
+            {
+                actionID = OffensiveAria; // off-song
+                return true;
+            }
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_Bard_RomeosBallad, RomeosBallad) &&
@@ -441,6 +480,11 @@ internal partial class OccultCrescent
             return true;
         }
 
+        // Skip if no damage buff, and user wants things under buffs
+        if (IsEnabled(Preset.Phantom_RestrictToBuff) &&
+            !Bursting.PlayerIsDamageBuffed)
+            return false;
+
         if (IsEnabledAndUsable(Preset.Phantom_Oracle_PhantomJudgment, PhantomJudgment) &&
             HasStatusEffect(Buffs.PredictionOfJudgment))
         {
@@ -472,6 +516,11 @@ internal partial class OccultCrescent
 
         // GCDs
         if (CanWeaveNow || !HasTargetNow) return false;
+
+        // Skip if no damage buff, and user wants things under buffs
+        if (IsEnabled(Preset.Phantom_RestrictToBuff) &&
+            !Bursting.PlayerIsDamageBuffed)
+            return false;
 
         if (IsEnabledAndUsable(Preset.Phantom_Cannoneer_SilverCannon, SilverCannon) &&
             ((!HasStatusEffect(Debuffs.SilverSickness, CurrentTarget, true) ||
@@ -515,7 +564,8 @@ internal partial class OccultCrescent
             }
 
             if (IsEnabledAndUsable(Preset.Phantom_Geomancer_AetherialGain, AetherialGain) &&
-                !HasStatusEffect(Buffs.AetherialGain))
+                !HasStatusEffect(Buffs.AetherialGain) &&
+                (!IsEnabled(Preset.Phantom_RestrictToBuff) || Bursting.PlayerIsDamageBuffed))
             {
                 actionID = AetherialGain; // damage buff
                 return true;
@@ -592,6 +642,11 @@ internal partial class OccultCrescent
 
         if (CanWeaveNow) return false;
 
+        // Skip if no damage buff, and user wants things under buffs
+        if (IsEnabled(Preset.Phantom_RestrictToBuff) &&
+            !Bursting.PlayerIsDamageBuffed)
+            return false;
+
         if (IsEnabledAndUsable(Preset.Phantom_MysticKnight_BlazingSpellblade, BlazingSpellblade) && !CanWeave() &&
             HasBattleTarget() && InActionRange(BlazingSpellblade) &&
             (!HasStatusEffect(Buffs.BlazingSpellblade) || GetStatusEffectRemainingTime(Buffs.BlazingSpellblade) <= 15))
@@ -636,30 +691,35 @@ internal partial class OccultCrescent
 
         if (CanWeaveNow) return false;
 
-        #region Dances
+        // Skip if no damage buff, and user wants things under buffs
+        if (!IsEnabled(Preset.Phantom_RestrictToBuff) ||
+            Bursting.PlayerIsDamageBuffed)
+        {
+            #region Dances
 
-        if (IsEnabled(Preset.Phantom_Dancer_Dance) && HasStatusEffect(Buffs.PoisedToSwordDance))
-        {
-            actionID = PoisedToSwordDance;
-            return true;
-        }
-        if (IsEnabled(Preset.Phantom_Dancer_Dance) && HasStatusEffect(Buffs.TemptedToTango))
-        {
-            actionID = TemptedToTango;
-            return true;
-        }
-        if (IsEnabled(Preset.Phantom_Dancer_Dance) && HasStatusEffect(Buffs.Jitterbugged))
-        {
-            actionID = Jitterbug;
-            return true;
-        }
-        if (IsEnabled(Preset.Phantom_Dancer_Dance) && HasStatusEffect(Buffs.WillingToWaltz))
-        {
-            actionID = WillingToWaltz;
-            return true;
-        }
+            if (IsEnabled(Preset.Phantom_Dancer_Dance) && HasStatusEffect(Buffs.PoisedToSwordDance))
+            {
+                actionID = PoisedToSwordDance;
+                return true;
+            }
+            if (IsEnabled(Preset.Phantom_Dancer_Dance) && HasStatusEffect(Buffs.TemptedToTango))
+            {
+                actionID = TemptedToTango;
+                return true;
+            }
+            if (IsEnabled(Preset.Phantom_Dancer_Dance) && HasStatusEffect(Buffs.Jitterbugged))
+            {
+                actionID = Jitterbug;
+                return true;
+            }
+            if (IsEnabled(Preset.Phantom_Dancer_Dance) && HasStatusEffect(Buffs.WillingToWaltz))
+            {
+                actionID = WillingToWaltz;
+                return true;
+            }
 
-        #endregion
+            #endregion
+        }
 
         if (IsEnabledAndUsable(Preset.Phantom_Dancer_QuickStep, Quickstep) && !HasStatusEffect(Buffs.Quickstep))
         {
@@ -684,6 +744,12 @@ internal partial class OccultCrescent
             actionID = Defend;
             return true;
         }
+
+        // Skip if no damage buff, and user wants things under buffs
+        if (IsEnabled(Preset.Phantom_RestrictToBuff) &&
+            !Bursting.PlayerIsDamageBuffed)
+            return false;
+        
         if (IsEnabledAndUsable(Preset.Phantom_Gladiator_LongReach, LongReach) && HasBattleTarget())
         {
             actionID = LongReach;

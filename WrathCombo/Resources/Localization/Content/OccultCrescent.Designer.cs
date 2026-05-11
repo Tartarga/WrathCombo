@@ -87,6 +87,25 @@ namespace WrathCombo.Resources.Localization.Content {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not Recommended!
+        ///Many jobs do not have self buffs that are up regularly, many burst phases cannot accommodate extra Phantom Abilities, and many Phantom Abilities are up more often than this on would be on many jobs!.
+        /// </summary>
+        internal static string BuffOnlyNotRecommended {
+            get {
+                return ResourceManager.GetString("BuffOnlyNotRecommended", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to This is a costly Feature!.
+        /// </summary>
+        internal static string Costly {
+            get {
+                return ResourceManager.GetString("Costly", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Not advisable in most situations!.
         /// </summary>
         internal static string NotAdvised {

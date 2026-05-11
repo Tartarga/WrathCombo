@@ -17511,6 +17511,24 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Will restrict damaging Phantom Abilities to when you or your party have damage buffs (including minor ones on yourself, like Paladin&apos;s Fight or Flight)..
+        /// </summary>
+        internal static string Phantom_RestrictToBuff_Desc {
+            get {
+                return ResourceManager.GetString("Phantom_RestrictToBuff_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restrict Damaging Phantom Abilities to Buff Windows.
+        /// </summary>
+        internal static string Phantom_RestrictToBuff_Name {
+            get {
+                return ResourceManager.GetString("Phantom_RestrictToBuff_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable this to add Samurai-specific actions into the rotation..
         /// </summary>
         internal static string Phantom_Samurai_Desc {

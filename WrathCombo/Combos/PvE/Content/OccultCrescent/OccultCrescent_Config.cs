@@ -113,6 +113,13 @@ internal partial class OccultCrescent
                         ImGui.Unindent();
                     }
                     break;
+
+                case Preset.Phantom_RestrictToBuff:
+                    ImGui.Indent();
+                    ImGuiEx.TextWrapped(ImGuiColors.DalamudYellow,
+                        Resources.Localization.Content.OccultCrescent.BuffOnlyNotRecommended);
+                    ImGui.Unindent();
+                    break;
             }
         }
         #region Variables

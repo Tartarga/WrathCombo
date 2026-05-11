@@ -73,15 +73,14 @@ public class Bursting
                     HasBuff.Self(GNB.Buffs.NoMercy) ||
                     HasBuff.Self(AST.Buffs.BalanceBuff, anyOwner: true) ||
                     HasBuff.Self(AST.Buffs.SpearBuff, anyOwner: true) ||
-                    HasBuff.Self(MNK.Buffs.RiddleOfFire) ||
                     HasBuff.Self(DRG.Buffs.LanceCharge) ||
                     HasBuff.Target(NIN.Debuffs.TrickAttack) ||
                     HasBuff.Target(NIN.Debuffs.KunaisBane) ||
-                    HasBuff.Target(BRD.Buffs.RagingStrikes) ||
-                    HasBuff.Target(BRD.Buffs.RadiantFinale) ||
-                    HasBuff.Target(BRD.Buffs.WanderersMinuet) ||
-                    HasBuff.Target(DNC.Buffs.Devilment) ||
-                    HasBuff.Target(BLM.Buffs.LeyLines);
+                    HasBuff.Self(BRD.Buffs.RagingStrikes) ||
+                    HasBuff.Self(BRD.Buffs.RadiantFinale) ||
+                    HasBuff.Self(BRD.Buffs.WanderersMinuet) ||
+                    HasBuff.Self(DNC.Buffs.Devilment) ||
+                    HasBuff.Self(BLM.Buffs.LeyLines);
 
             return field;
         }

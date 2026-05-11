@@ -706,17 +706,12 @@ internal partial class PLD
         if (rangedUptimeEnabled && LevelChecked(ShieldLob) && HasBattleTarget() && rangedUptimeRangeCheck)
         {
             //Holy Spirit Ranged Uptime Options
-            if (flags.HasFlag(Combo.ST) && ActionReady(HolySpirit) && holySpiritUptime == 1 && !IsMoving())
+            if (ActionReady(HolySpirit) && holySpiritUptime == 1 && !IsMoving())
             {
                 actionID = HolySpirit;
                 return true;
             }
 
-            if (flags.HasFlag(Combo.AoE) && ActionReady(HolyCircle) && holySpiritUptime == 1 && !IsMoving())
-            {
-                actionID = HolyCircle;
-                return true;
-            }
             // Otherwise Captain America
             {
                 actionID = ShieldLob;

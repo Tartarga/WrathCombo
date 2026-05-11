@@ -179,9 +179,9 @@ internal partial class PLD
                     break;
                 
                 case Preset.PLD_AoE_AdvancedMode_ShieldLob:
-                    DrawHorizontalRadioButton(PLD_AoE_ShieldLob_SubOption, FormatAndCache(Generics.DontUse0, HolyCircle.ActionName()), "", 0);
-                    DrawHorizontalRadioButton(PLD_AoE_ShieldLob_SubOption, FormatAndCache(Generics.Add0, HolyCircle.ActionName()), 
-                        FormatAndCache(Generics.OnlyUse0WhenNotMoving, HolyCircle.ActionName()), 1);
+                    DrawHorizontalRadioButton(PLD_AoE_ShieldLob_SubOption, FormatAndCache(Generics.DontUse0, HolySpirit.ActionName()), "", 0);
+                    DrawHorizontalRadioButton(PLD_AoE_ShieldLob_SubOption, FormatAndCache(Generics.Add0, HolySpirit.ActionName()), 
+                        FormatAndCache(Generics.OnlyUse0WhenNotMoving, HolySpirit.ActionName()), 1);
                     break;
                 #endregion
 

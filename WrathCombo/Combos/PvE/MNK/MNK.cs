@@ -383,6 +383,11 @@ internal partial class MNK : Melee
             if (actionID is not (SnapPunch or PouncingCoeurl))
                 return actionID;
 
+            if (MNK_BasicCombo_Chakra &&
+                Chakra >= 5 && LevelChecked(SteeledMeditation) && CanWeave() &&
+                InActionRange(OriginalHook(SteeledMeditation)))
+                return OriginalHook(SteelPeak);
+
             if (HasStatusEffect(Buffs.PerfectBalance))
             {
                 #region Open Lunar
@@ -448,11 +453,12 @@ internal partial class MNK : Melee
 
             if (!HasStatusEffect(Buffs.PerfectBalance))
             {
-                if (LevelChecked(MasterfulBlitz) &&
+                if (MNK_BasicCombo_MasterfulBlitz &&
+                    LevelChecked(MasterfulBlitz) &&
                     !HasStatusEffect(Buffs.PerfectBalance) &&
                     !IsOriginal(MasterfulBlitz))
                     return OriginalHook(MasterfulBlitz);
-                    
+
                 if (!LevelChecked(TrueStrike))
                     return Bootshine;
 

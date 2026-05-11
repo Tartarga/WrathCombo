@@ -160,10 +160,13 @@ internal partial class MNK
                         Generics.FieldMouseover,
                         Generics.AddFieldMouseoverTargetting);
                     break;
-                
+
                 case Preset.MNK_ST_BasicCombo:
                     DrawAdditionalBoolChoice(MNK_BasicCombo_MasterfulBlitz,
-                        FormatAndCache(Generics.Add0WhenApplicable, MasterfulBlitz.ActionName()),"");
+                        FormatAndCache(Generics.Add0WhenApplicable, MasterfulBlitz.ActionName()), "");
+
+                    DrawAdditionalBoolChoice(MNK_BasicCombo_Chakra,
+                        FormatAndCache(Generics.Add0WhenApplicable, SteelPeak.ActionName()), "");
                     break;
 
                 case Preset.MNK_Basic_BeastChakras:
@@ -215,6 +218,7 @@ internal partial class MNK
         public static UserBool
             MNK_Thunderclap_FieldMouseover = new("MNK_Thunderclap_FieldMouseover"),
             MNK_BasicCombo_MasterfulBlitz = new("MNK_BasicCombo_MasterfulBlitz"),
+            MNK_BasicCombo_Chakra = new("MNK_BasicCombo_Chakra"),
             MNK_ST_EarthsReply = new("MNK_ST_EarthsReply");
 
         public static UserBoolArray

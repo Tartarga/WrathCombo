@@ -132,6 +132,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add {0} / {1} when applicable..
+        /// </summary>
+        internal static string Add0Or1WhenApplicable {
+            get {
+                return ResourceManager.GetString("Add0Or1WhenApplicable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add {0} to the rotation..
         /// </summary>
         internal static string Add0ToTheRotation {

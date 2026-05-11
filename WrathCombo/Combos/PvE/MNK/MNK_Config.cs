@@ -166,7 +166,7 @@ internal partial class MNK
                         FormatAndCache(Generics.Add0WhenApplicable, MasterfulBlitz.ActionName()), "");
 
                     DrawAdditionalBoolChoice(MNK_BasicCombo_Chakra,
-                        FormatAndCache(Generics.Add0WhenApplicable, SteelPeak.ActionName()), "");
+                        FormatAndCache(Generics.Add0Or1WhenApplicable, SteelPeak.ActionName(), TheForbiddenChakra.ActionName()), "");
                     break;
 
                 case Preset.MNK_Basic_BeastChakras:

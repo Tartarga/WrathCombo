@@ -138,6 +138,9 @@
   <data name="Add0Or1" xml:space="preserve">
     <value>Add {0} / {1}.</value>
   </data>
+  <data name="Add0Or1WhenApplicable" xml:space="preserve">
+    <value>Add {0} / {1} when applicable.</value>
+  </data>
   <data name="Add0ToTheRotation" xml:space="preserve">
     <value>Add {0} to the rotation.</value>
   </data>

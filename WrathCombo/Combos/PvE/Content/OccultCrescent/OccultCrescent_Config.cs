@@ -77,12 +77,27 @@ internal partial class OccultCrescent
                         Generics.PlayerHPGreaterOrEqual, 200);
                     break;
 
+                case Preset.Phantom_Samurai_Zeninage:
+                    ImGui.Indent();
+                    ImGuiEx.TextWrapped(ImGuiColors.DalamudRed, Resources
+                        .Localization.Content.OccultCrescent.Costly);
+                    ImGui.Unindent();
+                    break;
+
                 case Preset.Phantom_Chemist_OccultPotion:
+                    ImGui.Indent();
+                    ImGuiEx.TextWrapped(ImGuiColors.DalamudRed, Resources
+                        .Localization.Content.OccultCrescent.Costly);
+                    ImGui.Unindent();
                     DrawSliderInt(1, 100, Phantom_Chemist_OccultPotion_Health,
                         Generics.StopFriendlyHpPercent100, 200);
                     break;
 
                 case Preset.Phantom_Chemist_OccultEther:
+                    ImGui.Indent();
+                    ImGuiEx.TextWrapped(ImGuiColors.DalamudRed, Resources
+                        .Localization.Content.OccultCrescent.Costly);
+                    ImGui.Unindent();
                     DrawSliderInt(1, 10000, Phantom_Chemist_OccultEther_MP,
                         Generics.MPLessOrEqual, sliderIncrement: SliderIncrements.Hundreds);
                     break;

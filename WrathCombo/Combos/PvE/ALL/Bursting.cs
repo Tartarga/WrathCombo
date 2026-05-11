@@ -67,7 +67,7 @@ public class Bursting
                 return field;
 
             field = PartyIsBursting ||
-                    HasBuff.Self(DRK.Buffs.Darkside) ||
+                    DRK.Gauge.DarksideTimeRemaining > 0 ||
                     HasBuff.Self(PLD.Buffs.FightOrFlight) ||
                     HasBuff.Self(WAR.Buffs.SurgingTempest) ||
                     HasBuff.Self(GNB.Buffs.NoMercy) ||

@@ -39,7 +39,7 @@ internal partial class DRK
     /// <summary>
     ///     DRK's job gauge.
     /// </summary>
-    private static DRKGauge Gauge => GetJobGauge<DRKGauge>();
+    internal static DRKGauge Gauge => GetJobGauge<DRKGauge>();
 
     /// <summary>
     ///     DRK's GCD, truncated to two decimal places.
@@ -434,9 +434,8 @@ internal partial class DRK
 
         /// Different from Delirium, to do the Scarlet Delirium chain
         public const ushort EnhancedDelirium = 3836;
-
-        /// The increased damage buff that should always be up - checked through gauge
-        public const ushort Darkside = 751;
+        
+        // Darkside is checked through the gauge
 
         #endregion
 

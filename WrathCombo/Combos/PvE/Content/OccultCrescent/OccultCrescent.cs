@@ -431,13 +431,13 @@ internal partial class OccultCrescent
                 actionID = HerosRime; // burst song
                 return true;
             }
+        }
 
-            if (IsEnabledAndUsable(Preset.Phantom_Bard_OffensiveAria, OffensiveAria) &&
-                !HasStatusEffect(Buffs.OffensiveAria) && !HasStatusEffect(Buffs.HerosRime, anyOwner: true))
-            {
-                actionID = OffensiveAria; // off-song
-                return true;
-            }
+        if (IsEnabledAndUsable(Preset.Phantom_Bard_OffensiveAria, OffensiveAria) &&
+            !HasStatusEffect(Buffs.OffensiveAria) && !HasStatusEffect(Buffs.HerosRime, anyOwner: true))
+        {
+            actionID = OffensiveAria; // off-song
+            return true;
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_Bard_RomeosBallad, RomeosBallad) &&
@@ -462,12 +462,15 @@ internal partial class OccultCrescent
         if (!IsEnabled(Preset.Phantom_Oracle))
             return false;
 
-        if (IsEnabledAndUsable(Preset.Phantom_Oracle_Predict, Predict) && InCombatNow && !CanWeaveNow &&
-            !HasStatusEffect(Buffs.PredictionOfJudgment) && !HasStatusEffect(Buffs.PredictionOfCleansing) &&
-            !HasStatusEffect(Buffs.PredictionOfBlessing) && !HasStatusEffect(Buffs.PredictionOfStarfall))
+        if (!IsEnabled(Preset.Phantom_RestrictToBuff) || Bursting.PlayerIsDamageBuffed)
         {
-            actionID = Predict; // start of the chain
-            return true;
+            if (IsEnabledAndUsable(Preset.Phantom_Oracle_Predict, Predict) && InCombatNow && !CanWeaveNow &&
+                !HasStatusEffect(Buffs.PredictionOfJudgment) && !HasStatusEffect(Buffs.PredictionOfCleansing) &&
+                !HasStatusEffect(Buffs.PredictionOfBlessing) && !HasStatusEffect(Buffs.PredictionOfStarfall))
+            {
+                actionID = Predict; // start of the chain
+                return true;
+            }
         }
 
         // Skip things we want to weave, if not in a weave window
@@ -677,10 +680,13 @@ internal partial class OccultCrescent
         if (!IsEnabled(Preset.Phantom_Dancer))
             return false;
 
-        if (IsEnabledAndUsable(Preset.Phantom_Dancer_Dance, Dance) && CanWeave())
+        if (!IsEnabled(Preset.Phantom_RestrictToBuff) || Bursting.PlayerIsDamageBuffed)
         {
-            actionID = Dance;
-            return true;
+            if (IsEnabledAndUsable(Preset.Phantom_Dancer_Dance, Dance) && CanWeave())
+            {
+                actionID = Dance;
+                return true;
+            }
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_Dancer_Mesmerize, Mesmerize) && InCombat() && CanWeave())
@@ -733,12 +739,15 @@ internal partial class OccultCrescent
     private static bool TryGetGladiatorAction(ref uint actionID)
     {
         if (CanWeaveNow) return false;
-
-        if (IsEnabledAndUsable(Preset.Phantom_Gladiator_Finisher, Finisher) && HasBattleTarget() && InMeleeRange())
+        if (!IsEnabled(Preset.Phantom_RestrictToBuff) || Bursting.PlayerIsDamageBuffed)
         {
-            actionID = Finisher;
-            return true;
+            if (IsEnabledAndUsable(Preset.Phantom_Gladiator_Finisher, Finisher) && HasBattleTarget() && InMeleeRange())
+            {
+                actionID = Finisher;
+                return true;
+            }
         }
+
         if (IsEnabledAndUsable(Preset.Phantom_Gladiator_Defend, Defend) && InCombat())
         {
             actionID = Defend;

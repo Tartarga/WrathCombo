@@ -3952,6 +3952,7 @@ public enum Preset
     #endregion
 
     #region Basic Combo
+    
     [ReplaceSkill(MNK.SnapPunch, MNK.PouncingCoeurl)]
     [BasicCombo]
     [JobInfo(Job.MNK)]

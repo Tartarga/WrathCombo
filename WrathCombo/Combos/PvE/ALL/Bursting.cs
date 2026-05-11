@@ -118,8 +118,7 @@ public class Bursting
             field = Buffs.Self.Any(buff =>
                         HasBuff.Self(buff, anyOwner: true)) ||
                     Buffs.Target.Any(buff =>
-                        HasBuff.Self(buff, anyOwner: true)) ||
-                    GetCooldownRemainingTime(DRK.LivingShadow) > 98;
+                        HasBuff.Self(buff, anyOwner: true));
 
             return field;
         }

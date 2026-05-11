@@ -56,41 +56,6 @@ internal partial class DRK
     /// When the current burst phase is set to end.
     private static long burstEndTime;
 
-    /// <summary>
-    ///     Whether the player is being affected by other jobs' buffs.
-    /// </summary>
-    private static bool HasOtherJobsBuffs
-    {
-        get
-        {
-            // Only run every 1 seconds at most (should be every other burst check)
-            if (!EZ.Throttle("drkBurstBuffCheck", TS.FromSeconds(1)))
-                return field;
-
-            field = TargetBuffRemainingTime(SCH.Debuffs.ChainStratagem) > 0 ||
-                    BuffRemainingTime(AST.Buffs.Divination) > 0 ||
-                    BuffRemainingTime(DRG.Buffs.BattleLitany) > 0 ||
-                    TargetBuffRemainingTime(NIN.Debuffs.Mug) > 0 ||
-                    TargetBuffRemainingTime(NIN.Debuffs.Dokumori) > 0 ||
-                    BuffRemainingTime(MNK.Buffs.Brotherhood) > 0 ||
-                    BuffRemainingTime(RPR.Buffs.ArcaneCircle) > 0 ||
-                    BuffRemainingTime(BRD.Buffs.BattleVoice) > 0 ||
-                    BuffRemainingTime(DNC.Buffs.TechnicalFinish) > 0 ||
-                    BuffRemainingTime(SMN.Buffs.SearingLight) > 0 ||
-                    BuffRemainingTime(RDM.Buffs.Embolden) > 0 ||
-                    BuffRemainingTime(RDM.Buffs.EmboldenOthers) > 0 ||
-                    BuffRemainingTime(PCT.Buffs.StarryMuse) > 0;
-
-            return field;
-
-            // Just a shorter name for the methods
-            double TargetBuffRemainingTime(ushort buff) =>
-                GetStatusEffectRemainingTime(buff, CurrentTarget, anyOwner:true);
-            double BuffRemainingTime(ushort buff) =>
-                GetStatusEffectRemainingTime(buff, anyOwner:true);
-        }
-    }
-
     #endregion
 
     /// <summary>
@@ -131,8 +96,9 @@ internal partial class DRK
                     burstEndTime = Environment.TickCount64 + 30000;
 
                 // Set to bursting
-                if ((burstStartTime > 0 && Environment.TickCount64 > burstStartTime) ||
-                    HasOtherJobsBuffs)
+                if ((burstStartTime > 0 &&
+                     Environment.TickCount64 > burstStartTime) ||
+                    Bursting.PartyIsBursting)
                 {
                     burstStartTime = 0;
                     field = true;
@@ -333,7 +299,7 @@ internal partial class DRK
             ([4], () =>
                 DRK_ST_OpenerAction != (int)PullAction.Unmend),
             // Skip the late LivingShadow and aligning HardSlash, if Standard
-            ([6, 9], () => HasOtherJobsBuffs ||
+            ([6, 9], () => Bursting.PartyIsBursting ||
                 DRK_ST_OpenerAction == (int)PullAction.Unmend),
             // Skip Salted Earth
             ([11], () =>

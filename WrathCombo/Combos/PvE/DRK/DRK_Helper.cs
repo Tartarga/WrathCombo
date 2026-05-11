@@ -436,7 +436,7 @@ internal partial class DRK
         public const ushort EnhancedDelirium = 3836;
 
         /// The increased damage buff that should always be up - checked through gauge
-        public const ushort Darkside = 741;
+        public const ushort Darkside = 751;
 
         #endregion
 

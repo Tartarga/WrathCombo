@@ -541,7 +541,6 @@ internal partial class PLD
                 OriginalHook(FightOrFlight) is FightOrFlight && ActionReady(FightOrFlight) && //To make sure it doesnt try to weave gcd Goring Blade
                 (!LevelChecked(Requiescat) || hasRequiescatMp) && //Must Have Enough Mana to combo
                 (InMeleeRange() || LevelChecked(Imperator) && InActionRange(Imperator) && IsOffCooldown(Imperator)) && // in melee or ready to start ranged combo with imperator
-                (!LevelChecked(RageOfHalone) || ComboAction is RageOfHalone or RoyalAuthority || flags.HasFlag(Combo.AoE)) && //Combo Action ot make sure it pops when going into big hits. 
                 GetTargetHPPercent() >= fightOrFlightStopThreshold) //Health Threshold Check, boss check built into config
             {
                 actionID = FightOrFlight;
@@ -739,7 +738,7 @@ internal partial class PLD
                 : LevelChecked(RageOfHalone) && ComboAction == RiotBlade 
                     ? OriginalHook(RageOfHalone)
                     : FastBlade
-            : FastBlade; //Return of cant Maim
+            : FastBlade;
     
     internal static uint AoECombo 
         => ComboTimer > 0 && LevelChecked(Prominence) && ComboAction == TotalEclipse 

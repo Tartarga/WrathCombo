@@ -337,6 +337,9 @@ Set to 0 to disable this check.</value>
     <value>On {0}</value>
     <comment>Used for simple "On {Action}" strings</comment>
   </data>
+  <data name="OnlyUse0" xml:space="preserve">
+    <value>Only use {0}</value>
+  </data>
   <data name="OnlyUse0WhenInMeleeRange" xml:space="preserve">
     <value>Only uses {0} when in melee range.</value>
   </data>

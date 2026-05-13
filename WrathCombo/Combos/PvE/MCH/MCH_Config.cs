@@ -128,19 +128,19 @@ internal partial class MCH
                     break;
 
                 case Preset.MCH_ST_Adv_GaussRicochet:
+                  DrawHorizontalRadioButton(MCH_ST_GaussOnlyOrBoth,
+                        FormatAndCache(Generics.Use0And1, GaussRound.ActionName(), Ricochet.ActionName()),
+                        FormatAndCache(Generics.Use0And1, GaussRound.ActionName(), Ricochet.ActionName()), 0);
+
+                    DrawHorizontalRadioButton(MCH_ST_GaussOnlyOrBoth,
+                        FormatAndCache(Generics.OnlyUse0, GaussRound.ActionName()),
+                        FormatAndCache(MCH_Config.NotRecommended), 1);
+
                     if (MCH_ST_GaussOnlyOrBoth == 0)
                     {
                         DrawSliderInt(0, 2, MCH_ST_GaussRicoManualUse,
                             Generics.ChargePool);
                     }
-
-                    DrawHorizontalRadioButton(MCH_ST_GaussOnlyOrBoth,
-                        FormatAndCache(Generics.Use0And1, GaussRound.ActionName(), Ricochet.ActionName()),
-                        FormatAndCache(Generics.Use0And1, GaussRound.ActionName(), Ricochet.ActionName()), 0);
-
-                    DrawHorizontalRadioButton(MCH_ST_GaussOnlyOrBoth,
-                        FormatAndCache(MCH_Config.OnlyUse0NotRecommended, GaussRound.ActionName()),
-                        FormatAndCache(MCH_Config.OnlyUse0NotRecommended, GaussRound.ActionName()), 1);
                     break;
 
                 case Preset.MCH_ST_Adv_Reassemble:

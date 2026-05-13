@@ -720,6 +720,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only use {0}.
+        /// </summary>
+        internal static string OnlyUse0 {
+            get {
+                return ResourceManager.GetString("OnlyUse0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only uses {0} when in melee range..
         /// </summary>
         internal static string OnlyUse0WhenInMeleeRange {

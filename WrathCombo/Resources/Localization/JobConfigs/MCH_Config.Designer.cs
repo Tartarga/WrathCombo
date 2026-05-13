@@ -96,14 +96,13 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Only use {0}.
-        ///NOT RECOMMENDED!
+        ///   Looks up a localized string similar to NOT RECOMMENDED!
         ///Only useful in Deep Dungeons to single pull.
         ///Will only work up until lvl 92..
         /// </summary>
-        internal static string OnlyUse0NotRecommended {
+        internal static string NotRecommended {
             get {
-                return ResourceManager.GetString("OnlyUse0NotRecommended", resourceCulture);
+                return ResourceManager.GetString("NotRecommended", resourceCulture);
             }
         }
         

@@ -295,6 +295,12 @@ Only recommended during some specific enrages.</value>
   <data name="ASTPvP_Burst_Name" xml:space="preserve">
     <value>Burst Mode</value>
   </data>
+  <data name="ASTPvP_Burst_Oracle_Desc" xml:space="preserve">
+    <value>Adds Oracle (LimitBreak Followup) to Burst Mode.</value>
+  </data>
+  <data name="ASTPvP_Burst_Oracle_Name" xml:space="preserve">
+    <value>Oracle Option</value>
+  </data>
   <data name="ASTPvP_Burst_PlayCard_Desc" xml:space="preserve">
     <value>Adds Playing Cards to Burst Mode.</value>
   </data>

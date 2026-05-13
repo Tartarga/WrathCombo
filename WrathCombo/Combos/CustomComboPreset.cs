@@ -8159,6 +8159,11 @@ public enum Preset
     [ParentCombo(ASTPvP_Burst)]
     [JobInfo(Job.AST)]
     ASTPvP_Burst_Macrocosmos = 111007,
+    
+    [PvPCustomCombo]
+    [ParentCombo(ASTPvP_Burst)]
+    [JobInfo(Job.AST)]
+    ASTPvP_Burst_Oracle = 111012,
 
     [PvPCustomCombo]
     [ParentCombo(ASTPvP_Burst)]
@@ -8182,7 +8187,7 @@ public enum Preset
     [PossiblyRetargeted]
     ASTPvP_Heal = 111004,
 
-    // Last value = 111010
+    // Last value = 111012
 
     #endregion
 

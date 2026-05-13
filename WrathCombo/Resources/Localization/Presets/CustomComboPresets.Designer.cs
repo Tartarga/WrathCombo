@@ -2078,6 +2078,24 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adds Oracle (LimitBreak Followup) to Burst Mode..
+        /// </summary>
+        internal static string ASTPvP_Burst_Oracle_Desc {
+            get {
+                return ResourceManager.GetString("ASTPvP_Burst_Oracle_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oracle Option.
+        /// </summary>
+        internal static string ASTPvP_Burst_Oracle_Name {
+            get {
+                return ResourceManager.GetString("ASTPvP_Burst_Oracle_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adds Playing Cards to Burst Mode..
         /// </summary>
         internal static string ASTPvP_Burst_PlayCard_Desc {

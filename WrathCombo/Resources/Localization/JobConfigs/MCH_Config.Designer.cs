@@ -126,7 +126,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stop Using Tools When Target HP% is at or Below (Set to 0 to Disable This Check).
+        ///   Looks up a localized string similar to Stop Using Tools When Target HP% is at or Below
+        ///(Set to 0 to Disable This Check).
         /// </summary>
         internal static string StopUsingToolsBelowHpPercentage {
             get {

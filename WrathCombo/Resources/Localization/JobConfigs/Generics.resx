@@ -191,7 +191,8 @@
     <value>Boss Only Content</value>
   </data>
   <data name="BossOnlyDescription" xml:space="preserve">
-    <value>Only applies in instances where you directly fight a boss. Excludes many A Realm Reborn &amp; Heavensward raids that include trash.</value>
+    <value>Only applies in instances where you directly fight a boss.
+Excludes many A Realm Reborn &amp; Heavensward raids that include trash.</value>
   </data>
   <data name="BossOnlyHpPercent" xml:space="preserve">
     <value>Bosses Only. Stop using at Enemy HP %.</value>
@@ -207,7 +208,8 @@
 Set to 0 to disable this check.</value>
   </data>
   <data name="DelayMit" xml:space="preserve">
-    <value>How long to delay after detecting incoming tankbuster to use {0}. Set to 0 to disable this check.</value>
+    <value>How long to delay after detecting incoming tankbuster to use {0}.
+Set to 0 to disable this check.</value>
   </data>
   <data name="DisableRangeCheck" xml:space="preserve">
     <value>Disable range check</value>
@@ -219,7 +221,8 @@ Set to 0 to disable this check.</value>
     <value>Don't Use {0}</value>
   </data>
   <data name="DoTSecondsRemainingZeroDisable" xml:space="preserve">
-    <value>Seconds remaining before reapplying the DoT. Set to Zero to disable this check.</value>
+    <value>Seconds remaining before reapplying the DoT.
+Set to Zero to disable this check.</value>
   </data>
   <data name="EnablesTheUseOfMitigations" xml:space="preserve">
     <value>Enables the use of mitigations.</value>
@@ -368,7 +371,8 @@ Set to 0 to disable this check.</value>
     <value>Player HP% to be less than or equal to:</value>
   </data>
   <data name="PlayerHPToUseAction" xml:space="preserve">
-    <value>Player HP% to use {0} at or below.  Set to 100 to disable this check</value>
+    <value>Player HP% to use {0} at or below.
+Set to 100 to disable this check.</value>
   </data>
   <data name="PrioBuffUpkeep" xml:space="preserve">
     <value>Prio buff upkeep</value>
@@ -401,7 +405,8 @@ Set to 0 to disable this check.</value>
     <value>Standard opener</value>
   </data>
   <data name="StartUsingWhenBelowPartyAverageHPSetTo100ToDisableThisCheck" xml:space="preserve">
-    <value>Start using when below party average HP %. Set to 100 to disable this check</value>
+    <value>Start using when below party average HP %.
+Set to 100 to disable this check</value>
   </data>
   <data name="StationaryDelayCheck" xml:space="preserve">
     <value>Stationary Delay Check (in seconds):</value>
@@ -415,36 +420,41 @@ Set to 0 to disable this check.</value>
   </data>
   <data name="StopEnemyHpPercent" xml:space="preserve">
     <value>Stop using when below Enemy HP %.
-        Set to Zero to disable this check.</value>
+Set to Zero to disable this check.</value>
   </data>
   <data name="StopFriendlyHpPercent100" xml:space="preserve">
     <value>Start using when below HP %.
-       Set to 100 to disable this check</value>
+Set to 100 to disable this check</value>
   </data>
   <data name="StopFriendlyHpPercentZero" xml:space="preserve">
-    <value>Stop using when below HP %. Set to Zero to disable this check</value>
+    <value>Stop using when below HP %.
+Set to Zero to disable this check</value>
   </data>
   <data name="StopSeconds" xml:space="preserve">
-    <value>Seconds remaining before reapplying (0 = Do not reapply early)</value>
+    <value>Seconds remaining before reapplying.
+(0 = Do not reapply early)</value>
   </data>
   <data name="StopUsing0WhenBelowTargetHPPercentage" xml:space="preserve">
-    <value>Stop Using {0} When Target HP% is at or Below (Set to 0 to Disable This Check)</value>
+    <value>Stop Using {0} When Target HP% is at or Below
+(Set to 0 to Disable This Check)</value>
   </data>
   <data name="StopUsingWhenBelowSetPercentage" xml:space="preserve">
     <value>Stop using when below set percentage</value>
   </data>
   <data name="StopUsingWhenBelowTargetHPPercent" xml:space="preserve">
-    <value>Stop Using when Target HP% is at or Below (Set to 0 to Disable This Check)</value>
+    <value>Stop Using when Target HP% is at or Below
+(Set to 0 to Disable This Check)</value>
   </data>
   <data name="TanksOnly" xml:space="preserve">
     <value>Tanks Only</value>
   </data>
   <data name="TargetHPUse0AtOrBelow" xml:space="preserve">
-    <value>Target HP% to use {0} at or below. Set to 100 to disable this check.</value>
+    <value>Target HP% to use {0} at or below.
+Set to 100 to disable this check.</value>
   </data>
   <data name="TimeRemainingOn0" xml:space="preserve">
     <value>Time Remaining on {0} to allow within
-(0 = Dismantled must not be on the target)</value>
+(0 = {0} must not be on the target)</value>
   </data>
   <data name="TimeRemainingOnOthers" xml:space="preserve">
     <value>Time Remaining on others {0} to allow within

@@ -145,7 +145,8 @@ THIS WILL CAUSE IT TO OVERCAP!</value>
     <value>Save for 2 minute windows</value>
   </data>
   <data name="StopUsingToolsBelowHpPercentage" xml:space="preserve">
-    <value>Stop Using Tools When Target HP% is at or Below (Set to 0 to Disable This Check)</value>
+    <value>Stop Using Tools When Target HP% is at or Below
+(Set to 0 to Disable This Check)</value>
   </data>
   <data name="Use0EveryMinute" xml:space="preserve">
     <value>Uses {0} every minute/whenever your highest level tool is off cooldown.</value>

@@ -203,7 +203,8 @@
     <value>Change {0} / {1}</value>
   </data>
   <data name="ChargePool" xml:space="preserve">
-    <value>How many charges to retain for manual use. Set to 0 to disable this check.</value>
+    <value>How many charges to retain for manual use.
+Set to 0 to disable this check.</value>
   </data>
   <data name="DelayMit" xml:space="preserve">
     <value>How long to delay after detecting incoming tankbuster to use {0}. Set to 0 to disable this check.</value>
@@ -458,6 +459,9 @@
   </data>
   <data name="Use0" xml:space="preserve">
     <value>Use {0}</value>
+  </data>
+  <data name="Use0And1" xml:space="preserve">
+    <value>Use {0} and {1}.</value>
   </data>
   <data name="Use0In1" xml:space="preserve">
     <value>Use {0} in {1}</value>

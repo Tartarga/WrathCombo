@@ -672,19 +672,11 @@ internal partial class PLD
             return true;
         }
         
-        if (atonementEnabled && inAtonementPhase && flags.HasFlag(Combo.ST) &&
-            InMeleeRange() && HasBattleTarget() &&
-            (HasStatusEffect(Buffs.FightOrFlight) || //Will burn them in Buff window
-             ComboAction is RiotBlade || //Will hold them until you are about to get more
-             HasStatusEffect(Buffs.AtonementReady) || //Will use atonement Asap to Get the supplication ready
-             isAtonementExpiring)) //Burn it if it is expiring soon
-        {
-            actionID = OriginalHook(Atonement);
-            return true;
-        }
+        
             
         if (holySpellEnabled && HasDivineMagicMP && isAboveMPReserve && HasBattleTarget() &&
             (HasStatusEffect(Buffs.Requiescat) || //Use if you have req stacks. Should only happen if You are under level for Cofefe Combo
+             HasDivineMight && !InMeleeRange() || //Out of melee Use this before shield lob
              HasDivineMight && HasStatusEffect(Buffs.FightOrFlight) || // Burn in buff window
              HasDivineMight && ComboAction is RiotBlade && flags.HasFlag(Combo.ST)|| //Use if about to refresh Divine Might ST (Not combined with below for a reason)
              HasDivineMight && ComboAction is TotalEclipse && flags.HasFlag(Combo.AoE)|| //Use if about to refresh Divine Might AOE
@@ -716,6 +708,16 @@ internal partial class PLD
                 actionID = ShieldLob;
                 return true;
             }
+        }
+        
+        if (atonementEnabled && inAtonementPhase && flags.HasFlag(Combo.ST) && HasBattleTarget() &&
+            (HasStatusEffect(Buffs.FightOrFlight) || //Will burn them in Buff window
+             ComboAction is RiotBlade || //Will hold them until you are about to get more
+             HasStatusEffect(Buffs.AtonementReady) || //Will use atonement Asap to Get the supplication ready
+             isAtonementExpiring)) //Burn it if it is expiring soon
+        {
+            actionID = OriginalHook(Atonement);
+            return true;
         }
 
         if (interuptStunEnabled && ActionReady(ShieldBash) && //Shield Bash interrupt

@@ -145,13 +145,16 @@ internal partial class MCH
             switch (remainingCharges)
             {
                 case 2 when enoughToolsForBurst:
-                case 1 when enoughToolsForBurst && JustUsed(Reassemble, 8):
+                case 1 when enoughToolsForBurst && JustUsed(Reassemble, 10):
                     return true;
             }
         }
 
         if (MCH_ST_Adv_ReassembleChoice == 1)
         {
+            if (ActionReady(Excavator) && HasStatusEffect(Buffs.ExcavatorReady))
+                return true;
+
             if (ActionReady(Chainsaw) && !HasStatusEffect(Buffs.ExcavatorReady))
                 return true;
 

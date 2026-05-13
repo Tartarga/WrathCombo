@@ -350,9 +350,9 @@ internal partial class MCH : PhysicalRanged
 
                     // Gauss Round and Ricochet outside HC
                     if (IsEnabled(Preset.MCH_ST_Adv_GaussRicochet) &&
-                        (JustUsed(OriginalHook(AirAnchor), 2f) ||
-                         JustUsed(Chainsaw, 2f) ||
-                         JustUsed(Drill, 2f) ||
+                        (JustUsed(Drill, 2f) ||
+                         JustUsed(OriginalHook(AirAnchor), 2f) ||
+                         JustUsed(Chainsaw, 2f) && !HasStatusEffect(Buffs.ExcavatorReady) ||
                          JustUsed(Excavator, 2f)))
                     {
                         if (MCH_ST_GaussOnlyOrBoth == 0)

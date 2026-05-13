@@ -128,7 +128,7 @@ internal partial class MCH
                     break;
 
                 case Preset.MCH_ST_Adv_GaussRicochet:
-                  DrawHorizontalRadioButton(MCH_ST_GaussOnlyOrBoth,
+                    DrawHorizontalRadioButton(MCH_ST_GaussOnlyOrBoth,
                         FormatAndCache(Generics.Use0And1, GaussRound.ActionName(), Ricochet.ActionName()),
                         FormatAndCache(Generics.Use0And1, GaussRound.ActionName(), Ricochet.ActionName()), 0);
 

@@ -32,8 +32,7 @@ internal partial class MCH
 
             case true when
                 (ActionReady(Hypercharge) || HasStatusEffect(Buffs.Hypercharged)) &&
-                !IsOverheated && LevelChecked(Heatblast) &&
-                BioBlasterCD && ChainSawCD && FlamethrowerCD:
+                !IsOverheated && LevelChecked(Heatblast):
                 return true;
         }
 
@@ -234,15 +233,6 @@ internal partial class MCH
     private static bool ChainSawCD =>
         !LevelChecked(Chainsaw) ||
         LevelChecked(Chainsaw) && GetCooldownRemainingTime(Chainsaw) >= 9;
-
-    private static bool BioBlasterCD =>
-        !ActionReady(BioBlaster) ||
-        !TraitLevelChecked(Traits.EnhancedMultiWeapon) && GetCooldownRemainingTime(BioBlaster) >= 9 ||
-        TraitLevelChecked(Traits.EnhancedMultiWeapon) && GetRemainingCharges(BioBlaster) < GetMaxCharges(BioBlaster) && GetCooldownChargeRemainingTime(BioBlaster) >= 9;
-
-    private static bool FlamethrowerCD =>
-        !ActionReady(Flamethrower) ||
-        LevelChecked(Flamethrower) && GetCooldownRemainingTime(Flamethrower) >= 9;
 
     private static bool CanUseTools(ref uint actionID)
     {

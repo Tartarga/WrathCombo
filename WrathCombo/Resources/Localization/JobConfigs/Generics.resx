@@ -358,7 +358,7 @@
     <value>Replaces {0}</value>
   </data>
   <data name="SavageBladeWaste" xml:space="preserve">
-    <value>replaces {0} with {1} to disable and prevent wasted use.</value>
+    <value>Replaces {0} with {1} to disable and prevent wasted use.</value>
   </data>
   <data name="Save0ChargesForBurst" xml:space="preserve">
     <value>Save {0} charges for burst.</value>

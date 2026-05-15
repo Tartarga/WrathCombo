@@ -827,7 +827,7 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to replaces {0} with {1} to disable and prevent wasted use..
+        ///   Looks up a localized string similar to Replaces {0} with {1} to disable and prevent wasted use..
         /// </summary>
         internal static string SavageBladeWaste {
             get {

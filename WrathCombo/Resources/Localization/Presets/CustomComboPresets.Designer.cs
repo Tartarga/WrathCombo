@@ -24436,6 +24436,24 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Replaces Dissipation with Aetherflow when Aetherflow is available..
+        /// </summary>
+        internal static string SCH_Dissipation_Desc {
+            get {
+                return ResourceManager.GetString("SCH_Dissipation_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dissipation Option.
+        /// </summary>
+        internal static string SCH_Dissipation_Name {
+            get {
+                return ResourceManager.GetString("SCH_Dissipation_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adds Consolation during Seraph..
         /// </summary>
         internal static string SCH_Fairy_Combo_Consolation_Desc {

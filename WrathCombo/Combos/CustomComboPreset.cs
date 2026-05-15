@@ -6622,6 +6622,10 @@ public enum Preset
     [ParentCombo(SCH_Aetherflow)]
     [JobInfo(Job.SCH)]
     SCH_Aetherflow_Recite = 16030,
+    
+    [ReplaceSkill(SCH.Dissipation)]
+    [JobInfo(Job.SCH)]
+    SCH_Dissipation = 16090,
 
     [ReplaceSkill(SCH.Lustrate)]
     [JobInfo(Job.SCH)]
@@ -6750,8 +6754,7 @@ public enum Preset
     SCH_Raidwide_Expedient = 16064,
     #endregion
 
-    // Last value = 16089
-
+    // Last value = 16090
     #endregion
 
     #region SUMMONER

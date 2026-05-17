@@ -132,6 +132,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add {0} / {1} when applicable..
+        /// </summary>
+        internal static string Add0Or1WhenApplicable {
+            get {
+                return ResourceManager.GetString("Add0Or1WhenApplicable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add {0} to the rotation..
         /// </summary>
         internal static string Add0ToTheRotation {
@@ -146,6 +155,14 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         internal static string Add0When1IsReady {
             get {
                 return ResourceManager.GetString("Add0When1IsReady", resourceCulture);
+            }
+        }
+        
+        ///   Looks up a localized string similar to Add {0} when applicable..
+        /// </summary>
+        internal static string Add0WhenApplicable {
+            get {
+                return ResourceManager.GetString("Add0WhenApplicable", resourceCulture);
             }
         }
         
@@ -304,7 +321,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Only applies in instances where you directly fight a boss. Excludes many A Realm Reborn &amp; Heavensward raids that include trash..
+        ///   Looks up a localized string similar to Only applies in instances where you directly fight a boss.
+        ///Excludes many A Realm Reborn &amp; Heavensward raids that include trash..
         /// </summary>
         internal static string BossOnlyDescription {
             get {
@@ -340,7 +358,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to How many charges to retain for manual use. Set to 0 to disable this check..
+        ///   Looks up a localized string similar to How many charges to retain for manual use.
+        ///Set to 0 to disable this check..
         /// </summary>
         internal static string ChargePool {
             get {
@@ -349,7 +368,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to How long to delay after detecting incoming tankbuster to use {0}. Set to 0 to disable this check..
+        ///   Looks up a localized string similar to How long to delay after detecting incoming tankbuster to use {0}.
+        ///Set to 0 to disable this check..
         /// </summary>
         internal static string DelayMit {
             get {
@@ -385,7 +405,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Seconds remaining before reapplying the DoT. Set to Zero to disable this check..
+        ///   Looks up a localized string similar to Seconds remaining before reapplying the DoT.
+        ///Set to Zero to disable this check..
         /// </summary>
         internal static string DoTSecondsRemainingZeroDisable {
             get {
@@ -791,6 +812,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only use {0}.
+        /// </summary>
+        internal static string OnlyUse0 {
+            get {
+                return ResourceManager.GetString("OnlyUse0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only uses {0} when in melee range..
         /// </summary>
         internal static string OnlyUse0WhenInMeleeRange {
@@ -872,7 +902,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Player HP% to use {0} at or below.  Set to 100 to disable this check.
+        ///   Looks up a localized string similar to Player HP% to use {0} at or below.
+        ///Set to 100 to disable this check..
         /// </summary>
         internal static string PlayerHPToUseAction {
             get {
@@ -956,6 +987,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
             }
         }
         
+        
+        ///   Looks up a localized string similar to Replaces {0} with {1} to disable and prevent wasted use..
+        /// </summary>
+        internal static string SavageBladeWaste {
+            get {
+                return ResourceManager.GetString("SavageBladeWaste", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Save {0} charges for burst..
         /// </summary>
@@ -1011,7 +1051,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start using when below party average HP %. Set to 100 to disable this check.
+        ///   Looks up a localized string similar to Start using when below party average HP %.
+        ///Set to 100 to disable this check.
         /// </summary>
         internal static string StartUsingWhenBelowPartyAverageHPSetTo100ToDisableThisCheck {
             get {
@@ -1049,7 +1090,7 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         
         /// <summary>
         ///   Looks up a localized string similar to Stop using when below Enemy HP %.
-        ///        Set to Zero to disable this check..
+        ///Set to Zero to disable this check..
         /// </summary>
         internal static string StopEnemyHpPercent {
             get {
@@ -1059,7 +1100,7 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         
         /// <summary>
         ///   Looks up a localized string similar to Start using when below HP %.
-        ///       Set to 100 to disable this check.
+        ///Set to 100 to disable this check.
         /// </summary>
         internal static string StopFriendlyHpPercent100 {
             get {
@@ -1068,7 +1109,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stop using when below HP %. Set to Zero to disable this check.
+        ///   Looks up a localized string similar to Stop using when below HP %.
+        ///Set to Zero to disable this check.
         /// </summary>
         internal static string StopFriendlyHpPercentZero {
             get {
@@ -1077,7 +1119,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Seconds remaining before reapplying (0 = Do not reapply early).
+        ///   Looks up a localized string similar to Seconds remaining before reapplying.
+        ///(0 = Do not reapply early).
         /// </summary>
         internal static string StopSeconds {
             get {
@@ -1086,7 +1129,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stop Using {0} When Target HP% is at or Below (Set to 0 to Disable This Check).
+        ///   Looks up a localized string similar to Stop Using {0} When Target HP% is at or Below
+        ///(Set to 0 to Disable This Check).
         /// </summary>
         internal static string StopUsing0WhenBelowTargetHPPercentage {
             get {
@@ -1104,7 +1148,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stop Using when Target HP% is at or Below (Set to 0 to Disable This Check).
+        ///   Looks up a localized string similar to Stop Using when Target HP% is at or Below
+        ///(Set to 0 to Disable This Check).
         /// </summary>
         internal static string StopUsingWhenBelowTargetHPPercent {
             get {
@@ -1122,7 +1167,8 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Target HP% to use {0} at or below. Set to 100 to disable this check..
+        ///   Looks up a localized string similar to Target HP% to use {0} at or below.
+        ///Set to 100 to disable this check..
         /// </summary>
         internal static string TargetHPUse0AtOrBelow {
             get {
@@ -1132,7 +1178,7 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         
         /// <summary>
         ///   Looks up a localized string similar to Time Remaining on {0} to allow within
-        ///(0 = Dismantled must not be on the target).
+        ///(0 = {0} must not be on the target).
         /// </summary>
         internal static string TimeRemainingOn0 {
             get {
@@ -1202,6 +1248,14 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         internal static string Use0Before1 {
             get {
                 return ResourceManager.GetString("Use0Before1", resourceCulture);
+            }
+        }
+        
+        ///   Looks up a localized string similar to Use {0} and {1}..
+        /// </summary>
+        internal static string Use0And1 {
+            get {
+                return ResourceManager.GetString("Use0And1", resourceCulture);
             }
         }
         
@@ -1302,6 +1356,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         internal static string UseWhenDistanceFromTargetIsLessThanOrEqualTo {
             get {
                 return ResourceManager.GetString("UseWhenDistanceFromTargetIsLessThanOrEqualTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waste Prevention Option.
+        /// </summary>
+        internal static string WastePrevention {
+            get {
+                return ResourceManager.GetString("WastePrevention", resourceCulture);
             }
         }
         

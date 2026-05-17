@@ -530,6 +530,10 @@ public enum Preset
     #endregion
 
     #region PHANTOM ACTIONS
+    [OccultCrescent]
+    [JobInfo(Job.ADV)]
+    Phantom_RestrictToBuff = 109999,
+
     [OccultCrescent(OccultCrescent.JobIDs.Freelancer)]
     [JobInfo(Job.ADV)]
     Phantom_Freelancer = 110000,
@@ -3952,6 +3956,7 @@ public enum Preset
     #endregion
 
     #region Basic Combo
+    
     [ReplaceSkill(MNK.SnapPunch, MNK.PouncingCoeurl)]
     [BasicCombo]
     [JobInfo(Job.MNK)]
@@ -6622,6 +6627,10 @@ public enum Preset
     [ParentCombo(SCH_Aetherflow)]
     [JobInfo(Job.SCH)]
     SCH_Aetherflow_Recite = 16030,
+    
+    [ReplaceSkill(SCH.Dissipation)]
+    [JobInfo(Job.SCH)]
+    SCH_Dissipation = 16090,
 
     [ReplaceSkill(SCH.Lustrate)]
     [JobInfo(Job.SCH)]
@@ -6750,8 +6759,7 @@ public enum Preset
     SCH_Raidwide_Expedient = 16064,
     #endregion
 
-    // Last value = 16089
-
+    // Last value = 16090
     #endregion
 
     #region SUMMONER
@@ -8159,6 +8167,11 @@ public enum Preset
     [ParentCombo(ASTPvP_Burst)]
     [JobInfo(Job.AST)]
     ASTPvP_Burst_Macrocosmos = 111007,
+    
+    [PvPCustomCombo]
+    [ParentCombo(ASTPvP_Burst)]
+    [JobInfo(Job.AST)]
+    ASTPvP_Burst_Oracle = 111012,
 
     [PvPCustomCombo]
     [ParentCombo(ASTPvP_Burst)]
@@ -8182,7 +8195,7 @@ public enum Preset
     [PossiblyRetargeted]
     ASTPvP_Heal = 111004,
 
-    // Last value = 111010
+    // Last value = 111012
 
     #endregion
 

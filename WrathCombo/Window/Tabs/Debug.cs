@@ -37,10 +37,9 @@ using WrathCombo.Services.IPC_Subscriber;
 using WrathCombo.Window.Functions;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using Action = Lumina.Excel.Sheets.Action;
-using BattleNPCSubKind = Dalamud.Game.ClientState.Objects.Enums.BattleNpcSubKind;
+using BattleNpcSubKindCS = FFXIVClientStructs.FFXIV.Client.Game.Object.BattleNpcSubKind;
 using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
 using Status = Dalamud.Game.ClientState.Statuses.IStatus;
-using BattleNpcSubKindCS = FFXIVClientStructs.FFXIV.Client.Game.Object.BattleNpcSubKind;
 #endregion
 
 namespace WrathCombo.Window.Tabs;
@@ -790,6 +789,7 @@ internal class Debug : ConfigWindow, IDisposable
                 CustomStyleText("Current Charges:", $"{GetCooldown(_debugSpell.Value.RowId).RemainingCharges}");
                 CustomStyleText("Max Charges:", $"{_debugSpell.Value.MaxCharges}");
                 CustomStyleText("Charges (Level):", $"{GetCooldown(_debugSpell.Value.RowId).MaxCharges}");
+                CustomStyleText("Charge CD:", $"{GetCooldown(_debugSpell.Value.RowId).ChargeCooldownRemaining}");
                 CustomStyleText("Range:", $"{GetActionRange(_debugSpell.Value.RowId)}");
                 CustomStyleText("Effect Range:", $"{_debugSpell.Value.EffectRange}");
                 CustomStyleText("In Range:", $"{InActionRange(_debugSpell.Value.RowId)}");
@@ -798,7 +798,7 @@ internal class Debug : ConfigWindow, IDisposable
                 CustomStyleText("Can Target Friendly:", $"{_debugSpell.Value.CanTargetAlly}");
                 CustomStyleText("Can Target Party:", $"{_debugSpell.Value.CanTargetParty}");
                 CustomStyleText("Can Target Area:", $"{_debugSpell.Value.TargetArea}");
-                CustomStyleText("Can Queue:", $"{CanQueue(_debugSpell.Value.RowId)}");
+                CustomStyleText("Can Queue:", $"{ActionWatching.CanQueueCS(_debugSpell.Value.RowId)}");
                 CustomStyleText("Cast Type:", $"{_debugSpell.Value.CastType}");
                 CustomStyleText("Friendly?:", $"{(_debugSpell.Value.Unknown4 == 1 ? "No" : $"Yes {_debugSpell.Value.Unknown4}")}");
 
@@ -829,22 +829,21 @@ internal class Debug : ConfigWindow, IDisposable
                         CustomStyleText("Number of Targets Hit:", $"{NumberOfEnemiesInRange(_debugSpell.Value.RowId, target)}");
                 }
 
-                if (_debugSpell.Value.CastType != 1)
+
+                ImGui.Spacing();
+                if (ImGui.CollapsingHeader("Enemies in Range"))
                 {
-                    ImGui.Spacing();
-                    if (ImGui.CollapsingHeader("Enemies in Range"))
+                    ImGui.Indent();
+                    foreach (var e in EnemiesInRange(_debugSpell.Value.RowId))
                     {
-                        ImGui.Indent();
-                        foreach (var e in EnemiesInRange(_debugSpell.Value.RowId))
+                        if (ImGui.CollapsingHeader($"{e?.Name}###{e?.SafeGameObjectId}"))
                         {
-                            if (ImGui.CollapsingHeader($"{e?.Name}###{e?.SafeGameObjectId}"))
-                            {
-                                DrawTargetInfo(e);
-                            }
+                            DrawTargetInfo(e);
                         }
-                        ImGui.Unindent();
                     }
+                    ImGui.Unindent();
                 }
+
 
                 if (ImGui.TreeNode("Data Dump"))
                 {

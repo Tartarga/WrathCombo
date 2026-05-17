@@ -144,6 +144,9 @@
   <data name="Add0ToTheRotation" xml:space="preserve">
     <value>Add {0} to the rotation.</value>
   </data>
+  <data name="Add0When1IsReady" xml:space="preserve">
+    <value>Add {0} when {1} is ready.</value>
+  </data>
   <data name="Add0WhenApplicable" xml:space="preserve">
     <value>Add {0} when applicable.</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="Adds0To1" xml:space="preserve">
     <value>Adds {0} to {1}.</value>
+  </data>
+  <data name="Align0With1" xml:space="preserve">
+    <value>Aligns {0} with {1}.</value>
   </data>
   <data name="AllContent" xml:space="preserve">
     <value>All Content</value>
@@ -171,6 +177,9 @@
   <data name="AllyHardTarget" xml:space="preserve">
     <value>Ally Hard Target</value>
   </data>
+  <data name="AllyHPLessOrEqual" xml:space="preserve">
+    <value>Ally HP% to be less than or equal to:</value>
+  </data>
   <data name="Always" xml:space="preserve">
     <value>Always</value>
   </data>
@@ -181,9 +190,12 @@
     <value>Applies options to {0} only.</value>
   </data>
   <data name="ApplyToAll0" xml:space="preserve">
-    <value>Applies options to all of these:
-{0}</value>
+    <value>Applies options to all of these:{0}
+  </value>
   </data>
+  <data name="BlockStun" xml:space="preserve">
+    <value>Block {0} when with Savage Blade when no stunnable targets are found.</value>
+  </data> 
   <data name="BossEncounterNonBossHpPercent" xml:space="preserve">
     <value>Boss Encounter Non Bosses. Stop using at Enemy HP %.</value>
   </data>
@@ -247,7 +259,13 @@ Set to Zero to disable this check.</value>
   </data>
   <data name="FocusTarget" xml:space="preserve">
     <value>Focus Target</value>
+  </data>  
+  <data name="GapcloserUse" xml:space="preserve">
+    <value>Use {0} in Opener</value>
   </data>
+  <data name="GapcloseSkip" xml:space="preserve">
+    <value>Skip {0} in Opener</value>
+  </data>  
   <data name="Hold0For1" xml:space="preserve">
     <value>Hold {0} for {1}</value>
   </data>
@@ -303,6 +321,12 @@ Set to Zero to disable this check.</value>
   <data name="Job0ShieldCheckDesc" xml:space="preserve">
     <value>Enable to not override an existing {0}'s shield.</value>
   </data>
+  <data name="LockoutAction" xml:space="preserve">
+    <value>Lockout {0}.</value>
+  </data>
+  <data name="LockoutActionStunCount" xml:space="preserve">
+    <value>Lockout when stun has been applied this many times.</value>
+  </data>
   <data name="LucidMP" xml:space="preserve">
     <value>Set value for your MP to be at or under for this feature to work</value>
   </data>
@@ -312,11 +336,17 @@ Set to Zero to disable this check.</value>
   <data name="MinimumGauge" xml:space="preserve">
     <value>Minimum Gauge Required to use {0} </value>
   </data>
+  <data name="MinimumNumberOfEnemies" xml:space="preserve">
+    <value>Minimum Number of enemies in range to use. </value>
+  </data>
   <data name="MovementOption" xml:space="preserve">
     <value>Movement Option</value>
   </data>
   <data name="MPLessOrEqual" xml:space="preserve">
     <value>Player MP to be less than or equal to:</value>
+  </data>
+  <data name="MPGreaterOrEqual" xml:space="preserve">
+    <value>Player MP to be greater than or equal to:</value>
   </data>
   <data name="NoMovement" xml:space="preserve">
     <value>No Movement</value>
@@ -374,9 +404,23 @@ Set to Zero to disable this check.</value>
     <value>Player HP% to use {0} at or below.
 Set to 100 to disable this check.</value>
   </data>
+  <data name="PlayerHPToUseExtraMitigation" xml:space="preserve">
+    <value>Player HP% to use {0} as extra tankbuster mitigation.  Set to 100 to disable this check</value>
+  </data>
+  <data name="PLDSheltronWarning" xml:space="preserve">
+    <value>If you are Off-Tanking, and want to use Sheltron on yourself:
+        - The expectation would be that you do so via the One-Button Mitigation Feature or the Mitigation options in your rotation.
+        - You could also mouseover yourself in the party to use Sheltron in this case.
+        - If you don't, intervention would replace the combo, and it would go to the main tank.
+        - If you don't use those Features for your personal mitigation, you may not want to enable this.</value>
+  </data>  
   <data name="PrioBuffUpkeep" xml:space="preserve">
     <value>Prio buff upkeep</value>
   </data>
+  <data name="Prioritize" xml:space="preserve">
+    <value>Prioritize {0} </value>
+  </data>
+    
   <data name="Priority" xml:space="preserve">
     <value>Priority: </value>
   </data>
@@ -385,6 +429,9 @@ Set to 100 to disable this check.</value>
   </data>
   <data name="Replaces0" xml:space="preserve">
     <value>Replaces {0}</value>
+  </data>
+  <data name="RequireParty" xml:space="preserve">
+    <value>Requires a Party to use.</value>
   </data>
   <data name="SavageBladeWaste" xml:space="preserve">
     <value>Replaces {0} with {1} to disable and prevent wasted use.</value>
@@ -481,6 +528,9 @@ Set to 100 to disable this check.</value>
   </data>
   <data name="Use0In1" xml:space="preserve">
     <value>Use {0} in {1}</value>
+  </data>
+    <data name="Use0Before1" xml:space="preserve">
+    <value>Use {0} before {1}</value>
   </data>
   <data name="Use0Or1" xml:space="preserve">
     <value>Use {0} / {1}</value>

@@ -150,6 +150,14 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add {0} when {1} is ready..
+        /// </summary>
+        internal static string Add0When1IsReady {
+            get {
+                return ResourceManager.GetString("Add0When1IsReady", resourceCulture);
+            }
+        }
+        
         ///   Looks up a localized string similar to Add {0} when applicable..
         /// </summary>
         internal static string Add0WhenApplicable {
@@ -182,6 +190,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         internal static string Adds0To1 {
             get {
                 return ResourceManager.GetString("Adds0To1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aligns {0} with {1}..
+        /// </summary>
+        internal static string Align0With1 {
+            get {
+                return ResourceManager.GetString("Align0With1", resourceCulture);
             }
         }
         
@@ -231,6 +248,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ally HP% to be less than or equal to:.
+        /// </summary>
+        internal static string AllyHPLessOrEqual {
+            get {
+                return ResourceManager.GetString("AllyHPLessOrEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Always.
         /// </summary>
         internal static string Always {
@@ -258,12 +284,21 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Applies options to all of these:
-        ///{0}.
+        ///   Looks up a localized string similar to Applies options to all of these:{0}
+        ///  .
         /// </summary>
         internal static string ApplyToAll0 {
             get {
                 return ResourceManager.GetString("ApplyToAll0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Block {0} when with Savage Blade when no stunnable targets are found..
+        /// </summary>
+        internal static string BlockStun {
+            get {
+                return ResourceManager.GetString("BlockStun", resourceCulture);
             }
         }
         
@@ -452,6 +487,24 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use {0} in Opener.
+        /// </summary>
+        internal static string GapcloserUse {
+            get {
+                return ResourceManager.GetString("GapcloserUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip {0} in Opener.
+        /// </summary>
+        internal static string GapcloseSkip {
+            get {
+                return ResourceManager.GetString("GapcloseSkip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hold {0} for {1}.
         /// </summary>
         internal static string Hold0For1 {
@@ -615,6 +668,24 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lockout {0}..
+        /// </summary>
+        internal static string LockoutAction {
+            get {
+                return ResourceManager.GetString("LockoutAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lockout when stun has been applied this many times..
+        /// </summary>
+        internal static string LockoutActionStunCount {
+            get {
+                return ResourceManager.GetString("LockoutActionStunCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set value for your MP to be at or under for this feature to work.
         /// </summary>
         internal static string LucidMP {
@@ -642,11 +713,29 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Minimum Number of enemies in range to use. .
+        /// </summary>
+        internal static string MinimumNumberOfEnemies {
+            get {
+                return ResourceManager.GetString("MinimumNumberOfEnemies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Movement Option.
         /// </summary>
         internal static string MovementOption {
             get {
                 return ResourceManager.GetString("MovementOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Player MP to be greater than or equal to:.
+        /// </summary>
+        internal static string MPGreaterOrEqual {
+            get {
+                return ResourceManager.GetString("MPGreaterOrEqual", resourceCulture);
             }
         }
         
@@ -823,11 +912,42 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Player HP% to use {0} as extra tankbuster mitigation.  Set to 100 to disable this check.
+        /// </summary>
+        internal static string PlayerHPToUseExtraMitigation {
+            get {
+                return ResourceManager.GetString("PlayerHPToUseExtraMitigation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you are Off-Tanking, and want to use Sheltron on yourself:
+        ///        - The expectation would be that you do so via the One-Button Mitigation Feature or the Mitigation options in your rotation.
+        ///        - You could also mouseover yourself in the party to use Sheltron in this case.
+        ///        - If you don&apos;t, intervention would replace the combo, and it would go to the main tank.
+        ///        - If you don&apos;t use those Features for your personal mitigation, you may not want to enable this..
+        /// </summary>
+        internal static string PLDSheltronWarning {
+            get {
+                return ResourceManager.GetString("PLDSheltronWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prio buff upkeep.
         /// </summary>
         internal static string PrioBuffUpkeep {
             get {
                 return ResourceManager.GetString("PrioBuffUpkeep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prioritize {0} .
+        /// </summary>
+        internal static string Prioritize {
+            get {
+                return ResourceManager.GetString("Prioritize", resourceCulture);
             }
         }
         
@@ -859,6 +979,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Requires a Party to use..
+        /// </summary>
+        internal static string RequireParty {
+            get {
+                return ResourceManager.GetString("RequireParty", resourceCulture);
+            }
+        }
+        
+        
         ///   Looks up a localized string similar to Replaces {0} with {1} to disable and prevent wasted use..
         /// </summary>
         internal static string SavageBladeWaste {
@@ -1114,6 +1243,14 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use {0} before {1}.
+        /// </summary>
+        internal static string Use0Before1 {
+            get {
+                return ResourceManager.GetString("Use0Before1", resourceCulture);
+            }
+        }
+        
         ///   Looks up a localized string similar to Use {0} and {1}..
         /// </summary>
         internal static string Use0And1 {

@@ -17875,25 +17875,6 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Blade of Faith/Truth/Valor to Advanced Mode.
-        ///- At lower levels, uses Holy Circle instead..
-        /// </summary>
-        internal static string PLD_AoE_AdvancedMode_Blades_Desc {
-            get {
-                return ResourceManager.GetString("PLD_AoE_AdvancedMode_Blades_Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Blade Chain Option.
-        /// </summary>
-        internal static string PLD_AoE_AdvancedMode_Blades_Name {
-            get {
-                return ResourceManager.GetString("PLD_AoE_AdvancedMode_Blades_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Adds Circle of Scorn to Advanced Mode.
         ///- Uses only when in range of the target.
         ///- Prefers to use during Fight or Flight..
@@ -17914,7 +17895,7 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Confiteor to Advanced Mode.
+        ///   Looks up a localized string similar to Adds Confiteor and it&apos;s Combo to Advanced Mode.
         ///- At lower levels, uses Holy Circle instead..
         /// </summary>
         internal static string PLD_AoE_AdvancedMode_Confiteor_Desc {
@@ -17924,7 +17905,7 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Confiteor Option.
+        ///   Looks up a localized string similar to Confiteor Combo Option.
         /// </summary>
         internal static string PLD_AoE_AdvancedMode_Confiteor_Name {
             get {
@@ -17959,6 +17940,25 @@ namespace WrathCombo.Resources.Localization.Presets {
         internal static string PLD_AoE_AdvancedMode_FoF_Name {
             get {
                 return ResourceManager.GetString("PLD_AoE_AdvancedMode_FoF_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds Goring Blade to Advanced Mode.
+        ///- Uses when less than 4 targets..
+        /// </summary>
+        internal static string PLD_AoE_AdvancedMode_GoringBlade_Desc {
+            get {
+                return ResourceManager.GetString("PLD_AoE_AdvancedMode_GoringBlade_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goring Blade Option.
+        /// </summary>
+        internal static string PLD_AoE_AdvancedMode_GoringBlade_Name {
+            get {
+                return ResourceManager.GetString("PLD_AoE_AdvancedMode_GoringBlade_Name", resourceCulture);
             }
         }
         
@@ -18047,6 +18047,25 @@ namespace WrathCombo.Resources.Localization.Presets {
         internal static string PLD_AoE_AdvancedMode_Requiescat_Name {
             get {
                 return ResourceManager.GetString("PLD_AoE_AdvancedMode_Requiescat_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds Shield Lob to Advanced Mode.
+        ///- Will only Use when out of melee range..
+        /// </summary>
+        internal static string PLD_AoE_AdvancedMode_ShieldLob_Desc {
+            get {
+                return ResourceManager.GetString("PLD_AoE_AdvancedMode_ShieldLob_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shield Lob Option.
+        /// </summary>
+        internal static string PLD_AoE_AdvancedMode_ShieldLob_Name {
+            get {
+                return ResourceManager.GetString("PLD_AoE_AdvancedMode_ShieldLob_Name", resourceCulture);
             }
         }
         
@@ -19057,25 +19076,6 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Blade of Faith/Truth/Valor to Advanced Mode.
-        ///- At lower levels, uses Holy Spirit instead..
-        /// </summary>
-        internal static string PLD_ST_AdvancedMode_Blades_Desc {
-            get {
-                return ResourceManager.GetString("PLD_ST_AdvancedMode_Blades_Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Blade Chain Option.
-        /// </summary>
-        internal static string PLD_ST_AdvancedMode_Blades_Name {
-            get {
-                return ResourceManager.GetString("PLD_ST_AdvancedMode_Blades_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Adds Circle of Scorn to Advanced Mode.
         ///- Uses only when in range of the target.
         ///- Prefers to use during Fight or Flight..
@@ -19096,7 +19096,7 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Confiteor to Advanced Mode.
+        ///   Looks up a localized string similar to Adds Confiteor and its Combo to Advanced Mode.
         ///- At lower levels, uses Holy Spirit instead..
         /// </summary>
         internal static string PLD_ST_AdvancedMode_Confiteor_Desc {
@@ -19106,7 +19106,7 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Confiteor Option.
+        ///   Looks up a localized string similar to Confiteor Combo Option.
         /// </summary>
         internal static string PLD_ST_AdvancedMode_Confiteor_Name {
             get {

@@ -70,6 +70,8 @@ public class Bursting
                     DRK.Gauge.DarksideTimeRemaining > 0 ||
                     HasBuff.Self(PLD.Buffs.FightOrFlight) ||
                     HasBuff.Self(WAR.Buffs.SurgingTempest) ||
+                    HasBuff.Self(WAR.Buffs.InnerReleaseBuff) ||
+                    HasBuff.Self(WAR.Buffs.Berserk) ||
                     HasBuff.Self(GNB.Buffs.NoMercy) ||
                     HasBuff.Self(AST.Buffs.BalanceBuff, anyOwner: true) ||
                     HasBuff.Self(AST.Buffs.SpearBuff, anyOwner: true) ||
@@ -79,6 +81,7 @@ public class Bursting
                     HasBuff.Self(BRD.Buffs.RagingStrikes) ||
                     HasBuff.Self(BRD.Buffs.RadiantFinale) ||
                     HasBuff.Self(BRD.Buffs.WanderersMinuet) ||
+                    HasBuff.Self(BRD.Buffs.MagesBallad) ||
                     HasBuff.Self(DNC.Buffs.Devilment) ||
                     HasBuff.Self(BLM.Buffs.LeyLines);
 

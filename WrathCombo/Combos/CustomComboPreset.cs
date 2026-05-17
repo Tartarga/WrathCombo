@@ -530,6 +530,10 @@ public enum Preset
     #endregion
 
     #region PHANTOM ACTIONS
+    [OccultCrescent]
+    [JobInfo(Job.ADV)]
+    Phantom_RestrictToBuff = 109999,
+
     [OccultCrescent(OccultCrescent.JobIDs.Freelancer)]
     [JobInfo(Job.ADV)]
     Phantom_Freelancer = 110000,

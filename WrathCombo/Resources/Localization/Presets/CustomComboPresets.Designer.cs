@@ -2079,6 +2079,24 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adds Oracle (LimitBreak Followup) to Burst Mode..
+        /// </summary>
+        internal static string ASTPvP_Burst_Oracle_Desc {
+            get {
+                return ResourceManager.GetString("ASTPvP_Burst_Oracle_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oracle Option.
+        /// </summary>
+        internal static string ASTPvP_Burst_Oracle_Name {
+            get {
+                return ResourceManager.GetString("ASTPvP_Burst_Oracle_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adds Playing Cards to Burst Mode..
         /// </summary>
         internal static string ASTPvP_Burst_PlayCard_Desc {
@@ -24435,6 +24453,24 @@ namespace WrathCombo.Resources.Localization.Presets {
         internal static string SCH_DeploymentTactics_Recitation_Name {
             get {
                 return ResourceManager.GetString("SCH_DeploymentTactics_Recitation_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replaces Dissipation with Aetherflow when Aetherflow is available..
+        /// </summary>
+        internal static string SCH_Dissipation_Desc {
+            get {
+                return ResourceManager.GetString("SCH_Dissipation_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dissipation Option.
+        /// </summary>
+        internal static string SCH_Dissipation_Name {
+            get {
+                return ResourceManager.GetString("SCH_Dissipation_Name", resourceCulture);
             }
         }
         

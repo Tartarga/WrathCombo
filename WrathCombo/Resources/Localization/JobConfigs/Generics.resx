@@ -357,6 +357,9 @@
   <data name="Replaces0" xml:space="preserve">
     <value>Replaces {0}</value>
   </data>
+  <data name="SavageBladeWaste" xml:space="preserve">
+    <value>Replaces {0} with {1} to disable and prevent wasted use.</value>
+  </data>
   <data name="Save0ChargesForBurst" xml:space="preserve">
     <value>Save {0} charges for burst.</value>
   </data>
@@ -471,6 +474,9 @@ NOTE: This could possibly get you killed</value>
   </data>
   <data name="Use_0_Opener" xml:space="preserve">
     <value>Use {0} Opener</value>
+  </data>
+  <data name="WastePrevention" xml:space="preserve">
+    <value>Waste Prevention Option</value>
   </data>
   <data name="WillAdd_0_ToThePriorityStack" xml:space="preserve">
     <value>Will add {0} to the priority stack</value>

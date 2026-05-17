@@ -378,6 +378,13 @@
   <data name="PlayerHPToUseExtraMitigation" xml:space="preserve">
     <value>Player HP% to use {0} as extra tankbuster mitigation.  Set to 100 to disable this check</value>
   </data>
+  <data name="PLDSheltronWarning" xml:space="preserve">
+    <value>If you are Off-Tanking, and want to use Sheltron on yourself:
+        - The expectation would be that you do so via the One-Button Mitigation Feature or the Mitigation options in your rotation.
+        - You could also mouseover yourself in the party to use Sheltron in this case.
+        - If you don't, intervention would replace the combo, and it would go to the main tank.
+        - If you don't use those Features for your personal mitigation, you may not want to enable this.</value>
+  </data>  
   <data name="PrioBuffUpkeep" xml:space="preserve">
     <value>Prio buff upkeep</value>
   </data>

@@ -890,6 +890,19 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you are Off-Tanking, and want to use Sheltron on yourself:
+        ///        - The expectation would be that you do so via the One-Button Mitigation Feature or the Mitigation options in your rotation.
+        ///        - You could also mouseover yourself in the party to use Sheltron in this case.
+        ///        - If you don&apos;t, intervention would replace the combo, and it would go to the main tank.
+        ///        - If you don&apos;t use those Features for your personal mitigation, you may not want to enable this..
+        /// </summary>
+        internal static string PLDSheltronWarning {
+            get {
+                return ResourceManager.GetString("PLDSheltronWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prio buff upkeep.
         /// </summary>
         internal static string PrioBuffUpkeep {

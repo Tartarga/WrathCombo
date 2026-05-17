@@ -1,4 +1,5 @@
 using Dalamud.Interface.Colors;
+using ECommons.ImGuiMethods;
 using WrathCombo.CustomComboNS.Functions;
 using WrathCombo.Data;
 using WrathCombo.Extensions;
@@ -206,6 +207,10 @@ internal partial class PLD
                     break;
 
                 case Preset.PLD_RetargetCover_LowHP: DrawSliderInt(1, 100, PLD_RetargetCover_Health, Generics.AllyHPLessOrEqual , 200);
+                    break;
+                
+                case Preset.PLD_RetargetSheltron_TT:
+                    ImGuiEx.TextWrapped(ImGuiColors.DalamudGrey, Generics.PLDSheltronWarning);
                     break;
 
                 case Preset.PLD_ST_BasicCombo:

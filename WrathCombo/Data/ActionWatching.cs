@@ -370,7 +370,7 @@ public static class ActionWatching
 
     private static unsafe bool CanQueueActionDetour(ActionManager* actionManager, uint actionType, uint actionID)
     {
-        if (!Service.Configuration.QueueAdjust)
+        if (!Service.Configuration.QueueAdjust || actionType is not 1)
             return CanQueueAction.Original(actionManager, actionType, actionID);
 
         float threshold = Service.Configuration.QueueAdjustThreshold;

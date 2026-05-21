@@ -1,4 +1,5 @@
 using Dalamud.Game.ClientState.Objects.Types;
+using ECommons.DalamudServices;
 using ECommons.GameFunctions;
 using System.Linq;
 using WrathCombo.Core;
@@ -144,16 +145,13 @@ internal partial class SGE : Healer
                     return Soteria;
             }
 
+            var hasDotTarget = EnemiesInRange(EukrasianDyskrasia).Any(x => GetPossessedStatusRemainingTime(Debuffs.EukrasianDyskrasia, x) is <= 4 or float.NaN && GetTargetHPPercent(x) > 25);
+
             //Eukrasia for DoT
-            if (IsOffCooldown(Eukrasia) &&
-                !JustUsedOn(EukrasianDyskrasia, CurrentTarget) && //AoE DoT can be slow to take affect, doesn't apply to target first before others
-                TraitLevelChecked(Traits.OffensiveMagicMasteryII) &&
-                HasBattleTarget() && InActionRange(Dyskrasia) &&
-                CanApplyStatus(CurrentTarget, Debuffs.EukrasianDyskrasia) &&
-                GetTargetHPPercent() > 25 &&
-                (DyskrasiaDebuff is null && DosisDebuff is null ||
-                 DyskrasiaDebuff?.RemainingTime <= 4 ||
-                 DosisDebuff?.RemainingTime <= 4))
+            if (hasDotTarget && 
+                IsOffCooldown(Eukrasia) &&
+                !JustUsed(EukrasianDyskrasia) && //AoE DoT can be slow to take affect, doesn't apply to target first before others
+                TraitLevelChecked(Traits.OffensiveMagicMasteryII))
                 return Eukrasia;
 
             //Phlegma

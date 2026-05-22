@@ -482,6 +482,9 @@ internal partial class RDM
             if (!CountdownActive)
                 return false;
             
+            if (CountdownRemaining > 25)
+                return false;
+            
             return true;
         }
     }

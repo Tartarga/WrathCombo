@@ -105,7 +105,7 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Early Buff Opener. (Manual Prepull).
+        ///   Looks up a localized string similar to Early Buff Opener.
         /// </summary>
         internal static string RDMFirstGCDOpener {
             get {
@@ -114,7 +114,7 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Countdown must be used. Set below at what time you plan to manually push {0}. {1} will be blocked until 6 seconds on countdown..
+        ///   Looks up a localized string similar to Countdown must be used. Set below at what time you plan to push {0}. {1} will be blocked until 6 seconds on countdown..
         /// </summary>
         internal static string RDMFirstGCDOpenerWarning {
             get {

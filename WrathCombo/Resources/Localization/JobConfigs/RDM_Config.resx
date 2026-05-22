@@ -101,10 +101,10 @@
 		<value>Add {0}/{1} Finishers</value>
 	</data>
   <data name="RDMFirstGCDOpener" xml:space="preserve">
-	  <value>Early Buff Opener. (Manual Prepull)</value>
+	  <value>Early Buff Opener</value>
   </data>
   <data name="RDMFirstGCDOpenerWarning" xml:space="preserve">
-	  <value>Countdown must be used. Set below at what time you plan to manually push {0}. {1} will be blocked until 6 seconds on countdown.</value>
+	  <value>Countdown must be used. Set below at what time you plan to push {0}. {1} will be blocked until 6 seconds on countdown.</value>
   </data>
   <data name="RDMFirstGCDOpenerWarningTimer" xml:space="preserve">
 	  <value>Countdown time to start opener</value>

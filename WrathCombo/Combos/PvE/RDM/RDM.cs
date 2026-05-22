@@ -224,7 +224,7 @@ internal partial class RDM : Caster
             if (!InCombat() && RDM_Opener_Selection == 2 && HasAccelerate && Opener().OpenerStep == 2)
                 StatusManager.ExecuteStatusOff(Buffs.Acceleration);
 
-            if (IsEnabled(Preset.RDM_Balance_Opener) && HasBattleTarget() &&
+            if (IsEnabled(Preset.RDM_Balance_Opener) &&
                 Opener().FullOpener(ref actionID))
                 return actionID;
             

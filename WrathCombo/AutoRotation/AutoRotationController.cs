@@ -868,7 +868,7 @@ internal unsafe class AutoRotationController
                     return false;
                 }
 
-                if (cfg.DPSSettings.DPSAlwaysHardTarget && target != null)
+                if (cfg.DPSSettings.DPSAlwaysHardTarget && target is not null)
                     Svc.Targets.Target = target;
 
                 var canUseSelf = sheet.CanTargetSelf;
@@ -954,8 +954,11 @@ internal unsafe class AutoRotationController
             var canUse = (canUseSelf || canUseTarget || areaTargeted) && outAct.ActionAttackType() is { } type && ((type is ActionAttackType.Ability && AnimationLock == 0) || (type is not ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow));
             var isHeal = attributes.AutoAction!.IsHeal;
 
-            if ((!isHeal && cfg.DPSSettings.DPSAlwaysHardTarget && mode is not DPSRotationMode.Manual) || (isHeal && cfg.HealerSettings.HealerAlwaysHardTarget && mode is not HealerRotationMode.Manual) && target != null)
-                Svc.Targets.Target = target;
+            if (target is not null)
+            {
+                if ((!isHeal && cfg.DPSSettings.DPSAlwaysHardTarget && mode is not DPSRotationMode.Manual) || (isHeal && cfg.HealerSettings.HealerAlwaysHardTarget && mode is not HealerRotationMode.Manual))
+                    Svc.Targets.Target = target;
+            }
 
             var castTime = ActionManager.GetAdjustedCastTime(ActionType.Action, outAct);
             bool orbwalking = cfg.OrbwalkerIntegration && OrbwalkerIPC.CanOrbwalk;

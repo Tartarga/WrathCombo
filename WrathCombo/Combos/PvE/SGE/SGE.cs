@@ -145,9 +145,9 @@ internal partial class SGE : Healer
                     return Soteria;
             }
 
-            var hasDotTarget = EnemiesInRange(EukrasianDyskrasia).Any(x => (GetPossessedStatusRemainingTime(Debuffs.EukrasianDyskrasia, x) is <= 4 or float.NaN &&
+            var hasDotTarget = EnemiesInRange(EukrasianDyskrasia).Count(x => (GetPossessedStatusRemainingTime(Debuffs.EukrasianDyskrasia, x) is <= 4 or float.NaN &&
                                                                            GetPossessedStatusRemainingTime(DosisList[OriginalHook(Dosis)].Debuff,x) is <= 4 or float.NaN) &&
-                                                                           GetTargetHPPercent(x) > 25);
+                                                                           GetTargetHPPercent(x) > 25) >= 4;
 
             //Eukrasia for DoT
             if (hasDotTarget && 
@@ -373,9 +373,9 @@ internal partial class SGE : Healer
                     return Soteria;
             }
 
-            var hasDotTarget = EnemiesInRange(EukrasianDyskrasia).Any(x => (GetPossessedStatusRemainingTime(Debuffs.EukrasianDyskrasia, x) is <= 4 or float.NaN &&
+            var hasDotTarget = EnemiesInRange(EukrasianDyskrasia).Count(x => (GetPossessedStatusRemainingTime(Debuffs.EukrasianDyskrasia, x) is <= 4 or float.NaN &&
                                                                GetPossessedStatusRemainingTime(DosisList[OriginalHook(Dosis)].Debuff, x) is <= 4 or float.NaN) &&
-                                                               GetTargetHPPercent(x) > 25);
+                                                               GetTargetHPPercent(x) > 25) >= 4;
 
             //Eukrasia for DoT
             if (IsEnabled(Preset.SGE_AoE_DPS_EDyskrasia) &&

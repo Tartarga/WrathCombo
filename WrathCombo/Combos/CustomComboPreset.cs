@@ -1767,13 +1767,13 @@ public enum Preset
 
     [AutoAction(false, false)]
     [ReplaceSkill(BRD.HeavyShot, BRD.BurstShot)]
-    [ConflictingCombos(BRD_ST_AdvMode, BRD_OneButtonDots)]
+    [ConflictingCombos(BRD_ST_AdvMode)]
     [JobInfo(Job.BRD)]
     [SimpleCombo]
     BRD_ST_SimpleMode = 3036,
 
     [AutoAction(true, false)]
-    [ConflictingCombos(BRD_AoE_AdvMode, BRD_OneButtonDots)]
+    [ConflictingCombos(BRD_AoE_AdvMode)]
     [ReplaceSkill(BRD.QuickNock, BRD.Ladonsbite)]
     [JobInfo(Job.BRD)]
     [SimpleCombo]
@@ -1799,7 +1799,6 @@ public enum Preset
     BRD_Adv_Song = 3011,
 
     [ParentCombo(BRD_ST_AdvMode)]
-    [ConflictingCombos(BRD_OneButtonDots)]
     [JobInfo(Job.BRD)]
     BRD_Adv_DoT = 3010,
 
@@ -1860,7 +1859,6 @@ public enum Preset
 
     [ParentCombo(BRD_AoE_AdvMode)]
     [JobInfo(Job.BRD)]
-    [ConflictingCombos(BRD_OneButtonDots)]
     [Retargeted(BRD.Windbite, BRD.VenomousBite, BRD.IronJaws, BRD.CausticBite, BRD.Stormbite)]
     BRD_AoE_Adv_Multidot = 3065,
 
@@ -1965,7 +1963,6 @@ public enum Preset
     BRD_OneButtonSongs = 3014,
 
     [ReplaceSkill(BRD.VenomousBite, BRD.CausticBite)]
-    [ConflictingCombos(BRD_ST_SimpleMode, BRD_AoE_SimpleMode, BRD_Adv_DoT, BRD_AoE_Adv_Multidot)]
     [JobInfo(Job.BRD)]
     BRD_OneButtonDots = 3004,
 

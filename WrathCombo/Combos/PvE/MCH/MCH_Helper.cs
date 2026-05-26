@@ -101,8 +101,8 @@ internal partial class MCH
 
     #region Reassembled
 
-    private static uint _trackedReassembleCharges = uint.MaxValue;
-    private static bool _spendPairedReassemble;
+    private static uint TrackedReassembleCharges = uint.MaxValue;
+    private static bool SpendPairedReassemble;
 
     /// <summary>
     ///     Tracks 0/2 charge transitions so Reassemble is spent as a pair after reaching 2 charges,
@@ -111,26 +111,28 @@ internal partial class MCH
     private static void UpdateReassembleChargeTracking()
     {
         uint charges = GetRemainingCharges(Reassemble);
-        if (charges == _trackedReassembleCharges)
+        if (charges == TrackedReassembleCharges)
             return;
 
         if (HasPairedReassembleCharges)
         {
             switch (charges)
             {
-                case 2 when _trackedReassembleCharges != 2:
-                    _spendPairedReassemble = true;
+                case 2 when TrackedReassembleCharges != 2:
+                    SpendPairedReassemble = true;
                     break;
+
                 case 0:
-                case 1 when _trackedReassembleCharges == 0:
-                    _spendPairedReassemble = false;
+
+                case 1 when TrackedReassembleCharges == 0:
+                    SpendPairedReassemble = false;
                     break;
             }
         }
         else
-            _spendPairedReassemble = false;
+            SpendPairedReassemble = false;
 
-        _trackedReassembleCharges = charges;
+        TrackedReassembleCharges = charges;
     }
 
     private static bool HasPairedReassembleCharges => GetMaxCharges(Reassemble) >= 2;
@@ -144,10 +146,16 @@ internal partial class MCH
         if (ActionReady(Drill))
             numberOfReadyTools += (int)GetRemainingCharges(Drill);
 
-        if (HasStatusEffect(Buffs.ExcavatorReady) && ActionReady(Excavator))
+        // Excavator is only usable with ExcavatorReady, but Chainsaw + follow-up Excavator counts as 2 for burst planning.
+        if (HasStatusEffect(Buffs.ExcavatorReady))
             numberOfReadyTools++;
+
         else if (ActionReady(Chainsaw))
+        {
             numberOfReadyTools++;
+            if (LevelChecked(Excavator))
+                numberOfReadyTools++;
+        }
 
         if (ActionReady(OriginalHook(AirAnchor)))
             numberOfReadyTools++;
@@ -188,7 +196,7 @@ internal partial class MCH
             if (!HasPairedReassembleCharges)
                 return enoughToolsForBurst;
 
-            if (!_spendPairedReassemble)
+            if (!SpendPairedReassemble)
                 return false;
 
             return enoughToolsForBurst;
@@ -254,11 +262,11 @@ internal partial class MCH
                 case >= 6 when ActionReady(AoESpreadAction) && InActionRange(AoESpreadAction):
                     action = AoESpreadAction;
                     return true;
-                
+
                 case >= 1 and <= 5 when ActionReady(AirAnchor) && InActionRange(AirAnchor):
                     action = AirAnchor;
                     return true;
-                
+
                 default:
                     return false;
             }
@@ -271,7 +279,7 @@ internal partial class MCH
                 case >= 3 when ActionReady(AoESpreadAction) && InActionRange(AoESpreadAction):
                     action = AoESpreadAction;
                     return true;
-                
+
                 default:
                     return false;
             }
@@ -284,11 +292,11 @@ internal partial class MCH
                 case >= 6 when ActionReady(AoESpreadAction) && InActionRange(AoESpreadAction):
                     action = AoESpreadAction;
                     return true;
-                
+
                 case >= 1 and <= 5 when ActionReady(Drill) && InActionRange(Drill):
                     action = Drill;
                     return true;
-                
+
                 default:
                     return false;
             }
@@ -299,7 +307,7 @@ internal partial class MCH
             case >= 3 when ActionReady(AoESpreadAction) && InActionRange(AoESpreadAction):
                 action = AoESpreadAction;
                 return true;
-            
+
             default:
                 return false;
         }
@@ -314,7 +322,7 @@ internal partial class MCH
     private static bool HasAoEReassembleToolWindow() =>
         LevelChecked(Chainsaw)
             ? HasAoEReassembleToolWindow90Plus()
-            : TryGetAoEReassembleTarget(out var _);
+            : TryGetAoEReassembleTarget(out uint _);
 
     private static bool CanReassembleAoE()
     {
@@ -332,7 +340,7 @@ internal partial class MCH
         if (!HasAoEReassembleToolWindow())
             return false;
 
-        if (HasPairedReassembleCharges && !_spendPairedReassemble)
+        if (HasPairedReassembleCharges && !SpendPairedReassemble)
             return false;
 
         return true;

@@ -275,7 +275,7 @@ public static class DebugFile
             foreach (var a in actions)
             {
                 if (a.ClassJobLevel <= player.Level)
-                AddLine($"Lv.{a.ClassJobLevel} {a.Name} - {Svc.Data.GetExcelSheet<Quest>().GetRow(a.UnlockLink.RowId).Name} ({a.UnlockLink.RowId}) - {IsActionUnlocked(a.RowId)}");
+                    AddLine($"Lv.{a.ClassJobLevel} {a.Name} - {Svc.Data.GetExcelSheet<Quest>().GetRow(a.UnlockLink.RowId).Name} ({a.UnlockLink.RowId}) - {IsActionUnlocked(a.RowId)}");
             }
         }
         catch(Exception ex)

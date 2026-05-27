@@ -138,6 +138,8 @@ public static class DebugFile
             AddIPCInfo();
             AddConflictingInfo();
 
+            AddDebugCode();
+
             AddPlayerInfo();
             AddTargetInfo();
 
@@ -163,7 +165,6 @@ public static class DebugFile
 
             AddRedundantIDs();
 
-            AddDebugCode();
             AddSettingsHistory();
             AddPluginList();
             AddDalamudLog();

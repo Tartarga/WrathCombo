@@ -121,6 +121,10 @@ public static class DebugFile
             job = Player.Object.ClassJob.Value;
         }
 
+        var role = Jobs.GetRoleFromJob((Job) (job?.RowId ?? 0));
+        if (role is Jobs.JobRole.All or Jobs.JobRole.DoH or Jobs.JobRole.DoL)
+            job = null;
+
         using (_file = new StreamWriter(GetDebugFilePath(), append: false))
         {
             AddLine("START DEBUG LOG");

@@ -20,6 +20,7 @@ using WrathCombo.Combos.PvE.Enums;
 using WrathCombo.Core;
 using WrathCombo.CustomComboNS;
 using WrathCombo.CustomComboNS.Functions;
+using WrathCombo.Data;
 using WrathCombo.Extensions;
 using WrathCombo.Services;
 using WrathCombo.Services.IPC_Subscriber;
@@ -1150,39 +1151,30 @@ internal unsafe class AutoRotationController
         internal static IGameObject? GetHighestCurrent()
         {
             if (GetPartyMembers().Count == 0) return Player.Object;
-            var target = GetPartyMembers()
-                .Where(x => !x.BattleChara.IsDead &&
-                            x.BattleChara.IsTargetable &&
-                            GetTargetDistance(x.BattleChara) <= QueryRange &&
-                            !TargetHasImmortality(x.BattleChara) &&
-                            GetTargetHPPercent(x.BattleChara) <=
-                            (TargetHasExcog(x.BattleChara) ? cfg.HealerSettings.SingleTargetExcogHPP :
-                                TargetHasRegen(x.BattleChara) ? cfg.HealerSettings.SingleTargetRegenHPP :
-                                cfg.HealerSettings.SingleTargetHPP) &&
-                            IsInLineOfSight(x.BattleChara))
-                .OrderBy(x => TargetHasTrueInvuln(x.BattleChara))
-                .ThenByDescending(x => GetTargetHPPercent(x.BattleChara))
-                .FirstOrDefault();
-            return target?.BattleChara;
+            return HealTargets().ThenByDescending(x => GetTargetHPPercent(x)).FirstOrDefault();
         }
 
         internal static IGameObject? GetLowestCurrent()
         {
             if (GetPartyMembers().Count == 0) return Player.Object;
-            var target = GetPartyMembers()
+            return HealTargets().ThenBy(x => GetTargetHPPercent(x)).FirstOrDefault();
+        }
+
+        internal static IOrderedEnumerable<IGameObject?> HealTargets()
+        {
+            return GetPartyMembers()
                 .Where(x => !x.BattleChara.IsDead &&
                             x.BattleChara.IsTargetable &&
                             GetTargetDistance(x.BattleChara) <= QueryRange &&
                             !TargetHasImmortality(x.BattleChara) &&
+                            !x.BattleChara.StatusList.Any(x => StatusCache.DoNotHealStatuses.Contains(x.StatusId)) &&
                             GetTargetHPPercent(x.BattleChara) <=
                             (TargetHasExcog(x.BattleChara) ? cfg.HealerSettings.SingleTargetExcogHPP :
                                 TargetHasRegen(x.BattleChara) ? cfg.HealerSettings.SingleTargetRegenHPP :
                                 cfg.HealerSettings.SingleTargetHPP) &&
                             IsInLineOfSight(x.BattleChara))
-                .OrderBy(x => TargetHasTrueInvuln(x.BattleChara))
-                .ThenBy(x => GetTargetHPPercent(x.BattleChara))
-                .FirstOrDefault();
-            return target?.BattleChara;
+                .Select(x => x.BattleChara)
+                .OrderBy(x => TargetHasTrueInvuln(x));
         }
 
         internal static bool CanAoEHeal(uint outAct = 0)

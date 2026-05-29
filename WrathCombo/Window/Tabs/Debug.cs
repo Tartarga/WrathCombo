@@ -1003,6 +1003,22 @@ internal class Debug : ConfigWindow, IDisposable
             ImGui.Unindent();
         }
 
+        if (ImGui.CollapsingHeader("Auto-Rotation Info"))
+        {
+            ImGui.Indent();
+            if (ImGui.CollapsingHeader("Heal Targets"))
+            {
+                ImGui.Indent();
+                foreach (var t in AutoRotationController.HealerTargeting.HealTargets())
+                {
+                    if (ImGui.CollapsingHeader($"{t.Name}###{t.SafeGameObjectId}"))
+                    DrawTargetInfo(t);
+                }
+                ImGui.Unindent();
+            }
+            ImGui.Unindent();
+        }
+
         #endregion
 
         ImGuiEx.Spacing(new Vector2(0f, SpacingSmall));

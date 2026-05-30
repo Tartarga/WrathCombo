@@ -1187,6 +1187,7 @@ internal unsafe class AutoRotationController
                                 !x.BattleChara.IsDead &&
                                 x.BattleChara.IsTargetable &&
                                 !x.IsOutOfPartyNPC &&
+                                !x.BattleChara.StatusList.Any(x => StatusCache.DoNotHealStatuses.Contains(x.StatusId)) &&
                                 (outAct == 0
                                     ? GetTargetDistance(x.BattleChara) <= 20f
                                     : InActionRange(outAct, x.BattleChara)) &&

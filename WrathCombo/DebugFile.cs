@@ -404,15 +404,17 @@ public static class DebugFile
                 ["Rotation Behavior"] = new Dictionary<object, object>
                 {
                     // Key in Settings           Alias for Setting
-                    ["BlockSpellOnMove"]        = "Block Spell on Move",
-                    ["ActionChanging"]          = "Action Replacing",
-                    ["SuppressQueuedActions"]   = "Queued Action Suppression",
-                    ["Throttle"]                = "Throttle (ms)",
-                    ["MovementLeeway"]          = "Movement Delay (s)",
-                    ["OpenerTimeout"]           = "Opener Timeout (s)",
-                    ["MeleeOffset"]             = "Melee Offset (y)",
-                    ["InterruptDelay"]          = "Interrupt/Stun Delay (%)",
-                    ["MaximumWeavesPerWindow"]  = "Maximum Weaves Per Window",
+                    ["BlockSpellOnMove"]       = "Block Spell on Move",
+                    ["ActionChanging"]         = "Action Replacing",
+                    ["QueueAdjust"]            = "Custom Queuing",
+                    ["QueueAdjustThreshold"]   = "Custom Window (s)",
+                    ["OverwriteQueue"]         = "Overwrite Custom Queue",
+                    ["Throttle"]               = "Throttle (ms)",
+                    ["MovementLeeway"]         = "Movement Delay (s)",
+                    ["OpenerTimeout"]          = "Opener Timeout (s)",
+                    ["MeleeOffset"]            = "Melee Offset (y)",
+                    ["InterruptDelay"]         = "Interrupt/Stun Delay (%)",
+                    ["MaximumWeavesPerWindow"] = "Maximum Weaves Per Window",
                 },
                 ["Targeting"] = new Dictionary<object, object>
                 {

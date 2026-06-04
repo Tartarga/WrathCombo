@@ -29,6 +29,7 @@ These are the settings that are accessible via the IPC:
 - Setting of a whole job to be Auto-Rotation ready
 - PvE Combos state and their Auto-Mode state
 - PvE Options state
+- Variant Dungeon parent combos and options (by combat role, not by job ID)
 
 These are the settings that are not accessible via the IPC:
 - **All** Auto-Rotation configuration options
@@ -223,6 +224,13 @@ comments on each method.
 - `SetResult SetComboOptionState(Guid, string, bool)`
   - Sets the state of a combo option
   - Locks the state away from the user
+- `string? GetVariantParentComboName(VariantJobRoleKeys)`
+  - Gets the parent preset internal name for a role (e.g. `Variant_PhysRanged`)
+- `List? GetVariantOptionNames(VariantJobRoleKeys)`
+  - Gets all child option internal names for that role's Variant pack
+- `SetResult SetVariantReadyForRole(Guid, VariantJobRoleKeys, bool)`
+  - Enables or disables the parent and all options for that role under your lease
+  - Does not change Cure HP sliders (`Variant_*_Cure` in config)
 - `object? GetAutoRotationConfigState(AutoRotationConfigOption)`
   - Gets the state of an Auto-Rotation configuration option, whether by the user
       or another plugin
@@ -406,6 +414,29 @@ if (WrathIPC.IsEnabled)
 See how AutoDuty does this, and to what extent,
 [here, in `SetAutoMode`](https://github.com/ffxivcode/AutoDuty/blob/master/AutoDuty/IPC/IPCSubscriber.cs#L557).
 
+### Variant Dungeons (AutoDuty and other plugins)
+
+Variant presets are **not** returned by `GetComboOptionNamesForJob`, and
+`SetCurrentJobAutoRotationReady` does **not** enable them. Use the Variant helpers
+from [`WrathCombo.API` `0.5.6+`](https://github.com/PunishXIV/WrathCombo.API) and
+`Enum.VariantJobRoleKeys` (`Tank`, `Healer`, `MeleeDPS`, `RangedDPS`, `MagicalDPS`).
+
+```csharp
+// After RegisterForLease — enable full Variant pack for the player's role
+WrathIPCWrapper.SetVariantReadyForRole(lease, VariantJobRoleKeys.RangedDPS, true);
+
+// Or enable parent + specific options yourself
+var parent = WrathIPCWrapper.GetVariantParentComboName(VariantJobRoleKeys.RangedDPS);
+WrathIPCWrapper.SetComboState(lease, parent!, comboState: true);
+foreach (var option in WrathIPCWrapper.GetVariantOptionNames(VariantJobRoleKeys.RangedDPS)!)
+    WrathIPCWrapper.SetComboOptionState(lease, option, true);
+```
+
+Map `CombatRole` / job role to `VariantJobRoleKeys` before calling. Variant actions
+only run inside a Variant dungeon when the parent preset is enabled.
+
+Cure HP thresholds remain user config (sliders), not IPC.
+
 Lastly, you will need to release control when you are done, you are incentivized to
 release control yourself so the user is not incentivized to revoke control from you:
 
@@ -434,6 +465,8 @@ resources below, or the first several sections of this guide.
 
 ## Changelog
 
+- Variant Dungeon IPC: `GetVariantParentComboName`, `GetVariantOptionNames`,
+  `SetVariantReadyForRole`, and `VariantJobRoleKeys` (`WrathCombo.API` `0.5.6`).
 - PunishXIV/WrathCombo#1172 - Exposed existing `SetAutoRotationConfigState` value 
   `UnTargetAndDisableForPenalty`, to handle Pyretic-like mechanics,
   `1.0.4.6`.

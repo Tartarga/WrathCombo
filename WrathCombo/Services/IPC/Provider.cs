@@ -721,5 +721,58 @@ public partial class Provider : IDisposable
         return Leasing.AddRegistrationForOption(lease, optionName, state);
     }
 
+    /// <summary>
+    ///     Gets the internal name of the Variant Dungeon parent combo for a combat
+    ///     role (e.g. <c>Variant_PhysRanged</c>).
+    /// </summary>
+    [EzIPC]
+    [SuppressMessage("Performance", "CA1822:Mark members as static")]
+    public string? GetVariantParentComboName(VariantJobRoleKeys role) =>
+        P.IPCSearch.TryGetVariantJobRole(role, out var jobRole)
+            ? P.IPCSearch.GetVariantParentComboName(jobRole)
+            : null;
+
+    /// <summary>
+    ///     Gets the internal names of all Variant Dungeon options for a combat role.
+    /// </summary>
+    [EzIPC]
+    [SuppressMessage("Performance", "CA1822:Mark members as static")]
+    public List<string>? GetVariantOptionNames(VariantJobRoleKeys role) =>
+        P.IPCSearch.TryGetVariantJobRole(role, out var jobRole)
+            ? P.IPCSearch.GetVariantOptionNames(jobRole)
+            : null;
+
+    /// <summary>
+    ///     Enables or disables the Variant parent combo and all of its options for the
+    ///     given role under your lease. Does not change Cure HP sliders.
+    /// </summary>
+    [EzIPC]
+    public SetResult SetVariantReadyForRole
+        (Guid lease, VariantJobRoleKeys role, bool enabled = true)
+    {
+        if (Helper.CheckForBailConditionsAtSetTime(out var result, lease))
+            return result;
+
+        if (!P.IPCSearch.TryGetVariantJobRole(role, out var jobRole))
+            return SetResult.InvalidValue;
+
+        var parent = P.IPCSearch.GetVariantParentComboName(jobRole);
+        if (parent is null)
+            return SetResult.InvalidConfiguration;
+
+        var setParent = Leasing.AddRegistrationForCombo(lease, parent, enabled, false);
+        if (setParent is not SetResult.Okay)
+            return setParent;
+
+        foreach (var option in P.IPCSearch.GetVariantOptionNames(jobRole))
+        {
+            var setOption = Leasing.AddRegistrationForOption(lease, option, enabled);
+            if (setOption is not SetResult.Okay)
+                return setOption;
+        }
+
+        return SetResult.Okay;
+    }
+
     #endregion
 }

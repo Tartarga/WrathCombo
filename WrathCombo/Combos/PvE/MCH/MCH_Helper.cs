@@ -95,7 +95,7 @@ internal partial class MCH
 
     private static int HPThresholdQueen =>
         MCH_ST_QueenBossOption == 1 ||
-        !TargetIsBoss() ? MCH_ST_QueenHPOption : 0;
+        !InBossEncounter() ? MCH_ST_QueenHPOption : 0;
 
     #endregion
 

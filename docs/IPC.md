@@ -29,7 +29,7 @@ These are the settings that are accessible via the IPC:
 - Setting of a whole job to be Auto-Rotation ready
 - PvE Combos state and their Auto-Mode state
 - PvE Options state
-- Variant Dungeon parent combos and options (by combat role, not by job ID)
+- Variant Dungeon skills
 
 These are the settings that are not accessible via the IPC:
 - **All** Auto-Rotation configuration options

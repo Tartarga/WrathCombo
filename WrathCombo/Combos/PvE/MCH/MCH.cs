@@ -182,13 +182,7 @@ internal partial class MCH : PhysicalRanged
                     if (ActionReady(OriginalHook(RookAutoturret)) && Battery is 100)
                         return OriginalHook(RookAutoturret);
 
-                    if (ActionReady(Reassemble) && !HasStatusEffect(Buffs.Wildfire) &&
-                        !HasStatusEffect(Buffs.Reassembled) && !JustUsed(Flamethrower, 10f) &&
-                        GetRemainingCharges(Reassemble) > MCH_AoE_ReassemblePool &&
-                        (LevelChecked(Scattergun) ||
-                         GetCooldownRemainingTime(AirAnchor) < GCD && LevelChecked(AirAnchor) ||
-                         GetCooldownRemainingTime(Chainsaw) < GCD && LevelChecked(Chainsaw) ||
-                         HasStatusEffect(Buffs.ExcavatorReady) && LevelChecked(Excavator)))
+                    if (CanReassembleAoE())
                         return Reassemble;
 
                     //gauss and ricochet outside HC
@@ -494,13 +488,7 @@ internal partial class MCH : PhysicalRanged
 
                     if (IsEnabled(Preset.MCH_AoE_Adv_Reassemble) &&
                         GetTargetHPPercent() > MCH_AoE_ReassembleHPThreshold &&
-                        ActionReady(Reassemble) && !HasStatusEffect(Buffs.Reassembled) &&
-                        !JustUsed(Flamethrower, 10f) &&
-                        GetRemainingCharges(Reassemble) > MCH_AoE_ReassemblePool &&
-                        (LevelChecked(Scattergun) ||
-                         GetCooldownRemainingTime(AirAnchor) < GCD && LevelChecked(AirAnchor) ||
-                         GetCooldownRemainingTime(Chainsaw) < GCD && LevelChecked(Chainsaw) ||
-                         HasStatusEffect(Buffs.ExcavatorReady) && LevelChecked(Excavator)))
+                        CanReassembleAoE())
                         return Reassemble;
 
                     //gauss and ricochet outside HC

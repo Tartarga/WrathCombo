@@ -71,7 +71,7 @@
 
     <!-- Dalamud Packaging -->
     <ItemGroup>
-        <PackageReference Include="DalamudPackager" Version="14.0.1" />
+        <PackageReference Include="DalamudPackager" Version="15.0.0" />
         <PackageReference Include="System.Speech" Version="10.0.5" />
     </ItemGroup>
 

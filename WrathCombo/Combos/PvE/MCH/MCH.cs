@@ -187,10 +187,6 @@ internal partial class MCH : PhysicalRanged
                     if (ActionReady(OriginalHook(RookAutoturret)) && Battery is 100)
                         return OriginalHook(RookAutoturret);
 
-                    if (ActionReady(Reassemble) && !HasStatusEffect(Buffs.Reassembled) &&
-                        CanUseReassembleAoE())
-                        return Reassemble;
-
                     //gauss and ricochet outside HC
                     if (CanGaussRound &&
                         (!JustUsed(OriginalHook(GaussRound), 2.5f) || !LevelChecked(Ricochet)))
@@ -487,13 +483,6 @@ internal partial class MCH : PhysicalRanged
                         Battery >= MCH_AoE_TurretBatteryUsage &&
                         GetTargetHPPercent() > MCH_AoE_QueenHpThreshold)
                         return OriginalHook(RookAutoturret);
-
-                    if (IsEnabled(Preset.MCH_AoE_Adv_Reassemble) &&
-                        GetTargetHPPercent() > MCH_AoE_ReassembleHPThreshold &&
-                        ActionReady(Reassemble) && !HasStatusEffect(Buffs.Reassembled) &&
-                        GetRemainingCharges(Reassemble) > MCH_AoE_ReassemblePool &&
-                        CanUseReassembleAoE())
-                        return Reassemble;
 
                     //gauss and ricochet outside HC
                     if (IsEnabled(Preset.MCH_AoE_Adv_GaussRicochet))

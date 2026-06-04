@@ -174,6 +174,11 @@ internal partial class MCH : PhysicalRanged
 
                 if (!IsOverheated)
                 {
+                    if (ActionReady(Reassemble) &&
+                        !HasStatusEffect(Buffs.Reassembled) &&
+                        CanUseReassembleAoE())
+                        return Reassemble;
+
                     // BarrelStabilizer
                     if (ActionReady(BarrelStabilizer) &&
                         !HasStatusEffect(Buffs.FullMetalMachinist))
@@ -182,7 +187,8 @@ internal partial class MCH : PhysicalRanged
                     if (ActionReady(OriginalHook(RookAutoturret)) && Battery is 100)
                         return OriginalHook(RookAutoturret);
 
-                    if (CanReassembleAoE())
+                    if (ActionReady(Reassemble) && !HasStatusEffect(Buffs.Reassembled) &&
+                        CanUseReassembleAoE())
                         return Reassemble;
 
                     //gauss and ricochet outside HC
@@ -215,19 +221,8 @@ internal partial class MCH : PhysicalRanged
                     !IsMoving() && TimeStoodStill > TimeSpan.FromSeconds(3))
                     return Flamethrower;
 
-                if (ActionReady(BioBlaster) && !HasStatusEffect(Debuffs.Bioblaster, CurrentTarget) &&
-                    !HasStatusEffect(Buffs.Reassembled) && CanApplyStatus(CurrentTarget, Debuffs.Bioblaster))
-                    return BioBlaster;
-
-                if (ActionReady(Excavator))
-                    return Excavator;
-
-                if (ActionReady(Chainsaw) &&
-                    !HasStatusEffect(Buffs.ExcavatorReady))
-                    return Chainsaw;
-
-                if (ActionReady(OriginalHook(AirAnchor)))
-                    return OriginalHook(AirAnchor);
+                if (CanUseAoETools(ref actionID))
+                    return actionID;
             }
 
             if (ActionReady(OriginalHook(Heatblast)) && IsOverheated)
@@ -474,6 +469,13 @@ internal partial class MCH : PhysicalRanged
 
                 if (!IsOverheated)
                 {
+                    if (IsEnabled(Preset.MCH_AoE_Adv_Reassemble) &&
+                        GetTargetHPPercent() > MCH_AoE_ReassembleHPThreshold &&
+                        ActionReady(Reassemble) && !HasStatusEffect(Buffs.Reassembled) &&
+                        GetRemainingCharges(Reassemble) > MCH_AoE_ReassemblePool &&
+                        CanUseReassembleAoE())
+                        return Reassemble;
+
                     // BarrelStabilizer
                     if (IsEnabled(Preset.MCH_AoE_Adv_Stabilizer) &&
                         ActionReady(BarrelStabilizer) && !HasStatusEffect(Buffs.FullMetalMachinist) &&
@@ -488,7 +490,9 @@ internal partial class MCH : PhysicalRanged
 
                     if (IsEnabled(Preset.MCH_AoE_Adv_Reassemble) &&
                         GetTargetHPPercent() > MCH_AoE_ReassembleHPThreshold &&
-                        CanReassembleAoE())
+                        ActionReady(Reassemble) && !HasStatusEffect(Buffs.Reassembled) &&
+                        GetRemainingCharges(Reassemble) > MCH_AoE_ReassemblePool &&
+                        CanUseReassembleAoE())
                         return Reassemble;
 
                     //gauss and ricochet outside HC
@@ -527,22 +531,10 @@ internal partial class MCH : PhysicalRanged
                     GetTargetHPPercent() > MCH_AoE_FlamethrowerHPOption)
                     return Flamethrower;
 
-                if (IsEnabled(Preset.MCH_AoE_Adv_Tools) &&
-                    GetTargetHPPercent() >= MCH_AoE_ToolsHPThreshold)
-                {
-                    if (ActionReady(BioBlaster) && !HasStatusEffect(Debuffs.Bioblaster, CurrentTarget) &&
-                        !HasStatusEffect(Buffs.Reassembled) && CanApplyStatus(CurrentTarget, Debuffs.Bioblaster))
-                        return BioBlaster;
-
-                    if (ActionReady(Excavator))
-                        return Excavator;
-
-                    if (ActionReady(Chainsaw) && !HasStatusEffect(Buffs.ExcavatorReady))
-                        return Chainsaw;
-
-                    if (ActionReady(OriginalHook(AirAnchor)) && MCH_AoE_AirAnchor)
-                        return OriginalHook(AirAnchor);
-                }
+                if ((!IsEnabled(Preset.MCH_AoE_Adv_Tools) ||
+                     GetTargetHPPercent() >= MCH_AoE_ToolsHPThreshold) &&
+                    CanUseAoETools(ref actionID, MCH_AoE_AirAnchor))
+                    return actionID;
             }
 
             if (ActionReady(OriginalHook(Heatblast)) && IsOverheated)

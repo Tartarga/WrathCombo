@@ -107,7 +107,7 @@ internal partial class MCH
     private static bool TwoChargesUnlocked => GetMaxCharges(Reassemble) >= 2;
 
     private static bool IsWildfireActive => HasStatusEffect(Buffs.Wildfire);
-    
+
     private static void UpdateReassembleChargeTracking()
     {
         uint charges = GetRemainingCharges(Reassemble);
@@ -162,17 +162,20 @@ internal partial class MCH
         return numberOfReadyTools;
     }
 
+    private static bool CanUseReassembleAoE() =>
+        LevelChecked(Drill) && GetCooldownRemainingTime(Drill) < GCD ||
+        LevelChecked(AirAnchor) && GetCooldownRemainingTime(AirAnchor) < GCD ||
+        LevelChecked(Chainsaw) && GetCooldownRemainingTime(Chainsaw) < GCD ||
+        LevelChecked(Excavator) && HasStatusEffect(Buffs.ExcavatorReady) ||
+        LevelChecked(Scattergun) && ActionReady(Scattergun) ||
+        ActionReady(OriginalHook(SpreadShot));
+
     private static bool InReassembleRange() =>
         LevelChecked(Drill) && InActionRange(Drill) ||
         LevelChecked(AirAnchor) && InActionRange(AirAnchor) ||
         LevelChecked(Chainsaw) && InActionRange(Chainsaw) ||
-        LevelChecked(Scattergun) && InActionRange(OriginalHook(SpreadShot));
-
-    private static bool AoEReassemble() =>
-        LevelChecked(Scattergun) ||
-        GetCooldownRemainingTime(AirAnchor) < GCD && LevelChecked(AirAnchor) ||
-        GetCooldownRemainingTime(Chainsaw) < GCD && LevelChecked(Chainsaw) ||
-        HasStatusEffect(Buffs.ExcavatorReady) && LevelChecked(Excavator);
+        LevelChecked(Scattergun) && InActionRange(OriginalHook(SpreadShot)) ||
+        !LevelChecked(Drill) && InActionRange(OriginalHook(SpreadShot));
 
     private static bool CanReassemble()
     {
@@ -209,22 +212,6 @@ internal partial class MCH
         }
 
         return false;
-    }
-
-    private static bool CanReassembleAoE()
-    {
-        UpdateReassembleChargeTracking();
-
-        if (HasStatusEffect(Buffs.Reassembled) || IsWildfireActive || !HasBattleTarget() ||
-            JustUsed(Reassemble, 2f) || JustUsed(Flamethrower, 10f))
-            return false;
-
-        uint remainingCharges = GetRemainingCharges(Reassemble);
-        if (!ActionReady(Reassemble) || remainingCharges == 0 ||
-            remainingCharges <= MCH_AoE_ReassemblePool || !ShouldReassemble())
-            return false;
-
-        return AoEReassemble();
     }
 
     #endregion
@@ -320,6 +307,49 @@ internal partial class MCH
         if (ActionReady(HotShot) && !LevelChecked(AirAnchor) && !HasStatusEffect(Buffs.Reassembled))
         {
             actionID = HotShot;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool CanUseAoETools(ref uint actionID, bool useAirAnchor = true)
+    {
+        if (ActionReady(Chainsaw) && !HasStatusEffect(Buffs.ExcavatorReady))
+        {
+            actionID = Chainsaw;
+            return true;
+        }
+
+        if (ActionReady(Excavator))
+        {
+            actionID = Excavator;
+            return true;
+        }
+
+        if (useAirAnchor && ActionReady(OriginalHook(AirAnchor)))
+        {
+            actionID = OriginalHook(AirAnchor);
+            return true;
+        }
+
+        if (ActionReady(Drill))
+        {
+            actionID = Drill;
+            return true;
+        }
+
+        if (LevelChecked(BioBlaster) && ActionReady(BioBlaster) &&
+            !HasStatusEffect(Debuffs.Bioblaster, CurrentTarget) &&
+            CanApplyStatus(CurrentTarget, Debuffs.Bioblaster))
+        {
+            actionID = BioBlaster;
+            return true;
+        }
+
+        if (HasStatusEffect(Buffs.Reassembled) && ActionReady(OriginalHook(SpreadShot)))
+        {
+            actionID = OriginalHook(SpreadShot);
             return true;
         }
 

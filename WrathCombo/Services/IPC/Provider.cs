@@ -417,6 +417,10 @@ public partial class Provider : IDisposable
     ///     Your lease ID from
     ///     <see cref="RegisterForLease(string,string)" />
     /// </param>
+    /// <param name="enableVariant">
+    ///     When <see langword="true" />, also enables the Variant Dungeon parent combo
+    ///     and options for the current job's combat role (derived from the player).
+    /// </param>
     /// <returns>
     ///     The <see cref="SetResult" /> status code indicating the result of the
     ///     operation.
@@ -426,13 +430,13 @@ public partial class Provider : IDisposable
     ///     several seconds to complete.
     /// </remarks>
     [EzIPC]
-    public SetResult SetCurrentJobAutoRotationReady(Guid lease)
+    public SetResult SetCurrentJobAutoRotationReady(Guid lease, bool enableVariant = false)
     {
         // Bail for standard conditions
         if (Helper.CheckForBailConditionsAtSetTime(out var result, lease))
             return result;
 
-        return Leasing.AddRegistrationForCurrentJob(lease);
+        return Leasing.AddRegistrationForCurrentJob(lease, enableVariant);
     }
 
     /// <summary>
@@ -722,56 +726,41 @@ public partial class Provider : IDisposable
     }
 
     /// <summary>
-    ///     Gets the internal name of the Variant Dungeon parent combo for a combat
-    ///     role (e.g. <c>Variant_PhysRanged</c>).
+    ///     Gets the internal name of the Variant Dungeon parent combo for a job's
+    ///     combat role (e.g. <c>Variant_PhysRanged</c> for MCH). Use the same
+    ///     <paramref name="jobID" /> values as <see cref="GetComboNamesForJob" />.
     /// </summary>
     [EzIPC]
     [SuppressMessage("Performance", "CA1822:Mark members as static")]
-    public string? GetVariantParentComboName(VariantJobRoleKeys role) =>
-        P.IPCSearch.TryGetVariantJobRole(role, out var jobRole)
+    public string? GetVariantParentComboName(uint jobID) =>
+        P.IPCSearch.TryGetVariantJobRole(jobID, out var jobRole)
             ? P.IPCSearch.GetVariantParentComboName(jobRole)
             : null;
 
     /// <summary>
-    ///     Gets the internal names of all Variant Dungeon options for a combat role.
+    ///     Gets the internal names of all Variant Dungeon options for a job's combat
+    ///     role. Names are valid for <see cref="SetComboOptionState" />.
     /// </summary>
     [EzIPC]
     [SuppressMessage("Performance", "CA1822:Mark members as static")]
-    public List<string>? GetVariantOptionNames(VariantJobRoleKeys role) =>
-        P.IPCSearch.TryGetVariantJobRole(role, out var jobRole)
+    public List<string>? GetVariantOptionNames(uint jobID) =>
+        P.IPCSearch.TryGetVariantJobRole(jobID, out var jobRole)
             ? P.IPCSearch.GetVariantOptionNames(jobRole)
             : null;
 
     /// <summary>
     ///     Enables or disables the Variant parent combo and all of its options for the
-    ///     given role under your lease. Does not change Cure HP sliders.
+    ///     job's combat role under your lease. Does not change Cure HP sliders.
+    ///     Returns <see cref="SetResult.OkayWorking" /> when all sets succeed.
     /// </summary>
     [EzIPC]
-    public SetResult SetVariantReadyForRole
-        (Guid lease, VariantJobRoleKeys role, bool enabled = true)
+    public SetResult SetVariantReadyForJob
+        (Guid lease, uint jobID, bool enabled = true)
     {
         if (Helper.CheckForBailConditionsAtSetTime(out var result, lease))
             return result;
 
-        if (!P.IPCSearch.TryGetVariantJobRole(role, out var jobRole))
-            return SetResult.InvalidValue;
-
-        var parent = P.IPCSearch.GetVariantParentComboName(jobRole);
-        if (parent is null)
-            return SetResult.InvalidConfiguration;
-
-        var setParent = Leasing.AddRegistrationForCombo(lease, parent, enabled, false);
-        if (setParent is not SetResult.Okay)
-            return setParent;
-
-        foreach (var option in P.IPCSearch.GetVariantOptionNames(jobRole))
-        {
-            var setOption = Leasing.AddRegistrationForOption(lease, option, enabled);
-            if (setOption is not SetResult.Okay)
-                return setOption;
-        }
-
-        return SetResult.Okay;
+        return Leasing.AddRegistrationForVariant(lease, jobID, enabled);
     }
 
     #endregion

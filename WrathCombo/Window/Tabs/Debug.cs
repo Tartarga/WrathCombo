@@ -1051,7 +1051,32 @@ internal class Debug : ConfigWindow, IDisposable
                 ImGui.SameLine();
                 if (ImGui.Button("Set Autorot For WHM"))
                 {
-                    P.IPC.Leasing.AddRegistrationForCurrentJob(_wrathLease!.Value, Job.WHM);
+                    P.IPC.Leasing.AddRegistrationForCurrentJob(_wrathLease!.Value, jobOverride: Job.WHM);
+                }
+
+                ImGuiEx.Spacing(new Vector2(10, 10));
+
+                if (ImGui.Button("Set Variant (current job)"))
+                {
+                    var result = P.IPC.SetVariantReadyForJob(
+                        _wrathLease!.Value, (uint)Player.Job.GetUpgradedJob(), true);
+                    Svc.Chat.Print($"SetVariantReadyForJob: {result}");
+                }
+
+                ImGui.SameLine();
+                if (ImGui.Button("Clear Variant (current job)"))
+                {
+                    var result = P.IPC.SetVariantReadyForJob(
+                        _wrathLease!.Value, (uint)Player.Job.GetUpgradedJob(), false);
+                    Svc.Chat.Print($"SetVariantReadyForJob: {result}");
+                }
+
+                ImGui.SameLine();
+                if (ImGui.Button("Job Ready + Variant"))
+                {
+                    var result = P.IPC.SetCurrentJobAutoRotationReady(
+                        _wrathLease!.Value, enableVariant: true);
+                    Svc.Chat.Print($"SetCurrentJobAutoRotationReady: {result}");
                 }
 
                 ImGuiEx.Spacing(new Vector2(20, 20));

@@ -523,21 +523,12 @@ public class Search(Leasing leasing)
         { JobRole.MagicalDPS, nameof(Preset.Variant_Magic) },
     };
 
-    internal bool TryGetVariantJobRole(VariantJobRoleKeys role, out JobRole jobRole)
+    internal bool TryGetVariantJobRole(uint jobID, out JobRole jobRole)
     {
-        jobRole = role switch
-        {
-            VariantJobRoleKeys.Tank => JobRole.Tank,
-            VariantJobRoleKeys.Healer => JobRole.Healer,
-            VariantJobRoleKeys.MeleeDPS => JobRole.MeleeDPS,
-            VariantJobRoleKeys.RangedDPS => JobRole.RangedDPS,
-            VariantJobRoleKeys.MagicalDPS => JobRole.MagicalDPS,
-            _ => default,
-        };
+        jobRole = GetRoleFromJob(jobID);
 
-        return role is VariantJobRoleKeys.Tank or VariantJobRoleKeys.Healer
-            or VariantJobRoleKeys.MeleeDPS or VariantJobRoleKeys.RangedDPS
-            or VariantJobRoleKeys.MagicalDPS;
+        return jobRole is JobRole.Tank or JobRole.Healer or JobRole.MeleeDPS
+            or JobRole.RangedDPS or JobRole.MagicalDPS;
     }
 
     internal string? GetVariantParentComboName(JobRole role) =>

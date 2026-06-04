@@ -186,13 +186,15 @@ comments on each method.
 - `bool IsCurrentJobAutoRotationReady()`
   - Checks if the current job is ready for Auto-Rotation, whether by the user or 
     another plugin
-- `SetResult SetCurrentJobAutoRotationReady(Guid)`
+- `SetResult SetCurrentJobAutoRotationReady(Guid, bool enableVariant = false)`
   - Requires a lease
   - Sets the current job to be ready for Auto-Rotation
     - If the job is ready: it will lock all the user's Simple/Advanced settings, and 
       any healing settings
     - If the job is not ready: it will turn on the job's Simple Modes, or if those 
       don't exist it will turn on the job's Advanced Modes with all options enabled
+  - When `enableVariant` is `true`, also enables the Variant Dungeon parent combo
+    and options for the current job's combat role (from the player object)
   - Locks the state away from the user
 - `void ReleaseControl(Guid)`
   - Requires a lease
@@ -224,12 +226,14 @@ comments on each method.
 - `SetResult SetComboOptionState(Guid, string, bool)`
   - Sets the state of a combo option
   - Locks the state away from the user
-- `string? GetVariantParentComboName(VariantJobRoleKeys)`
-  - Gets the parent preset internal name for a role (e.g. `Variant_PhysRanged`)
-- `List? GetVariantOptionNames(VariantJobRoleKeys)`
-  - Gets all child option internal names for that role's Variant pack
-- `SetResult SetVariantReadyForRole(Guid, VariantJobRoleKeys, bool)`
-  - Enables or disables the parent and all options for that role under your lease
+- `string? GetVariantParentComboName(uint jobID)`
+  - Gets the parent preset internal name for the job's combat role (e.g. MCH → `Variant_PhysRanged`)
+  - Use the same `jobID` values as `GetComboNamesForJob`
+- `List? GetVariantOptionNames(uint jobID)`
+  - Gets all child option internal names for that role's Variant pack (valid for `SetComboOptionState`)
+- `SetResult SetVariantReadyForJob(Guid, uint jobID, bool)`
+  - Enables or disables the parent and all options for that job's role under your lease
+  - Returns `SetResult.OkayWorking` when all sets succeed; continues on individual option failures
   - Does not change Cure HP sliders (`Variant_*_Cure` in config)
 - `object? GetAutoRotationConfigState(AutoRotationConfigOption)`
   - Gets the state of an Auto-Rotation configuration option, whether by the user
@@ -416,24 +420,27 @@ See how AutoDuty does this, and to what extent,
 
 ### Variant Dungeons
 
-Variant presets are **not** returned by `GetComboOptionNamesForJob`, and
-`SetCurrentJobAutoRotationReady` does **not** enable them. Use the Variant helpers
-from [`WrathCombo.API` `0.5.6+`](https://github.com/PunishXIV/WrathCombo.API) and
-`Enum.VariantJobRoleKeys` (`Tank`, `Healer`, `MeleeDPS`, `RangedDPS`, `MagicalDPS`).
+Variant presets are **not** returned by `GetComboOptionNamesForJob`. Either pass
+`enableVariant: true` to `SetCurrentJobAutoRotationReady`.
 
 ```csharp
-// After RegisterForLease — enable full Variant pack for the player's role
-WrathIPCWrapper.SetVariantReadyForRole(lease, VariantJobRoleKeys.RangedDPS, true);
+// One call: job auto-rotation + Variant pack for the current job's role
+var setJobReady = WrathIPCWrapper.SetCurrentJobAutoRotationReady(lease, enableVariant: true);
+if (setJobReady is SetResult.Okay or SetResult.OkayWorking) { /* ... */ }
+
+// Or enable Variant for a specific job ID (same IDs as GetComboNamesForJob)
+const uint mch = 31;
+WrathIPCWrapper.SetVariantReadyForJob(lease, mch, true);
 
 // Or enable parent + specific options yourself
-var parent = WrathIPCWrapper.GetVariantParentComboName(VariantJobRoleKeys.RangedDPS);
+var parent = WrathIPCWrapper.GetVariantParentComboName(mch);
 WrathIPCWrapper.SetComboState(lease, parent!, comboState: true);
-foreach (var option in WrathIPCWrapper.GetVariantOptionNames(VariantJobRoleKeys.RangedDPS)!)
+foreach (var option in WrathIPCWrapper.GetVariantOptionNames(mch)!)
     WrathIPCWrapper.SetComboOptionState(lease, option, true);
 ```
 
-Map `CombatRole` / job role to `VariantJobRoleKeys` before calling. Variant actions
-only run inside a Variant dungeon when the parent preset is enabled.
+Role is derived from the job ID (same as in-game). Variant actions only run inside a
+Variant dungeon when the parent preset is enabled.
 
 Cure HP thresholds remain user config (sliders), not IPC.
 
@@ -466,7 +473,8 @@ resources below, or the first several sections of this guide.
 ## Changelog
 
 - Variant Dungeon IPC: `GetVariantParentComboName`, `GetVariantOptionNames`,
-  `SetVariantReadyForRole`, and `VariantJobRoleKeys` (`WrathCombo.API` `0.5.6`).
+  `SetVariantReadyForJob`, and `SetCurrentJobAutoRotationReady(..., enableVariant)`
+  `1.0.4.7`.
 - PunishXIV/WrathCombo#1172 - Exposed existing `SetAutoRotationConfigState` value 
   `UnTargetAndDisableForPenalty`, to handle Pyretic-like mechanics,
   `1.0.4.6`.

@@ -414,7 +414,7 @@ if (WrathIPC.IsEnabled)
 See how AutoDuty does this, and to what extent,
 [here, in `SetAutoMode`](https://github.com/ffxivcode/AutoDuty/blob/master/AutoDuty/IPC/IPCSubscriber.cs#L557).
 
-### Variant Dungeons (AutoDuty and other plugins)
+### Variant Dungeons
 
 Variant presets are **not** returned by `GetComboOptionNamesForJob`, and
 `SetCurrentJobAutoRotationReady` does **not** enable them. Use the Variant helpers

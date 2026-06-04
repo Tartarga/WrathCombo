@@ -151,6 +151,10 @@ internal partial class MCH
             if (LevelChecked(Excavator))
                 numberOfReadyTools++;
         }
+        else if (HasStatusEffect(Buffs.ExcavatorReady))
+        {
+            numberOfReadyTools++;
+        }
 
         if (ActionReady(OriginalHook(AirAnchor)))
             numberOfReadyTools++;

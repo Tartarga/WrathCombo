@@ -135,7 +135,7 @@ internal partial class MCH
         TrackedReassembleCharges = charges;
     }
 
-    private static bool ShouldSpendReassembleCharges() =>
+    private static bool ShouldReassemble() =>
         !HasPairedReassembleCharges || SpendPairedReassemble;
 
     private static int ReadyTools()
@@ -162,13 +162,13 @@ internal partial class MCH
         return numberOfReadyTools;
     }
 
-    private static bool InReassembleActionRange() =>
+    private static bool InReassembleRange() =>
         LevelChecked(Drill) && InActionRange(Drill) ||
         LevelChecked(AirAnchor) && InActionRange(AirAnchor) ||
         LevelChecked(Chainsaw) && InActionRange(Chainsaw) ||
         LevelChecked(Scattergun) && InActionRange(OriginalHook(SpreadShot));
 
-    private static bool HasAoEReassembleToolWindow() =>
+    private static bool AoEReassemble() =>
         LevelChecked(Scattergun) ||
         GetCooldownRemainingTime(AirAnchor) < GCD && LevelChecked(AirAnchor) ||
         GetCooldownRemainingTime(Chainsaw) < GCD && LevelChecked(Chainsaw) ||
@@ -181,10 +181,10 @@ internal partial class MCH
         uint remainingCharges = GetRemainingCharges(Reassemble);
 
         if (HasStatusEffect(Buffs.Reassembled) || IsWildfireActive || !HasBattleTarget() ||
-            !InReassembleActionRange() || JustUsed(Reassemble, 2f))
+            !InReassembleRange() || JustUsed(Reassemble, 2f))
             return false;
 
-        if (remainingCharges == 0 || !ShouldSpendReassembleCharges())
+        if (remainingCharges == 0 || !ShouldReassemble())
             return false;
 
         if (MCH_ST_Adv_ReassembleChoice == 0)
@@ -221,10 +221,10 @@ internal partial class MCH
 
         uint remainingCharges = GetRemainingCharges(Reassemble);
         if (!ActionReady(Reassemble) || remainingCharges == 0 ||
-            remainingCharges <= MCH_AoE_ReassemblePool || !ShouldSpendReassembleCharges())
+            remainingCharges <= MCH_AoE_ReassemblePool || !ShouldReassemble())
             return false;
 
-        return HasAoEReassembleToolWindow();
+        return AoEReassemble();
     }
 
     #endregion

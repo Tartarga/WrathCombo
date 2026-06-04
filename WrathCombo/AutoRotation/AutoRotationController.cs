@@ -1117,6 +1117,7 @@ internal unsafe class AutoRotationController
                 .OrderByDescending(x => IsCombatPriority(x))
                 .ThenBy(x => GetTargetMaxHP(x))
                 .ThenBy(x => GetTargetHPPercent(x))
+                .ThenBy(x => GetTargetDistance(x))
                 .FirstOrDefault();
         }
 
@@ -1126,6 +1127,7 @@ internal unsafe class AutoRotationController
                 .OrderByDescending(x => IsCombatPriority(x))
                 .ThenByDescending(x => GetTargetMaxHP(x))
                 .ThenBy(x => GetTargetHPPercent(x))
+                .ThenBy(x => GetTargetDistance(x))
                 .FirstOrDefault();
         }
     }

@@ -101,42 +101,42 @@ internal partial class MCH
 
     #region Reassembled
 
-    private static uint TrackedReassembleCharges = uint.MaxValue;
-    private static bool SpendPairedReassemble;
+    private static uint CurrentReassembleCharges = uint.MaxValue;
+    private static bool UseBothCharges;
 
-    private static bool HasPairedReassembleCharges => GetMaxCharges(Reassemble) >= 2;
+    private static bool TwoChargesUnlocked => GetMaxCharges(Reassemble) >= 2;
 
     private static bool IsWildfireActive => HasStatusEffect(Buffs.Wildfire);
     
     private static void UpdateReassembleChargeTracking()
     {
         uint charges = GetRemainingCharges(Reassemble);
-        if (charges == TrackedReassembleCharges)
+        if (charges == CurrentReassembleCharges)
             return;
 
-        if (HasPairedReassembleCharges)
+        if (TwoChargesUnlocked)
         {
             switch (charges)
             {
-                case 2 when TrackedReassembleCharges != 2:
-                    SpendPairedReassemble = true;
+                case 2 when CurrentReassembleCharges != 2:
+                    UseBothCharges = true;
                     break;
 
                 case 0:
 
-                case 1 when TrackedReassembleCharges == 0:
-                    SpendPairedReassemble = false;
+                case 1 when CurrentReassembleCharges == 0:
+                    UseBothCharges = false;
                     break;
             }
         }
         else
-            SpendPairedReassemble = false;
+            UseBothCharges = false;
 
-        TrackedReassembleCharges = charges;
+        CurrentReassembleCharges = charges;
     }
 
     private static bool ShouldReassemble() =>
-        !HasPairedReassembleCharges || SpendPairedReassemble;
+        !TwoChargesUnlocked || UseBothCharges;
 
     private static int ReadyTools()
     {

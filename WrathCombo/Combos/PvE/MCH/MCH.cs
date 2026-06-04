@@ -61,18 +61,18 @@ internal partial class MCH : PhysicalRanged
                     // Reassemble
                     if (CanReassemble())
                         return Reassemble;
-                    
+
                     // BarrelStabilizer
                     if (ActionReady(BarrelStabilizer) &&
                         TargetIsBoss() &&
                         GetCooldownRemainingTime(Wildfire) <= 20 &&
                         !HasStatusEffect(Buffs.FullMetalMachinist))
                         return BarrelStabilizer;
-                    
+
                     // Queen
                     if (CanQueen())
                         return OriginalHook(RookAutoturret);
-                    
+
                     // Gauss Round and Ricochet outside HC
                     if (JustUsed(OriginalHook(AirAnchor), 2f) ||
                         JustUsed(Chainsaw, 2f) ||
@@ -259,7 +259,7 @@ internal partial class MCH : PhysicalRanged
 
             // Opener
             if (IsEnabled(Preset.MCH_ST_Adv_Opener) &&
-                HasBattleTarget() &&
+                (MCH_HaveTarget == 1 || HasBattleTarget()) &&
                 Opener().FullOpener(ref actionID))
                 return actionID;
 
@@ -352,7 +352,7 @@ internal partial class MCH : PhysicalRanged
                     if (IsEnabled(Preset.MCH_ST_Adv_GaussRicochet) &&
                         (JustUsed(Drill, 2f) ||
                          JustUsed(OriginalHook(AirAnchor), 2f) ||
-                         JustUsed(Chainsaw, 2f)||
+                         JustUsed(Chainsaw, 2f) ||
                          JustUsed(Excavator, 2f)))
                     {
                         if (MCH_ST_GaussOnlyOrBoth == 0)

@@ -262,7 +262,7 @@ internal partial class MCH
             actionID = HotShot;
             return true;
         }
-        
+
         return false;
     }
 

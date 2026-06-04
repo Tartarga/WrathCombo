@@ -25,6 +25,16 @@ internal partial class MCH
                         FormatAndCache(MCH_Config.Early0Opener, Wildfire.ActionName()),
                         FormatAndCache(MCH_Config.UseEarly0Opener, Wildfire.ActionName()), 1);
 
+                    ImGui.NewLine();
+
+                    DrawHorizontalRadioButton(MCH_HaveTarget,
+                        Generics.HaveBattleTarget,
+                        Generics.RequireTarget, 0);
+
+                    DrawHorizontalRadioButton(MCH_HaveTarget,
+                        Generics.NoTarget,
+                        Generics.NoRequireTarget, 1);
+
                     DrawBossOnlyChoice(MCH_Balance_Content);
                     break;
 
@@ -306,6 +316,7 @@ internal partial class MCH
             //ST
             MCH_Balance_Content = new("MCH_Balance_Content", 1),
             MCH_SelectedOpener = new("MCH_SelectedOpener"),
+            MCH_HaveTarget = new("MCH_HaveTarget"),
             MCH_ST_QueenOverDriveHPThreshold = new("MCH_ST_QueenOverDrive", 1),
             MCH_ST_BarrelStabilizerBossOption = new("MCH_ST_BarrelStabilizerBossOption", 1),
             MCH_ST_BarrelStabilizerHPOption = new("MCH_ST_BarrelStabilizerHPOption", 10),

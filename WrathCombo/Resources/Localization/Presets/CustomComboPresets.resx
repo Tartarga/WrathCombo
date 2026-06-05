@@ -2866,10 +2866,10 @@ These features are ideal if you want to customize the rotation.</value>
     <value>Cooldowns Options</value>
   </data>
   <data name="DRK_AoE_CD_BringerBurst_Desc" xml:space="preserve">
-      <value>Pools Shadowbringer to use during even minute window bursts (after Disesteem).</value>
+    <value>Pools Shadowbringer to use during even minute window bursts (after Disesteem).</value>
   </data>
   <data name="DRK_AoE_CD_BringerBurst_Name" xml:space="preserve">
-      <value>Shadowbringer Burst Option</value>
+    <value>Shadowbringer Burst Option</value>
   </data>
   <data name="DRK_AoE_CD_Bringer_Desc" xml:space="preserve">
     <value>Adds Shadowbringer to the rotation.</value>
@@ -2878,10 +2878,10 @@ These features are ideal if you want to customize the rotation.</value>
     <value>AoE Shadowbringer Option</value>
   </data>
   <data name="DRK_AoE_CD_Darkness_Desc" xml:space="preserve">
-      <value>Adds Salt and Darkness to the rotation in the latter half of its duration.</value>
+    <value>Adds Salt and Darkness to the rotation in the latter half of its duration.</value>
   </data>
   <data name="DRK_AoE_CD_Darkness_Name" xml:space="preserve">
-      <value>Salt and Darkness Option</value>
+    <value>Salt and Darkness Option</value>
   </data>
   <data name="DRK_AoE_CD_Delirium_Desc" xml:space="preserve">
     <value>Adds Delirium (or Blood Weapon at lower levels) to the rotation on cooldown and when Darkside is up.</value>
@@ -2962,7 +2962,7 @@ These features are ideal if you want to customize the rotation.</value>
     <value>Mana Overcap Option</value>
   </data>
   <data name="DRK_AoE_Sp_Quietus_Desc" xml:space="preserve">
-      <value>Adds Quietus to the rotation when under Delirium, or just after Burst.</value>
+    <value>Adds Quietus to the rotation when under Delirium, or just after Burst.</value>
   </data>
   <data name="DRK_AoE_Sp_Quietus_Name" xml:space="preserve">
     <value>Quietus Option</value>
@@ -3049,7 +3049,7 @@ Enable Mitigation in each Advanced Combo to use these options.
     <value>Arm's Length Option</value>
   </data>
   <data name="DRK_Mitigation_NonBoss_BlackestNight_Desc" xml:space="preserve">
-      <value>Adds The Blackest Night when available. Will overlap with others.
+    <value>Adds The Blackest Night when available. Will overlap with others.
 (does not respect the HP% slider above)</value>
   </data>
   <data name="DRK_Mitigation_NonBoss_BlackestNight_Name" xml:space="preserve">
@@ -6262,13 +6262,13 @@ These features are ideal if you want to customize the rotation.</value>
   <data name="PLD_AoE_AdvancedMode_FoF_Name" xml:space="preserve">
     <value>Fight or Flight Option</value>
   </data>
-    <data name="PLD_AoE_AdvancedMode_GoringBlade_Desc" xml:space="preserve">
+  <data name="PLD_AoE_AdvancedMode_GoringBlade_Desc" xml:space="preserve">
     <value>Adds Goring Blade to Advanced Mode.
 - Uses when less than 4 targets.</value>
   </data>
-    <data name="PLD_AoE_AdvancedMode_GoringBlade_Name" xml:space="preserve">
+  <data name="PLD_AoE_AdvancedMode_GoringBlade_Name" xml:space="preserve">
     <value>Goring Blade Option</value>
-  </data>    
+  </data>
   <data name="PLD_AoE_AdvancedMode_HolyCircle_Desc" xml:space="preserve">
     <value>Adds Holy Circle to Advanced Mode.
 - Uses only when under Divine Might.</value>
@@ -6301,15 +6301,15 @@ These features are ideal if you want to customize the rotation.</value>
 - Uses after Fight or Flight.</value>
   </data>
   <data name="PLD_AoE_AdvancedMode_Requiescat_Name" xml:space="preserve">
-    <value>Requiescat Option</value>      
+    <value>Requiescat Option</value>
   </data>
-    <data name="PLD_AoE_AdvancedMode_ShieldLob_Desc" xml:space="preserve">
+  <data name="PLD_AoE_AdvancedMode_ShieldLob_Desc" xml:space="preserve">
     <value>Adds Shield Lob to Advanced Mode.
 - Will only Use when out of melee range.</value>
   </data>
-    <data name="PLD_AoE_AdvancedMode_ShieldLob_Name" xml:space="preserve">
+  <data name="PLD_AoE_AdvancedMode_ShieldLob_Name" xml:space="preserve">
     <value>Shield Lob Option</value>
-  </data>    
+  </data>
   <data name="PLD_AoE_AdvancedMode_SpiritsWithin_Desc" xml:space="preserve">
     <value>Adds Spirits Within to Advanced Mode.
 - Prefers to use during Fight or Flight.</value>
@@ -6655,7 +6655,7 @@ NOTE: Will not use unless there is a target within range to prevent waste</value
   </data>
   <data name="PLD_ST_AdvancedMode_BladeOfHonor_Name" xml:space="preserve">
     <value>Blade of Honor Option</value>
-  </data>  
+  </data>
   <data name="PLD_ST_AdvancedMode_CircleOfScorn_Desc" xml:space="preserve">
     <value>Adds Circle of Scorn to Advanced Mode.
 - Uses only when in range of the target.
@@ -7328,19 +7328,19 @@ To start the melee combo, you must be within melee range.</value>
   <data name="RDM_RetargetVercure_Desc" xml:space="preserve">
     <value>Will retarget Vercure according to following Suboptions</value>
   </data>
-    <data name="RDM_RetargetVercure_LowHP_Desc" xml:space="preserve">
+  <data name="RDM_RetargetVercure_LowHP_Desc" xml:space="preserve">
     <value>Will Heal Lowest Health Party member until you fall below set threshold</value>
   </data>
-    <data name="RDM_RetargetVercure_LowHP_Name" xml:space="preserve">
+  <data name="RDM_RetargetVercure_LowHP_Name" xml:space="preserve">
     <value>Low hp Vercure Option</value>
   </data>
-    <data name="RDM_RetargetVercure_MO_Desc" xml:space="preserve">
+  <data name="RDM_RetargetVercure_MO_Desc" xml:space="preserve">
     <value>Adds UI mouseover to the priority. Above LowHP option.</value>
   </data>
-    <data name="RDM_RetargetVercure_MO_Name" xml:space="preserve">
+  <data name="RDM_RetargetVercure_MO_Name" xml:space="preserve">
     <value>Mouseover Vercure Option</value>
   </data>
-    <data name="RDM_RetargetVercure_Name" xml:space="preserve">
+  <data name="RDM_RetargetVercure_Name" xml:space="preserve">
     <value>Retarget Vercure Feature</value>
   </data>
   <data name="RDM_VerThunder2_Desc" xml:space="preserve">
@@ -7643,16 +7643,16 @@ These features are ideal if you want to customize the rotation.</value>
   <data name="RPR_ST_BasicCombo_SoD_Name" xml:space="preserve">
     <value>Shadow Of Death Option</value>
   </data>
-    <data name="RPR_AoE_BasicCombo_Desc" xml:space="preserve">
+  <data name="RPR_AoE_BasicCombo_Desc" xml:space="preserve">
     <value>Replace Nightmare Scythe with its combo chain.</value>
   </data>
-    <data name="RPR_AoE_BasicCombo_Name" xml:space="preserve">
+  <data name="RPR_AoE_BasicCombo_Name" xml:space="preserve">
     <value>Basic AoE Combo</value>
   </data>
-    <data name="RPR_AoE_BasicCombo_WoD_Desc" xml:space="preserve">
+  <data name="RPR_AoE_BasicCombo_WoD_Desc" xml:space="preserve">
     <value>Adds Whorl of Death to the rotation.</value>
   </data>
-    <data name="RPR_AoE_BasicCombo_WoD_Name" xml:space="preserve">
+  <data name="RPR_AoE_BasicCombo_WoD_Name" xml:space="preserve">
     <value>Whorl of Death Option</value>
   </data>
   <data name="RPR_ST_Bloodstalk_Desc" xml:space="preserve">
@@ -11391,14 +11391,35 @@ This is the ideal option for newcomers to the job.</value>
     <value>Rekindle Retarget</value>
   </data>
   <data name="SMN_Rekindle_Desc" xml:space="preserve">
-    <value>Retargets Rekindle to Target's Target > Tank in need > A party member in need > Self</value>
+    <value>Retargets Rekindle to Target's Target &gt; Tank in need &gt; A party member in need &gt; Self</value>
   </data>
   <data name="Phantom_RestrictToBuff_Name" xml:space="preserve">
-      <value>Restrict Damaging Phantom Abilities to Buff Windows</value>
+    <value>Restrict Damaging Phantom Abilities to Buff Windows</value>
   </data>
   <data name="Phantom_RestrictToBuff_Desc" xml:space="preserve">
-      <value>Will restrict damaging Phantom Abilities to when you or your party have damage buffs (including minor ones on yourself, like Paladin's Fight or Flight).
+    <value>Will restrict damaging Phantom Abilities to when you or your party have damage buffs (including minor ones on yourself, like Paladin's Fight or Flight).
 
 NOT RECOMMENDED!</value>
+  </data>
+  <data name="MCH_ST_Adv_Tools_AllowExcavatorPostWildfire_Name" xml:space="preserve">
+    <value>Allow using Excavator after Wildfire</value>
+  </data>
+  <data name="MCH_ST_Adv_Tools_AllowExcavatorPostWildfire_Desc" xml:space="preserve">
+    <value>When enabled, if Excavator, Wildfire and Hypercharge are ready, will use Wildfire+Hypercharge first, Excavator after it. </value>
+  </data>
+  <data name="MCH_ST_Adv_Tools_AllowClainsawPostWildfire_Name" xml:space="preserve">
+    <value>Allow using Chainsaw after Wildfire</value>
+  </data>
+  <data name="MCH_ST_Adv_Tools_AllowClainsawPostWildfire_Desc" xml:space="preserve">
+    <value>When enabled, if Chainsaw, Wildfire and Hypercharge are ready, will use Wildfire+Hypercharge first, Chainsaw after it. </value>
+  </data>
+  <data name="MCH_ST_Adv_QueenInHypercharge_Name" xml:space="preserve">
+    <value>Queen use in Hypercharge</value>
+  </data>
+  <data name="MCH_ST_Adv_WildfireHyperchargeCutoffThreshold" xml:space="preserve">
+    <value>s, drift Wildfire over Tools if tools cooldowns are less than this value</value>
+  </data>
+  <data name="MCH_ST_Adv_QueenInHypercharge_Desc" xml:space="preserve">
+    <value>Allow Automaton Queen to be used while in Hypercharge</value>
   </data>
 </root>

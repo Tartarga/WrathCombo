@@ -40,11 +40,11 @@ internal partial class MCH
 
                 case Preset.MCH_ST_Adv_WildFire:
                     DrawHorizontalRadioButton(MCH_ST_WildfireBossOption,
-                        Generics.AllContent,
-                        FormatAndCache(Generics.Use0RegardlessOfContent, Wildfire.ActionName()), 0);
+                        Generics.AllEnemies,
+                        FormatAndCache(Generics.Use0RegardlessOfTarget, Wildfire.ActionName()), 0);
 
                     DrawHorizontalRadioButton(MCH_ST_WildfireBossOption,
-                        Generics.BossOnlyContent,
+                        Generics.OnlyBoss,
                         FormatAndCache(Generics.OnlyUseWhenTargetIsBoss, Wildfire.ActionName()), 1);
 
                     if (MCH_ST_WildfireBossOption == 0)
@@ -69,11 +69,11 @@ internal partial class MCH
 
                 case Preset.MCH_ST_Adv_Stabilizer:
                     DrawHorizontalRadioButton(MCH_ST_BarrelStabilizerBossOption,
-                        Generics.AllContent,
-                        FormatAndCache(Generics.Use0RegardlessOfContent, BarrelStabilizer.ActionName()), 0);
+                        Generics.AllEnemies,
+                        FormatAndCache(Generics.Use0RegardlessOfTarget, BarrelStabilizer.ActionName()), 0);
 
                     DrawHorizontalRadioButton(MCH_ST_BarrelStabilizerBossOption,
-                        Generics.BossOnlyContent,
+                        Generics.OnlyBoss,
                         FormatAndCache(Generics.OnlyUseWhenTargetIsBoss, BarrelStabilizer.ActionName()), 1);
 
                     if (MCH_ST_BarrelStabilizerBossOption == 0)

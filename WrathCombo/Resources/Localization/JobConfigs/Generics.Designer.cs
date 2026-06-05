@@ -840,6 +840,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Boss Only.
+        /// </summary>
+        internal static string OnlyBoss {
+            get {
+                return ResourceManager.GetString("OnlyBoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only use {0}.
         /// </summary>
         internal static string OnlyUse0 {
@@ -1321,6 +1330,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         internal static string Use0RegardlessOfContent {
             get {
                 return ResourceManager.GetString("Use0RegardlessOfContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use {0} regardless of target..
+        /// </summary>
+        internal static string Use0RegardlessOfTarget {
+            get {
+                return ResourceManager.GetString("Use0RegardlessOfTarget", resourceCulture);
             }
         }
         

@@ -379,6 +379,9 @@ Set to Zero to disable this check.</value>
     <value>On {0}</value>
     <comment>Used for simple "On {Action}" strings</comment>
   </data>
+  <data name="OnlyBoss" xml:space="preserve">
+    <value>Boss Only</value>
+  </data>
   <data name="OnlyUse0" xml:space="preserve">
     <value>Only use {0}</value>
   </data>
@@ -548,6 +551,9 @@ Set to 100 to disable this check.</value>
   </data>
   <data name="Use0RegardlessOfContent" xml:space="preserve">
     <value>Use {0} regardless of content.</value>
+  </data>
+  <data name="Use0RegardlessOfTarget" xml:space="preserve">
+    <value>Use {0} regardless of target.</value>
   </data>
   <data name="Use0When1ChargesAreAvailable" xml:space="preserve">
     <value>Use {0} when {1} charges are available.</value>

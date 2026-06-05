@@ -353,7 +353,14 @@ internal unsafe class AutoRotationController
     {
         foreach (var (spell, multihitter) in RaidwideActions)
         {
-            if (AutorotRaidwides >= 2)
+            int numberOfCasts = GetPartyAvgHPPercent() switch
+            {
+                <= 30 => 3,
+                <= 60 => 2,
+                _ => 1
+            };
+
+            if (AutorotRaidwides >= numberOfCasts)
                 return;
 
             if (!multihit && multihitter)

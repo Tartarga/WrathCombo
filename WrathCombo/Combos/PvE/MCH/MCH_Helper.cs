@@ -51,7 +51,7 @@ internal partial class MCH
     }
 
     #endregion
-    
+
     #region Hypercharge
 
     private static bool CanHypercharge(bool onAoE = false)
@@ -127,7 +127,7 @@ internal partial class MCH
         MCH_ST_QueenBossOption == 1 ||
         !InBossEncounter() ? MCH_ST_QueenHPOption : 0;
 
-    private static float CustomCooldownForHyperHold => 
+    private static float CustomCooldownForHyperHold =>
         IsWildfireAboutToBeUsed() ? MCH_ST_WildfireHyperchargeCutoffThreshold : 9f;
 
     #endregion

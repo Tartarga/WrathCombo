@@ -417,10 +417,6 @@ public partial class Provider : IDisposable
     ///     Your lease ID from
     ///     <see cref="RegisterForLease(string,string)" />
     /// </param>
-    /// <param name="enableVariant">
-    ///     When <see langword="true" />, also enables the Variant Dungeon parent combo
-    ///     and options for the current job's combat role (derived from the player).
-    /// </param>
     /// <returns>
     ///     The <see cref="SetResult" /> status code indicating the result of the
     ///     operation.
@@ -430,13 +426,13 @@ public partial class Provider : IDisposable
     ///     several seconds to complete.
     /// </remarks>
     [EzIPC]
-    public SetResult SetCurrentJobAutoRotationReady(Guid lease, bool enableVariant = false)
+    public SetResult SetCurrentJobAutoRotationReady(Guid lease)
     {
         // Bail for standard conditions
         if (Helper.CheckForBailConditionsAtSetTime(out var result, lease))
             return result;
 
-        return Leasing.AddRegistrationForCurrentJob(lease, enableVariant);
+        return Leasing.AddRegistrationForCurrentJob(lease);
     }
 
     /// <summary>

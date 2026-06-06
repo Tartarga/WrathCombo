@@ -411,7 +411,7 @@ public partial class Leasing
     }
 
     internal SetResult AddRegistrationForCurrentJob
-        (Guid lease, bool enableVariant = false, Job? jobOverride = null)
+        (Guid lease, Job? jobOverride = null)
     {
         if (!Registrations.TryGetValue(lease, out var registration))
             return SetResult.InvalidLease;
@@ -507,18 +507,6 @@ public partial class Leasing
         OptionsUpdated = DateTime.Now;
 
         P.IPCSearch.UpdateActiveJobPresets();
-
-        if (!enableVariant)
-            return SetResult.OkayWorking;
-
-        Svc.Framework.RunOnTick(() =>
-        {
-            if (CustomComboFunctions.LocalPlayer is null)
-                return;
-
-            var variantJob = jobOverride ?? Player.Job.GetUpgradedJob();
-            AddRegistrationForVariant(lease, (uint)variantJob, true);
-        });
 
         return SetResult.OkayWorking;
     }

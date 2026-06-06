@@ -202,7 +202,18 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
                 return ResourceManager.GetString("Align0With1", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Keep {0} aligned with manual use of {1}..
+        /// </summary>
+        internal static string Align0WithManual1
+        {
+            get
+            {
+                return ResourceManager.GetString("Align0WithManual1", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to All Content.
         /// </summary>

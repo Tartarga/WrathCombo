@@ -2,9 +2,9 @@ using Dalamud.Interface.Colors;
 using WrathCombo.CustomComboNS.Functions;
 using WrathCombo.Extensions;
 using WrathCombo.Resources.Localization.JobConfigs;
+using WrathCombo.Resources.Localization.Presets;
 using static WrathCombo.Window.Text;
 using static WrathCombo.Window.Functions.UserConfig;
-using WrathCombo.Resources.Localization.Presets;
 namespace WrathCombo.Combos.PvE;
 
 internal partial class MCH

@@ -1116,14 +1116,6 @@ internal class Debug : ConfigWindow, IDisposable
                     Svc.Chat.Print($"SetVariantReadyForJob: {result}");
                 }
 
-                ImGui.SameLine();
-                if (ImGui.Button("Job Ready + Variant"))
-                {
-                    var result = P.IPC.SetCurrentJobAutoRotationReady(
-                        _wrathLease!.Value);
-                    Svc.Chat.Print($"SetCurrentJobAutoRotationReady: {result}");
-                }
-
                 ImGuiEx.Spacing(new Vector2(20, 20));
 
                 if (ImGui.Button("Mimic AutoDuty"))

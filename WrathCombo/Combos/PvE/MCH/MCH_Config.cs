@@ -25,16 +25,26 @@ internal partial class MCH
                         FormatAndCache(MCH_Config.Early0Opener, Wildfire.ActionName()),
                         FormatAndCache(MCH_Config.UseEarly0Opener, Wildfire.ActionName()), 1);
 
+                    ImGui.NewLine();
+
+                    DrawHorizontalRadioButton(MCH_HaveTarget,
+                        Generics.HaveBattleTarget,
+                        Generics.RequireTarget, 0);
+
+                    DrawHorizontalRadioButton(MCH_HaveTarget,
+                        Generics.NoTarget,
+                        Generics.NoRequireTarget, 1);
+
                     DrawBossOnlyChoice(MCH_Balance_Content);
                     break;
 
                 case Preset.MCH_ST_Adv_WildFire:
                     DrawHorizontalRadioButton(MCH_ST_WildfireBossOption,
-                        Generics.AllContent,
-                        FormatAndCache(Generics.Use0RegardlessOfContent, Wildfire.ActionName()), 0);
+                        Generics.AllEnemies,
+                        FormatAndCache(Generics.Use0RegardlessOfTarget, Wildfire.ActionName()), 0);
 
                     DrawHorizontalRadioButton(MCH_ST_WildfireBossOption,
-                        Generics.BossOnlyContent,
+                        Generics.OnlyBoss,
                         FormatAndCache(Generics.OnlyUseWhenTargetIsBoss, Wildfire.ActionName()), 1);
 
                     if (MCH_ST_WildfireBossOption == 0)
@@ -59,11 +69,11 @@ internal partial class MCH
 
                 case Preset.MCH_ST_Adv_Stabilizer:
                     DrawHorizontalRadioButton(MCH_ST_BarrelStabilizerBossOption,
-                        Generics.AllContent,
-                        FormatAndCache(Generics.Use0RegardlessOfContent, BarrelStabilizer.ActionName()), 0);
+                        Generics.AllEnemies,
+                        FormatAndCache(Generics.Use0RegardlessOfTarget, BarrelStabilizer.ActionName()), 0);
 
                     DrawHorizontalRadioButton(MCH_ST_BarrelStabilizerBossOption,
-                        Generics.BossOnlyContent,
+                        Generics.OnlyBoss,
                         FormatAndCache(Generics.OnlyUseWhenTargetIsBoss, BarrelStabilizer.ActionName()), 1);
 
                     if (MCH_ST_BarrelStabilizerBossOption == 0)
@@ -306,6 +316,7 @@ internal partial class MCH
             //ST
             MCH_Balance_Content = new("MCH_Balance_Content", 1),
             MCH_SelectedOpener = new("MCH_SelectedOpener"),
+            MCH_HaveTarget = new("MCH_HaveTarget"),
             MCH_ST_QueenOverDriveHPThreshold = new("MCH_ST_QueenOverDrive", 1),
             MCH_ST_BarrelStabilizerBossOption = new("MCH_ST_BarrelStabilizerBossOption", 1),
             MCH_ST_BarrelStabilizerHPOption = new("MCH_ST_BarrelStabilizerHPOption", 10),

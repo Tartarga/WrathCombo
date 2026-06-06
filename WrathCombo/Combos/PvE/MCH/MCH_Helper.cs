@@ -101,6 +101,43 @@ internal partial class MCH
 
     #region Reassembled
 
+    private static uint CurrentReassembleCharges = uint.MaxValue;
+    private static bool UseBothCharges;
+
+    private static bool TwoChargesUnlocked => GetMaxCharges(Reassemble) >= 2;
+
+    private static bool IsWildfireActive => HasStatusEffect(Buffs.Wildfire);
+
+    private static void UpdateReassembleChargeTracking()
+    {
+        uint charges = GetRemainingCharges(Reassemble);
+        if (charges == CurrentReassembleCharges)
+            return;
+
+        if (TwoChargesUnlocked)
+        {
+            switch (charges)
+            {
+                case 2 when CurrentReassembleCharges != 2:
+                    UseBothCharges = true;
+                    break;
+
+                case 0:
+
+                case 1 when CurrentReassembleCharges == 0:
+                    UseBothCharges = false;
+                    break;
+            }
+        }
+        else
+            UseBothCharges = false;
+
+        CurrentReassembleCharges = charges;
+    }
+
+    private static bool ShouldReassemble() =>
+        !TwoChargesUnlocked || UseBothCharges;
+
     private static int ReadyTools()
     {
         int numberOfReadyTools = 0;
@@ -114,6 +151,10 @@ internal partial class MCH
             if (LevelChecked(Excavator))
                 numberOfReadyTools++;
         }
+        else if (HasStatusEffect(Buffs.ExcavatorReady))
+        {
+            numberOfReadyTools++;
+        }
 
         if (ActionReady(OriginalHook(AirAnchor)))
             numberOfReadyTools++;
@@ -121,32 +162,38 @@ internal partial class MCH
         return numberOfReadyTools;
     }
 
+    private static bool CanUseReassembleAoE() =>
+        LevelChecked(Drill) && GetCooldownRemainingTime(Drill) < GCD ||
+        LevelChecked(AirAnchor) && GetCooldownRemainingTime(AirAnchor) < GCD ||
+        LevelChecked(Chainsaw) && GetCooldownRemainingTime(Chainsaw) < GCD ||
+        LevelChecked(Excavator) && HasStatusEffect(Buffs.ExcavatorReady) ||
+        LevelChecked(Scattergun) && ActionReady(Scattergun) ||
+        ActionReady(OriginalHook(SpreadShot));
+
+    private static bool InReassembleRange() =>
+        LevelChecked(Drill) && InActionRange(Drill) ||
+        LevelChecked(AirAnchor) && InActionRange(AirAnchor) ||
+        LevelChecked(Chainsaw) && InActionRange(Chainsaw) ||
+        LevelChecked(Scattergun) && InActionRange(OriginalHook(SpreadShot)) ||
+        !LevelChecked(Drill) && InActionRange(OriginalHook(SpreadShot));
+
     private static bool CanReassemble()
     {
+        UpdateReassembleChargeTracking();
+
         uint remainingCharges = GetRemainingCharges(Reassemble);
 
-        if (HasStatusEffect(Buffs.Reassembled) || !HasBattleTarget() ||
-            !InActionRange(Drill) || JustUsed(Reassemble, 2f))
+        if (HasStatusEffect(Buffs.Reassembled) || IsWildfireActive || !HasBattleTarget() ||
+            !InReassembleRange() || JustUsed(Reassemble, 2f))
             return false;
 
-        if (remainingCharges == 0)
+        if (remainingCharges == 0 || !ShouldReassemble())
             return false;
 
         if (MCH_ST_Adv_ReassembleChoice == 0)
         {
             int numberOfReadyTools = ReadyTools();
-
-            bool enoughToolsForBurst = numberOfReadyTools >= remainingCharges;
-
-            if (!LevelChecked(Excavator))
-                return enoughToolsForBurst;
-
-            switch (remainingCharges)
-            {
-                case 2 when enoughToolsForBurst:
-                case 1 when enoughToolsForBurst && JustUsed(Reassemble, 10):
-                    return true;
-            }
+            return numberOfReadyTools >= remainingCharges;
         }
 
         if (MCH_ST_Adv_ReassembleChoice == 1)
@@ -161,9 +208,6 @@ internal partial class MCH
                 return true;
 
             if (ActionReady(Drill) && (!LevelChecked(AirAnchor) || GetCooldownRemainingTime(AirAnchor) > GCD * 2))
-                return true;
-
-            if (!LevelChecked(CleanShot) && ActionReady(HotShot))
                 return true;
         }
 
@@ -211,11 +255,11 @@ internal partial class MCH
 
     private static int HPThresholdBarrelStabilizer =>
         MCH_ST_BarrelStabilizerHPBossOption == 1 ||
-        !TargetIsBoss() ? MCH_ST_BarrelStabilizerHPBossOption : 0;
+        !TargetIsBoss() ? MCH_ST_BarrelStabilizerHPOption : 0;
 
     private static int HPThresholdWildFire =>
         MCH_ST_WildfireBossHPOption == 1 ||
-        !TargetIsBoss() ? MCH_ST_WildfireBossHPOption : 0;
+        !TargetIsBoss() ? MCH_ST_WildfireHPOption : 0;
 
     #endregion
 
@@ -254,15 +298,58 @@ internal partial class MCH
             return true;
         }
 
-        if (ActionReady(HotShot) && !LevelChecked(AirAnchor))
+        if (ActionReady(Drill))
+        {
+            actionID = Drill;
+            return true;
+        }
+
+        if (ActionReady(HotShot) && !LevelChecked(AirAnchor) && !HasStatusEffect(Buffs.Reassembled))
         {
             actionID = HotShot;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool CanUseAoETools(ref uint actionID, bool useAirAnchor = true)
+    {
+        if (ActionReady(Chainsaw) && !HasStatusEffect(Buffs.ExcavatorReady))
+        {
+            actionID = Chainsaw;
+            return true;
+        }
+
+        if (ActionReady(Excavator))
+        {
+            actionID = Excavator;
+            return true;
+        }
+
+        if (useAirAnchor && ActionReady(OriginalHook(AirAnchor)))
+        {
+            actionID = OriginalHook(AirAnchor);
             return true;
         }
 
         if (ActionReady(Drill))
         {
             actionID = Drill;
+            return true;
+        }
+
+        if (LevelChecked(BioBlaster) && ActionReady(BioBlaster) &&
+            !HasStatusEffect(Debuffs.Bioblaster, CurrentTarget) &&
+            CanApplyStatus(CurrentTarget, Debuffs.Bioblaster))
+        {
+            actionID = BioBlaster;
+            return true;
+        }
+
+        if (HasStatusEffect(Buffs.Reassembled) && ActionReady(OriginalHook(SpreadShot)))
+        {
+            actionID = OriginalHook(SpreadShot);
             return true;
         }
 

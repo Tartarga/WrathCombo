@@ -162,6 +162,9 @@
   <data name="Align0With1" xml:space="preserve">
     <value>Aligns {0} with {1}.</value>
   </data>
+  <data name="Align0WithManual1" xml:space="preserve">
+    <value>Keep {0} aligned with manual use of {1}.</value>
+  </data>  
   <data name="AllContent" xml:space="preserve">
     <value>All Content</value>
   </data>

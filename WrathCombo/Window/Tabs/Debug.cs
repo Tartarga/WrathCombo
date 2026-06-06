@@ -1120,7 +1120,7 @@ internal class Debug : ConfigWindow, IDisposable
                 if (ImGui.Button("Job Ready + Variant"))
                 {
                     var result = P.IPC.SetCurrentJobAutoRotationReady(
-                        _wrathLease!.Value, enableVariant: true);
+                        _wrathLease!.Value);
                     Svc.Chat.Print($"SetCurrentJobAutoRotationReady: {result}");
                 }
 

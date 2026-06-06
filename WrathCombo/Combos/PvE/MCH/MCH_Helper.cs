@@ -10,37 +10,6 @@ namespace WrathCombo.Combos.PvE;
 
 internal partial class MCH
 {
-    #region Hypercharge
-
-    private static bool CanHypercharge(bool onAoE = false)
-    {
-        switch (onAoE)
-        {
-            case false when
-                (ActionReady(Hypercharge) || HasStatusEffect(Buffs.Hypercharged)) &&
-                !IsComboExpiring(6) && !IsOverheated &&
-                LevelChecked(Heatblast) &&
-                DrillCD && AirAnchorCD && ChainSawCD &&
-                !HasStatusEffect(Buffs.ExcavatorReady) &&
-                !HasStatusEffect(Buffs.FullMetalMachinist) &&
-                (ActionReady(Wildfire) ||
-                 JustUsed(FullMetalField, GCD / 2) ||
-                 MCH_ST_WildfireBossOption == 1 && !TargetIsBoss() ||
-                 GetCooldownRemainingTime(Wildfire) > GCD * 15 ||
-                 Heat is 100 && GetCooldownRemainingTime(Wildfire) > 10 ||
-                 !LevelChecked(Wildfire)):
-
-            case true when
-                (ActionReady(Hypercharge) || HasStatusEffect(Buffs.Hypercharged)) &&
-                !IsOverheated && LevelChecked(Heatblast):
-                return true;
-        }
-
-        return false;
-    }
-
-    #endregion
-
     #region Queen
 
     private static bool CanQueen()
@@ -83,6 +52,67 @@ internal partial class MCH
 
     #endregion
 
+    #region Hypercharge
+
+    private static bool CanHypercharge(bool onAoE = false)
+    {
+        switch (onAoE)
+        {
+            case false when
+                (ActionReady(Hypercharge) || HasStatusEffect(Buffs.Hypercharged)) &&
+                (!IsComboExpiring(6) || ShouldSkipHyperchargeHold()) &&
+                !IsOverheated &&
+                LevelChecked(Heatblast) &&
+                IsDrillCD(CustomCooldownForHyperHold) && IsAirAnchorCD(CustomCooldownForHyperHold) &&
+                (IsChainSawCD(CustomCooldownForHyperHold) || ShouldSkipHyperchargeHold()) &&
+                (!HasStatusEffect(Buffs.ExcavatorReady) || ShouldSkipExcavatorHold()) &&
+                !HasStatusEffect(Buffs.FullMetalMachinist) &&
+                (ActionReady(Wildfire) ||
+                 JustUsed(FullMetalField, GCD / 2) ||
+                 (MCH_ST_WildfireBossOption == 1 && !TargetIsBoss()) ||
+                 GetCooldownRemainingTime(Wildfire) > GCD * 15 ||
+                 (Heat is 100 && GetCooldownRemainingTime(Wildfire) > 10) ||
+                 !LevelChecked(Wildfire)):
+
+            case true when
+                (ActionReady(Hypercharge) || HasStatusEffect(Buffs.Hypercharged)) &&
+                !IsOverheated && LevelChecked(Heatblast):
+                return true;
+        }
+
+        return false;
+    }
+
+    public static bool IsWildfireAboutToBeUsed() =>
+        IsEnabled(Preset.MCH_ST_Adv_WildFire) &&
+        ((MCH_ST_WildfireBossOption == 0 && GetTargetHPPercent() > HPThresholdWildFire) || TargetIsBoss()) &&
+        CanApplyStatus(CurrentTarget, Debuffs.Wildfire) &&
+        ActionReady(Wildfire);
+
+    public static bool ShouldSkipExcavatorHold()
+    {
+        if (!IsEnabled(Preset.MCH_ST_Adv_Tools_AllowExcavatorPostWildfire))
+            return false;
+
+        if (IsWildfireAboutToBeUsed())
+            return true;
+
+        return false;
+    }
+
+    public static bool ShouldSkipHyperchargeHold()
+    {
+        if (!IsEnabled(Preset.MCH_ST_Adv_Tools_AllowClainsawPostWildfire))
+            return false;
+
+        if (IsWildfireAboutToBeUsed())
+            return true;
+
+        return false;
+    }
+
+    #endregion
+
     #region Misc
 
     private static bool CanUseFullMetalField =>
@@ -96,6 +126,9 @@ internal partial class MCH
     private static int HPThresholdQueen =>
         MCH_ST_QueenBossOption == 1 ||
         !InBossEncounter() ? MCH_ST_QueenHPOption : 0;
+
+    private static float CustomCooldownForHyperHold =>
+        IsWildfireAboutToBeUsed() ? MCH_ST_WildfireHyperchargeCutoffThreshold : 9f;
 
     #endregion
 
@@ -265,18 +298,18 @@ internal partial class MCH
 
     #region Tools
 
-    private static bool DrillCD =>
+    private static bool IsDrillCD(float time = 9f) =>
         !ActionReady(Drill) ||
-        !TraitLevelChecked(Traits.EnhancedMultiWeapon) && GetCooldownRemainingTime(Drill) >= 9 ||
-        TraitLevelChecked(Traits.EnhancedMultiWeapon) && GetRemainingCharges(Drill) < GetMaxCharges(Drill) && GetCooldownChargeRemainingTime(Drill) >= 9;
+        !TraitLevelChecked(Traits.EnhancedMultiWeapon) && GetCooldownRemainingTime(Drill) >= time ||
+        TraitLevelChecked(Traits.EnhancedMultiWeapon) && GetRemainingCharges(Drill) < GetMaxCharges(Drill) && GetCooldownChargeRemainingTime(Drill) >= time;
 
-    private static bool AirAnchorCD =>
+    private static bool IsAirAnchorCD(float time = 9f) =>
         !LevelChecked(OriginalHook(HotShot)) ||
-        LevelChecked(OriginalHook(HotShot)) && GetCooldownRemainingTime(OriginalHook(HotShot)) >= 9;
+        LevelChecked(OriginalHook(HotShot)) && GetCooldownRemainingTime(OriginalHook(HotShot)) >= time;
 
-    private static bool ChainSawCD =>
+    private static bool IsChainSawCD(float time = 9f) =>
         !LevelChecked(Chainsaw) ||
-        LevelChecked(Chainsaw) && GetCooldownRemainingTime(Chainsaw) >= 9;
+        LevelChecked(Chainsaw) && GetCooldownRemainingTime(Chainsaw) >= time;
 
     private static bool CanUseTools(ref uint actionID)
     {
@@ -286,7 +319,8 @@ internal partial class MCH
             return true;
         }
 
-        if (ActionReady(Excavator))
+        if (ActionReady(Excavator) &&
+            (!IsEnabled(Preset.MCH_ST_Adv_Tools_AllowClainsawPostWildfire) || !ShouldSkipHyperchargeHold()))
         {
             actionID = Excavator;
             return true;

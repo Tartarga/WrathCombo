@@ -377,6 +377,14 @@ internal partial class MCH : PhysicalRanged
                     if (Role.CanHeadGraze(Preset.MCH_ST_Adv_Interrupt))
                         return Role.HeadGraze;
                 }
+                else
+                {
+                    // Queen in hypercharge
+                    if (IsEnabled(Preset.MCH_ST_Adv_TurretQueen) &&
+                        IsEnabled(Preset.MCH_ST_Adv_QueenInHypercharge) &&
+                        CanQueen())
+                        return OriginalHook(RookAutoturret);
+                }
             }
 
             // Full Metal Field

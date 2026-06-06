@@ -2,6 +2,7 @@ using Dalamud.Interface.Colors;
 using WrathCombo.CustomComboNS.Functions;
 using WrathCombo.Extensions;
 using WrathCombo.Resources.Localization.JobConfigs;
+using WrathCombo.Resources.Localization.Presets;
 using static WrathCombo.Window.Text;
 using static WrathCombo.Window.Functions.UserConfig;
 namespace WrathCombo.Combos.PvE;
@@ -202,6 +203,8 @@ internal partial class MCH
                         Generics.AllEnemies,
                         Generics.HPCheckAllEnemies, 1);
 
+                    DrawSliderFloat(0, 9, MCH_ST_WildfireHyperchargeCutoffThreshold, CustomComboPresets.MCH_ST_Adv_WildfireHyperchargeCutoffThreshold);
+
                     ImGui.Unindent();
                     break;
 
@@ -357,7 +360,8 @@ internal partial class MCH
             MCH_DismantledDuration = new("MCH_DismantledDuration");
 
         public static UserFloat
-            MCH_AoE_FlamethrowerTimeStill = new("MCH_AoE_FlamethrowerTimeStill", 2.5f);
+            MCH_AoE_FlamethrowerTimeStill = new("MCH_AoE_FlamethrowerTimeStill", 2.5f),
+            MCH_ST_WildfireHyperchargeCutoffThreshold = new("MCH_ST_WildfireHyperchargeCutoffThreshold", 9f);
 
         public static UserBool
             MCH_AoE_AirAnchor = new("MCH_AoE_AirAnchor");

@@ -7561,6 +7561,7 @@ public enum Preset
 
     #region Basic Combo
     [ReplaceSkill(WAR.StormsPath)]
+    [ConflictingCombos(WAR_EyePath)]
     [JobInfo(Job.WAR)]
     WAR_ST_StormsPathCombo = 18069,
 
@@ -7583,6 +7584,7 @@ public enum Preset
     WAR_InfuriateFellCleave_IRFirst = 18027,
 
     [ReplaceSkill(WAR.StormsPath)]
+    [ConflictingCombos(WAR_ST_StormsPathCombo)]
     [JobInfo(Job.WAR)]
     WAR_EyePath = 18057,
 

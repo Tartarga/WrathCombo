@@ -186,15 +186,13 @@ comments on each method.
 - `bool IsCurrentJobAutoRotationReady()`
   - Checks if the current job is ready for Auto-Rotation, whether by the user or 
     another plugin
-- `SetResult SetCurrentJobAutoRotationReady(Guid, bool enableVariant = false)`
+- `SetResult SetCurrentJobAutoRotationReady(Guid)`
   - Requires a lease
   - Sets the current job to be ready for Auto-Rotation
     - If the job is ready: it will lock all the user's Simple/Advanced settings, and 
       any healing settings
     - If the job is not ready: it will turn on the job's Simple Modes, or if those 
       don't exist it will turn on the job's Advanced Modes with all options enabled
-  - When `enableVariant` is `true`, also enables the Variant Dungeon parent combo
-    and options for the current job's combat role (from the player object)
   - Locks the state away from the user
 - `void ReleaseControl(Guid)`
   - Requires a lease
@@ -424,11 +422,7 @@ Variant presets are **not** returned by `GetComboOptionNamesForJob`. Either pass
 `enableVariant: true` to `SetCurrentJobAutoRotationReady`.
 
 ```csharp
-// One call: job auto-rotation + Variant pack for the current job's role
-var setJobReady = WrathIPCWrapper.SetCurrentJobAutoRotationReady(lease, enableVariant: true);
-if (setJobReady is SetResult.Okay or SetResult.OkayWorking) { /* ... */ }
-
-// Or enable Variant for a specific job ID (same IDs as GetComboNamesForJob)
+// Enable Variant for a specific job ID (same IDs as ECommons.ExcelServices.Job)
 const uint mch = 31;
 WrathIPCWrapper.SetVariantReadyForJob(lease, mch, true);
 
@@ -472,9 +466,9 @@ resources below, or the first several sections of this guide.
 
 ## Changelog
 
-- Variant Dungeon IPC: `GetVariantParentComboName`, `GetVariantOptionNames`,
-  `SetVariantReadyForJob`, and `SetCurrentJobAutoRotationReady(..., enableVariant)`
-  `1.0.4.7`.
+- PunishXIV/WrathCombo#1181 - Added methods to enable Variant setup :
+  `GetVariantParentComboName`, `GetVariantOptionNames`, `SetVariantReadyForJob`
+  `1.0.4.8`.
 - PunishXIV/WrathCombo#1172 - Exposed existing `SetAutoRotationConfigState` value 
   `UnTargetAndDisableForPenalty`, to handle Pyretic-like mechanics,
   `1.0.4.6`.

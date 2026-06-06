@@ -158,6 +158,7 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
             }
         }
         
+        /// <summary>
         ///   Looks up a localized string similar to Add {0} when applicable..
         /// </summary>
         internal static string Add0WhenApplicable {
@@ -199,6 +200,15 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         internal static string Align0With1 {
             get {
                 return ResourceManager.GetString("Align0With1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keep {0} aligned with manual use of {1}..
+        /// </summary>
+        internal static string Align0WithManual1 {
+            get {
+                return ResourceManager.GetString("Align0WithManual1", resourceCulture);
             }
         }
         
@@ -987,7 +997,7 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
             }
         }
         
-        
+        /// <summary>
         ///   Looks up a localized string similar to Replaces {0} with {1} to disable and prevent wasted use..
         /// </summary>
         internal static string SavageBladeWaste {
@@ -1243,19 +1253,20 @@ namespace WrathCombo.Resources.Localization.JobConfigs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use {0} before {1}.
-        /// </summary>
-        internal static string Use0Before1 {
-            get {
-                return ResourceManager.GetString("Use0Before1", resourceCulture);
-            }
-        }
-        
         ///   Looks up a localized string similar to Use {0} and {1}..
         /// </summary>
         internal static string Use0And1 {
             get {
                 return ResourceManager.GetString("Use0And1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use {0} before {1}.
+        /// </summary>
+        internal static string Use0Before1 {
+            get {
+                return ResourceManager.GetString("Use0Before1", resourceCulture);
             }
         }
         

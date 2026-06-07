@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Checkbox_BypassFATETargets" xml:space="preserve">
-    <value>Bypass Combat Only for FATE Targets</value>
+    <value>Bypass for FATE Targets</value>
   </data>
   <data name="Checkbox_BypassQuestTargets" xml:space="preserve">
-    <value>Bypass Combat Only for Quest Targets</value>
+    <value>Bypass for Quest Targets</value>
   </data>
   <data name="Checkbox_BypassSelfUse" xml:space="preserve">
     <value>Bypass When Combo Suggests Self-Use Action</value>

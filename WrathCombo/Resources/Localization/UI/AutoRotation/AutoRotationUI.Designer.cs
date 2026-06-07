@@ -124,7 +124,7 @@ namespace WrathCombo.Resources.Localization.UI.AutoRotation {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bypass Combat Only for FATE Targets.
+        ///   Looks up a localized string similar to Bypass for FATE Targets.
         /// </summary>
         internal static string Checkbox_BypassFATETargets {
             get {
@@ -133,7 +133,7 @@ namespace WrathCombo.Resources.Localization.UI.AutoRotation {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bypass Combat Only for Quest Targets.
+        ///   Looks up a localized string similar to Bypass for Quest Targets.
         /// </summary>
         internal static string Checkbox_BypassQuestTargets {
             get {

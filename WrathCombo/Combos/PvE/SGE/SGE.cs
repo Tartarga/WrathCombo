@@ -179,7 +179,7 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEHeals, Prognosis))
                 return actionID;
 
-            return DoAoESimpleHeal(actionID);
+            return DoAoESimpleHeal();
         }
     }
 
@@ -209,7 +209,7 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEHeals, Prognosis))
                 return actionID;
 
-            return DoAoEAdvancedHeal(actionID);
+            return DoAoEAdvancedHeal();
         }
     }
 

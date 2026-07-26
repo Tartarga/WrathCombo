@@ -457,7 +457,7 @@ internal partial class SGE
         return Diagnosis.RetargetIfEnabled(actionID);
     }
 
-    private static uint DoAoESimpleHeal(uint actionID)
+    private static uint DoAoESimpleHeal()
     {
         if (CanHealWeave(simpleMode: true, onAoE: true, out uint weave))
             return weave;
@@ -524,7 +524,7 @@ internal partial class SGE
         return Diagnosis.RetargetIfEnabled(actionID);
     }
 
-    private static uint DoAoEAdvancedHeal(uint actionID)
+    private static uint DoAoEAdvancedHeal()
     {
         if (CanRaidwide(out uint raidwide))
             return raidwide;

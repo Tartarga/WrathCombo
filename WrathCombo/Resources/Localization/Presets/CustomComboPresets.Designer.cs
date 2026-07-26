@@ -25767,9 +25767,9 @@ namespace WrathCombo.Resources.Localization.Presets {
         /// <summary>
         ///   Looks up a localized string similar to Adds various options to Dyskrasia I &amp; II. Requires a target..
         /// </summary>
-        internal static string SGE_AoE_DPS_Desc {
+        internal static string SGE_AoE_Advanced_DPS_Desc {
             get {
-                return ResourceManager.GetString("SGE_AoE_DPS_Desc", resourceCulture);
+                return ResourceManager.GetString("SGE_AoE_Advanced_DPS_Desc", resourceCulture);
             }
         }
         
@@ -25812,9 +25812,9 @@ namespace WrathCombo.Resources.Localization.Presets {
         /// <summary>
         ///   Looks up a localized string similar to Advanced DPS Mode - AoE.
         /// </summary>
-        internal static string SGE_AoE_DPS_Name {
+        internal static string SGE_AoE_Advanced_DPS_Name {
             get {
-                return ResourceManager.GetString("SGE_AoE_DPS_Name", resourceCulture);
+                return ResourceManager.GetString("SGE_AoE_Advanced_DPS_Name", resourceCulture);
             }
         }
         
@@ -25929,9 +25929,9 @@ namespace WrathCombo.Resources.Localization.Presets {
         /// <summary>
         ///   Looks up a localized string similar to Change Prognosis into various options..
         /// </summary>
-        internal static string SGE_AoE_Heal_Desc {
+        internal static string SGE_AoE_Advanced_Heal_Desc {
             get {
-                return ResourceManager.GetString("SGE_AoE_Heal_Desc", resourceCulture);
+                return ResourceManager.GetString("SGE_AoE_Advanced_Heal_Desc", resourceCulture);
             }
         }
         
@@ -26028,9 +26028,9 @@ namespace WrathCombo.Resources.Localization.Presets {
         /// <summary>
         ///   Looks up a localized string similar to Advanced Healing Mode - AoE.
         /// </summary>
-        internal static string SGE_AoE_Heal_Name {
+        internal static string SGE_AoE_Advanced_Heal_Name {
             get {
-                return ResourceManager.GetString("SGE_AoE_Heal_Name", resourceCulture);
+                return ResourceManager.GetString("SGE_AoE_Advanced_Heal_Name", resourceCulture);
             }
         }
         
@@ -26675,9 +26675,9 @@ namespace WrathCombo.Resources.Localization.Presets {
         /// <summary>
         ///   Looks up a localized string similar to Adds various options to Dosis I/II/III..
         /// </summary>
-        internal static string SGE_ST_DPS_Desc {
+        internal static string SGE_ST_Advanced_DPS_Desc {
             get {
-                return ResourceManager.GetString("SGE_ST_DPS_Desc", resourceCulture);
+                return ResourceManager.GetString("SGE_ST_Advanced_DPS_Desc", resourceCulture);
             }
         }
         
@@ -26756,9 +26756,9 @@ namespace WrathCombo.Resources.Localization.Presets {
         /// <summary>
         ///   Looks up a localized string similar to Advanced DPS Mode - Single Target.
         /// </summary>
-        internal static string SGE_ST_DPS_Name {
+        internal static string SGE_ST_Advanced_DPS_Name {
             get {
-                return ResourceManager.GetString("SGE_ST_DPS_Name", resourceCulture);
+                return ResourceManager.GetString("SGE_ST_Advanced_DPS_Name", resourceCulture);
             }
         }
         
@@ -26855,9 +26855,9 @@ namespace WrathCombo.Resources.Localization.Presets {
         /// <summary>
         ///   Looks up a localized string similar to Change Diagnosis into various options..
         /// </summary>
-        internal static string SGE_ST_Heal_Desc {
+        internal static string SGE_ST_Advanced_Heal_Desc {
             get {
-                return ResourceManager.GetString("SGE_ST_Heal_Desc", resourceCulture);
+                return ResourceManager.GetString("SGE_ST_Advanced_Heal_Desc", resourceCulture);
             }
         }
         
@@ -27026,9 +27026,9 @@ namespace WrathCombo.Resources.Localization.Presets {
         /// <summary>
         ///   Looks up a localized string similar to Advanced Healing Mode - Single Target.
         /// </summary>
-        internal static string SGE_ST_Heal_Name {
+        internal static string SGE_ST_Advanced_Heal_Name {
             get {
-                return ResourceManager.GetString("SGE_ST_Heal_Name", resourceCulture);
+                return ResourceManager.GetString("SGE_ST_Advanced_Heal_Name", resourceCulture);
             }
         }
         

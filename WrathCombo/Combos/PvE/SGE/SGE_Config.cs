@@ -1,4 +1,4 @@
-﻿using ECommons.ExcelServices;
+using ECommons.ExcelServices;
 using ECommons.ImGuiMethods;
 using System.Linq;
 using WrathCombo.CustomComboNS.Functions;
@@ -35,13 +35,12 @@ internal partial class SGE
                         FormatAndCache(Generics.Use_0_Opener, Pneuma.ActionName()), 1, descriptionAsTooltip: true);
                     break;
 
-                case Preset.SGE_ST_DPS:
-                    DrawHorizontalRadioButton(SGE_ST_DPS_Adv,
+                case Preset.SGE_ST_Advanced_DPS:
+                    DrawHorizontalRadioButton(SGE_ST_DPS_Advanced,
                         FormatAndCache(Generics.On0, Dosis.ActionName()),
-                        // EukrasianDosisList is not a mistake.
                         FormatAndCache(Generics.ApplyToAll0, string.Join("\r\n", EukrasianDosisList.Select(x => x.Key.ActionName()))), 0);
 
-                    DrawHorizontalRadioButton(SGE_ST_DPS_Adv,
+                    DrawHorizontalRadioButton(SGE_ST_DPS_Advanced,
                         FormatAndCache(Generics.On0, Dosis2.ActionName()),
                         FormatAndCache(Generics.ApplyOnlyTo0, Dosis2.ActionName()), 1);
                     break;
@@ -137,7 +136,7 @@ internal partial class SGE
 
                 #region Heal
 
-                case Preset.SGE_ST_Heal:
+                case Preset.SGE_ST_Advanced_Heal:
                     DrawSliderInt(0, 2, SGE_Heal_HoldAddersgall,
                         Generics.ChargePool);
 
@@ -237,7 +236,6 @@ internal partial class SGE
                     DrawPriorityInput(SGE_ST_Heals_Priority, 12, 7, FormatAndCache(Generics.Action_Priority, EukrasianDiagnosis.ActionName()));
                     break;
 
-
                 case Preset.SGE_ST_Heal_Kerachole:
                     DrawSliderInt(0, 100, SGE_ST_Heal_KeracholeHP,
                         Generics.StopFriendlyHpPercent100);
@@ -281,7 +279,8 @@ internal partial class SGE
                     DrawPriorityInput(SGE_ST_Heals_Priority,
                         12, 11, FormatAndCache(Generics.Action_Priority, Holos.ActionName()));
                     break;
-                case Preset.SGE_AoE_Heal:
+
+                case Preset.SGE_AoE_Advanced_Heal:
                     DrawSliderInt(0, 2, SGE_Heal_HoldAddersgall, FormatAndCache(Generics.ChargePool, Traits.Addersgall.TraitName()));
                     break;
 
@@ -302,8 +301,8 @@ internal partial class SGE
                     break;
 
                 case Preset.SGE_AoE_Heal_Ixochole:
-                    DrawSliderInt(0, 100, SGE_AoE_Heal_IxocholeOption
-                        , Generics.StartUsingWhenBelowPartyAverageHPSetTo100ToDisableThisCheck);
+                    DrawSliderInt(0, 100, SGE_AoE_Heal_IxocholeOption,
+                        Generics.StartUsingWhenBelowPartyAverageHPSetTo100ToDisableThisCheck);
 
                     DrawPriorityInput(SGE_AoE_Heals_Priority, 9, 1, FormatAndCache(Generics.Action_Priority, Ixochole.ActionName()));
                     break;
@@ -415,7 +414,7 @@ internal partial class SGE
                         Generics.StartUsingWhenBelowPartyAverageHPSetTo100ToDisableThisCheck);
                     break;
 
-                    #endregion
+                #endregion
             }
         }
 
@@ -432,7 +431,7 @@ internal partial class SGE
             SGE_ST_DPS_Movement = new("SGE_ST_DPS_Movement", [true, true, true]);
 
         public static UserInt
-            SGE_ST_DPS_Adv = new("SGE_ST_DPS_Adv"),
+            SGE_ST_DPS_Advanced = new("SGE_ST_DPS_Adv"),
             SGE_Eukrasia_Mode = new("SGE_Eukrasia_Mode", 2),
             SGE_SelectedOpener = new("SGE_SelectedOpener"),
             SGE_ST_DPS_Lucid = new("SGE_ST_DPS_Lucid", 6500),

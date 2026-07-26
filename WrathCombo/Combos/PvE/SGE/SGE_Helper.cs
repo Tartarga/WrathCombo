@@ -311,8 +311,8 @@ internal partial class SGE
                   HasAddersting()),
         // Dyskrasia
         (OriginalHook(Dyskrasia), Preset.SGE_ST_DPS_Movement,
-            () => SGE_ST_DPS_Movement[1] && 
-                  ActionReady(OriginalHook(Dyskrasia)) && 
+            () => SGE_ST_DPS_Movement[1] &&
+                  ActionReady(OriginalHook(Dyskrasia)) &&
                   InActionRange(OriginalHook(Dyskrasia))),
         //Eukrasia
         (Eukrasia, Preset.SGE_ST_DPS_Movement,
@@ -350,17 +350,40 @@ internal partial class SGE
     internal static SGEToxikonOpener ToxikonOpener = new();
     internal static SGEPneumaOpener PneumaOpener = new();
 
-    internal class SGEToxikonOpener : WrathOpener
+    internal abstract class SGEOpenerBase : WrathOpener
     {
         public override int MinOpenerLevel => 92;
+        public override int MaxOpenerLevel => 100;
 
-        public override int MaxOpenerLevel => 109;
+        public override Preset Preset => Preset.SGE_ST_DPS_Opener;
 
+        internal override UserData ContentCheckConfig => SGE_Balance_Content;
+        internal override bool IncludePot => SGE_Opener_Potion;
+
+        public override List<(int[] Steps, Func<bool> Condition)> SkipSteps { get; set; } =
+        [
+            ([1], () => HasStatusEffect(Buffs.Eukrasia))
+        ];
+
+        public override List<(int[] Steps, Func<int> HoldDelay)> PrepullDelays { get; set; } =
+        [
+            ([1], () => (int)(CountdownRemaining - 5)),
+            ([2], () => (int)(CountdownRemaining - 2)),
+            ([3], () => (int)(CountdownRemaining - 1))
+        ];
+
+        protected static bool SharedOpenerCooldowns() =>
+            GetRemainingCharges(Phlegma3) is 2 &&
+            IsOffCooldown(Psyche);
+    }
+
+    internal class SGEToxikonOpener : SGEOpenerBase
+    {
         public override List<uint> OpenerActions { get; set; } =
         [
-            Toxikon2,
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
             Eukrasia,
+            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
+            Toxikon2,
             EukrasianDosis3,
             Dosis3,
             Dosis3,
@@ -379,31 +402,18 @@ internal partial class SGE
             Dosis3
         ];
 
-        public override List<(int[] Steps, Func<bool> Condition)> SkipSteps { get; set; } =
-        [
-            ([3], () => HasStatusEffect(Buffs.Eukrasia))
-        ];
-
-        internal override UserData ContentCheckConfig => SGE_Balance_Content;
-        internal override bool IncludePot => SGE_Opener_Potion;
-        public override Preset Preset => Preset.SGE_ST_DPS_Opener;
         public override bool HasCooldowns() =>
-            GetRemainingCharges(Phlegma3) is 2 &&
-            IsOffCooldown(Psyche) &&
+            SharedOpenerCooldowns() &&
             HasAddersting();
     }
 
-    internal class SGEPneumaOpener : WrathOpener
+    internal class SGEPneumaOpener : SGEOpenerBase
     {
-        public override int MinOpenerLevel => 92;
-
-        public override int MaxOpenerLevel => 109;
-
         public override List<uint> OpenerActions { get; set; } =
         [
-            Pneuma,
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
             Eukrasia,
+            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
+            Pneuma,
             EukrasianDosis3,
             Dosis3,
             Dosis3,
@@ -422,17 +432,8 @@ internal partial class SGE
             Dosis3
         ];
 
-        public override List<(int[] Steps, Func<bool> Condition)> SkipSteps { get; set; } =
-        [
-            ([3], () => HasStatusEffect(Buffs.Eukrasia))
-        ];
-
-        internal override UserData ContentCheckConfig => SGE_Balance_Content;
-        internal override bool IncludePot => SGE_Opener_Potion;
-        public override Preset Preset => Preset.SGE_ST_DPS_Opener;
         public override bool HasCooldowns() =>
-            GetRemainingCharges(Phlegma3) is 2 &&
-            IsOffCooldown(Psyche) &&
+            SharedOpenerCooldowns() &&
             IsOffCooldown(Pneuma);
     }
 

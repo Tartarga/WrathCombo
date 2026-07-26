@@ -2,13 +2,13 @@
 using ECommons.ImGuiMethods;
 using System.Linq;
 using WrathCombo.CustomComboNS.Functions;
+using WrathCombo.Resources.Localization.JobConfigs;
 using static WrathCombo.Extensions.UIntExtensions;
 using static WrathCombo.Extensions.JobExtensions;
 using static WrathCombo.Extensions.UShortExtensions;
 using static WrathCombo.Window.Functions.SliderIncrements;
 using static WrathCombo.Window.Functions.UserConfig;
 using static WrathCombo.Window.Text;
-using WrathCombo.Resources.Localization.JobConfigs;
 namespace WrathCombo.Combos.PvE;
 
 internal partial class SGE

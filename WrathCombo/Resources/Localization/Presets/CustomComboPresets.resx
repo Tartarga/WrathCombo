@@ -9294,7 +9294,13 @@ This is the ideal option for newcomers to the job. Particularly with autorotatio
     <value>Advanced DPS Mode - Single Target</value>
   </data>
   <data name="SGE_ST_DPS_Opener_Desc" xml:space="preserve">
-    <value>Use the Balance opener from level 92 onwards.</value>
+    <value>Adds the Balance opener at level 92.
+Prepull:
+- Eukrasia at -5 (skipped if already up)
+- Potion at -2
+- Toxikon or Pneuma at -1 (selected opener)
+Without a countdown, prepull steps have no delay.
+(During a countdown only: holds as Savage Blade until each prepull timing)</value>
   </data>
   <data name="SGE_ST_DPS_Opener_Name" xml:space="preserve">
     <value>Balance Opener (Level 92)</value>

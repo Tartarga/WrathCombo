@@ -162,9 +162,9 @@ internal partial class SGE : Healer
 
     #region Simple Healing
 
-    internal class SGE_Simple_ST_Heal : CustomCombo
+    internal class SGE_ST_Simple_Heal : CustomCombo
     {
-        protected internal override Preset Preset => Preset.SGE_Simple_ST_Heal;
+        protected internal override Preset Preset => Preset.SGE_ST_Simple_Heal;
 
         protected override uint Invoke(uint actionID)
         {
@@ -241,9 +241,9 @@ internal partial class SGE : Healer
         }
     }
 
-    internal class SGE_Simple_AoE_Heal : CustomCombo
+    internal class SGE_AoE_Simple_Heal : CustomCombo
     {
-        protected internal override Preset Preset => Preset.SGE_Simple_AoE_Heal;
+        protected internal override Preset Preset => Preset.SGE_AoE_Simple_Heal;
 
         protected override uint Invoke(uint actionID)
         {

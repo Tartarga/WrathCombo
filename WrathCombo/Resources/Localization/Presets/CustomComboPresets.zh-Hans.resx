@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6923,17 +6923,17 @@
     <value>将“失衡”替换为完整的一键多目标循环。
 这是最适合贤者新手的选项。</value>
   </data>
-  <data name="SGE_Simple_ST_Heal_Name" xml:space="preserve">
+  <data name="SGE_ST_Simple_Heal_Name" xml:space="preserve">
     <value>简单治疗模式 - 单目标</value>
   </data>
-  <data name="SGE_Simple_ST_Heal_Desc" xml:space="preserve">
+  <data name="SGE_ST_Simple_Heal_Desc" xml:space="preserve">
     <value>将“诊断”替换为完整的一键单目标治疗功能。
 这是最适合贤者新手的选项，尤其适合自动循环。</value>
   </data>
-  <data name="SGE_Simple_AoE_Heal_Name" xml:space="preserve">
+  <data name="SGE_AoE_Simple_Heal_Name" xml:space="preserve">
     <value>简单治疗模式 - 多目标</value>
   </data>
-  <data name="SGE_Simple_AoE_Heal_Desc" xml:space="preserve">
+  <data name="SGE_AoE_Simple_Heal_Desc" xml:space="preserve">
     <value>将“预后”替换为完整的一键多目标治疗功能。
 这是最适合贤者新手的选项，尤其适合自动循环。</value>
   </data>

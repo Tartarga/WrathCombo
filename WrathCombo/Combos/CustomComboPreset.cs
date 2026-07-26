@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using ECommons.ExcelServices;
 using WrathCombo.Attributes;
@@ -5635,7 +5635,7 @@ public enum Preset
     [JobInfo(Job.SGE)]
     [SimpleCombo]
     [PossiblyRetargeted]
-    SGE_Simple_ST_Heal = 14087,
+    SGE_ST_Simple_Heal = 14087,
 
 
     [AutoAction(true, true)]
@@ -5644,7 +5644,7 @@ public enum Preset
     [JobInfo(Job.SGE)]
     [SimpleCombo]
     [PossiblyRetargeted]
-    SGE_Simple_AoE_Heal = 14086,
+    SGE_AoE_Simple_Heal = 14086,
 
     #endregion
 
@@ -5753,7 +5753,7 @@ public enum Preset
 
     [AutoAction(false, true)]
     [ReplaceSkill(SGE.Diagnosis)]
-    [ConflictingCombos(SGE_Simple_ST_Heal, SGE_Retarget_Diagnosis)]
+    [ConflictingCombos(SGE_ST_Simple_Heal, SGE_Retarget_Diagnosis)]
     [JobInfo(Job.SGE)]
     [PossiblyRetargeted(SGE.Diagnosis)]
     [HealingCombo]
@@ -5840,7 +5840,7 @@ public enum Preset
 
     [AutoAction(true, true)]
     [ReplaceSkill(SGE.Prognosis)]
-    [ConflictingCombos(SGE_Simple_AoE_Heal)]
+    [ConflictingCombos(SGE_AoE_Simple_Heal)]
     [JobInfo(Job.SGE)]
     [HealingCombo]
     SGE_AoE_Heal = 14026,
@@ -5967,7 +5967,7 @@ public enum Preset
     [ParentCombo(SGE_Retarget)]
     [JobInfo(Job.SGE)]
     [Retargeted(SGE.Diagnosis)]
-    [ConflictingCombos(SGE_Simple_ST_Heal, SGE_ST_Heal)]
+    [ConflictingCombos(SGE_ST_Simple_Heal, SGE_ST_Heal)]
     SGE_Retarget_Diagnosis = 14079,
 
     [ParentCombo(SGE_Retarget)]

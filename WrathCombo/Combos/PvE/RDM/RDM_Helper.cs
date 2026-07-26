@@ -452,7 +452,7 @@ internal partial class RDM
             ([2], Jolt3, () => PartyInCombat() && !Player.Object.IsCasting)
         ];
         
-        public override List<(int[] Steps, Func<int> HoldDelay)> PrepullDelays
+        public override List<(int[] Steps, Func<float> HoldDelay)> PrepullDelays
         {
             get;
             set;

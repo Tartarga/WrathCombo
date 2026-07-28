@@ -51,7 +51,7 @@ public static class ActionWatching
 
     // Lists
     internal readonly static List<uint> WeaveActions = [];
-    internal readonly static List<uint> CombatActions = [];
+    internal readonly static List<(uint ActionID, ActionType ActionType)> CombatActions = [];
     internal readonly static HashSet<uint> BossesBaseIds = [.. Svc.Data.GetExcelSheet<BNpcBase>().Where(charaSheet => charaSheet.Rank is 2 or 6).Select(charaSheet => charaSheet.RowId)];
     internal readonly static List<PendingHPChange> PendingHPChanges = [];
 
@@ -221,7 +221,7 @@ public static class ActionWatching
             var partyMembers = GetPartyMembers().ToDictionary(x => x.GameObjectId);
 #if DEBUG
             var debugObjectTable = Svc.Objects;
-            var debugActionName = actionId.ActionName();
+            var debugActionName = actionType == ActionType.Action ? actionId.ActionName() : actionType == ActionType.Item ? actionId.ItemName() : "Unknown";
 #endif
 
             // Process Effects
@@ -257,6 +257,7 @@ public static class ActionWatching
                         $"Value: {effValue} | " +
                         $"Params: [{eff.Param0}, {eff.Param1}, {eff.Param2}, {eff.Param3}, {eff.Param4}] | " +
                         $"Damage HealValue: {eff.DamageHealValue} | " +
+                        $"Caster: {((ulong)casterEntityId).GetObject()?.Name} | " +
                         $"Action: {debugActionName} (ID: {actionId}) → " +
                         $"Target: {debugTargetName} ({targetId}) | " +
                         $"[AtSource: {eff.AtSource}, FromTarget: {eff.FromTarget}] | " +
@@ -336,7 +337,7 @@ public static class ActionWatching
                 }
             }
 
-            if ((actionType == ActionType.Action && casterEntityId == Player.Object.EntityId && ActionSheet.TryGetValue(actionId, out var actionSheet) && actionSheet.TargetArea) || actionType == ActionType.Item)
+            if (casterEntityId == Player.Object.EntityId && (actionType == ActionType.Action && ActionSheet.TryGetValue(actionId, out var actionSheet) && actionSheet.TargetArea) || actionType == ActionType.Item)
             {
                 UpdateLastUsedAction(actionId, actionType, 0, 0);
             }
@@ -351,53 +352,57 @@ public static class ActionWatching
     private static unsafe void UpdateLastUsedAction(uint actionId, ActionType actionType, ulong targetObjectId, int castTime)
     {
         // Update Trackers
-        LastAction = actionId;
+        if (actionType == ActionType.Action)
+            LastAction = actionId;
+
         TimeLastActionUsed = DateTime.Now;
         var currentTick = Environment.TickCount64;
         // Update Counter
-        if (actionId != CombatActions.LastOrDefault())
+        var last = CombatActions.LastOrDefault();
+        if (CombatActions.Count == 0 || (actionId != last.ActionID || actionType != last.ActionType))
             LastActionUseCount = 1;
         else
             LastActionUseCount++;
 
         // Update Lists
-        CombatActions.Add(actionId);
+
+        CombatActions.Add((actionId, actionType));
         LastSuccessfulUseTime[actionId] = currentTick;
-        if (ActionSheet.TryGetValue(actionId, out var actionSheet))
+        if (actionType == ActionType.Action)
         {
-            switch (actionSheet.ActionCategory.Value.RowId)
+            if (ActionSheet.TryGetValue(actionId, out var actionSheet))
             {
-                case 2: // Spell
-                    LastSpell = actionId;
-                    WeaveActions.Clear();
-                    break;
+                switch (actionSheet.ActionCategory.Value.RowId)
+                {
+                    case 2: // Spell
+                        LastSpell = actionId;
+                        WeaveActions.Clear();
+                        break;
 
-                case 3: // Weaponskill
-                    LastWeaponskill = actionId;
-                    WeaveActions.Clear();
-                    break;
+                    case 3: // Weaponskill
+                        LastWeaponskill = actionId;
+                        WeaveActions.Clear();
+                        break;
 
-                case 4: // Ability
-                    LastAbility = actionId;
-                    WeaveActions.Add(actionId);
-                    break;
-            }
+                    case 4: // Ability
+                        LastAbility = actionId;
+                        WeaveActions.Add(actionId);
+                        break;
+                }
 
-            if (actionType == ActionType.Action)
-            {
                 ActionTimestamps[actionId] = currentTick;
                 UsedOnDict[(actionId, targetObjectId)] = currentTick;
-            }
 
-            if (actionSheet.Unknown4 != 1 && castTime > 0)
-                AutoRotationController.HealThrottle = Environment.TickCount64 + 1000;
+                if (actionSheet.Unknown4 != 1 && castTime > 0)
+                    AutoRotationController.HealThrottle = Environment.TickCount64 + 1000;
+            }
         }
 
         if (castTime == 0)
             WrathOpener.CurrentOpener?.ProgressOpener(actionId);
 
         if (Service.Configuration.EnabledOutputLog)
-            OutputLog(actionType);
+            OutputLog();
 
         if (AutoRotationController.AutorotRaidwiding && AutoRotationController.RaidwideActions.Any(x => x.Action == actionId))
         {
@@ -405,6 +410,7 @@ public static class ActionWatching
             if (actionId != SGE.Eukrasia)
                 AutoRotationController.AutorotRaidwides++;
         }
+
 
         UpdatingActions = false;
     }
@@ -495,7 +501,7 @@ public static class ActionWatching
     }
 
     /// <summary> Gets the amount of GCDs used since combat started. </summary>
-    public static int NumberOfGcdsUsed => CombatActions.Count(x => x.ActionAttackType() is ActionAttackType.Spell or ActionAttackType.Weaponskill);
+    public static int NumberOfGcdsUsed => CombatActions.Count(x => x.ActionType is ActionType.Action && x.ActionID.ActionAttackType() is ActionAttackType.Spell or ActionAttackType.Weaponskill);
 
     private static uint _lastAction = 0;
     public static uint LastAction
@@ -519,13 +525,16 @@ public static class ActionWatching
     public static TimeSpan TimeSinceLastAction => DateTime.Now - TimeLastActionUsed;
     public static DateTime TimeLastActionUsed { get; set; } = DateTime.Now;
 
-    public static void OutputLog(ActionType actionType)
+    public static void OutputLog()
     {
-        if (actionType == ActionType.Action)
-            DuoLog.Information($"You just used: {CombatActions.LastOrDefault().ActionName()} x{LastActionUseCount}");
-        else if (actionType == ActionType.Item)
-            DuoLog.Information($"You just used: {CombatActions.LastOrDefault().ItemName()}");
-
+        var lastAct = CombatActions.LastOrDefault();
+        string name = lastAct.ActionType switch
+        {
+            ActionType.Action => lastAct.ActionID.ActionName(),
+            ActionType.Item => lastAct.ActionID.ItemName(),
+            _ => "Unknown"
+        };
+        DuoLog.Information($"You just used: [{name}] x {LastActionUseCount}");
     }
 
 
@@ -552,8 +561,8 @@ public static class ActionWatching
                     }
                 }
 
-                var replacedWith = Service.ActionReplacer.LastActionInvokeFor.ContainsKey(actionId) ? Service.ActionReplacer.LastActionInvokeFor[actionId] : actionId;
-                var queuedAct = Service.ActionReplacer.LastActionInvokeFor.ContainsKey(actionManager->QueuedActionId) ? Service.ActionReplacer.LastActionInvokeFor[actionManager->QueuedActionId] : actionManager->QueuedActionId;
+                var replacedWith = actionManager->GetAdjustedActionId(actionId);
+                var queuedAct = actionManager->GetAdjustedActionId(actionManager->QueuedActionId);
 
                 // If the replaced action is a mudra and we're already in a mudra sequence
                 // where the base mudra matches, ignore the input.
@@ -605,7 +614,7 @@ public static class ActionWatching
                 if (actionManager->QueuedTargetId.Id != 0)
                     targetId = actionManager->QueuedTargetId.Id;
 
-                var areaTargeted = replacedWith >= 1_000_000 ? false : ActionSheet[replacedWith].TargetArea;
+                var areaTargeted = replacedWith >= 1_000_000 ? false : ActionSheet.TryGetValue(replacedWith, out var s) && s.TargetArea;
 
                 if (areaTargeted && disablingReplacingTemp) //Ground targets don't hit the send method, so it has to be re-enabled here. Could be re-enabled further down the line if it causes output issues.
                     Service.ActionReplacer.EnableActionReplacingIfRequired();

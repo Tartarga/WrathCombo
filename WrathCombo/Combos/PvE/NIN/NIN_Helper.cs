@@ -199,7 +199,7 @@ internal partial class NIN
     internal static bool CanUseFumaShuriken => ActionReady(Ten);
 
     internal static bool CanUseRaiton => LevelChecked(Raiton) && ActionReady(Ten) &&
-                                          (!HasKassatsu || IsNotEnabled(Preset.NIN_ST_AdvancedMode_Ninjitsus_Hyosho) && !STSimpleMode || !LevelChecked(HyoshoRanryu)) && //Use kassatsu on it if Hyosho isn't selected. 
+                                          (!HasKassatsu || IsNotEnabled(Preset.NIN_ST_AdvancedMode_Ninjitsus_Hyosho) && !STSimpleMode || !LevelChecked(HyoshoRanryu)) && //Use kassatsu on it if Hyosho isn't selected.
                                            (TrickDebuff || // Buff Window
                                            !LevelChecked(Suiton) || //Dont Pool because of Suiton not learned yet
                                            GetCooldownChargeRemainingTime(Ten) < 1 && TrickCD > 18 || // Spend to avoid cap
@@ -236,8 +236,7 @@ internal partial class NIN
     internal static bool CanPhantomKamaitachi => !MudraPhase && HasStatusEffect(Buffs.PhantomReady) &&
                                                  (TrickDebuff && ComboAction != GustSlash ||
                                                   !TrickDebuff);
-    internal static bool CanThrowingDaggers => !MudraPhase && ActionReady(ThrowingDaggers) && HasTarget() && !InMeleeRange() &&
-                                               !HasStatusEffect(Buffs.RaijuReady);
+    internal static bool CanThrowingDaggers => !MudraPhase && ActionReady(ThrowingDaggers) && HasTarget() && !InMeleeRange();
     internal static bool CanThrowingDaggersAoE => !MudraPhase && ActionReady(ThrowingDaggers) && HasTarget() && GetTargetDistance() >= 4.5 && InActionRange(ThrowingDaggers) &&
                                                   !HasStatusEffect(Buffs.RaijuReady);
     internal static bool CanRaiju => !MudraPhase && HasStatusEffect(Buffs.RaijuReady);
@@ -548,7 +547,7 @@ internal partial class NIN
         }
         #endregion
 
-        #region Hyosho Ranryu 
+        #region Hyosho Ranryu
         public bool CastHyoshoRanryu(ref uint actionID) // Ten Jin
         {
             if (HyoshoRanryu.LevelChecked() && CurrentMudra is MudraState.None or MudraState.CastingHyoshoRanryu)

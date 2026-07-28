@@ -97,7 +97,7 @@ internal partial class NIN : Melee
             if (CanThrowingDaggers)
                 return OriginalHook(ThrowingDaggers);
 
-            if (CanRaiju)
+            if (CanRaiju && InMeleeRange())
                 return FleetingRaiju;
 
             if (CanPhantomKamaitachi)
@@ -357,13 +357,15 @@ internal partial class NIN : Melee
             #endregion
 
             #region GCDS
-            if (IsEnabled(Preset.NIN_ST_AdvancedMode_ThrowingDaggers) && CanThrowingDaggers && !MudraPhase)
-                return OriginalHook(ThrowingDaggers);
 
             if (IsEnabled(Preset.NIN_ST_AdvancedMode_Raiju) && CanRaiju)
-                return NIN_ST_AdvancedMode_ForkedRaiju && !InMeleeRange()
-                    ? ForkedRaiju
-                    : FleetingRaiju;
+            {
+                if (InMeleeRange()) return FleetingRaiju;
+                else if (NIN_ST_AdvancedMode_ForkedRaiju) return ForkedRaiju;
+            }
+
+            if (IsEnabled(Preset.NIN_ST_AdvancedMode_ThrowingDaggers) && CanThrowingDaggers && !MudraPhase)
+                return OriginalHook(ThrowingDaggers);
 
             if (IsEnabled(Preset.NIN_ST_AdvancedMode_PhantomKamaitachi) && CanPhantomKamaitachi)
                 return PhantomKamaitachi;

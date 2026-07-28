@@ -31,6 +31,7 @@ using WrathCombo.Combos.PvE;
 using WrathCombo.Combos.PvE.ALL;
 using WrathCombo.Core;
 using WrathCombo.CustomComboNS;
+using WrathCombo.CustomComboNS.Functions;
 using WrathCombo.Data;
 using WrathCombo.Data.BattleData;
 using WrathCombo.Extensions;
@@ -1474,10 +1475,13 @@ internal class Debug : ConfigWindow, IDisposable
         ImGui.Columns(1);
     }
 
-    private static void DrawStatuses(IGameObject? target)
+    private unsafe static void DrawStatuses(IGameObject? target)
     {
         if (target is IBattleChara tar)
         {
+            CustomStyleText($"Count:", $"{target.SafeStatusList?.Count(x => x.StatusId != 0)}");
+            CustomStyleText($"NumValid:", $"{tar.Struct()->StatusManager.NumValidStatuses}");
+            CustomStyleText($"StatusCapped:", $"{CustomComboFunctions.TargetIsStatusCapped(tar)}");
             foreach (Status? status in tar.SafeStatusList)
             {
                 // Set Status

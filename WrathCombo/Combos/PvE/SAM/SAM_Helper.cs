@@ -74,7 +74,8 @@ internal partial class SAM
 
     private static bool UseTsubame(bool onAoE)
     {
-        if (!ActionReady(OriginalHook(TsubameGaeshi)))
+        if (!ActionReady(OriginalHook(TsubameGaeshi)) ||
+            !InActionRange(OriginalHook(TsubameGaeshi)))
             return false;
 
         if (onAoE &&
@@ -92,7 +93,11 @@ internal partial class SAM
 
     private static bool UseIaiJutsu(bool onAoE)
     {
-        if (IsMoving() || !ActionReady(OriginalHook(Iaijutsu)))
+        if (IsMoving() ||
+            !ActionReady(OriginalHook(Iaijutsu)) ||
+            !InActionRange(OriginalHook(Iaijutsu)) ||
+            !HasStatusEffect(Buffs.Fuka) ||
+            !HasStatusEffect(Buffs.Fugetsu))
             return false;
 
         if (onAoE)
@@ -103,10 +108,7 @@ internal partial class SAM
 
             return false;
         }
-
-        if (!HasStatusEffect(Buffs.Fuka) || !HasStatusEffect(Buffs.Fugetsu))
-            return false;
-
+        
         if (SenCount is 1 &&
             HasBattleTarget() &&
             CanApplyStatus(CurrentTarget, Debuffs.Higanbana) &&

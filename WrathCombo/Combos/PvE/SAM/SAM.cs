@@ -13,8 +13,11 @@ internal partial class SAM : Melee
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetDPS, Hakaze, Gyofu))
                 return actionID;
 
-            if (UseIaiJutsu(ref actionID, false))
-                return actionID;
+            if (UseTsubame(false))
+                return OriginalHook(TsubameGaeshi);
+
+            if (UseIaiJutsu(false))
+                return OriginalHook(Iaijutsu);
 
             return HasStatusEffect(Buffs.MeikyoShisui)
                 ? DoMeikyoCombo(actionID, false)
@@ -31,8 +34,11 @@ internal partial class SAM : Melee
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEDPS, Fuga, Fuko))
                 return actionID;
 
-            if (UseIaiJutsu(ref actionID, true))
-                return actionID;
+            if (UseTsubame(true))
+                return OriginalHook(TsubameGaeshi);
+
+            if (UseIaiJutsu(true))
+                return OriginalHook(Iaijutsu);
 
             return HasStatusEffect(Buffs.MeikyoShisui)
                 ? DoMeikyoCombo(actionID, true)

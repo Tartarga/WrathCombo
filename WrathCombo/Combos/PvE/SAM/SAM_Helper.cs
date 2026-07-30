@@ -70,59 +70,50 @@ internal partial class SAM
         return actionID;
     }
 
-    private static bool UseIaiJutsu(ref uint actionID, bool onAoE)
+    private static bool UseTsubame(bool onAoE)
     {
+        if (!ActionReady(OriginalHook(TsubameGaeshi)))
+            return false;
+
+        if (onAoE &&
+            (HasStatusEffect(Buffs.TsubameReady) ||
+             HasStatusEffect(Buffs.KaeshiGokenReady) ||
+             HasStatusEffect(Buffs.TendoKaeshiGokenReady)))
+            return true;
+
+        if (HasStatusEffect(Buffs.TsubameReady) ||
+            HasStatusEffect(Buffs.TendoKaeshiSetsugekkaReady))
+            return true;
+
+        return false;
+    }
+
+    private static bool UseIaiJutsu(bool onAoE)
+    {
+        if (IsMoving() || !ActionReady(OriginalHook(Iaijutsu)))
+            return false;
+
         if (onAoE)
         {
-            if (ActionReady(OriginalHook(TsubameGaeshi)) &&
-                (HasStatusEffect(Buffs.TsubameReady) ||
-                 HasStatusEffect(Buffs.KaeshiGokenReady) ||
-                 HasStatusEffect(Buffs.TendoKaeshiGokenReady)))
-            {
-                actionID = OriginalHook(TsubameGaeshi);
-                return true;
-            }
-
-            if (!IsMoving() &&
-                SenCount is 2 &&
-                ActionReady(OriginalHook(Iaijutsu)) &&
+            if (SenCount is 2 &&
                 OriginalHook(Iaijutsu) is TenkaGoken or TendoGoken)
-            {
-                actionID = OriginalHook(Iaijutsu);
                 return true;
-            }
 
             return false;
         }
 
-        if (ActionReady(OriginalHook(TsubameGaeshi)) &&
-            (HasStatusEffect(Buffs.TsubameReady) ||
-             HasStatusEffect(Buffs.TendoKaeshiSetsugekkaReady)))
-        {
-            actionID = OriginalHook(TsubameGaeshi);
+        if (!HasStatusEffect(Buffs.Fuka) || !HasStatusEffect(Buffs.Fugetsu))
+            return false;
+
+        if (SenCount is 1 &&
+            HasBattleTarget() &&
+            CanApplyStatus(CurrentTarget, Debuffs.Higanbana) &&
+            GetStatusEffectRemainingTime(Debuffs.Higanbana, CurrentTarget) <= 15)
             return true;
-        }
 
-        if (!IsMoving() &&
-            HasStatusEffect(Buffs.Fuka) && HasStatusEffect(Buffs.Fugetsu) &&
-            ActionReady(OriginalHook(Iaijutsu)))
-        {
-            if (SenCount is 1 &&
-                HasBattleTarget() &&
-                CanApplyStatus(CurrentTarget, Debuffs.Higanbana) &&
-                GetStatusEffectRemainingTime(Debuffs.Higanbana, CurrentTarget) <= 15)
-            {
-                actionID = OriginalHook(Iaijutsu);
-                return true;
-            }
-
-            if (SenCount is 3 ||
-                SenCount is 2 && !LevelChecked(MidareSetsugekka))
-            {
-                actionID = OriginalHook(Iaijutsu);
-                return true;
-            }
-        }
+        if (SenCount is 3 ||
+            SenCount is 2 && !LevelChecked(MidareSetsugekka))
+            return true;
 
         return false;
     }

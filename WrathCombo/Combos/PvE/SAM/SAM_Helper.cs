@@ -13,6 +13,120 @@ internal partial class SAM
 {
     #region Combo
 
+    private static uint DoMeikyoCombo(uint actionID, bool onAoE)
+    {
+        if (onAoE)
+        {
+            float fugetsuRemaining = GetStatusEffectRemainingTime(Buffs.Fugetsu);
+            float fukaRemaining = GetStatusEffectRemainingTime(Buffs.Fuka);
+            bool refreshFugetsu = fugetsuRemaining <= fukaRemaining;
+            bool refreshFuka = fukaRemaining <= fugetsuRemaining;
+
+            if ((!HasKa || !HasStatusEffect(Buffs.Fuka) ||
+                 SenCount is 3 && refreshFuka) &&
+                LevelChecked(Oka))
+                return Oka;
+
+            if (LevelChecked(Mangetsu) &&
+                (!HasGetsu || !HasStatusEffect(Buffs.Fugetsu) || !LevelChecked(Oka) ||
+                 SenCount is 3 && refreshFugetsu))
+                return Mangetsu;
+
+            return actionID;
+        }
+
+        if (LevelChecked(Yukikaze) && !HasSetsu && HasKa && HasGetsu)
+            return Yukikaze;
+
+        if (LevelChecked(Gekko) &&
+            (!LevelChecked(Kasha) ||
+             !HasStatusEffect(Buffs.Fugetsu) ||
+             (OnTargetsRear() || OnTargetsFront()) && !HasGetsu ||
+             OnTargetsFlank() && HasKa))
+        {
+            if (!OnTargetsRear() &&
+                ActionReady(Role.TrueNorth) &&
+                !HasStatusEffect(Role.Buffs.TrueNorth) &&
+                TargetNeedsPositionals())
+                return Role.TrueNorth;
+
+            return Gekko;
+        }
+
+        if (LevelChecked(Kasha) &&
+            (!HasStatusEffect(Buffs.Fuka) ||
+             (OnTargetsFlank() || OnTargetsFront()) && !HasKa ||
+             OnTargetsRear() && HasGetsu))
+        {
+            if (!OnTargetsFlank() &&
+                ActionReady(Role.TrueNorth) &&
+                !HasStatusEffect(Role.Buffs.TrueNorth) &&
+                TargetNeedsPositionals())
+                return Role.TrueNorth;
+
+            return Kasha;
+        }
+
+        return actionID;
+    }
+
+    private static bool UseIaiJutsu(ref uint actionID, bool onAoE)
+    {
+        if (onAoE)
+        {
+            if (ActionReady(OriginalHook(TsubameGaeshi)) &&
+                (HasStatusEffect(Buffs.TsubameReady) ||
+                 HasStatusEffect(Buffs.KaeshiGokenReady) ||
+                 HasStatusEffect(Buffs.TendoKaeshiGokenReady)))
+            {
+                actionID = OriginalHook(TsubameGaeshi);
+                return true;
+            }
+
+            if (!IsMoving() &&
+                SenCount is 2 &&
+                ActionReady(OriginalHook(Iaijutsu)) &&
+                OriginalHook(Iaijutsu) is TenkaGoken or TendoGoken)
+            {
+                actionID = OriginalHook(Iaijutsu);
+                return true;
+            }
+
+            return false;
+        }
+
+        if (ActionReady(OriginalHook(TsubameGaeshi)) &&
+            (HasStatusEffect(Buffs.TsubameReady) ||
+             HasStatusEffect(Buffs.TendoKaeshiSetsugekkaReady)))
+        {
+            actionID = OriginalHook(TsubameGaeshi);
+            return true;
+        }
+
+        if (!IsMoving() &&
+            HasStatusEffect(Buffs.Fuka) && HasStatusEffect(Buffs.Fugetsu) &&
+            ActionReady(OriginalHook(Iaijutsu)))
+        {
+            if (SenCount is 1 &&
+                HasBattleTarget() &&
+                CanApplyStatus(CurrentTarget, Debuffs.Higanbana) &&
+                GetStatusEffectRemainingTime(Debuffs.Higanbana, CurrentTarget) <= 15)
+            {
+                actionID = OriginalHook(Iaijutsu);
+                return true;
+            }
+
+            if (SenCount is 3 ||
+                SenCount is 2 && !LevelChecked(MidareSetsugekka))
+            {
+                actionID = OriginalHook(Iaijutsu);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private static uint DoBasicCombo(bool onAoE)
     {
         if (onAoE)

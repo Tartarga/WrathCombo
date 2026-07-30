@@ -3,7 +3,6 @@ using System.Numerics;
 using WrathCombo.CustomComboNS.Functions;
 using WrathCombo.Extensions;
 using WrathCombo.Resources.Localization.JobConfigs;
-using WrathCombo.Window.Functions;
 using static WrathCombo.Window.Functions.UserConfig;
 using static WrathCombo.Window.Text;
 namespace WrathCombo.Combos.PvE;
@@ -12,6 +11,12 @@ internal partial class SAM
 {
     internal static class Config
     {
+        public static UserInt
+            SAM_Balance_Content = new("SAM_Balance_Content", 1),
+            SAM_Opener_IncludeGyoten = new("SAM_Opener_IncludeGyoten");
+
+        public static UserBool
+            SAM_Opener_Potion = new("SAM_Opener_Potion");
         internal static void Draw(Preset preset)
         {
             switch (preset)
@@ -42,12 +47,5 @@ internal partial class SAM
                     break;
             }
         }
-
-        public static UserInt
-            SAM_Balance_Content = new("SAM_Balance_Content", 1),
-            SAM_Opener_IncludeGyoten = new("SAM_Opener_IncludeGyoten");
-
-        public static UserBool
-            SAM_Opener_Potion = new("SAM_Opener_Potion");
     }
 }

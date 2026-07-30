@@ -13,6 +13,12 @@ internal partial class SAM : Melee
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetDPS, Hakaze, Gyofu))
                 return actionID;
 
+            if (CanWeave())
+            {
+                if (UseKenki(ref actionID, false))
+                    return actionID;
+            }
+
             if (UseTsubame(false))
                 return OriginalHook(TsubameGaeshi);
 
@@ -33,6 +39,12 @@ internal partial class SAM : Melee
         {
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEDPS, Fuga, Fuko))
                 return actionID;
+
+            if (CanWeave())
+            {
+                if (UseKenki(ref actionID, true))
+                    return actionID;
+            }
 
             if (UseTsubame(true))
                 return OriginalHook(TsubameGaeshi);

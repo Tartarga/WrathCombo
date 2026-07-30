@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using WrathCombo.Combos.PvE.ALL;
 using WrathCombo.CustomComboNS;
 using WrathCombo.CustomComboNS.Functions;
+using static FFXIVClientStructs.FFXIV.Client.Game.ActionManager;
 using static WrathCombo.Combos.PvE.SAM.Config;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
+using ActionType = FFXIVClientStructs.FFXIV.Client.Game.ActionType;
 namespace WrathCombo.Combos.PvE;
 
 internal partial class SAM
@@ -114,6 +116,52 @@ internal partial class SAM
         if (SenCount is 3 ||
             SenCount is 2 && !LevelChecked(MidareSetsugekka))
             return true;
+
+        return false;
+    }
+
+    private static bool CanDumpKenki() =>
+        Kenki >= 95 ||
+        !LevelChecked(Guren) ||
+        GetCooldownRemainingTime(Guren) > GCD * 6 ||
+        Kenki >= 50;
+
+    private static bool UseKenki(ref uint actionID, bool onAoE)
+    {
+        if (onAoE)
+        {
+            if (ActionReady(Guren) && InActionRange(Guren))
+            {
+                actionID = Guren;
+                return true;
+            }
+
+            if (ActionReady(Kyuten) && InActionRange(Kyuten) && CanDumpKenki())
+            {
+                actionID = Kyuten;
+                return true;
+            }
+
+            return false;
+        }
+
+        if (ActionReady(Senei))
+        {
+            actionID = Senei;
+            return true;
+        }
+
+        if (!LevelChecked(Senei) && ActionReady(Guren) && InActionRange(Guren))
+        {
+            actionID = Guren;
+            return true;
+        }
+
+        if (ActionReady(Shinten) && CanDumpKenki())
+        {
+            actionID = Shinten;
+            return true;
+        }
 
         return false;
     }
@@ -422,6 +470,9 @@ internal partial class SAM
     #endregion
 
     #region Gauge
+
+    private static float GCD =>
+        GetAdjustedRecastTime(ActionType.Action, Hakaze) / 1000f;
 
     private static SAMGauge Gauge => GetJobGauge<SAMGauge>();
 

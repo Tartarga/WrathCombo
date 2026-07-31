@@ -108,7 +108,7 @@ internal partial class SAM
 
             return false;
         }
-        
+
         if (SenCount is 1 &&
             HasBattleTarget() &&
             CanApplyStatus(CurrentTarget, Debuffs.Higanbana) &&
@@ -121,6 +121,40 @@ internal partial class SAM
 
         return false;
     }
+
+    private static bool UsePrepullMeikyo() =>
+        !InCombat() && HasBattleTarget() &&
+        ActionReady(MeikyoShisui) &&
+        !HasStatusEffect(Buffs.MeikyoShisui);
+
+    private static bool UseMeikyo(bool onAoE)
+    {
+        if (!ActionReady(MeikyoShisui) ||
+            HasStatusEffect(Buffs.MeikyoShisui) ||
+            HasStatusEffect(Buffs.Tendo) ||
+            JustUsed(MeikyoShisui))
+            return false;
+
+        // Spend after a finisher. Do not gate on Senei CD alone — that left Meikyo
+        // stuck at 2 charges (Enhanced Meikyo @76+, common on lvl 80 sync).
+        if (onAoE)
+            return ComboTimer is 0;
+
+        return JustUsed(Yukikaze, 2f) || JustUsed(Gekko, 2f) || JustUsed(Kasha, 2f) ||
+               JustUsed(KaeshiSetsugekka, 2f);
+    }
+
+    private static bool UseIkishoten() =>
+        ActionReady(Ikishoten) &&
+        !HasStatusEffect(Buffs.ZanshinReady) &&
+        Kenki <= 50;
+
+    private static bool UseShoha() =>
+        ActionReady(Shoha) && MeditationStacks is 3;
+
+    private static bool UseHagakure() =>
+        ActionReady(Hagakure) &&
+        OriginalHook(Iaijutsu) is MidareSetsugekka or TendoSetsugekka;
 
     private static bool CanDumpKenki() =>
         Kenki >= 95 ||

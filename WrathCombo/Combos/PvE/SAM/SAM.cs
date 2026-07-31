@@ -13,8 +13,20 @@ internal partial class SAM : Melee
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetDPS, Hakaze, Gyofu))
                 return actionID;
 
+            if (UsePrepullMeikyo())
+                return MeikyoShisui;
+
             if (CanWeave())
             {
+                if (UseMeikyo(false))
+                    return MeikyoShisui;
+
+                if (UseIkishoten())
+                    return Ikishoten;
+
+                if (UseShoha())
+                    return Shoha;
+
                 if (UseKenki(ref actionID, false))
                     return actionID;
             }
@@ -40,8 +52,23 @@ internal partial class SAM : Melee
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEDPS, Fuga, Fuko))
                 return actionID;
 
+            if (UsePrepullMeikyo())
+                return MeikyoShisui;
+
             if (CanWeave())
             {
+                if (UseHagakure())
+                    return Hagakure;
+
+                if (UseMeikyo(true))
+                    return MeikyoShisui;
+
+                if (UseIkishoten())
+                    return Ikishoten;
+
+                if (UseShoha())
+                    return Shoha;
+
                 if (UseKenki(ref actionID, true))
                     return actionID;
             }

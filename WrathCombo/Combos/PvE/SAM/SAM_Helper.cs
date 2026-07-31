@@ -133,13 +133,18 @@ internal partial class SAM
             return ComboTimer is 0;
 
         return JustUsed(Yukikaze, 2f) || JustUsed(Gekko, 2f) || JustUsed(Kasha, 2f) ||
-               JustUsed(KaeshiSetsugekka, 2f);
+               JustUsed(KaeshiSetsugekka, 2f) || JustUsed(KaeshiNamikiri, 2f);
     }
 
     private static bool UseIkishoten() =>
         ActionReady(Ikishoten) &&
         !HasStatusEffect(Buffs.ZanshinReady) &&
         Kenki <= 50;
+
+    private static bool UseZanshin() =>
+        ActionReady(Zanshin) &&
+        InActionRange(Zanshin) &&
+        HasStatusEffect(Buffs.ZanshinReady);
 
     private static bool UseShoha() =>
         ActionReady(Shoha) && MeditationStacks is 3;
@@ -148,11 +153,25 @@ internal partial class SAM
         ActionReady(Hagakure) &&
         OriginalHook(Iaijutsu) is MidareSetsugekka or TendoSetsugekka;
 
+    private static bool UseOgiNamikiri() =>
+        ActionReady(OriginalHook(OgiNamikiri)) &&
+        InActionRange(OriginalHook(OgiNamikiri)) &&
+        (IsNamikiriReady ||
+         HasStatusEffect(Buffs.OgiNamikiriReady) && !IsMoving());
+
     private static bool CanDumpKenki() =>
         Kenki >= 95 ||
         !LevelChecked(Guren) ||
         GetCooldownRemainingTime(Guren) > GCD * 6 ||
         Kenki >= 50;
+
+    // Pre-100: on CD. At 100: under Tendo / right after Tendo Midare or Kaeshi.
+    private static bool UseSenei() =>
+        ActionReady(Senei) &&
+        (!LevelChecked(TendoSetsugekka) ||
+         HasStatusEffect(Buffs.Tendo) && SenCount >= 2 ||
+         JustUsed(TendoSetsugekka, 15f) ||
+         JustUsed(TendoKaeshiSetsugekka, 15f));
 
     private static bool UseKenki(ref uint actionID, bool onAoE)
     {
@@ -173,7 +192,7 @@ internal partial class SAM
             return false;
         }
 
-        if (ActionReady(Senei))
+        if (UseSenei())
         {
             actionID = Senei;
             return true;

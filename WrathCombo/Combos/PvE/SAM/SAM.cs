@@ -24,6 +24,9 @@ internal partial class SAM : Melee
                 if (UseIkishoten())
                     return Ikishoten;
 
+                if (UseZanshin())
+                    return Zanshin;
+
                 if (UseShoha())
                     return Shoha;
 
@@ -33,6 +36,9 @@ internal partial class SAM : Melee
 
             if (UseTsubame(false))
                 return OriginalHook(TsubameGaeshi);
+
+            if (UseOgiNamikiri())
+                return OriginalHook(OgiNamikiri);
 
             if (UseIaiJutsu(false))
                 return OriginalHook(Iaijutsu);
@@ -66,6 +72,9 @@ internal partial class SAM : Melee
                 if (UseIkishoten())
                     return Ikishoten;
 
+                if (UseZanshin())
+                    return Zanshin;
+
                 if (UseShoha())
                     return Shoha;
 
@@ -75,6 +84,9 @@ internal partial class SAM : Melee
 
             if (UseTsubame(true))
                 return OriginalHook(TsubameGaeshi);
+
+            if (UseOgiNamikiri())
+                return OriginalHook(OgiNamikiri);
 
             if (UseIaiJutsu(true))
                 return OriginalHook(Iaijutsu);

@@ -15,6 +15,14 @@ internal partial class SAM
 {
     #region Combo
 
+    private static uint WithTrueNorth(uint action, bool onPositional) =>
+        !onPositional &&
+        ActionReady(Role.TrueNorth) &&
+        !HasStatusEffect(Role.Buffs.TrueNorth) &&
+        TargetNeedsPositionals()
+            ? Role.TrueNorth
+            : action;
+
     private static uint DoMeikyoCombo(uint actionID, bool onAoE)
     {
         if (onAoE)
@@ -45,29 +53,13 @@ internal partial class SAM
              !HasStatusEffect(Buffs.Fugetsu) ||
              (OnTargetsRear() || OnTargetsFront()) && !HasGetsu ||
              OnTargetsFlank() && HasKa))
-        {
-            if (!OnTargetsRear() &&
-                ActionReady(Role.TrueNorth) &&
-                !HasStatusEffect(Role.Buffs.TrueNorth) &&
-                TargetNeedsPositionals())
-                return Role.TrueNorth;
-
-            return Gekko;
-        }
+            return WithTrueNorth(Gekko, OnTargetsRear());
 
         if (LevelChecked(Kasha) &&
             (!HasStatusEffect(Buffs.Fuka) ||
              (OnTargetsFlank() || OnTargetsFront()) && !HasKa ||
              OnTargetsRear() && HasGetsu))
-        {
-            if (!OnTargetsFlank() &&
-                ActionReady(Role.TrueNorth) &&
-                !HasStatusEffect(Role.Buffs.TrueNorth) &&
-                TargetNeedsPositionals())
-                return Role.TrueNorth;
-
-            return Kasha;
-        }
+            return WithTrueNorth(Kasha, OnTargetsFlank());
 
         return actionID;
     }
@@ -273,26 +265,10 @@ internal partial class SAM
             }
 
             if (ComboAction is Jinpu && LevelChecked(Gekko))
-            {
-                if (!OnTargetsRear() &&
-                    ActionReady(Role.TrueNorth) &&
-                    !HasStatusEffect(Role.Buffs.TrueNorth) &&
-                    TargetNeedsPositionals())
-                    return Role.TrueNorth;
-
-                return Gekko;
-            }
+                return WithTrueNorth(Gekko, OnTargetsRear());
 
             if (ComboAction is Shifu && LevelChecked(Kasha))
-            {
-                if (!OnTargetsFlank() &&
-                    ActionReady(Role.TrueNorth) &&
-                    !HasStatusEffect(Role.Buffs.TrueNorth) &&
-                    TargetNeedsPositionals())
-                    return Role.TrueNorth;
-
-                return Kasha;
-            }
+                return WithTrueNorth(Kasha, OnTargetsFlank());
         }
 
         return OriginalHook(Hakaze);

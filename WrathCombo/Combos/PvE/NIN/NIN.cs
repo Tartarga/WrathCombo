@@ -37,38 +37,37 @@ internal partial class NIN : Melee
             #endregion
 
             #region OGCDS
-            if (InCombat() && HasBattleTarget())
-            {
-                if (CanKassatsu)
-                    return Kassatsu;
 
-                if (CanBunshin)
-                    return Bunshin;
+            if (CanKassatsu)
+                return Kassatsu;
 
-                if (CanTenChiJin)
-                    return TenChiJin;
+            if (CanBunshin)
+                return Bunshin;
 
-                if (CanTenriJindo)
-                    return TenriJendo;
+            if (CanTenChiJin)
+                return TenChiJin;
 
-                if (CanAssassinate)
-                    return OriginalHook(Assassinate);
+            if (CanTenriJindo)
+                return TenriJendo;
 
-                if (CanMeisui)
-                    return NinkiWillOvercap ? OriginalHook(Bhavacakra) : OriginalHook(Meisui);
+            if (CanAssassinate)
+                return OriginalHook(Assassinate);
 
-                if (CanBhavacakra && NinkiPooling)
-                    return LevelChecked(Bhavacakra) ? OriginalHook(Bhavacakra) : OriginalHook(HellfrogMedium);
+            if (CanMeisui)
+                return NinkiWillOvercap ? OriginalHook(Bhavacakra) : OriginalHook(Meisui);
 
-                if (CanMugST && CombatEngageDuration().TotalSeconds > 5)
-                    return NinkiWillOvercap && TraitLevelChecked(Traits.MugMastery) ? OriginalHook(Bhavacakra) : OriginalHook(Mug);
+            if (CanBhavacakra && NinkiPooling)
+                return LevelChecked(Bhavacakra) ? OriginalHook(Bhavacakra) : OriginalHook(HellfrogMedium);
 
-                if (CanTrickST && CombatEngageDuration().TotalSeconds > 5)
-                    return OriginalHook(TrickAttack);
+            if (CanMugST && CombatEngageDuration().TotalSeconds > 5)
+                return NinkiWillOvercap && TraitLevelChecked(Traits.MugMastery) ? OriginalHook(Bhavacakra) : OriginalHook(Mug);
 
-                if (Role.CanFeint() && GroupDamageIncoming() && CanWeave())
-                    return Role.Feint;
-            }
+            if (CanTrickST && CombatEngageDuration().TotalSeconds > 5)
+                return OriginalHook(TrickAttack);
+
+            if (Role.CanFeint() && GroupDamageIncoming() && CanWeave())
+                return Role.Feint;
+
             #endregion
 
             #region Ninjutsu
@@ -812,7 +811,7 @@ internal partial class NIN : Melee
         {
             if (!MudraSigns.Any(x => x == actionID))
                 return actionID;
-            
+
             if (HasStatusEffect(Buffs.TenChiJin))
                 return actionID;
 

@@ -22,27 +22,25 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetDPS, DosisActions))
                 return actionID;
 
-            if (LevelChecked(Kardia) &&
-                !HasStatusEffect(Buffs.Kardia) &&
-                Target is not null)
+            if (UseKardia(simpleMode: true))
                 return Kardia.Retarget(actionID, Target);
 
             if (ContentSpecificActions.TryGet(out uint contentAction))
                 return contentAction;
 
-            if (CanDPSWeave(simpleMode: true, onAoE: false, [actionID], out uint weave))
-                return weave;
+            if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: true, onAoE: false, [actionID]))
+                return actionID;
 
-            if (CanEDosis(simpleMode: true, [actionID], out uint edosis))
-                return edosis;
+            if (UseEDosis(ref actionID, simpleMode: true, [actionID]))
+                return actionID;
 
             if (HasBattleTarget() && !HasStatusEffect(Buffs.Eukrasia) && InCombat())
             {
-                if (CanPhlegma(simpleMode: true, out uint phlegma))
-                    return phlegma;
+                if (UsePhlegma(simpleMode: true))
+                    return OriginalHook(Phlegma);
 
-                if (CanMovementGCD(simpleMode: true, out uint movement))
-                    return movement;
+                if (UseMovement(ref actionID, simpleMode: true))
+                    return actionID;
             }
 
             return OriginalHook(Dosis);
@@ -61,11 +59,11 @@ internal partial class SGE : Healer
             if (ContentSpecificActions.TryGet(out uint contentAction))
                 return contentAction;
 
-            if (CanDPSWeave(simpleMode: true, onAoE: true, [actionID], out uint weave))
-                return weave;
+            if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: true, onAoE: true, [actionID]))
+                return actionID;
 
-            if (CanAoEDPSGCD(simpleMode: true, out uint gcd))
-                return gcd;
+            if (UseAoEDPSGCD(ref actionID, simpleMode: true))
+                return actionID;
 
             return OriginalHook(Dyskrasia);
         }
@@ -81,11 +79,9 @@ internal partial class SGE : Healer
 
         protected override uint Invoke(uint actionID)
         {
-            uint[] dosisActions = (int)SGE_ST_DPS_Advanced switch
-            {
-                1 => [Dosis2],
-                var _ => DosisList.Keys.ToArray()
-            };
+            uint[] dosisActions = (int)SGE_ST_DPS_Advanced == 1
+                ? [Dosis2]
+                : DosisList.Keys.ToArray();
 
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetDPS, dosisActions))
                 return actionID;
@@ -93,10 +89,7 @@ internal partial class SGE : Healer
             if (CustomActionHelper.CustomActionEnabled(CustomActionType.SingleTargetDPS))
                 dosisActions = [All.SingleTargetDPS];
 
-            if (IsEnabled(Preset.SGE_ST_DPS_Kardia) &&
-                LevelChecked(Kardia) &&
-                !HasStatusEffect(Buffs.Kardia) &&
-                Target is not null)
+            if (UseKardia(simpleMode: false))
                 return Kardia.Retarget(actionID, Target);
 
             if (IsEnabled(Preset.SGE_ST_DPS_Opener) &&
@@ -106,22 +99,22 @@ internal partial class SGE : Healer
             if (ContentSpecificActions.TryGet(out uint contentAction))
                 return contentAction;
 
-            if (CanRaidwide(out uint raidwide))
-                return raidwide;
+            if (UseRaidwide(ref actionID))
+                return actionID;
 
-            if (CanDPSWeave(simpleMode: false, onAoE: false, dosisActions, out uint weave))
-                return weave;
+            if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: false, onAoE: false, dosisActions))
+                return actionID;
 
-            if (CanEDosis(simpleMode: false, dosisActions, out uint edosis))
-                return edosis;
+            if (UseEDosis(ref actionID, simpleMode: false, dosisActions))
+                return actionID;
 
             if (HasBattleTarget() && !HasStatusEffect(Buffs.Eukrasia) && InCombat())
             {
-                if (CanPhlegma(simpleMode: false, out uint phlegma))
-                    return phlegma;
+                if (UsePhlegma(simpleMode: false))
+                    return OriginalHook(Phlegma);
 
-                if (CanMovementGCD(simpleMode: false, out uint movement))
-                    return movement;
+                if (UseMovement(ref actionID, simpleMode: false))
+                    return actionID;
             }
 
             return OriginalHook(Dosis);
@@ -140,14 +133,14 @@ internal partial class SGE : Healer
             if (ContentSpecificActions.TryGet(out uint contentAction))
                 return contentAction;
 
-            if (CanRaidwide(out uint raidwide))
-                return raidwide;
+            if (UseRaidwide(ref actionID))
+                return actionID;
 
-            if (CanDPSWeave(simpleMode: false, onAoE: true, [actionID], out uint weave))
-                return weave;
+            if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: false, onAoE: true, [actionID]))
+                return actionID;
 
-            if (CanAoEDPSGCD(simpleMode: false, out uint gcd))
-                return gcd;
+            if (UseAoEDPSGCD(ref actionID, simpleMode: false))
+                return actionID;
 
             return OriginalHook(Dyskrasia);
         }
@@ -179,7 +172,7 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEHeals, Prognosis))
                 return actionID;
 
-            return DoAoESimpleHeal();
+            return DoAoESimpleHeal(actionID);
         }
     }
 
@@ -209,7 +202,7 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEHeals, Prognosis))
                 return actionID;
 
-            return DoAoEAdvancedHeal();
+            return DoAoEAdvancedHeal(actionID);
         }
     }
 
@@ -302,16 +295,21 @@ internal partial class SGE : Healer
             if (actionID is not Eukrasia || !HasStatusEffect(Buffs.Eukrasia))
                 return actionID;
 
-            return (int)SGE_Eukrasia_Mode switch
-            {
-                0 => OriginalHook(Dosis),
-                1 => IsEnabled(Preset.SGE_Retarget_EukrasianDiagnosis)
+            if (SGE_Eukrasia_Mode == 0)
+                return OriginalHook(Dosis);
+
+            if (SGE_Eukrasia_Mode == 1)
+                return IsEnabled(Preset.SGE_Retarget_EukrasianDiagnosis)
                     ? EukrasianDiagnosis.Retarget(Eukrasia, HealStack)
-                    : EukrasianDiagnosis,
-                2 => OriginalHook(Prognosis),
-                3 => OriginalHook(Dyskrasia),
-                _ => actionID
-            };
+                    : EukrasianDiagnosis;
+
+            if (SGE_Eukrasia_Mode == 2)
+                return OriginalHook(Prognosis);
+
+            if (SGE_Eukrasia_Mode == 3)
+                return OriginalHook(Dyskrasia);
+
+            return actionID;
         }
     }
 

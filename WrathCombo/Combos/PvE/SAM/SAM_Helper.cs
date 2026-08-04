@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using WrathCombo.Combos.PvE.ALL;
 using WrathCombo.CustomComboNS;
 using WrathCombo.CustomComboNS.Functions;
+using WrathCombo.Data;
 using static FFXIVClientStructs.FFXIV.Client.Game.ActionManager;
 using static WrathCombo.Combos.PvE.SAM.Config;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
@@ -70,17 +71,20 @@ internal partial class SAM
             !InActionRange(OriginalHook(TsubameGaeshi)))
             return false;
 
-        if (onAoE &&
-            (HasStatusEffect(Buffs.TsubameReady) ||
-             HasStatusEffect(Buffs.KaeshiGokenReady) ||
-             HasStatusEffect(Buffs.TendoKaeshiGokenReady)))
+        if (onAoE)
+            return HasStatusEffect(Buffs.TsubameReady) ||
+                   HasStatusEffect(Buffs.KaeshiGokenReady) ||
+                   HasStatusEffect(Buffs.TendoKaeshiGokenReady);
+
+        if (HasStatusEffect(Buffs.TendoKaeshiSetsugekkaReady))
             return true;
 
-        if (HasStatusEffect(Buffs.TsubameReady) ||
-            HasStatusEffect(Buffs.TendoKaeshiSetsugekkaReady))
-            return true;
+        if (!HasStatusEffect(Buffs.TsubameReady))
+            return false;
 
-        return false;
+        return SenCount is 3 ||
+               GetStatusEffectRemainingTime(Buffs.TsubameReady) < 5 ||
+               !InBossEncounter();
     }
 
     private static bool UseIaiJutsu(bool onAoE)
@@ -101,17 +105,37 @@ internal partial class SAM
             return false;
         }
 
-        if (SenCount is 1 &&
-            HasBattleTarget() &&
-            CanApplyStatus(CurrentTarget, Debuffs.Higanbana) &&
-            GetStatusEffectRemainingTime(Debuffs.Higanbana, CurrentTarget) <= 15)
+        if (SenCount is 1 && UseHiganbana())
             return true;
 
-        if (SenCount is 3 ||
+        if (SenCount is 3 && !HasStatusEffect(Buffs.TsubameReady) ||
             SenCount is 2 && !LevelChecked(MidareSetsugekka))
             return true;
 
         return false;
+    }
+
+    private static bool UseHiganbana()
+    {
+        if (!HasBattleTarget() ||
+            !CanApplyStatus(CurrentTarget, Debuffs.Higanbana))
+            return false;
+
+        float remaining = GetStatusEffectRemainingTime(Debuffs.Higanbana, CurrentTarget);
+
+        if (!HasStatusEffect(Debuffs.Higanbana, CurrentTarget))
+            return true;
+
+        if (remaining > 15)
+            return false;
+
+        if (remaining <= GCD * 2)
+            return true;
+
+        if (HasEnhancedSenei)
+            return JustUsed(Senei, 35f) || JustUsed(Ikishoten, 35f);
+
+        return true;
     }
 
     private static bool UsePrepullMeikyo() =>
@@ -127,37 +151,98 @@ internal partial class SAM
             JustUsed(MeikyoShisui))
             return false;
 
-        // Spend after a finisher. Do not gate on Senei CD alone — that left Meikyo
-        // stuck at 2 charges (Enhanced Meikyo @76+, common on lvl 80 sync).
         if (onAoE)
             return ComboTimer is 0;
 
-        return JustUsed(Yukikaze, 2f) || JustUsed(Gekko, 2f) || JustUsed(Kasha, 2f) ||
-               JustUsed(KaeshiSetsugekka, 2f) || JustUsed(KaeshiNamikiri, 2f);
+        bool afterFinisher =
+            JustUsed(Yukikaze, 2f) || JustUsed(Gekko, 2f) || JustUsed(Kasha, 2f);
+
+        if (TargetIsBoss() && GetTargetHPPercent() < 5 && afterFinisher)
+            return true;
+
+        if (!InBossEncounter())
+            return SenCount is 3 && afterFinisher;
+
+        if (!LevelChecked(Senei))
+            return afterFinisher;
+
+        float seneiCd = GetCooldownRemainingTime(Senei);
+        bool seneiForBurst = seneiCd <= GCD * 2;
+        bool oddMinutePreEnhanced = !HasEnhancedSenei && seneiCd is > 50 and < 65;
+
+        if ((JustUsed(KaeshiSetsugekka, 2f) || JustUsed(TendoKaeshiSetsugekka, 2f)) &&
+            SenCount is 3 &&
+            (seneiForBurst || oddMinutePreEnhanced))
+            return true;
+
+        float higanbanaRemaining = GetStatusEffectRemainingTime(Debuffs.Higanbana, CurrentTarget);
+        if (afterFinisher &&
+            SenCount < 3 &&
+            HasStatusEffect(Debuffs.Higanbana, CurrentTarget) &&
+            higanbanaRemaining <= 15)
+            return true;
+
+        if (HasEnhancedSenei &&
+            GetRemainingCharges(MeikyoShisui) >= 1 &&
+            JustUsed(KaeshiNamikiri, 10f) &&
+            GetCooldownChargeRemainingTime(MeikyoShisui) is >= 35 and <= 43)
+            return true;
+
+        if (afterFinisher && (seneiForBurst || oddMinutePreEnhanced))
+            return JustUsed(Yukikaze, 2f) ||
+                   HasSetsu && (JustUsed(Gekko, 2f) || JustUsed(Kasha, 2f));
+
+        return TraitLevelChecked(Traits.EnhancedMeikyoShishui) &&
+               !HasEnhancedSenei &&
+               GetRemainingCharges(MeikyoShisui) >= 2 &&
+               afterFinisher;
     }
 
     private static bool UseIkishoten() =>
         ActionReady(Ikishoten) &&
         !HasStatusEffect(Buffs.ZanshinReady) &&
-        Kenki <= 50;
+        Kenki <= 50 &&
+        (ActionWatching.NumberOfGcdsUsed >= 2 ||
+         JustUsed(Senei, 15f) ||
+         !LevelChecked(Senei));
 
     private static bool UseZanshin() =>
         ActionReady(Zanshin) &&
         InActionRange(Zanshin) &&
-        HasStatusEffect(Buffs.ZanshinReady);
+        HasStatusEffect(Buffs.ZanshinReady) &&
+        (GetStatusEffectRemainingTime(Buffs.ZanshinReady) <= 8 ||
+         JustUsed(Senei, 20f));
 
     private static bool UseShoha() =>
-        ActionReady(Shoha) && MeditationStacks is 3;
+        ActionReady(Shoha) &&
+        MeditationStacks is 3 &&
+        InActionRange(Shoha);
 
     private static bool UseHagakure() =>
         ActionReady(Hagakure) &&
         OriginalHook(Iaijutsu) is MidareSetsugekka or TendoSetsugekka;
 
-    private static bool UseOgiNamikiri() =>
-        ActionReady(OriginalHook(OgiNamikiri)) &&
-        InActionRange(OriginalHook(OgiNamikiri)) &&
-        (IsNamikiriReady ||
-         HasStatusEffect(Buffs.OgiNamikiriReady) && !IsMoving());
+    private static bool UseOgiNamikiri(bool onAoE)
+    {
+        if (IsNamikiriReady)
+            return ActionReady(OriginalHook(OgiNamikiri)) &&
+                   InActionRange(OriginalHook(OgiNamikiri));
+
+        if (!ActionReady(OriginalHook(OgiNamikiri)) ||
+            !InActionRange(OriginalHook(OgiNamikiri)) ||
+            !HasStatusEffect(Buffs.OgiNamikiriReady) ||
+            IsMoving() ||
+            ActionWatching.NumberOfGcdsUsed < 5)
+            return false;
+
+        if (onAoE)
+            return true;
+
+        if (GetStatusEffectRemainingTime(Buffs.OgiNamikiriReady) <= 8)
+            return true;
+
+        return JustUsed(Higanbana, 8f);
+    }
 
     private static bool CanDumpKenki() =>
         Kenki >= 95 ||
@@ -165,9 +250,9 @@ internal partial class SAM
         GetCooldownRemainingTime(Guren) > GCD * 6 ||
         Kenki >= 50;
 
-    // Pre-100: on CD. At 100: under Tendo / right after Tendo Midare or Kaeshi.
     private static bool UseSenei() =>
         ActionReady(Senei) &&
+        ActionWatching.NumberOfGcdsUsed >= 4 &&
         (!LevelChecked(TendoSetsugekka) ||
          HasStatusEffect(Buffs.Tendo) && SenCount >= 2 ||
          JustUsed(TendoSetsugekka, 15f) ||
@@ -506,6 +591,9 @@ internal partial class SAM
         GetAdjustedRecastTime(ActionType.Action, Hakaze) / 1000f;
 
     private static SAMGauge Gauge => GetJobGauge<SAMGauge>();
+
+    private static bool HasEnhancedSenei =>
+        TraitLevelChecked(Traits.EnhancedHissatsu);
 
     private static bool HasGetsu => Gauge.HasGetsu;
 

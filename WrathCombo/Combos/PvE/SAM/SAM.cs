@@ -37,7 +37,7 @@ internal partial class SAM : Melee
             if (UseTsubame(false))
                 return OriginalHook(TsubameGaeshi);
 
-            if (UseOgiNamikiri())
+            if (UseOgiNamikiri(false))
                 return OriginalHook(OgiNamikiri);
 
             if (UseIaiJutsu(false))
@@ -85,7 +85,7 @@ internal partial class SAM : Melee
             if (UseTsubame(true))
                 return OriginalHook(TsubameGaeshi);
 
-            if (UseOgiNamikiri())
+            if (UseOgiNamikiri(true))
                 return OriginalHook(OgiNamikiri);
 
             if (UseIaiJutsu(true))

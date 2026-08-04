@@ -16,15 +16,28 @@ internal partial class SAM
 {
     #region Combo
 
-    private static uint WithTrueNorth(uint action, bool onPositional) =>
+    private static uint WithTrueNorth(
+        uint action,
+        bool onPositional,
+        bool useTrueNorth = true,
+        int trueNorthCharges = 0) =>
         !onPositional &&
-        ActionReady(Role.TrueNorth) &&
-        !HasStatusEffect(Role.Buffs.TrueNorth) &&
+        useTrueNorth &&
+        Role.CanTrueNorth() &&
+        GetRemainingCharges(Role.TrueNorth) > trueNorthCharges &&
         TargetNeedsPositionals()
             ? Role.TrueNorth
             : action;
 
-    private static uint DoMeikyoCombo(uint actionID, bool onAoE)
+    private static uint DoMeikyoCombo(
+        uint actionID,
+        bool onAoE,
+        bool useTrueNorth = true,
+        bool useYukikaze = true,
+        bool useKasha = true,
+        bool useGekko = true,
+        bool useOka = true,
+        int trueNorthCharges = 0)
     {
         if (onAoE)
         {
@@ -33,34 +46,40 @@ internal partial class SAM
             bool refreshFugetsu = fugetsuRemaining <= fukaRemaining;
             bool refreshFuka = fukaRemaining <= fugetsuRemaining;
 
-            if ((!HasKa || !HasStatusEffect(Buffs.Fuka) ||
+            if (useOka &&
+                (!HasKa || !HasStatusEffect(Buffs.Fuka) ||
                  SenCount is 3 && refreshFuka) &&
                 LevelChecked(Oka))
                 return Oka;
 
             if (LevelChecked(Mangetsu) &&
-                (!HasGetsu || !HasStatusEffect(Buffs.Fugetsu) || !LevelChecked(Oka) ||
+                (!HasGetsu || !HasStatusEffect(Buffs.Fugetsu) || !useOka || !LevelChecked(Oka) ||
                  SenCount is 3 && refreshFugetsu))
                 return Mangetsu;
 
             return actionID;
         }
 
-        if (LevelChecked(Yukikaze) && !HasSetsu && HasKa && HasGetsu)
+        if (useYukikaze &&
+            LevelChecked(Yukikaze) && !HasSetsu &&
+            (HasKa || !useGekko) &&
+            (HasGetsu || !useKasha))
             return Yukikaze;
 
-        if (LevelChecked(Gekko) &&
-            (!LevelChecked(Kasha) ||
+        if (useGekko &&
+            LevelChecked(Gekko) &&
+            (!LevelChecked(Kasha) || !useKasha ||
              !HasStatusEffect(Buffs.Fugetsu) ||
              (OnTargetsRear() || OnTargetsFront()) && !HasGetsu ||
              OnTargetsFlank() && HasKa))
-            return WithTrueNorth(Gekko, OnTargetsRear());
+            return WithTrueNorth(Gekko, OnTargetsRear(), useTrueNorth, trueNorthCharges);
 
-        if (LevelChecked(Kasha) &&
+        if (useKasha &&
+            LevelChecked(Kasha) &&
             (!HasStatusEffect(Buffs.Fuka) ||
              (OnTargetsFlank() || OnTargetsFront()) && !HasKa ||
              OnTargetsRear() && HasGetsu))
-            return WithTrueNorth(Kasha, OnTargetsFlank());
+            return WithTrueNorth(Kasha, OnTargetsFlank(), useTrueNorth, trueNorthCharges);
 
         return actionID;
     }
@@ -87,9 +106,16 @@ internal partial class SAM
                !InBossEncounter();
     }
 
-    private static bool UseIaiJutsu(bool onAoE)
+    private static bool UseIaiJutsu(
+        bool onAoE,
+        bool useHiganbana = true,
+        bool useTenkaGoken = true,
+        bool useMidare = true,
+        bool onlyWhenStationary = true,
+        int higanbanaHpThreshold = 0,
+        int higanbanaDotRefresh = 15)
     {
-        if (IsMoving() ||
+        if (onlyWhenStationary && IsMoving() ||
             !ActionReady(OriginalHook(Iaijutsu)) ||
             !InActionRange(OriginalHook(Iaijutsu)) ||
             !HasStatusEffect(Buffs.Fuka) ||
@@ -98,27 +124,30 @@ internal partial class SAM
 
         if (onAoE)
         {
-            if (SenCount is 2 &&
+            if (useTenkaGoken &&
+                SenCount is 2 &&
                 OriginalHook(Iaijutsu) is TenkaGoken or TendoGoken)
                 return true;
 
             return false;
         }
 
-        if (SenCount is 1 && UseHiganbana())
+        if (useHiganbana && SenCount is 1 &&
+            UseHiganbana(higanbanaHpThreshold, higanbanaDotRefresh))
             return true;
 
-        if (SenCount is 3 && !HasStatusEffect(Buffs.TsubameReady) ||
-            SenCount is 2 && !LevelChecked(MidareSetsugekka))
+        if (useMidare && SenCount is 3 && !HasStatusEffect(Buffs.TsubameReady) ||
+            useTenkaGoken && SenCount is 2 && !LevelChecked(MidareSetsugekka))
             return true;
 
         return false;
     }
 
-    private static bool UseHiganbana()
+    private static bool UseHiganbana(int hpThreshold = 0, int dotRefresh = 15)
     {
         if (!HasBattleTarget() ||
-            !CanApplyStatus(CurrentTarget, Debuffs.Higanbana))
+            !CanApplyStatus(CurrentTarget, Debuffs.Higanbana) ||
+            GetTargetHPPercent() <= hpThreshold)
             return false;
 
         float remaining = GetStatusEffectRemainingTime(Debuffs.Higanbana, CurrentTarget);
@@ -126,7 +155,7 @@ internal partial class SAM
         if (!HasStatusEffect(Debuffs.Higanbana, CurrentTarget))
             return true;
 
-        if (remaining > 15)
+        if (remaining > dotRefresh)
             return false;
 
         if (remaining <= GCD * 2)
@@ -138,12 +167,21 @@ internal partial class SAM
         return true;
     }
 
-    private static bool UsePrepullMeikyo() =>
+    private static int HiganbanaHPThreshold()
+    {
+        if (InBossEncounter())
+            return TargetIsBoss() ? SAM_ST_HiganbanaBossHPOption : SAM_ST_HiganbanaBossAddsHPOption;
+
+        return SAM_ST_HiganbanaTrashHPOption;
+    }
+
+    private static bool UsePrepullMeikyo(bool requireNotJustUsed = false) =>
         !InCombat() && HasBattleTarget() &&
         ActionReady(MeikyoShisui) &&
-        !HasStatusEffect(Buffs.MeikyoShisui);
+        !HasStatusEffect(Buffs.MeikyoShisui) &&
+        (!requireNotJustUsed || !JustUsed(MeikyoShisui));
 
-    private static bool UseMeikyo(bool onAoE)
+    private static bool UseMeikyo(bool onAoE, int meikyoExecuteThreshold = 5)
     {
         if (!ActionReady(MeikyoShisui) ||
             HasStatusEffect(Buffs.MeikyoShisui) ||
@@ -157,7 +195,7 @@ internal partial class SAM
         bool afterFinisher =
             JustUsed(Yukikaze, 2f) || JustUsed(Gekko, 2f) || JustUsed(Kasha, 2f);
 
-        if (TargetIsBoss() && GetTargetHPPercent() < 5 && afterFinisher)
+        if (TargetIsBoss() && GetTargetHPPercent() < meikyoExecuteThreshold && afterFinisher)
             return true;
 
         if (!InBossEncounter())
@@ -222,7 +260,35 @@ internal partial class SAM
         ActionReady(Hagakure) &&
         OriginalHook(Iaijutsu) is MidareSetsugekka or TendoSetsugekka;
 
-    private static bool UseOgiNamikiri(bool onAoE)
+    private static bool ShouldRefreshFugetsu =>
+        GetStatusEffectRemainingTime(Buffs.Fugetsu) <=
+        GetStatusEffectRemainingTime(Buffs.Fuka);
+
+    private static bool ShouldRefreshFuka =>
+        GetStatusEffectRemainingTime(Buffs.Fuka) <=
+        GetStatusEffectRemainingTime(Buffs.Fugetsu);
+
+    private static bool UseFeatureKenkiOvercap(ref uint actionID, bool enabled, int amount, uint spender)
+    {
+        if (!enabled || !CanWeave() || Kenki < amount || !LevelChecked(spender))
+            return false;
+
+        actionID = OriginalHook(spender);
+        return true;
+    }
+
+    private static bool UseThirdEye() =>
+        ActionReady(OriginalHook(ThirdEye)) &&
+        (GroupDamageIncoming(2f) || !IsInParty());
+
+    private static bool UseMeditate() =>
+        ActionReady(Meditate) &&
+        !IsMoving() &&
+        TimeStoodStill > TimeSpan.FromSeconds(SAM_ST_MeditateTimeStill) &&
+        InCombat() &&
+        !HasBattleTarget();
+
+    private static bool UseOgiNamikiri(bool onAoE, bool respectMovement = true)
     {
         if (IsNamikiriReady)
             return ActionReady(OriginalHook(OgiNamikiri)) &&
@@ -231,7 +297,7 @@ internal partial class SAM
         if (!ActionReady(OriginalHook(OgiNamikiri)) ||
             !InActionRange(OriginalHook(OgiNamikiri)) ||
             !HasStatusEffect(Buffs.OgiNamikiriReady) ||
-            IsMoving() ||
+            respectMovement && IsMoving() ||
             ActionWatching.NumberOfGcdsUsed < 5)
             return false;
 
@@ -244,11 +310,11 @@ internal partial class SAM
         return JustUsed(Higanbana, 8f);
     }
 
-    private static bool CanDumpKenki() =>
+    private static bool CanDumpKenki(int kenkiOvercapAmount = 50) =>
         Kenki >= 95 ||
         !LevelChecked(Guren) ||
         GetCooldownRemainingTime(Guren) > GCD * 6 ||
-        Kenki >= 50;
+        Kenki >= kenkiOvercapAmount;
 
     private static bool UseSenei() =>
         ActionReady(Senei) &&
@@ -258,17 +324,29 @@ internal partial class SAM
          JustUsed(TendoSetsugekka, 15f) ||
          JustUsed(TendoKaeshiSetsugekka, 15f));
 
+    private static bool UseGuren() =>
+        ActionReady(Guren) && InActionRange(Guren);
+
+    private static bool UseShinten(int executeThreshold = 1, int kenkiOvercapAmount = 50) =>
+        ActionReady(Shinten) &&
+        (GetTargetHPPercent() < executeThreshold || CanDumpKenki(kenkiOvercapAmount));
+
+    private static bool UseKyuten(int kenkiOvercapAmount = 50) =>
+        ActionReady(Kyuten) &&
+        InActionRange(Kyuten) &&
+        CanDumpKenki(kenkiOvercapAmount);
+
     private static bool UseKenki(ref uint actionID, bool onAoE)
     {
         if (onAoE)
         {
-            if (ActionReady(Guren) && InActionRange(Guren))
+            if (UseGuren())
             {
                 actionID = Guren;
                 return true;
             }
 
-            if (ActionReady(Kyuten) && InActionRange(Kyuten) && CanDumpKenki())
+            if (UseKyuten())
             {
                 actionID = Kyuten;
                 return true;
@@ -283,13 +361,13 @@ internal partial class SAM
             return true;
         }
 
-        if (!LevelChecked(Senei) && ActionReady(Guren) && InActionRange(Guren))
+        if (!LevelChecked(Senei) && UseGuren())
         {
             actionID = Guren;
             return true;
         }
 
-        if (ActionReady(Shinten) && CanDumpKenki())
+        if (UseShinten())
         {
             actionID = Shinten;
             return true;
@@ -298,7 +376,14 @@ internal partial class SAM
         return false;
     }
 
-    private static uint DoBasicCombo(bool onAoE)
+    private static uint DoBasicCombo(
+        bool onAoE,
+        bool useTrueNorth = true,
+        bool useYukikaze = true,
+        bool useKasha = true,
+        bool useGekko = true,
+        bool useOka = true,
+        int trueNorthCharges = 0)
     {
         if (onAoE)
         {
@@ -309,14 +394,15 @@ internal partial class SAM
                 bool refreshFugetsu = fugetsuRemaining <= fukaRemaining;
                 bool refreshFuka = fukaRemaining <= fugetsuRemaining;
 
-                if ((!HasKa || !HasStatusEffect(Buffs.Fuka) ||
+                if (useOka &&
+                    (!HasKa || !HasStatusEffect(Buffs.Fuka) ||
                      SenCount is 3 && refreshFuka) &&
                     LevelChecked(Oka))
                     return Oka;
 
                 if (LevelChecked(Mangetsu) &&
                     HasStatusEffect(Buffs.Fuka) &&
-                    (!HasGetsu || !HasStatusEffect(Buffs.Fugetsu) || !LevelChecked(Oka) ||
+                    (!HasGetsu || !HasStatusEffect(Buffs.Fugetsu) || !useOka || !LevelChecked(Oka) ||
                      SenCount is 3 && refreshFugetsu))
                     return Mangetsu;
             }
@@ -335,23 +421,25 @@ internal partial class SAM
 
                 if (!LevelChecked(Gekko))
                 {
-                    if (LevelChecked(Shifu) &&
+                    if (useKasha && LevelChecked(Shifu) &&
                         (!HasStatusEffect(Buffs.Fuka) ||
                          HasStatusEffect(Buffs.Fugetsu) && refreshFuka))
                         return Shifu;
 
-                    if (LevelChecked(Jinpu))
+                    if (useGekko && LevelChecked(Jinpu))
                         return Jinpu;
 
-                    if (LevelChecked(Shifu))
+                    if (useKasha && LevelChecked(Shifu))
                         return Shifu;
                 }
 
-                if (LevelChecked(Yukikaze) && !HasSetsu &&
+                if (useYukikaze &&
+                    LevelChecked(Yukikaze) && !HasSetsu &&
                     fugetsuRemaining > 7 && fukaRemaining > 7)
                     return Yukikaze;
 
-                if (LevelChecked(Shifu) &&
+                if (useKasha &&
+                    LevelChecked(Shifu) &&
                     ((OnTargetsFlank() || OnTargetsFront()) && !HasKa && LevelChecked(Kasha) ||
                      OnTargetsRear() && HasGetsu && LevelChecked(Kasha) ||
                      !HasStatusEffect(Buffs.Fuka) ||
@@ -359,7 +447,8 @@ internal partial class SAM
                      !LevelChecked(Kasha) && LevelChecked(Gekko)))
                     return Shifu;
 
-                if (LevelChecked(Jinpu) &&
+                if (useGekko &&
+                    LevelChecked(Jinpu) &&
                     (!LevelChecked(Kasha) && LevelChecked(Gekko) ||
                      (OnTargetsRear() || OnTargetsFront()) && !HasGetsu && LevelChecked(Gekko) ||
                      OnTargetsFlank() && HasKa && LevelChecked(Gekko) ||
@@ -368,11 +457,11 @@ internal partial class SAM
                     return Jinpu;
             }
 
-            if (ComboAction is Jinpu && LevelChecked(Gekko))
-                return WithTrueNorth(Gekko, OnTargetsRear());
+            if (useGekko && ComboAction is Jinpu && LevelChecked(Gekko))
+                return WithTrueNorth(Gekko, OnTargetsRear(), useTrueNorth, trueNorthCharges);
 
-            if (ComboAction is Shifu && LevelChecked(Kasha))
-                return WithTrueNorth(Kasha, OnTargetsFlank());
+            if (useKasha && ComboAction is Shifu && LevelChecked(Kasha))
+                return WithTrueNorth(Kasha, OnTargetsFlank(), useTrueNorth, trueNorthCharges);
         }
 
         return OriginalHook(Hakaze);

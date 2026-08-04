@@ -170,7 +170,7 @@ internal partial class SAM
     private static int HiganbanaHPThreshold()
     {
         if (InBossEncounter())
-            return TargetIsBoss() ? SAM_ST_HiganbanaBossHPOption : SAM_ST_HiganbanaBossAddsHPOption;
+            return TargetIsBoss() ? SAM_ST_HiganbanaHPOption : SAM_ST_HiganbanaAddsHPOption;
 
         return SAM_ST_HiganbanaTrashHPOption;
     }
@@ -255,10 +255,6 @@ internal partial class SAM
         ActionReady(Shoha) &&
         MeditationStacks is 3 &&
         InActionRange(Shoha);
-
-    private static bool UseHagakure() =>
-        ActionReady(Hagakure) &&
-        OriginalHook(Iaijutsu) is MidareSetsugekka or TendoSetsugekka;
 
     private static bool ShouldRefreshFugetsu =>
         GetStatusEffectRemainingTime(Buffs.Fugetsu) <=
@@ -495,10 +491,10 @@ internal partial class SAM
 
     internal abstract class SAMOpenerBase : WrathOpener
     {
-        public override Preset Preset => Preset.SAM_ST_Opener;
+        public override Preset Preset => Preset.SAM_ST_Adv_Opener;
 
         internal override UserData ContentCheckConfig => SAM_Balance_Content;
-        internal override bool IncludePot => SAM_Opener_Potion;
+        internal override bool IncludePot => SAM_ST_Opener_Potion;
 
         public override List<(int[] Steps, Func<float> HoldDelay)> PrepullDelays { get; set; } =
         [
@@ -659,8 +655,8 @@ internal partial class SAM
         [
             ([2], () => !TargetNeedsPositionals()),
             ([19, 24], () => !ActionReady(Shinten)),
-            ([21], () => !ActionReady(Gyoten) || (int)SAM_Opener_IncludeGyoten is 1 or 2),
-            ([26], () => !ActionReady(Gyoten) || (int)SAM_Opener_IncludeGyoten is 1 or 3),
+            ([21], () => !ActionReady(Gyoten) || (int)SAM_ST_Opener_IncludeGyoten is 1 or 2),
+            ([26], () => !ActionReady(Gyoten) || (int)SAM_ST_Opener_IncludeGyoten is 1 or 3),
             ([8, 25], () => SenCount is not 3 && !(SenCount is 2 && JustUsed(Yukikaze))),
             ([10, 27], () => !HasStatusEffect(Buffs.TsubameReady) && !JustUsed(TendoSetsugekka)),
             ([14], () => SenCount is not 1 && !(SenCount is 2 && JustUsed(Gekko)))

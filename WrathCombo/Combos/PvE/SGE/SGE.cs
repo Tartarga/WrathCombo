@@ -79,7 +79,7 @@ internal partial class SGE : Healer
 
         protected override uint Invoke(uint actionID)
         {
-            uint[] dosisActions = (int)SGE_ST_DPS_Advanced == 1
+            uint[] dosisActions = (int)SGE_ST_Adv_DPS_Advanced == 1
                 ? [Dosis2]
                 : DosisList.Keys.ToArray();
 
@@ -92,7 +92,7 @@ internal partial class SGE : Healer
             if (UseKardia(simpleMode: false))
                 return Kardia.Retarget(actionID, Target);
 
-            if (IsEnabled(Preset.SGE_ST_DPS_Opener) &&
+            if (IsEnabled(Preset.SGE_ST_Adv_DPS_Opener) &&
                 Opener().FullOpener(ref actionID))
                 return actionID;
 

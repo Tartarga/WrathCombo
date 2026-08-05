@@ -17,6 +17,9 @@ internal partial class SAM : Melee
             if (UsePrepullMeikyo())
                 return MeikyoShisui;
 
+            if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
+                return contentAction;
+
             if (CanWeave())
             {
                 if (UseMeikyo(false))
@@ -61,6 +64,9 @@ internal partial class SAM : Melee
 
             if (UsePrepullMeikyo())
                 return MeikyoShisui;
+
+            if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
+                return contentAction;
 
             if (CanWeave())
             {
@@ -114,7 +120,7 @@ internal partial class SAM : Melee
                 UsePrepullMeikyo(requireNotJustUsed: true))
                 return MeikyoShisui;
 
-            if (ContentSpecificActions.TryGet(out uint contentAction))
+            if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
             if (CanWeave())
@@ -243,7 +249,7 @@ internal partial class SAM : Melee
                 UsePrepullMeikyo(requireNotJustUsed: true))
                 return MeikyoShisui;
 
-            if (ContentSpecificActions.TryGet(out uint contentAction))
+            if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
             if (CanWeave())

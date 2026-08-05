@@ -66,6 +66,7 @@ public sealed unsafe class CustomAction : IDisposable
         row->ClassJob = -1;
         row->Range = 0;
         row->CastType = 1;
+        row->TargetBools |= 0x08;
         nameUtf8.CopyTo(new Span<byte>((void*)(ActionRowPtr + (nint)rowSize), nameUtf8.Length));
 
         byte[] descBytes = Encoding.UTF8.GetBytes(Description);
@@ -347,6 +348,7 @@ public sealed unsafe class CustomActionManager : IDisposable
         [FieldOffset(0x33)] public byte ClassJobCategory;
         [FieldOffset(0x37)] public sbyte ClassJob;
         [FieldOffset(0x38)] public sbyte Range;
+        [FieldOffset(0x3B)] public byte TargetBools;
     }
 
     private delegate CustomActionRow* GetActionRowDelegate(uint rowId);

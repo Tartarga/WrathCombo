@@ -197,6 +197,8 @@ internal partial class SAM
 
         bool afterFinisher =
             JustUsed(Yukikaze, 2f) || JustUsed(Gekko, 2f) || JustUsed(Kasha, 2f);
+        bool afterKaeshi =
+            JustUsed(KaeshiSetsugekka, 2f) || JustUsed(TendoKaeshiSetsugekka, 2f);
 
         if (TargetIsBoss() && GetTargetHPPercent() < meikyoExecuteThreshold && afterFinisher)
             return true;
@@ -205,49 +207,38 @@ internal partial class SAM
             return afterFinisher;
 
         float seneiCd = GetCooldownRemainingTime(Senei);
-        bool seneiForBurst = seneiCd <= GCD * 2;
-        bool seneiApproaching = seneiCd > GCD * 2 && seneiCd <= GCD * 5;
-        bool seneiMidCycle = seneiCd > GCD * 10 && seneiCd < 50;
+        bool seneiSoon = seneiCd < 7f;
         bool oddMinutePreEnhanced = !HasEnhancedSenei && seneiCd is > 50 and < 65;
         uint meikyoCharges = GetRemainingCharges(MeikyoShisui);
 
-        if ((JustUsed(KaeshiSetsugekka, 2f) || JustUsed(TendoKaeshiSetsugekka, 2f)) &&
-            (seneiForBurst || oddMinutePreEnhanced))
-            return true;
-
         float higanbanaRemaining = GetStatusEffectRemainingTime(Debuffs.Higanbana, CurrentTarget);
         bool higanbanaUrgent =
-            !HasStatusEffect(Debuffs.Higanbana, CurrentTarget) ||
-            higanbanaRemaining <= 15;
-
-        if (afterFinisher &&
+            afterFinisher &&
             SenCount < 3 &&
             SenCount is not 1 &&
-            higanbanaUrgent)
-            return true;
+            (!HasStatusEffect(Debuffs.Higanbana, CurrentTarget) || higanbanaRemaining <= 15);
 
-        if (afterFinisher &&
-            SenCount < 3 &&
-            seneiApproaching)
+        if (higanbanaUrgent)
             return true;
 
         if (HasEnhancedSenei &&
             meikyoCharges >= 2 &&
             JustUsed(KaeshiNamikiri, 10f) &&
             afterFinisher &&
-            seneiMidCycle)
-            return true;
-
-        if (afterFinisher && (seneiForBurst || oddMinutePreEnhanced))
+            seneiCd > GCD * 10 && seneiCd < 50)
             return true;
 
         if (TraitLevelChecked(Traits.EnhancedMeikyoShishui) &&
-            meikyoCharges >= 2 &&
+            meikyoCharges >= 1 &&
             afterFinisher &&
-            (seneiMidCycle || !HasEnhancedSenei && !seneiForBurst && !seneiApproaching))
+            GetCooldownChargeRemainingTime(MeikyoShisui) <= GCD * 2 &&
+            !seneiSoon)
             return true;
 
-        return false;
+        if (!seneiSoon && !oddMinutePreEnhanced)
+            return false;
+
+        return afterKaeshi || afterFinisher;
     }
 
     private static bool UseIkishoten() =>
@@ -357,8 +348,8 @@ internal partial class SAM
         ActionWatching.NumberOfGcdsUsed >= 4 &&
         (!LevelChecked(TendoSetsugekka) ||
          HasStatusEffect(Buffs.Tendo) && SenCount >= 2 ||
-         JustUsed(TendoSetsugekka, GCD * 2) ||
-         JustUsed(TendoKaeshiSetsugekka, GCD * 2));
+         JustUsed(TendoSetsugekka, GCD * 3) ||
+         JustUsed(TendoKaeshiSetsugekka, GCD * 3));
 
     private static bool UseGuren() =>
         ActionReady(Guren) && InActionRange(Guren);

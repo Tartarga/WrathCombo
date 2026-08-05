@@ -102,11 +102,11 @@ internal partial class SAM
             return false;
 
         if (SenCount is 3 ||
-            GetStatusEffectRemainingTime(Buffs.TsubameReady) < 5 ||
+            GetStatusEffectRemainingTime(Buffs.TsubameReady) < 8 ||
             !InBossEncounter())
             return true;
 
-        return LevelChecked(Senei) && GetCooldownRemainingTime(Senei) <= GCD * 2;
+        return LevelChecked(Senei) && GetCooldownRemainingTime(Senei) <= GCD * 5;
     }
 
     private static bool UseIaiJutsu(
@@ -206,13 +206,12 @@ internal partial class SAM
 
         float seneiCd = GetCooldownRemainingTime(Senei);
         bool seneiForBurst = seneiCd <= GCD * 2;
-        bool seneiApproaching = seneiCd > GCD * 2 && seneiCd <= GCD * 10;
+        bool seneiApproaching = seneiCd > GCD * 2 && seneiCd <= GCD * 5;
         bool seneiMidCycle = seneiCd > GCD * 10 && seneiCd < 50;
         bool oddMinutePreEnhanced = !HasEnhancedSenei && seneiCd is > 50 and < 65;
         uint meikyoCharges = GetRemainingCharges(MeikyoShisui);
 
         if ((JustUsed(KaeshiSetsugekka, 2f) || JustUsed(TendoKaeshiSetsugekka, 2f)) &&
-            SenCount is 3 &&
             (seneiForBurst || oddMinutePreEnhanced))
             return true;
 
@@ -240,8 +239,7 @@ internal partial class SAM
             return true;
 
         if (afterFinisher && (seneiForBurst || oddMinutePreEnhanced))
-            return JustUsed(Yukikaze, 2f) ||
-                   HasSetsu && (JustUsed(Gekko, 2f) || JustUsed(Kasha, 2f));
+            return true;
 
         if (TraitLevelChecked(Traits.EnhancedMeikyoShishui) &&
             meikyoCharges >= 2 &&
@@ -256,9 +254,9 @@ internal partial class SAM
         ActionReady(Ikishoten) &&
         !HasStatusEffect(Buffs.ZanshinReady) &&
         Kenki <= 50 &&
-        (ActionWatching.NumberOfGcdsUsed >= 2 ||
-         JustUsed(Senei, 15f) ||
-         !LevelChecked(Senei));
+        (!LevelChecked(Senei) ||
+         JustUsed(Senei, 20f) ||
+         GetCooldownRemainingTime(Senei) <= GCD * 3);
 
     private static bool UseZanshin() =>
         ActionReady(Zanshin) &&
@@ -350,8 +348,8 @@ internal partial class SAM
         ActionWatching.NumberOfGcdsUsed >= 4 &&
         (!LevelChecked(TendoSetsugekka) ||
          HasStatusEffect(Buffs.Tendo) && SenCount >= 2 ||
-         JustUsed(TendoSetsugekka, 15f) ||
-         JustUsed(TendoKaeshiSetsugekka, 15f));
+         JustUsed(TendoSetsugekka, GCD * 2) ||
+         JustUsed(TendoKaeshiSetsugekka, GCD * 2));
 
     private static bool UseGuren() =>
         ActionReady(Guren) && InActionRange(Guren);

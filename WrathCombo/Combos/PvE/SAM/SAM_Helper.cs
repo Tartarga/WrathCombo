@@ -101,9 +101,12 @@ internal partial class SAM
         if (!HasStatusEffect(Buffs.TsubameReady))
             return false;
 
-        return SenCount is 3 ||
-               GetStatusEffectRemainingTime(Buffs.TsubameReady) < 5 ||
-               !InBossEncounter();
+        if (SenCount is 3 ||
+            GetStatusEffectRemainingTime(Buffs.TsubameReady) < 5 ||
+            !InBossEncounter())
+            return true;
+
+        return LevelChecked(Senei) && GetCooldownRemainingTime(Senei) <= GCD * 2;
     }
 
     private static bool UseIaiJutsu(
@@ -198,15 +201,15 @@ internal partial class SAM
         if (TargetIsBoss() && GetTargetHPPercent() < meikyoExecuteThreshold && afterFinisher)
             return true;
 
-        if (!InBossEncounter())
-            return SenCount is 3 && afterFinisher;
-
         if (!LevelChecked(Senei))
             return afterFinisher;
 
         float seneiCd = GetCooldownRemainingTime(Senei);
         bool seneiForBurst = seneiCd <= GCD * 2;
+        bool seneiApproaching = seneiCd > GCD * 2 && seneiCd <= GCD * 10;
+        bool seneiMidCycle = seneiCd > GCD * 10 && seneiCd < 50;
         bool oddMinutePreEnhanced = !HasEnhancedSenei && seneiCd is > 50 and < 65;
+        uint meikyoCharges = GetRemainingCharges(MeikyoShisui);
 
         if ((JustUsed(KaeshiSetsugekka, 2f) || JustUsed(TendoKaeshiSetsugekka, 2f)) &&
             SenCount is 3 &&
@@ -214,26 +217,39 @@ internal partial class SAM
             return true;
 
         float higanbanaRemaining = GetStatusEffectRemainingTime(Debuffs.Higanbana, CurrentTarget);
+        bool higanbanaUrgent =
+            !HasStatusEffect(Debuffs.Higanbana, CurrentTarget) ||
+            higanbanaRemaining <= 15;
+
         if (afterFinisher &&
             SenCount < 3 &&
-            HasStatusEffect(Debuffs.Higanbana, CurrentTarget) &&
-            higanbanaRemaining <= 15)
+            SenCount is not 1 &&
+            higanbanaUrgent)
+            return true;
+
+        if (afterFinisher &&
+            SenCount < 3 &&
+            seneiApproaching)
             return true;
 
         if (HasEnhancedSenei &&
-            GetRemainingCharges(MeikyoShisui) >= 1 &&
+            meikyoCharges >= 2 &&
             JustUsed(KaeshiNamikiri, 10f) &&
-            GetCooldownChargeRemainingTime(MeikyoShisui) is >= 35 and <= 43)
+            afterFinisher &&
+            seneiMidCycle)
             return true;
 
         if (afterFinisher && (seneiForBurst || oddMinutePreEnhanced))
             return JustUsed(Yukikaze, 2f) ||
                    HasSetsu && (JustUsed(Gekko, 2f) || JustUsed(Kasha, 2f));
 
-        return TraitLevelChecked(Traits.EnhancedMeikyoShishui) &&
-               !HasEnhancedSenei &&
-               GetRemainingCharges(MeikyoShisui) >= 2 &&
-               afterFinisher;
+        if (TraitLevelChecked(Traits.EnhancedMeikyoShishui) &&
+            meikyoCharges >= 2 &&
+            afterFinisher &&
+            (seneiMidCycle || !HasEnhancedSenei && !seneiForBurst && !seneiApproaching))
+            return true;
+
+        return false;
     }
 
     private static bool UseIkishoten() =>
@@ -249,7 +265,8 @@ internal partial class SAM
         InActionRange(Zanshin) &&
         HasStatusEffect(Buffs.ZanshinReady) &&
         (GetStatusEffectRemainingTime(Buffs.ZanshinReady) <= 8 ||
-         JustUsed(Senei, 20f));
+         JustUsed(Senei, 20f) ||
+         JustUsed(Ikishoten, 25f) && !ActionReady(Senei));
 
     private static bool UseShoha() =>
         ActionReady(Shoha) &&
@@ -303,14 +320,30 @@ internal partial class SAM
         if (GetStatusEffectRemainingTime(Buffs.OgiNamikiriReady) <= 8)
             return true;
 
-        return JustUsed(Higanbana, 8f);
+        if (JustUsed(Higanbana, 8f))
+            return true;
+
+        float higanbanaRemaining = GetStatusEffectRemainingTime(Debuffs.Higanbana, CurrentTarget);
+        return JustUsed(Ikishoten, 20f) &&
+               HasStatusEffect(Debuffs.Higanbana, CurrentTarget) &&
+               higanbanaRemaining > 15;
     }
 
-    private static bool CanDumpKenki(int kenkiOvercapAmount = 50) =>
-        Kenki >= 95 ||
-        !LevelChecked(Guren) ||
-        GetCooldownRemainingTime(Guren) > GCD * 6 ||
-        Kenki >= kenkiOvercapAmount;
+    private static bool CanDumpKenki(int kenkiOvercapAmount = 50)
+    {
+        if (Kenki >= 95)
+            return true;
+
+        if (HasStatusEffect(Buffs.ZanshinReady) &&
+            LevelChecked(Zanshin) &&
+            Kenki < 75)
+            return false;
+
+        if (LevelChecked(Guren) && GetCooldownRemainingTime(Guren) <= GCD * 6)
+            return false;
+
+        return Kenki >= kenkiOvercapAmount;
+    }
 
     private static bool UseSenei() =>
         ActionReady(Senei) &&

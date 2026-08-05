@@ -25,6 +25,9 @@ internal partial class SAM : Melee
                 if (UseMeikyo(false))
                     return MeikyoShisui;
 
+                if (NeedKenkiRoomForIkishoten() && UseShinten())
+                    return Shinten;
+
                 if (UseIkishoten())
                     return Ikishoten;
 
@@ -130,6 +133,11 @@ internal partial class SAM : Melee
                     if (IsEnabled(Preset.SAM_ST_Adv_Meikyo) &&
                         UseMeikyo(false, SAM_ST_MeikyoExecuteHP))
                         return MeikyoShisui;
+
+                    if (IsEnabled(Preset.SAM_ST_Adv_Shinten) &&
+                        NeedKenkiRoomForIkishoten() &&
+                        UseShinten(SAM_ST_ShintenExecuteHP, SAM_ST_ShintenKenkiOvercap))
+                        return Shinten;
 
                     if (IsEnabled(Preset.SAM_ST_Adv_Ikishoten) &&
                         UseIkishoten())

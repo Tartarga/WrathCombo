@@ -327,6 +327,12 @@ internal partial class SAM
                higanbanaRemaining > 15;
     }
 
+    private static bool NeedKenkiRoomForIkishoten() =>
+        LevelChecked(Ikishoten) &&
+        !HasStatusEffect(Buffs.ZanshinReady) &&
+        Kenki > 50 &&
+        (ActionReady(Ikishoten) || GetCooldownRemainingTime(Ikishoten) <= GCD * 5);
+
     private static bool CanDumpKenki(int kenkiOvercapAmount = 50)
     {
         if (Kenki >= 95)
@@ -337,8 +343,11 @@ internal partial class SAM
             Kenki < 75)
             return false;
 
+        if (NeedKenkiRoomForIkishoten())
+            return true;
+
         if (LevelChecked(Guren) && GetCooldownRemainingTime(Guren) <= GCD * 6)
-            return false;
+            return Kenki >= 75;
 
         return Kenki >= kenkiOvercapAmount;
     }
@@ -380,6 +389,12 @@ internal partial class SAM
             }
 
             return false;
+        }
+
+        if (NeedKenkiRoomForIkishoten() && UseShinten())
+        {
+            actionID = Shinten;
+            return true;
         }
 
         if (UseSenei())

@@ -60,16 +60,11 @@ internal partial class SAM
             return actionID;
         }
 
-        if (useYukikaze &&
-            LevelChecked(Yukikaze) && !HasSetsu &&
-            (HasKa || !useGekko) &&
-            (HasGetsu || !useKasha))
-            return Yukikaze;
-
         if (useGekko &&
             LevelChecked(Gekko) &&
             (!LevelChecked(Kasha) || !useKasha ||
              !HasStatusEffect(Buffs.Fugetsu) ||
+             !HasGetsu ||
              (OnTargetsRear() || OnTargetsFront()) && !HasGetsu ||
              OnTargetsFlank() && HasKa))
             return WithTrueNorth(Gekko, OnTargetsRear(), useTrueNorth, trueNorthCharges);
@@ -77,9 +72,17 @@ internal partial class SAM
         if (useKasha &&
             LevelChecked(Kasha) &&
             (!HasStatusEffect(Buffs.Fuka) ||
+             !HasKa ||
              (OnTargetsFlank() || OnTargetsFront()) && !HasKa ||
              OnTargetsRear() && HasGetsu))
             return WithTrueNorth(Kasha, OnTargetsFlank(), useTrueNorth, trueNorthCharges);
+
+        if (useYukikaze &&
+            LevelChecked(Yukikaze) &&
+            !HasSetsu &&
+            HasGetsu &&
+            HasKa)
+            return Yukikaze;
 
         return actionID;
     }
@@ -257,15 +260,15 @@ internal partial class SAM
         InActionRange(Zanshin) &&
         HasStatusEffect(Buffs.ZanshinReady) &&
         !UseSenei() &&
-        !(ActionReady(Senei) && Kenki < 75) &&
+        !ActionReady(Senei) &&
         (GetStatusEffectRemainingTime(Buffs.ZanshinReady) <= 8 ||
-         JustUsed(Senei, 20f) ||
-         JustUsed(Ikishoten, 25f) && !ActionReady(Senei));
+         JustUsed(Senei, 20f));
 
     private static bool UseShoha() =>
         ActionReady(Shoha) &&
         MeditationStacks is 3 &&
-        InActionRange(Shoha);
+        InActionRange(Shoha) &&
+        (!LevelChecked(Senei) || GetCooldownRemainingTime(Senei) >= 7f);
 
     private static bool ShouldRefreshFugetsu =>
         GetStatusEffectRemainingTime(Buffs.Fugetsu) <=
@@ -343,10 +346,10 @@ internal partial class SAM
             Kenki < 75)
             return false;
 
-        if (NeedKenkiForSenei() && Kenki < 50)
+        if (NeedKenkiForSenei() && Kenki < 70)
             return false;
 
-        if (ActionReady(Senei) && Kenki < 50)
+        if (ActionReady(Senei) && Kenki < 70)
             return false;
 
         if (NeedKenkiRoomForIkishoten() && !ActionReady(Senei))

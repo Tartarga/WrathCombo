@@ -102,11 +102,11 @@ internal partial class SAM
             return false;
 
         if (SenCount is 3 ||
-            GetStatusEffectRemainingTime(Buffs.TsubameReady) < 8 ||
+            GetStatusEffectRemainingTime(Buffs.TsubameReady) < 3 ||
             !InBossEncounter())
             return true;
 
-        return LevelChecked(Senei) && GetCooldownRemainingTime(Senei) <= GCD * 5;
+        return LevelChecked(Senei) && GetCooldownRemainingTime(Senei) < 7f;
     }
 
     private static bool UseIaiJutsu(
@@ -163,6 +163,9 @@ internal partial class SAM
 
         if (remaining <= GCD * 2)
             return true;
+
+        if (LevelChecked(Senei) && GetCooldownRemainingTime(Senei) < 7f)
+            return false;
 
         if (HasEnhancedSenei)
             return JustUsed(Senei, 35f) || JustUsed(Ikishoten, 35f);
@@ -253,6 +256,8 @@ internal partial class SAM
         ActionReady(Zanshin) &&
         InActionRange(Zanshin) &&
         HasStatusEffect(Buffs.ZanshinReady) &&
+        !UseSenei() &&
+        !(ActionReady(Senei) && Kenki < 75) &&
         (GetStatusEffectRemainingTime(Buffs.ZanshinReady) <= 8 ||
          JustUsed(Senei, 20f) ||
          JustUsed(Ikishoten, 25f) && !ActionReady(Senei));
@@ -318,6 +323,10 @@ internal partial class SAM
                higanbanaRemaining > 15;
     }
 
+    private static bool NeedKenkiForSenei() =>
+        LevelChecked(Senei) &&
+        GetCooldownRemainingTime(Senei) < 7f;
+
     private static bool NeedKenkiRoomForIkishoten() =>
         LevelChecked(Ikishoten) &&
         !HasStatusEffect(Buffs.ZanshinReady) &&
@@ -334,7 +343,13 @@ internal partial class SAM
             Kenki < 75)
             return false;
 
-        if (NeedKenkiRoomForIkishoten())
+        if (NeedKenkiForSenei() && Kenki < 50)
+            return false;
+
+        if (ActionReady(Senei) && Kenki < 50)
+            return false;
+
+        if (NeedKenkiRoomForIkishoten() && !ActionReady(Senei))
             return true;
 
         if (LevelChecked(Guren) && GetCooldownRemainingTime(Guren) <= GCD * 6)
@@ -382,12 +397,6 @@ internal partial class SAM
             return false;
         }
 
-        if (NeedKenkiRoomForIkishoten() && UseShinten())
-        {
-            actionID = Shinten;
-            return true;
-        }
-
         if (UseSenei())
         {
             actionID = Senei;
@@ -397,6 +406,12 @@ internal partial class SAM
         if (!LevelChecked(Senei) && UseGuren())
         {
             actionID = Guren;
+            return true;
+        }
+
+        if (NeedKenkiRoomForIkishoten() && !ActionReady(Senei) && UseShinten())
+        {
+            actionID = Shinten;
             return true;
         }
 
@@ -536,7 +551,8 @@ internal partial class SAM
         public override List<(int[] Steps, Func<float> HoldDelay)> PrepullDelays { get; set; } =
         [
             ([1], () => CountdownRemaining - 13),
-            ([2], () => CountdownRemaining - 5)
+            ([2], () => CountdownRemaining - 5),
+            ([3], () => CountdownRemaining)
         ];
 
         public override List<(int[] Steps, Func<bool> Condition)> SkipSteps { get; set; } =

@@ -25,11 +25,20 @@ internal partial class SAM : Melee
                 if (UseMeikyo(false))
                     return MeikyoShisui;
 
-                if (NeedKenkiRoomForIkishoten() && UseShinten())
+                if (UseSenei())
+                    return Senei;
+
+                if (!LevelChecked(Senei) && UseGuren())
+                    return Guren;
+
+                if (NeedKenkiRoomForIkishoten() && !ActionReady(Senei) && UseShinten())
                     return Shinten;
 
                 if (UseIkishoten())
                     return Ikishoten;
+
+                if (UseSenei())
+                    return Senei;
 
                 if (UseZanshin())
                     return Zanshin;
@@ -75,6 +84,9 @@ internal partial class SAM : Melee
             {
                 if (UseMeikyo(true))
                     return MeikyoShisui;
+
+                if (UseGuren())
+                    return Guren;
 
                 if (UseIkishoten())
                     return Ikishoten;
@@ -133,15 +145,6 @@ internal partial class SAM : Melee
                     if (IsEnabled(Preset.SAM_ST_Adv_Meikyo) &&
                         UseMeikyo(false, SAM_ST_MeikyoExecuteHP))
                         return MeikyoShisui;
-
-                    if (IsEnabled(Preset.SAM_ST_Adv_Shinten) &&
-                        NeedKenkiRoomForIkishoten() &&
-                        UseShinten(SAM_ST_ShintenExecuteHP, SAM_ST_ShintenKenkiOvercap))
-                        return Shinten;
-
-                    if (IsEnabled(Preset.SAM_ST_Adv_Ikishoten) &&
-                        UseIkishoten())
-                        return Ikishoten;
                 }
 
                 if (IsEnabled(Preset.SAM_ST_Adv_Damage))
@@ -156,6 +159,26 @@ internal partial class SAM : Melee
                             UseGuren())
                             return Guren;
                     }
+                }
+
+                if (IsEnabled(Preset.SAM_ST_Adv_CDs))
+                {
+                    if (IsEnabled(Preset.SAM_ST_Adv_Shinten) &&
+                        NeedKenkiRoomForIkishoten() &&
+                        !ActionReady(Senei) &&
+                        UseShinten(SAM_ST_ShintenExecuteHP, SAM_ST_ShintenKenkiOvercap))
+                        return Shinten;
+
+                    if (IsEnabled(Preset.SAM_ST_Adv_Ikishoten) &&
+                        UseIkishoten())
+                        return Ikishoten;
+                }
+
+                if (IsEnabled(Preset.SAM_ST_Adv_Damage))
+                {
+                    if (IsEnabled(Preset.SAM_ST_Adv_Senei) &&
+                        UseSenei())
+                        return Senei;
 
                     if (IsEnabled(Preset.SAM_ST_Adv_Zanshin) &&
                         UseZanshin())

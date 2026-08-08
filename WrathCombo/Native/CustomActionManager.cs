@@ -5,6 +5,7 @@ using Dalamud.Plugin.Services;
 using ECommons;
 using ECommons.DalamudServices;
 using ECommons.EzHookManager;
+using FFXIVClientStructs.FFXIV.Client.Enums;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -54,12 +55,12 @@ public sealed unsafe class CustomAction : IDisposable
         CustomActionManager.CustomActionRow* row = (CustomActionManager.CustomActionRow*)ActionRowPtr;
         row->NameOffset = (uint)rowSize;
         row->Icon = (ushort)IconId;
-        row->ActionCategory = 4;
+        row->ActionCategory = 13;
         row->PrimaryCostType = 0;
         row->PrimaryCostValue = 0;
         row->Cast100ms = 0;
         row->Recast100ms = 0;
-        row->CooldownGroup = 58;
+        row->CooldownGroup = 0;
         row->AdditionalRecastGroup = 0;
         row->MaxCharges = 1;
         row->ClassJobCategory = 1;
@@ -168,6 +169,16 @@ public sealed unsafe class CustomActionManager : IDisposable
     {
         _framework.Update -= OnFrameworkUpdate;
 
+        AgentActionDetail* detailAgent = AgentActionDetail.Instance();
+        if (detailAgent != null && _actions.ContainsKey(detailAgent->ActionId))
+        {
+            detailAgent->Hide();
+            detailAgent->ActionKind = DetailKind.None;
+            detailAgent->ActionId = 0;
+            detailAgent->OriginalId = 0;
+            detailAgent->AdjustedId = 0;
+        }
+
         _getActionRowHook.Dispose();
         _isSlotUsableHook.Dispose();
         _loadIconHook.Dispose();
@@ -216,17 +227,6 @@ public sealed unsafe class CustomActionManager : IDisposable
         }
     }
 
-    public void ReRegisterItem(uint itemId, ushort iconId)
-    {
-        var act = _actions[All.Items];
-        if (_texProv.TryGetFromGameIcon(new GameIconLookup() { IconId = iconId, ItemHq = false }, out var tex))
-        {
-            var clone = new CustomAction(act.Id, act.Name, act.Description, iconId, act.OnClick, act.CustomIconPath, itemId, tex);
-            act.Dispose();
-            Register(clone);
-        }
-    }
-
     public void ClearPendingInjects() => _pendingInjects.Clear();
 
     private CustomActionRow* GetActionRowDetour(uint rowId)
@@ -251,7 +251,7 @@ public sealed unsafe class CustomActionManager : IDisposable
                                     uint actionId)
     {
         if (type == RaptureHotbarModule.HotbarSlotType.Action &&
-            _actions.ContainsKey(actionId))
+            _actions.ContainsKey(actionId) && actionId != All.Cease)
         {
             return true;
         }

@@ -132,19 +132,40 @@ public static class GameObjectExtensions
 
         /// <summary>
         ///     Can be chained onto a <see cref="IGameObject" /> to make it return
+        ///     <see langword="null" /> if the target is not within range.
+        /// </summary>
+        /// <param name="range">The range to check against. Defaults to 25 yalms.</param>
+        public IGameObject? IfWithinActionRange
+            (uint actionId) =>
+            obj != null && InActionRange(actionId, obj) ? obj : null;
+
+        public bool IsWithinActionRange
+            (uint actionId) =>
+            obj != null && InActionRange(actionId, obj);
+
+        /// <summary>
+        ///     Can be chained onto a <see cref="IGameObject" /> to make it return
         ///     <see langword="null" /> if the target is not within line of sight.
         /// </summary>
         public IGameObject? IfWithinLineOfSight
             () =>
             obj != null && IsInLineOfSight(obj) ? obj : null;
 
+        public bool IsWithinLineOfSight
+            () =>
+            obj != null && IsInLineOfSight(obj);
+
+        public IGameObject? IfInSightInRangeCanUseOn
+            (uint actionId) =>
+            obj != null && obj.CanUseOn(actionId) && obj.IsWithinActionRange(actionId) && obj.IsWithinLineOfSight() ? obj : null;
+
         /// <summary>
         ///     Can be chained onto a <see cref="IGameObject" /> to make it return
         ///     <see langword="null" /> if the target is not below 99% HP.
         /// </summary>
-        public IGameObject? IfMissingHP() =>
+        public IGameObject? IfMissingHP(float missingHpp = 99) =>
             obj is IBattleChara battle &&
-            battle.CurrentHp / battle.MaxHp * 100 < 99
+            battle.CurrentHp / battle.MaxHp * 100 <= missingHpp
                 ? obj
                 : null;
 

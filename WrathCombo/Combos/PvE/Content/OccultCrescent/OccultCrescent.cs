@@ -1277,40 +1277,45 @@ internal partial class OccultCrescent
             }
         }
 
-        if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultCureII, OccultCureII_RDM) &&
-            PlayerHP <= Phantom_RedMage_OccultCureII_Health)
+        if (!IsMoving())
         {
-            actionID = OccultCureII_RDM;
-            return true;
-        }
+            if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultCureII, OccultCureII_RDM) &&
+                TryRetargetPhantomCure(ref actionID, 
+                OccultCureII_RDM, Phantom_RedMage_OccultCureII_Health, 
+                IsEnabled(Preset.Phantom_RedMage_OccultCureII_Retarget), 
+                Phantom_RedMage_Retarget_OutOfParty))
+            {
+                return true;
+            }
 
-        if (IsEnabled(Preset.Phantom_RestrictToBuff) && !Bursting.PlayerIsDamageBuffed)
-            return false;
-        if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultBlizzardII, OccultBlizzardII) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.IceWeakness, CurrentTarget, true))
-        {
-            actionID = OccultBlizzardII;
-            return true;
-        }
+            if (IsEnabled(Preset.Phantom_RestrictToBuff) && !Bursting.PlayerIsDamageBuffed)
+                return false;
+            if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultBlizzardII, OccultBlizzardII) && HasBattleTarget() &&
+                HasStatusEffect(Debuffs.IceWeakness, CurrentTarget, true))
+            {
+                actionID = OccultBlizzardII;
+                return true;
+            }
 
-        if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultThunderII, OccultThunderII) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.LightningWeakness, CurrentTarget, true))
-        {
-            actionID = OccultThunderII;
-            return true;
-        }
+            if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultThunderII, OccultThunderII) && HasBattleTarget() &&
+                HasStatusEffect(Debuffs.LightningWeakness, CurrentTarget, true))
+            {
+                actionID = OccultThunderII;
+                return true;
+            }
 
-        if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultFireII, OccultFireII) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.FireWeakness, CurrentTarget, true))
-        {
-            actionID = OccultFireII;
-            return true;
-        }
+            if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultFireII, OccultFireII) && HasBattleTarget() &&
+                HasStatusEffect(Debuffs.FireWeakness, CurrentTarget, true))
+            {
+                actionID = OccultFireII;
+                return true;
+            }
 
-        if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultFireII, OccultFireII) && HasBattleTarget())
-        {
-            actionID = OccultFireII;
-            return true;
+            if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultFireII, OccultFireII) && HasBattleTarget())
+            {
+                actionID = OccultFireII;
+                return true;
+            }
         }
 
         return false;
@@ -1461,6 +1466,42 @@ internal partial class OccultCrescent
         var originalId = actionID;
         actionID = raiseAction.Retarget(originalId, raiseTarget);
         return true;
+    }
+
+    private static bool TryRetargetPhantomCure(ref uint actionID, uint cureAction, float HPThreshold, bool retargeting, bool outOfParty)
+    {
+        var originalId = actionID;
+        // If player HP is at or below threshold, heal self
+        if (PlayerHP <= HPThreshold)
+        {
+            actionID = cureAction.Retarget(originalId, SimpleTarget.Self);
+            return true;
+        }
+
+        // If retargeting is disabled, no action taken
+        if (!retargeting)
+            return false;
+
+        // Try to find lowest HP ally at or below threshold
+        var allyTarget = SimpleTarget.LowestHPAlly?.IfMissingHP(HPThreshold).IfInSightInRangeCanUseOn(actionID);
+        if (allyTarget != null)
+        {
+            actionID = cureAction.Retarget(originalId, allyTarget);
+            return true;
+        }
+
+        // If no in-party ally found and out-of-party is allowed, try out-of-party allies
+        if (outOfParty)
+        {
+            var outOfPartyTarget = SimpleTarget.LowestHPAllyOutOfParty?.IfMissingHP(HPThreshold).IfInSightInRangeCanUseOn(actionID);
+            if (outOfPartyTarget != null)
+            {
+                actionID = cureAction.Retarget(originalId, outOfPartyTarget);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static bool CanPhantomRaise() =>

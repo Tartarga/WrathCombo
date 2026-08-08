@@ -8,6 +8,7 @@ using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using static WrathCombo.Combos.PvE.OccultCrescent.Config;
 using ContentHelper = ECommons.GameHelpers;
 using IntendedUse = ECommons.ExcelServices.TerritoryIntendedUseEnum;
+using ECommons.DalamudServices;
 namespace WrathCombo.Combos.PvE;
 
 internal partial class OccultCrescent
@@ -351,7 +352,7 @@ internal partial class OccultCrescent
                 !HasStatusEffect(RDM.Buffs.Dualcast) &&
                 !HasStatusEffect(Buffs.Dualcast))
             {
-                if (HasActionEquipped(OccultQuick) && ActionReady(OccultQuick))
+                if (ActionReady(OccultQuick))
                 {
                     actionID = OccultQuick;
                     return true;
@@ -494,7 +495,7 @@ internal partial class OccultCrescent
         bool canStillInvulnForStarfall =
             Phantom_Oracle_SaveInvulnForStarfall &&
             IsEnabled(Preset.Phantom_Oracle_Invulnerability) &&
-            HasActionEquipped(Invulnerability) && ActionReady(Invulnerability) &&
+            ActionReady(Invulnerability) &&
             !HasStatusEffect(Buffs.Invulnerability);
         bool holdForStarfall = !lastCard && starfallStillInDeck && canStillInvulnForStarfall &&
                                GetStatusEffectRemainingTime(OracleCurrentCard) > 3f;
@@ -1273,9 +1274,6 @@ internal partial class OccultCrescent
                 return true;
             }
         }
-
-        if (CanWeaveNow)
-            return false;
 
         if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultCureII, OccultCureII_RDM) &&
             PlayerHP <= Phantom_RedMage_OccultCureII_Health)

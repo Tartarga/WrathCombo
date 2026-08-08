@@ -1497,6 +1497,7 @@ internal partial class OccultCrescent
             var outOfPartyTarget = SimpleTarget.LowestHPAllyOutOfParty?.IfMissingHP(HPThreshold).IfInSightInRangeCanUseOn(cureAction);
             if (outOfPartyTarget != null)
             {
+                Svc.Log.Debug($"Healing OOP {outOfPartyTarget.Name}");
                 actionID = cureAction.Retarget(originalId, outOfPartyTarget);
                 return true;
             }

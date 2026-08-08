@@ -1269,7 +1269,7 @@ internal partial class OccultCrescent
             return false;
         if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultLibra, OccultLibra))
         {
-            var canDebuff = EnemiesInRange(OccultLibra).Any(x => x.IsInCombat() && !HasLibraWeakness(x) && CanApplyLibraWeakness(x));
+            var canDebuff = EnemiesInRange(OccultLibra).Any(x => x.IsInCombat() && x.IsTargetable && !HasLibraWeakness(x) && CanApplyLibraWeakness(x));
             if (canDebuff && (!IsEnabled(Preset.Phantom_RestrictToBuff) || Bursting.PlayerIsDamageBuffed))
             {
                 actionID = OccultLibra;

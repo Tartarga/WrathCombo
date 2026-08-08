@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Dalamud.Game.ClientState.Objects.Types;
+using ECommons.DalamudServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WrathCombo.Core;
 using WrathCombo.CustomComboNS;
 using WrathCombo.Data;
-using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
+using WrathCombo.Extensions;
 using static WrathCombo.Combos.PvE.OccultCrescent.Config;
+using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using ContentHelper = ECommons.GameHelpers;
 using IntendedUse = ECommons.ExcelServices.TerritoryIntendedUseEnum;
-using Dalamud.Game.ClientState.Objects.Types;
-using WrathCombo.Extensions;
 namespace WrathCombo.Combos.PvE;
 
 internal partial class OccultCrescent
@@ -1280,9 +1281,9 @@ internal partial class OccultCrescent
         if (!IsMoving())
         {
             if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultCureII, OccultCureII_RDM) &&
-                TryRetargetPhantomCure(ref actionID, 
-                OccultCureII_RDM, Phantom_RedMage_OccultCureII_Health, 
-                IsEnabled(Preset.Phantom_RedMage_OccultCureII_Retarget), 
+                TryRetargetPhantomCure(ref actionID,
+                OccultCureII_RDM, Phantom_RedMage_OccultCureII_Health,
+                IsEnabled(Preset.Phantom_RedMage_OccultCureII_Retarget),
                 Phantom_RedMage_Retarget_OutOfParty))
             {
                 return true;
@@ -1483,7 +1484,7 @@ internal partial class OccultCrescent
             return false;
 
         // Try to find lowest HP ally at or below threshold
-        var allyTarget = SimpleTarget.LowestHPAlly?.IfMissingHP(HPThreshold).IfInSightInRangeCanUseOn(actionID);
+        var allyTarget = SimpleTarget.LowestHPAlly?.IfMissingHP(HPThreshold).IfInSightInRangeCanUseOn(cureAction);
         if (allyTarget != null)
         {
             actionID = cureAction.Retarget(originalId, allyTarget);
@@ -1493,7 +1494,7 @@ internal partial class OccultCrescent
         // If no in-party ally found and out-of-party is allowed, try out-of-party allies
         if (outOfParty)
         {
-            var outOfPartyTarget = SimpleTarget.LowestHPAllyOutOfParty?.IfMissingHP(HPThreshold).IfInSightInRangeCanUseOn(actionID);
+            var outOfPartyTarget = SimpleTarget.LowestHPAllyOutOfParty?.IfMissingHP(HPThreshold).IfInSightInRangeCanUseOn(cureAction);
             if (outOfPartyTarget != null)
             {
                 actionID = cureAction.Retarget(originalId, outOfPartyTarget);

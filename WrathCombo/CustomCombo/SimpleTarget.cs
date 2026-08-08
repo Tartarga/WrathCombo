@@ -246,8 +246,8 @@ internal static class SimpleTarget
 
                 // Fall back to Hard Target, if the stack is small and returned nothing
                 if (Service.Configuration.RaiseStack.Length <= 4)
-                    return HardTarget.IfCanUseOn(WHM.Raise).IfDead() ??
-                           AnyDeadPartyMember;
+                    return CustomLogic(HardTarget.IfDead()) ??
+                           CustomLogic(AnyDeadPartyMember);
             }
 
             #endregion

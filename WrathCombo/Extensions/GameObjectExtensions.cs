@@ -57,10 +57,8 @@ public static class GameObjectExtensions
                    obj.IsAPlayer() &&
                    !HasStatusEffect(2648, obj, true) && // just rezzed
                    !HasStatusEffect(148, obj, true) && // pending rezz
-                   !HasStatusEffect(4263, obj, true) && // un-rezzable (OC)
                    obj.IsTargetable &&
-                   (TimeSpentDead(obj.GameObjectId)
-                       .TotalSeconds > 2 || !obj.IsInParty());
+                   TimeSpentDead(obj.GameObjectId).TotalSeconds > 2;
         }
 
         #region Target Classification

@@ -8,7 +8,8 @@ using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using static WrathCombo.Combos.PvE.OccultCrescent.Config;
 using ContentHelper = ECommons.GameHelpers;
 using IntendedUse = ECommons.ExcelServices.TerritoryIntendedUseEnum;
-using ECommons.DalamudServices;
+using Dalamud.Game.ClientState.Objects.Types;
+using WrathCombo.Extensions;
 namespace WrathCombo.Combos.PvE;
 
 internal partial class OccultCrescent
@@ -1266,9 +1267,10 @@ internal partial class OccultCrescent
     {
         if (!IsEnabled(Preset.Phantom_RedMage))
             return false;
-        if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultLibra, OccultLibra) && InCombat() && CanWeave())
+        if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultLibra, OccultLibra))
         {
-            if (!IsEnabled(Preset.Phantom_RestrictToBuff) || Bursting.PlayerIsDamageBuffed)
+            var canDebuff = EnemiesInRange(OccultLibra).Any(x => x.IsInCombat() && !HasLibraWeakness(x) && CanApplyLibraWeakness(x));
+            if (canDebuff && (!IsEnabled(Preset.Phantom_RestrictToBuff) || Bursting.PlayerIsDamageBuffed))
             {
                 actionID = OccultLibra;
                 return true;
@@ -1310,6 +1312,30 @@ internal partial class OccultCrescent
             actionID = OccultFireII;
             return true;
         }
+
+        return false;
+    }
+
+    private static bool HasLibraWeakness(IGameObject? tar)
+    {
+        var statuses = tar?.SafeStatusList;
+        if (statuses == null) return false;
+
+        foreach (var s in statuses)
+        {
+            if (s.StatusId is Debuffs.FireWeakness or Debuffs.IceWeakness or Debuffs.WindWeakness or Debuffs.LightningWeakness)
+                return true;
+        }
+        return false;
+    }
+
+    private static bool CanApplyLibraWeakness(IGameObject? tar)
+    {
+        var statuses = tar?.SafeStatusList;
+        if (statuses == null) return false;
+
+        if (CanApplyStatus(tar, Debuffs.FireWeakness) || CanApplyStatus(tar, Debuffs.IceWeakness) || CanApplyStatus(tar, Debuffs.LightningWeakness) || CanApplyStatus(tar, Debuffs.WindWeakness))
+            return true;
 
         return false;
     }
@@ -1442,8 +1468,8 @@ internal partial class OccultCrescent
         (IsEnabledAndUsable(Preset.Phantom_Chemist_Revive, Revive) ||
          IsEnabledAndUsable(Preset.Phantom_WhiteMage_OccultRaise, OccultRaise));
 
-    private static readonly HashSet<ushort> OracleRemainingCards = [];
-    private static ushort OracleCurrentCard;
+    private static readonly HashSet<uint> OracleRemainingCards = [];
+    private static uint OracleCurrentCard;
 
     private static void ResetOracleDeck()
     {
@@ -1457,7 +1483,7 @@ internal partial class OccultCrescent
 
     private static void UpdateOracleDeck()
     {
-        ushort card = 0;
+        uint card = 0;
         if (HasStatusEffect(Buffs.PredictionOfBlessing))
             card = Buffs.PredictionOfBlessing;
         else if (HasStatusEffect(Buffs.PredictionOfCleansing))
@@ -1486,7 +1512,7 @@ internal partial class OccultCrescent
         OracleCurrentCard = card;
     }
 
-    private static void MarkOracleCardPlayed(ushort card)
+    private static void MarkOracleCardPlayed(uint card)
     {
         OracleRemainingCards.Remove(card);
         if (OracleCurrentCard == card)

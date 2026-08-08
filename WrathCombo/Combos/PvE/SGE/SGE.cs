@@ -25,7 +25,7 @@ internal partial class SGE : Healer
             if (UseKardia(simpleMode: true))
                 return Kardia.Retarget(actionID, Target);
 
-            if (ContentSpecificActions.TryGet(out uint contentAction))
+            if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
             if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: true, onAoE: false, [actionID]))
@@ -56,7 +56,7 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEDPS, DyskrasiaList.ToArray()))
                 return actionID;
 
-            if (ContentSpecificActions.TryGet(out uint contentAction))
+            if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
             if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: true, onAoE: true, [actionID]))
@@ -96,7 +96,7 @@ internal partial class SGE : Healer
                 Opener().FullOpener(ref actionID))
                 return actionID;
 
-            if (ContentSpecificActions.TryGet(out uint contentAction))
+            if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
             if (UseRaidwide(ref actionID))
@@ -130,7 +130,7 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEDPS, DyskrasiaList.ToArray()))
                 return actionID;
 
-            if (ContentSpecificActions.TryGet(out uint contentAction))
+            if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
             if (UseRaidwide(ref actionID))

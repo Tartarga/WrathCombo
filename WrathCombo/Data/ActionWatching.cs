@@ -605,7 +605,8 @@ public static class ActionWatching
 
                 if (replacedWith >= All.SingleTargetDPS)
                 {
-                    Svc.Toasts.ShowError("This is a custom action, it does nothing on its own.");
+                    if (replacedWith != All.Cease)
+                        Svc.Toasts.ShowError("This is a custom action, it does nothing on its own.");
                     return false;
                 }
 
@@ -717,7 +718,7 @@ public static class ActionWatching
             target is null)
             return false;
 
-        if (actionId == OccultCrescent.Revive)
+        if (actionId == OccultCrescent.Revive || actionId == OccultCrescent.OccultRaise)
         {
             target = SimpleTarget.Stack.AllyToRaise;
             if (target is null) return false;

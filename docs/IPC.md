@@ -235,13 +235,10 @@ comments on each method.
   - Returns `SetResult.OkayWorking` when all sets succeed; continues on individual option failures
   - Does not change Cure HP sliders (`Variant_*_Cure` in config)
 - `string? GetOccultParentComboName(uint phantomJobID)`
-  - Gets the parent preset internal name for an Occult Crescent Phantom Job
-    (e.g. Chemist `10` → `Phantom_Chemist`)
-  - `phantomJobID` is the Phantom Job ID (0–23), not a ClassJob ID
+  - Gets the parent preset internal name for a Phantom Job (e.g. Chemist → `Phantom_Chemist`)
+  - Use Occult Crescent Phantom Job IDs (0–23), not ClassJob IDs
 - `List? GetOccultOptionNames(uint phantomJobID)`
-  - Gets all child option internal names for that Phantom Job pack
-    (valid for `SetComboOptionState`)
-  - Does not include `Phantom_RestrictToBuff`
+  - Gets all child option internal names for that Phantom Job pack (valid for `SetComboOptionState`)
 - `SetResult SetOccultReadyForPhantomJob(Guid, uint phantomJobID, bool)`
   - Enables or disables the parent and all options for that Phantom Job under your lease
   - Returns `SetResult.OkayWorking` when all sets succeed; continues on individual option failures
@@ -454,12 +451,10 @@ Cure HP thresholds remain user config (sliders), not IPC.
 
 ### Occult Crescent
 
-Occult Crescent packs are keyed by **Phantom Job ID** (0–23), not ClassJob.
-Parents also appear under `GetComboNamesForJob` for `Job.ADV`, but the helpers
-below are the supported way to arm a single Phantom Job pack.
+Occult Crescent packs use Phantom Job IDs (0–23), not ClassJob IDs.
 
 ```csharp
-// Enable Chemist Phantom Job (ID 10)
+// Enable Occult for a specific Phantom Job ID
 const uint chemist = 10;
 WrathIPCWrapper.SetOccultReadyForPhantomJob(lease, chemist, true);
 
@@ -470,8 +465,10 @@ foreach (var option in WrathIPCWrapper.GetOccultOptionNames(chemist)!)
     WrathIPCWrapper.SetComboOptionState(lease, option, true);
 ```
 
-`SetOccultReadyForPhantomJob` does **not** enable `Phantom_RestrictToBuff`.
-Config sliders remain user config, not IPC.
+Phantom Job ID is the support job in Occult Crescent (same as in-game). Occult
+actions only run when the parent preset is enabled.
+
+`Phantom_RestrictToBuff` and config sliders remain user config, not IPC.
 
 Lastly, you will need to release control when you are done, you are incentivized to
 release control yourself so the user is not incentivized to revoke control from you:
@@ -501,7 +498,7 @@ resources below, or the first several sections of this guide.
 
 ## Changelog
 
-- Added methods to enable Occult Crescent Phantom Job setup:
+- Added methods to enable Occult Crescent Phantom Job setup :
   `GetOccultParentComboName`, `GetOccultOptionNames`, `SetOccultReadyForPhantomJob`.
 - PunishXIV/WrathCombo#1181 - Added methods to enable Variant setup :
   `GetVariantParentComboName`, `GetVariantOptionNames`, `SetVariantReadyForJob`

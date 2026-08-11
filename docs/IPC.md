@@ -30,6 +30,7 @@ These are the settings that are accessible via the IPC:
 - PvE Combos state and their Auto-Mode state
 - PvE Options state
 - Variant Dungeon skills
+- Occult Crescent Phantom Job skills
 
 These are the settings that are not accessible via the IPC:
 - **All** Auto-Rotation configuration options
@@ -233,6 +234,18 @@ comments on each method.
   - Enables or disables the parent and all options for that job's role under your lease
   - Returns `SetResult.OkayWorking` when all sets succeed; continues on individual option failures
   - Does not change Cure HP sliders (`Variant_*_Cure` in config)
+- `string? GetOccultParentComboName(uint phantomJobID)`
+  - Gets the parent preset internal name for an Occult Crescent Phantom Job
+    (e.g. Chemist `10` → `Phantom_Chemist`)
+  - `phantomJobID` is the Phantom Job ID (0–23), not a ClassJob ID
+- `List? GetOccultOptionNames(uint phantomJobID)`
+  - Gets all child option internal names for that Phantom Job pack
+    (valid for `SetComboOptionState`)
+  - Does not include `Phantom_RestrictToBuff`
+- `SetResult SetOccultReadyForPhantomJob(Guid, uint phantomJobID, bool)`
+  - Enables or disables the parent and all options for that Phantom Job under your lease
+  - Returns `SetResult.OkayWorking` when all sets succeed; continues on individual option failures
+  - Does not enable `Phantom_RestrictToBuff` or change config sliders
 - `object? GetAutoRotationConfigState(AutoRotationConfigOption)`
   - Gets the state of an Auto-Rotation configuration option, whether by the user
       or another plugin
@@ -418,8 +431,9 @@ See how AutoDuty does this, and to what extent,
 
 ### Variant Dungeons
 
-Variant presets are **not** returned by `GetComboOptionNamesForJob`. Either pass
-`enableVariant: true` to `SetCurrentJobAutoRotationReady`.
+Variant presets are **not** returned by `GetComboOptionNamesForJob`. Use
+`SetVariantReadyForJob` (or the getters + `SetComboState` /
+`SetComboOptionState` below).
 
 ```csharp
 // Enable Variant for a specific job ID (same IDs as ECommons.ExcelServices.Job)
@@ -437,6 +451,27 @@ Role is derived from the job ID (same as in-game). Variant actions only run insi
 Variant dungeon when the parent preset is enabled.
 
 Cure HP thresholds remain user config (sliders), not IPC.
+
+### Occult Crescent
+
+Occult Crescent packs are keyed by **Phantom Job ID** (0–23), not ClassJob.
+Parents also appear under `GetComboNamesForJob` for `Job.ADV`, but the helpers
+below are the supported way to arm a single Phantom Job pack.
+
+```csharp
+// Enable Chemist Phantom Job (ID 10)
+const uint chemist = 10;
+WrathIPCWrapper.SetOccultReadyForPhantomJob(lease, chemist, true);
+
+// Or enable parent + specific options yourself
+var parent = WrathIPCWrapper.GetOccultParentComboName(chemist);
+WrathIPCWrapper.SetComboState(lease, parent!, comboState: true);
+foreach (var option in WrathIPCWrapper.GetOccultOptionNames(chemist)!)
+    WrathIPCWrapper.SetComboOptionState(lease, option, true);
+```
+
+`SetOccultReadyForPhantomJob` does **not** enable `Phantom_RestrictToBuff`.
+Config sliders remain user config, not IPC.
 
 Lastly, you will need to release control when you are done, you are incentivized to
 release control yourself so the user is not incentivized to revoke control from you:
@@ -466,6 +501,8 @@ resources below, or the first several sections of this guide.
 
 ## Changelog
 
+- Added methods to enable Occult Crescent Phantom Job setup:
+  `GetOccultParentComboName`, `GetOccultOptionNames`, `SetOccultReadyForPhantomJob`.
 - PunishXIV/WrathCombo#1181 - Added methods to enable Variant setup :
   `GetVariantParentComboName`, `GetVariantOptionNames`, `SetVariantReadyForJob`
   `1.0.4.8`.

@@ -538,6 +538,51 @@ public class Search(Leasing leasing)
 
     #endregion
 
+    #region Occult Crescent
+
+    /// <summary>
+    ///     Phantom Job ID → parent preset internal name (e.g. 1 →
+    ///     <c>Phantom_Knight</c>). Built from
+    ///     <see cref="PresetStorage.PresetData.OccultCrescentJob" />; excludes
+    ///     <c>Phantom_RestrictToBuff</c> (<c>JobId == -1</c>).
+    /// </summary>
+    [field: AllowNull, MaybeNull]
+    private Dictionary<int, string> OccultParentNames =>
+        field ??= Presets
+            .Where(preset =>
+                !preset.Value.HasParentCombo &&
+                preset.Value.presetData is
+                {
+                    IsOccultCrescent: true,
+                    OccultCrescentJob.JobId: >= 0,
+                })
+            .ToDictionary(
+                preset => preset.Value.presetData.OccultCrescentJob!.JobId,
+                preset => preset.Key);
+
+    internal bool TryGetOccultParentComboName
+        (uint phantomJobID, [NotNullWhen(true)] out string? parent) =>
+        OccultParentNames.TryGetValue((int)phantomJobID, out parent);
+
+    internal string? GetOccultParentComboName(uint phantomJobID) =>
+        OccultParentNames.GetValueOrDefault((int)phantomJobID);
+
+    internal List<string> GetOccultOptionNames(uint phantomJobID)
+    {
+        if (!TryGetOccultParentComboName(phantomJobID, out var parent))
+            return [];
+
+        return Presets
+            .Where(preset =>
+                preset.Value is { HasParentCombo: true } &&
+                preset.Value.presetData.IsOccultCrescent &&
+                preset.Value.ParentComboName == parent)
+            .Select(preset => preset.Key)
+            .ToList();
+    }
+
+    #endregion
+
     /// <summary>
     ///     A wrapper for <see cref="Configuration.AutoActions" /> with
     ///     IPC settings on top.

@@ -237,7 +237,7 @@ comments on each method.
 - `string? GetOccultParentComboName(uint phantomJobID)`
   - Gets the parent preset internal name for a Phantom Job (e.g. Chemist → `Phantom_Chemist`)
   - Use Occult Crescent Phantom Job IDs (0–23), not ClassJob IDs
-- `List? GetOccultOptionNames(uint phantomJobID)`
+- `List<string>? GetOccultOptionNames(uint phantomJobID)`
   - Gets all child option internal names for that Phantom Job pack (valid for `SetComboOptionState`)
 - `SetResult SetOccultReadyForPhantomJob(Guid, uint phantomJobID, bool)`
   - Enables or disables the parent and all options for that Phantom Job under your lease
@@ -498,7 +498,7 @@ resources below, or the first several sections of this guide.
 
 ## Changelog
 
-- Added methods to enable Occult Crescent Phantom Job setup :
+- Added methods to enable Occult Crescent Phantom Job setup:
   `GetOccultParentComboName`, `GetOccultOptionNames`, `SetOccultReadyForPhantomJob`.
 - PunishXIV/WrathCombo#1181 - Added methods to enable Variant setup :
   `GetVariantParentComboName`, `GetVariantOptionNames`, `SetVariantReadyForJob`

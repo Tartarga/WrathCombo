@@ -7374,133 +7374,133 @@ GCD를 소모하며 기절 면역 적에게 무의미할 수 있습니다.
     <value>'검풍'을 단일 대상 원버튼 딜사이클로 대체합니다.
 딜사이클을 사용자에 맞게 세부 설정하고 싶을 때 적합합니다.</value>
   </data>
-  <data name="SAM_ST_Opener_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Opener_Name" xml:space="preserve">
     <value>Balance 오프너 (70/80/90/100레벨)</value>
   </data>
-  <data name="SAM_ST_Opener_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Opener_Desc" xml:space="preserve">
     <value>각 레벨별 Balance 추천 오프너를 추가합니다.</value>
   </data>
-  <data name="SAM_ST_Yukikaze_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Yukikaze_Name" xml:space="preserve">
     <value>설풍 콤보</value>
   </data>
-  <data name="SAM_ST_Yukikaze_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Yukikaze_Desc" xml:space="preserve">
     <value>딜사이클에 설풍 콤보를 추가합니다.</value>
   </data>
-  <data name="SAM_ST_Kasha_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Kasha_Name" xml:space="preserve">
     <value>화차 콤보</value>
   </data>
-  <data name="SAM_ST_Kasha_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Kasha_Desc" xml:space="preserve">
     <value>딜사이클에 화차 콤보를 추가합니다.</value>
   </data>
-  <data name="SAM_ST_Gekko_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Gekko_Name" xml:space="preserve">
     <value>월광 콤보</value>
   </data>
-  <data name="SAM_ST_Gekko_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Gekko_Desc" xml:space="preserve">
     <value>딜사이클에 월광 콤보를 추가합니다.</value>
   </data>
-  <data name="SAM_ST_CDs_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_CDs_Name" xml:space="preserve">
     <value>주요 콤보 내 논글로벌(oGCD) 기술</value>
   </data>
-  <data name="SAM_ST_CDs_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_CDs_Desc" xml:space="preserve">
     <value>주요 콤보 중에 사용할 논글로벌 기술 설정 모음입니다.</value>
   </data>
-  <data name="SAM_ST_CDs_MeikyoShisui_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meikyo_Name" xml:space="preserve">
     <value>명경지수 옵션</value>
   </data>
-  <data name="SAM_ST_CDs_MeikyoShisui_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meikyo_Desc" xml:space="preserve">
     <value>딜사이클에 '명경지수'를 추가합니다.</value>
   </data>
-  <data name="SAM_ST_CDs_Ikishoten_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Ikishoten_Name" xml:space="preserve">
     <value>의기충천 옵션</value>
   </data>
-  <data name="SAM_ST_CDs_Ikishoten_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Ikishoten_Desc" xml:space="preserve">
     <value>검기가 50 이하일 때 '의기충천'을 사용합니다.
 94레벨 미만: 의기충천 사용을 위해 쿨타임 10초 전부터 검기를 소모합니다.
 94레벨 이상: 버스트 구간에 사용합니다.</value>
   </data>
-  <data name="SAM_ST_Damage_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Damage_Name" xml:space="preserve">
     <value>주요 콤보 내 공격 기술</value>
   </data>
-  <data name="SAM_ST_Damage_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Damage_Desc" xml:space="preserve">
     <value>주요 콤보 중에 시전할 추가 공격 기술 설정입니다.</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Name" xml:space="preserve">
     <value>거합술 옵션</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Desc" xml:space="preserve">
     <value>딜사이클에 '난설월화', '피안화', '반전설월화'를 추가합니다.</value>
   </data>
-  <data name="SAM_ST_CDs_UseHiganbana_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Higanbana_Name" xml:space="preserve">
     <value>피안화 추가</value>
   </data>
-  <data name="SAM_ST_CDs_UseHiganbana_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Higanbana_Desc" xml:space="preserve">
     <value>세부 설정에 따라 '피안화'를 사용합니다.</value>
   </data>
-  <data name="SAM_ST_CDs_UseTenkaGoken_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_TenkaGoken_Name" xml:space="preserve">
     <value>천하오검 추가</value>
   </data>
-  <data name="SAM_ST_CDs_UseTenkaGoken_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_TenkaGoken_Desc" xml:space="preserve">
     <value>50레벨 미만으로 레벨 조율 시 '천하오검'을 사용합니다.</value>
   </data>
-  <data name="SAM_ST_CDs_UseMidare_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Midare_Name" xml:space="preserve">
     <value>난설월화 추가</value>
   </data>
-  <data name="SAM_ST_CDs_UseMidare_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Midare_Desc" xml:space="preserve">
     <value>'난설월화' 및 '천도설월화'를 사용합니다.</value>
   </data>
-  <data name="SAM_ST_CDs_UseTsubame_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Tsubame_Name" xml:space="preserve">
     <value>제비반전 추가</value>
   </data>
-  <data name="SAM_ST_CDs_UseTsubame_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Tsubame_Desc" xml:space="preserve">
     <value>'제비반전' 및 '천도반전설월화'를 사용합니다.</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Movement_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Movement_Name" xml:space="preserve">
     <value>이동 중 거합술 제한</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Movement_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Movement_Desc" xml:space="preserve">
     <value>움직이지 않을 때만 '난설월화'와 '피안화'를 시전합니다.</value>
   </data>
-  <data name="SAM_ST_CDs_Senei_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Senei_Name" xml:space="preserve">
     <value>섬영 옵션</value>
   </data>
-  <data name="SAM_ST_CDs_Senei_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Senei_Desc" xml:space="preserve">
     <value>딜사이클에 '필살검: 섬영'을 추가합니다.</value>
   </data>
-  <data name="SAM_ST_CDs_OgiNamikiri_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_OgiNamikiri_Name" xml:space="preserve">
     <value>오의파절 옵션</value>
   </data>
-  <data name="SAM_ST_CDs_OgiNamikiri_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_OgiNamikiri_Desc" xml:space="preserve">
     <value>딜사이클에 '오의파절'과 '반전파절'을 추가합니다.</value>
   </data>
-  <data name="SAM_ST_CDs_Zanshin_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Zanshin_Name" xml:space="preserve">
     <value>잔심 옵션</value>
   </data>
-  <data name="SAM_ST_CDs_Zanshin_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Zanshin_Desc" xml:space="preserve">
     <value>사용 가능 시 딜사이클에 '잔심'을 추가합니다.</value>
   </data>
-  <data name="SAM_ST_CDs_Shoha_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shoha_Name" xml:space="preserve">
     <value>조파 옵션</value>
   </data>
-  <data name="SAM_ST_CDs_Shoha_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shoha_Desc" xml:space="preserve">
     <value>검압 스택이 3개일 때 '조파'를 사용합니다.</value>
   </data>
-  <data name="SAM_ST_Shinten_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shinten_Name" xml:space="preserve">
     <value>진천 옵션</value>
   </data>
-  <data name="SAM_ST_Shinten_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shinten_Desc" xml:space="preserve">
     <value>딜사이클에 '필살검: 진천'을 추가합니다. 버스트를 위해 검기를 비축합니다.</value>
   </data>
-  <data name="SAM_ST_RangedUptime_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_RangedUptime_Name" xml:space="preserve">
     <value>원거리 공격 기능</value>
   </data>
-  <data name="SAM_ST_RangedUptime_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_RangedUptime_Desc" xml:space="preserve">
     <value>대상이 사거리 밖에 있을 때 '제비오름'을 사용합니다.
 가능할 경우 오의파절이나 거합술을 우선합니다.</value>
   </data>
-  <data name="SAM_ST_TrueNorth_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_TrueNorth_Name" xml:space="preserve">
     <value>진북 기능</value>
   </data>
-  <data name="SAM_ST_TrueNorth_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_TrueNorth_Desc" xml:space="preserve">
     <value>방향 보너스를 받기 어려운 위치일 때 자동으로 '진북'을 사용합니다.</value>
   </data>
   <data name="SAM_ST_StunInterupt_Name" xml:space="preserve">
@@ -7509,29 +7509,29 @@ GCD를 소모하며 기절 면역 적에게 무의미할 수 있습니다.
   <data name="SAM_ST_StunInterupt_Desc" xml:space="preserve">
     <value>적이 기술을 시전할 때 '다리 쳐내기'로 차단합니다.</value>
   </data>
-  <data name="SAM_ST_ComboHeals_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_ComboHeals_Name" xml:space="preserve">
     <value>생존기 자동 사용</value>
   </data>
-  <data name="SAM_ST_ComboHeals_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_ComboHeals_Desc" xml:space="preserve">
     <value>HP가 설정값 이하일 때 '피의 목욕'과 '내단'을 사용합니다.</value>
   </data>
-  <data name="SAM_ST_Feint_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Feint_Name" xml:space="preserve">
     <value>견제 옵션</value>
   </data>
-  <data name="SAM_ST_Feint_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Feint_Desc" xml:space="preserve">
     <value>적의 광역 공격 시전이 감지되면 '견제'를 사용합니다.</value>
   </data>
-  <data name="SAM_ST_ThirdEye_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_ThirdEye_Name" xml:space="preserve">
     <value>심안 옵션</value>
   </data>
-  <data name="SAM_ST_ThirdEye_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_ThirdEye_Desc" xml:space="preserve">
     <value>광역 공격 시전이 감지되면 '심안'을 사용합니다.
 솔로 플레이 시에는 대기 시간이 끝날 때마다 사용합니다.</value>
   </data>
-  <data name="SAM_ST_Meditate_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meditate_Name" xml:space="preserve">
     <value>묵상 옵션</value>
   </data>
-  <data name="SAM_ST_Meditate_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meditate_Desc" xml:space="preserve">
     <value>전투 중 이동하지 않고 대상이 없을 때 자동으로 '묵상'을 시전합니다.</value>
   </data>
   <data name="SAM_AoE_AdvancedMode_Name" xml:space="preserve">
@@ -7541,10 +7541,10 @@ GCD를 소모하며 기절 면역 적에게 무의미할 수 있습니다.
     <value>'풍아'를 광역 원버튼 딜사이클로 대체합니다.
 사용자에 맞게 세부 설정하고 싶을 때 적합합니다.</value>
   </data>
-  <data name="SAM_AoE_Oka_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Oka_Name" xml:space="preserve">
     <value>앵화 콤보</value>
   </data>
-  <data name="SAM_AoE_Oka_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Oka_Desc" xml:space="preserve">
     <value>딜사이클에 앵화 콤보를 추가합니다.</value>
   </data>
   <data name="SAM_AoE_Hagakure_Name" xml:space="preserve">
@@ -7553,16 +7553,16 @@ GCD를 소모하며 기절 면역 적에게 무의미할 수 있습니다.
   <data name="SAM_AoE_Hagakure_Desc" xml:space="preserve">
     <value>3섬 상태일 때 딜사이클에 '무사도'를 추가합니다.</value>
   </data>
-  <data name="SAM_AoE_CDs_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_CDs_Name" xml:space="preserve">
     <value>광역 논글로벌(oGCD) 기술</value>
   </data>
-  <data name="SAM_AoE_CDs_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_CDs_Desc" xml:space="preserve">
     <value>광역 콤보 중에 사용할 논글로벌 기술 설정 모음입니다.</value>
   </data>
-  <data name="SAM_AoE_MeikyoShisui_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Meikyo_Name" xml:space="preserve">
     <value>명경지수 옵션</value>
   </data>
-  <data name="SAM_AoE_MeikyoShisui_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Meikyo_Desc" xml:space="preserve">
     <value>딜사이클에 '명경지수'를 추가합니다.</value>
   </data>
   <data name="SAM_AOE_CDs_Ikishoten_Name" xml:space="preserve">
@@ -7572,46 +7572,46 @@ GCD를 소모하며 기절 면역 적에게 무의미할 수 있습니다.
     <value>검기가 50 이하일 때 '의기충천'을 사용합니다.
 사용 가능 10초 전부터 검기를 소모하여 사용 공간을 확보합니다.</value>
   </data>
-  <data name="SAM_AoE_Damage_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Damage_Name" xml:space="preserve">
     <value>광역 공격 기술</value>
   </data>
-  <data name="SAM_AoE_Damage_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Damage_Desc" xml:space="preserve">
     <value>광역 콤보 중에 시전할 추가 공격 기술 설정입니다.</value>
   </data>
-  <data name="SAM_AoE_TenkaGoken_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_TenkaGoken_Name" xml:space="preserve">
     <value>거합술 옵션</value>
   </data>
-  <data name="SAM_AoE_TenkaGoken_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_TenkaGoken_Desc" xml:space="preserve">
     <value>움직이지 않을 때 '천하오검', '난설월화', '반전오검'을 기술 회전에 추가합니다.</value>
   </data>
-  <data name="SAM_AoE_Guren_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Guren_Name" xml:space="preserve">
     <value>홍련 옵션</value>
   </data>
-  <data name="SAM_AoE_Guren_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Guren_Desc" xml:space="preserve">
     <value>기술 회전에 '필살검: 홍련'을 추가합니다.</value>
   </data>
-  <data name="SAM_AoE_OgiNamikiri_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_OgiNamikiri_Name" xml:space="preserve">
     <value>오의파절 옵션</value>
   </data>
-  <data name="SAM_AoE_OgiNamikiri_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_OgiNamikiri_Desc" xml:space="preserve">
     <value>움직이지 않을 때 '오의파절'과 '반전파절'을 기술 회전에 추가합니다.</value>
   </data>
-  <data name="SAM_AoE_Zanshin_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Zanshin_Name" xml:space="preserve">
     <value>잔심 옵션</value>
   </data>
-  <data name="SAM_AoE_Zanshin_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Zanshin_Desc" xml:space="preserve">
     <value>딜사이클에 '잔심'을 추가합니다.</value>
   </data>
-  <data name="SAM_AoE_Shoha_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Shoha_Name" xml:space="preserve">
     <value>조파 옵션</value>
   </data>
-  <data name="SAM_AoE_Shoha_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Shoha_Desc" xml:space="preserve">
     <value>검압 스택이 3개일 때 '조파'를 사용합니다.</value>
   </data>
-  <data name="SAM_AoE_Kyuten_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Kyuten_Name" xml:space="preserve">
     <value>구천 옵션</value>
   </data>
-  <data name="SAM_AoE_Kyuten_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Kyuten_Desc" xml:space="preserve">
     <value>딜사이클에 '필살검: 구천'을 추가합니다.</value>
   </data>
   <data name="SAM_AoE_StunInterupt_Name" xml:space="preserve">
@@ -7620,10 +7620,10 @@ GCD를 소모하며 기절 면역 적에게 무의미할 수 있습니다.
   <data name="SAM_AoE_StunInterupt_Desc" xml:space="preserve">
     <value>적이 기술을 시전할 때 '다리 쳐내기'로 차단합니다.</value>
   </data>
-  <data name="SAM_AoE_ComboHeals_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_ComboHeals_Name" xml:space="preserve">
     <value>생존기 옵션</value>
   </data>
-  <data name="SAM_AoE_ComboHeals_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_ComboHeals_Desc" xml:space="preserve">
     <value>HP가 설정값 이하일 때 '피의 갈증'과 '내단'을 사용합니다.</value>
   </data>
   <data name="SAM_ST_YukikazeCombo_Name" xml:space="preserve">

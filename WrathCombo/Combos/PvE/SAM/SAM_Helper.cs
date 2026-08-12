@@ -80,8 +80,8 @@ internal partial class SAM
         if (useYukikaze &&
             LevelChecked(Yukikaze) &&
             !HasSetsu &&
-            HasGetsu &&
-            HasKa)
+            (!useGekko || !LevelChecked(Gekko) || HasGetsu) &&
+            (!useKasha || !LevelChecked(Kasha) || HasKa))
             return Yukikaze;
 
         return actionID;
@@ -363,6 +363,7 @@ internal partial class SAM
 
     private static bool UseSenei() =>
         ActionReady(Senei) &&
+        InActionRange(Senei) &&
         ActionWatching.NumberOfGcdsUsed >= 4 &&
         (!LevelChecked(TendoSetsugekka) ||
          HasStatusEffect(Buffs.Tendo) && SenCount >= 2 ||
@@ -374,6 +375,7 @@ internal partial class SAM
 
     private static bool UseShinten(int executeThreshold = 1, int kenkiOvercapAmount = 50) =>
         ActionReady(Shinten) &&
+        InActionRange(Shinten) &&
         (GetTargetHPPercent() < executeThreshold || CanDumpKenki(kenkiOvercapAmount));
 
     private static bool UseKyuten(int kenkiOvercapAmount = 50) =>
@@ -486,7 +488,8 @@ internal partial class SAM
 
                 if (useYukikaze &&
                     LevelChecked(Yukikaze) && !HasSetsu &&
-                    fugetsuRemaining > 7 && fukaRemaining > 7)
+                    (!useGekko || !LevelChecked(Gekko) || fugetsuRemaining > 7) &&
+                    (!useKasha || !LevelChecked(Kasha) || fukaRemaining > 7))
                     return Yukikaze;
 
                 if (useKasha &&
@@ -495,7 +498,7 @@ internal partial class SAM
                      OnTargetsRear() && HasGetsu && LevelChecked(Kasha) ||
                      !HasStatusEffect(Buffs.Fuka) ||
                      SenCount is 3 && refreshFuka ||
-                     !LevelChecked(Kasha) && LevelChecked(Gekko)))
+                     !LevelChecked(Gekko)))
                     return Shifu;
 
                 if (useGekko &&
@@ -555,7 +558,7 @@ internal partial class SAM
         [
             ([1], () => CountdownRemaining - 13),
             ([2], () => CountdownRemaining - 5),
-            ([3], () => CountdownRemaining)
+            ([3], () => CountdownRemaining - 0.5f)
         ];
 
         public override List<(int[] Steps, Func<bool> Condition)> SkipSteps { get; set; } =

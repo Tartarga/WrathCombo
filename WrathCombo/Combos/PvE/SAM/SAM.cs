@@ -59,6 +59,9 @@ internal partial class SAM : Melee
             if (UseIaiJutsu(false))
                 return OriginalHook(Iaijutsu);
 
+            if (ActionReady(Enpi) && !InMeleeRange() && HasBattleTarget())
+                return Enpi;
+
             return HasStatusEffect(Buffs.MeikyoShisui)
                 ? DoMeikyoCombo(actionID, false)
                 : DoBasicCombo(false);

@@ -296,7 +296,7 @@ public class Search(Leasing leasing)
             g => g.Key,
             g =>
             {
-                var latest = g.OrderByDescending(x => x.LastUpdated).First();
+                var latest = g.MaxBy(x => x.LastUpdated);
                 return (enabled: latest.enabled, autoMode: latest.autoMode);
             }
         );

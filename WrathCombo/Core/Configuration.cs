@@ -497,7 +497,7 @@ public partial class Configuration : IPluginConfiguration
     /// Cache for elemental weaknesses detected on enemies.
     /// Key: BaseId of the enemy, Value: Debuff ID of the elemental weakness
     /// </summary>
-    public Dictionary<uint, uint> ElementalWeaknessCache = [];
+    public Dictionary<uint, uint[]> ElementalWeaknessCache = [];
 
     public HashSet<(ushort Status, uint BaseId)> StatusBlacklist = [];
 

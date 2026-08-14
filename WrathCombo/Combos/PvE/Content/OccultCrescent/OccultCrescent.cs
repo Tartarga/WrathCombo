@@ -1,5 +1,6 @@
 ﻿using Dalamud.Game.ClientState.Objects.Types;
 using ECommons.DalamudServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WrathCombo.Core;
@@ -1294,10 +1295,10 @@ internal partial class OccultCrescent
             if (IsEnabled(Preset.Phantom_RestrictToBuff) && !Bursting.PlayerIsDamageBuffed)
                 return false;
 
-            var weakness = GetElementalWeakness(CurrentTarget);
-            if (weakness is 0 || ((IsEnabledAndUsable(Preset.Phantom_RedMage_OccultFireII, OccultFireII) && weakness is Debuffs.FireWeakness) ||
-                (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultBlizzardII, OccultBlizzardII) && weakness is Debuffs.IceWeakness) ||
-                (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultThunderII, OccultThunderII) && weakness is Debuffs.LightningWeakness)) && !HasLibraWeakness(CurrentTarget))
+            var weakness = GetElementalWeaknesses(CurrentTarget);
+            if (weakness.Length == 0 || ((IsEnabledAndUsable(Preset.Phantom_RedMage_OccultFireII, OccultFireII) && weakness.Any(x => x == Debuffs.FireWeakness)) ||
+                (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultBlizzardII, OccultBlizzardII) && weakness.Any(x => x == Debuffs.IceWeakness)) ||
+                (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultThunderII, OccultThunderII) && weakness.Any(x => x == Debuffs.LightningWeakness))) && !HasLibraWeakness(CurrentTarget))
                 return false;
 
             if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultBlizzardII, OccultBlizzardII) && HasBattleTarget() &&
@@ -1353,21 +1354,6 @@ internal partial class OccultCrescent
             return true;
 
         return false;
-    }
-
-    /// <summary>
-    /// Checks if a target has a specific elemental weakness (cached or active).
-    /// </summary>
-    private static bool HasSpecificWeakness(IGameObject? tar, uint weaknessId)
-    {
-        if (tar == null) return false;
-
-        var elementalWeakness = GetElementalWeakness(tar);
-        if (elementalWeakness == weaknessId)
-            return true;
-
-        // Also check current status as fallback
-        return HasStatusEffect(weaknessId, tar, true);
     }
 
     private static bool TryGetNecromancerAction(ref uint actionID)
@@ -1622,22 +1608,22 @@ internal partial class OccultCrescent
     #region Elemental Weakness Caching
 
     /// <summary>
-    /// Gets the cached elemental weakness for a target by its BaseId.
+    /// Gets all cached elemental weaknesses for a target by its BaseId.
     /// </summary>
     /// <param name="target">The target to check weakness for</param>
-    /// <returns>The weakness debuff ID, or 0 if no weakness is cached</returns>
-    private static uint GetCachedWeakness(IGameObject? target)
+    /// <returns>Array of weakness debuff IDs, or empty array if no weaknesses are cached</returns>
+    private static uint[] GetCachedWeaknesses(IGameObject? target)
     {
-        if (target?.BaseId is null or 0) return 0;
+        if (target?.BaseId is null or 0) return [];
 
-        if (Service.Configuration.ElementalWeaknessCache.TryGetValue(target.BaseId, out var weakness))
-            return weakness;
+        if (Service.Configuration.ElementalWeaknessCache.TryGetValue(target.BaseId, out var weaknesses))
+            return weaknesses ?? [];
 
-        return 0;
+        return [];
     }
 
     /// <summary>
-    /// Caches an elemental weakness for an enemy.
+    /// Adds an elemental weakness to the cache for an enemy, avoiding duplicates.
     /// </summary>
     /// <param name="target">The target to cache weakness for</param>
     /// <param name="weaknessId">The weakness debuff ID to cache</param>
@@ -1645,25 +1631,39 @@ internal partial class OccultCrescent
     {
         if (target?.BaseId is null or 0 || weaknessId == 0) return;
 
-        Service.Configuration.ElementalWeaknessCache[target.BaseId] = weaknessId;
-        Service.Configuration.Save();
+        if (!Service.Configuration.ElementalWeaknessCache.TryGetValue(target.BaseId, out var weaknesses))
+        {
+            weaknesses = [];
+            Service.Configuration.ElementalWeaknessCache[target.BaseId] = weaknesses;
+        }
+
+        // Add only if not already cached
+        if (!weaknesses.Contains(weaknessId))
+        {
+            var newWeaknesses = new List<uint>(weaknesses) { weaknessId };
+            Service.Configuration.ElementalWeaknessCache[target.BaseId] = newWeaknesses.ToArray();
+            Service.Configuration.Save();
+        }
     }
 
     /// <summary>
-    /// Gets the elemental weakness for a target, checking cache first then current status effects.
+    /// Gets all elemental weaknesses for a target, checking cache first then current status effects.
     /// Automatically caches newly detected weaknesses.
     /// </summary>
     /// <param name="target">The target to check weakness for</param>
-    /// <returns>The weakness debuff ID (Fire/Ice/Lightning/Wind), or 0 if no weakness detected</returns>
-    private static uint GetElementalWeakness(IGameObject? target)
+    /// <returns>Array of weakness debuff IDs (Fire/Ice/Lightning/Wind), or empty array if no weaknesses detected</returns>
+    private static uint[] GetElementalWeaknesses(IGameObject? target)
     {
-        if (target == null) return 0;
+        if (target == null) return [];
+
+        var result = new HashSet<uint>();
 
         // Check cache first
-        var cached = GetCachedWeakness(target);
-        if (cached != 0) return cached;
+        var cached = GetCachedWeaknesses(target);
+        foreach (var weakness in cached)
+            result.Add(weakness);
 
-        // Check current status effects
+        // Check current status effects and add any not yet cached
         var statuses = target.SafeStatusList;
         if (statuses != null)
         {
@@ -1672,14 +1672,27 @@ internal partial class OccultCrescent
                 if (status.StatusId is Debuffs.FireWeakness or Debuffs.IceWeakness
                     or Debuffs.LightningWeakness or Debuffs.WindWeakness)
                 {
-                    Svc.Log.Debug($"Caching {status.StatusId} to {target.Name}");
-                    CacheWeakness(target, status.StatusId);
-                    return status.StatusId;
+                    if (!result.Contains(status.StatusId))
+                    {
+                        CacheWeakness(target, status.StatusId);
+                        result.Add(status.StatusId);
+                    }
                 }
             }
         }
 
-        return 0;
+        return result.ToArray();
+    }
+
+    /// <summary>
+    /// Checks if a target has a specific elemental weakness (cached or active).
+    /// </summary>
+    private static bool HasSpecificWeakness(IGameObject? tar, uint weaknessId)
+    {
+        if (tar == null) return false;
+
+        var weaknesses = GetElementalWeaknesses(tar);
+        return weaknesses.Contains(weaknessId);
     }
 
     /// <summary>
@@ -1689,7 +1702,10 @@ internal partial class OccultCrescent
     private static void ClearWeaknessCache(uint baseId)
     {
         if (baseId != 0)
+        {
             Service.Configuration.ElementalWeaknessCache.Remove(baseId);
+            Service.Configuration.Save();
+        }
     }
 
     /// <summary>
@@ -1698,6 +1714,7 @@ internal partial class OccultCrescent
     private static void ClearAllWeaknessCache()
     {
         Service.Configuration.ElementalWeaknessCache.Clear();
+        Service.Configuration.Save();
     }
 
     #endregion

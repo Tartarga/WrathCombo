@@ -1607,6 +1607,9 @@ internal partial class OccultCrescent
 
     #region Elemental Weakness Caching
 
+    public static bool StatusIsElementalWeakness(uint statusId) =>
+        statusId is Debuffs.FireWeakness or Debuffs.IceWeakness or Debuffs.LightningWeakness or Debuffs.WindWeakness;
+
     /// <summary>
     /// Gets all cached elemental weaknesses for a target by its BaseId.
     /// </summary>
@@ -1627,7 +1630,7 @@ internal partial class OccultCrescent
     /// </summary>
     /// <param name="target">The target to cache weakness for</param>
     /// <param name="weaknessId">The weakness debuff ID to cache</param>
-    private static void CacheWeakness(IGameObject? target, uint weaknessId)
+    public static void CacheWeakness(IGameObject? target, uint weaknessId)
     {
         if (target?.BaseId is null or 0 || weaknessId == 0) return;
 

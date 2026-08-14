@@ -7,6 +7,7 @@ using WrathCombo.Core;
 using WrathCombo.CustomComboNS;
 using WrathCombo.Data;
 using WrathCombo.Extensions;
+using WrathCombo.Services;
 using static WrathCombo.Combos.PvE.OccultCrescent.Config;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using ContentHelper = ECommons.GameHelpers;
@@ -1074,21 +1075,21 @@ internal partial class OccultCrescent
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_BlackMage_OccultFireIII, OccultFireIII) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.FireWeakness, CurrentTarget, true))
+            HasSpecificWeakness(CurrentTarget, Debuffs.FireWeakness))
         {
             actionID = OccultFireIII;
             return true;
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_BlackMage_OccultBlizzardIII, OccultBlizzardIII) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.IceWeakness, CurrentTarget, true))
+            HasSpecificWeakness(CurrentTarget, Debuffs.IceWeakness))
         {
             actionID = OccultBlizzardIII;
             return true;
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_BlackMage_OccultThunderIII, OccultThunderIII) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.LightningWeakness, CurrentTarget, true))
+            HasSpecificWeakness(CurrentTarget, Debuffs.LightningWeakness))
         {
             actionID = OccultThunderIII;
             return true;
@@ -1169,21 +1170,21 @@ internal partial class OccultCrescent
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_Summoner_Thunderstorm, Thunderstorm) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.WindWeakness, CurrentTarget, true))
+            HasSpecificWeakness(CurrentTarget, Debuffs.WindWeakness))
         {
             actionID = Thunderstorm;
             return true;
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_Summoner_JudgmentBolt, JudgmentBolt) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.LightningWeakness, CurrentTarget, true))
+            HasSpecificWeakness(CurrentTarget, Debuffs.LightningWeakness))
         {
             actionID = JudgmentBolt;
             return true;
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_Summoner_Hellfire, Hellfire) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.FireWeakness, CurrentTarget, true))
+            HasSpecificWeakness(CurrentTarget, Debuffs.FireWeakness))
         {
             actionID = Hellfire;
             return true;
@@ -1294,21 +1295,21 @@ internal partial class OccultCrescent
             if (IsEnabled(Preset.Phantom_RestrictToBuff) && !Bursting.PlayerIsDamageBuffed)
                 return false;
             if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultBlizzardII, OccultBlizzardII) && HasBattleTarget() &&
-                HasStatusEffect(Debuffs.IceWeakness, CurrentTarget, true))
+                HasSpecificWeakness(CurrentTarget, Debuffs.IceWeakness))
             {
                 actionID = OccultBlizzardII;
                 return true;
             }
 
             if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultThunderII, OccultThunderII) && HasBattleTarget() &&
-                HasStatusEffect(Debuffs.LightningWeakness, CurrentTarget, true))
+                HasSpecificWeakness(CurrentTarget, Debuffs.LightningWeakness))
             {
                 actionID = OccultThunderII;
                 return true;
             }
 
             if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultFireII, OccultFireII) && HasBattleTarget() &&
-                HasStatusEffect(Debuffs.FireWeakness, CurrentTarget, true))
+                HasSpecificWeakness(CurrentTarget, Debuffs.FireWeakness))
             {
                 actionID = OccultFireII;
                 return true;
@@ -1348,6 +1349,21 @@ internal partial class OccultCrescent
         return false;
     }
 
+    /// <summary>
+    /// Checks if a target has a specific elemental weakness (cached or active).
+    /// </summary>
+    private static bool HasSpecificWeakness(IGameObject? tar, uint weaknessId)
+    {
+        if (tar == null) return false;
+
+        var elementalWeakness = GetElementalWeakness(tar);
+        if (elementalWeakness == weaknessId)
+            return true;
+
+        // Also check current status as fallback
+        return HasStatusEffect(weaknessId, tar, true);
+    }
+
     private static bool TryGetNecromancerAction(ref uint actionID)
     {
         if (!IsEnabled(Preset.Phantom_Necromancer))
@@ -1371,21 +1387,21 @@ internal partial class OccultCrescent
         if (IsEnabled(Preset.Phantom_RestrictToBuff) && !Bursting.PlayerIsDamageBuffed)
             return false;
         if (IsEnabledAndUsable(Preset.Phantom_Necromancer_ChaosDrive, ChaosDrive) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.LightningWeakness, CurrentTarget, true))
+            HasSpecificWeakness(CurrentTarget, Debuffs.LightningWeakness))
         {
             actionID = ChaosDrive;
             return true;
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_Necromancer_HellWind, HellWind) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.WindWeakness, CurrentTarget, true))
+            HasSpecificWeakness(CurrentTarget, Debuffs.WindWeakness))
         {
             actionID = HellWind;
             return true;
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_Necromancer_DeepFreeze, DeepFreeze) && HasBattleTarget() &&
-            HasStatusEffect(Debuffs.IceWeakness, CurrentTarget, true))
+            HasSpecificWeakness(CurrentTarget, Debuffs.IceWeakness))
         {
             actionID = DeepFreeze;
             return true;
@@ -1596,6 +1612,89 @@ internal partial class OccultCrescent
 
         return min;
     }
+
+    #region Elemental Weakness Caching
+
+    /// <summary>
+    /// Gets the cached elemental weakness for a target by its BaseId.
+    /// </summary>
+    /// <param name="target">The target to check weakness for</param>
+    /// <returns>The weakness debuff ID, or 0 if no weakness is cached</returns>
+    private static uint GetCachedWeakness(IGameObject? target)
+    {
+        if (target?.BaseId is null or 0) return 0;
+
+        if (Service.Configuration.ElementalWeaknessCache.TryGetValue(target.BaseId, out var weakness))
+            return weakness;
+
+        return 0;
+    }
+
+    /// <summary>
+    /// Caches an elemental weakness for an enemy.
+    /// </summary>
+    /// <param name="target">The target to cache weakness for</param>
+    /// <param name="weaknessId">The weakness debuff ID to cache</param>
+    private static void CacheWeakness(IGameObject? target, uint weaknessId)
+    {
+        if (target?.BaseId is null or 0 || weaknessId == 0) return;
+
+        Service.Configuration.ElementalWeaknessCache[target.BaseId] = weaknessId;
+        Service.Configuration.Save();
+    }
+
+    /// <summary>
+    /// Gets the elemental weakness for a target, checking cache first then current status effects.
+    /// Automatically caches newly detected weaknesses.
+    /// </summary>
+    /// <param name="target">The target to check weakness for</param>
+    /// <returns>The weakness debuff ID (Fire/Ice/Lightning/Wind), or 0 if no weakness detected</returns>
+    private static uint GetElementalWeakness(IGameObject? target)
+    {
+        if (target == null) return 0;
+
+        // Check cache first
+        var cached = GetCachedWeakness(target);
+        if (cached != 0) return cached;
+
+        // Check current status effects
+        var statuses = target.SafeStatusList;
+        if (statuses != null)
+        {
+            foreach (var status in statuses)
+            {
+                if (status.StatusId is Debuffs.FireWeakness or Debuffs.IceWeakness 
+                    or Debuffs.LightningWeakness or Debuffs.WindWeakness)
+                {
+                    Svc.Log.Debug($"Caching {status.StatusId} to {target.Name}");
+                    CacheWeakness(target, status.StatusId);
+                    return status.StatusId;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    /// <summary>
+    /// Clears the elemental weakness cache for a specific enemy.
+    /// </summary>
+    /// <param name="baseId">The BaseId of the enemy to clear cache for</param>
+    private static void ClearWeaknessCache(uint baseId)
+    {
+        if (baseId != 0)
+            Service.Configuration.ElementalWeaknessCache.Remove(baseId);
+    }
+
+    /// <summary>
+    /// Clears all cached elemental weaknesses.
+    /// </summary>
+    private static void ClearAllWeaknessCache()
+    {
+        Service.Configuration.ElementalWeaknessCache.Clear();
+    }
+
+    #endregion
 
     #region Shorter variables
 

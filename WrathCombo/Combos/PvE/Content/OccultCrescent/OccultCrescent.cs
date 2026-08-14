@@ -1,6 +1,5 @@
 ﻿using Dalamud.Game.ClientState.Objects.Types;
 using ECommons.DalamudServices;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using WrathCombo.Core;
@@ -1294,6 +1293,13 @@ internal partial class OccultCrescent
 
             if (IsEnabled(Preset.Phantom_RestrictToBuff) && !Bursting.PlayerIsDamageBuffed)
                 return false;
+
+            var weakness = GetElementalWeakness(CurrentTarget);
+            if (weakness is 0 || ((IsEnabledAndUsable(Preset.Phantom_RedMage_OccultFireII, OccultFireII) && weakness is Debuffs.FireWeakness) ||
+                (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultBlizzardII, OccultBlizzardII) && weakness is Debuffs.IceWeakness) ||
+                (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultThunderII, OccultThunderII) && weakness is Debuffs.LightningWeakness)) && !HasLibraWeakness(CurrentTarget))
+                return false;
+
             if (IsEnabledAndUsable(Preset.Phantom_RedMage_OccultBlizzardII, OccultBlizzardII) && HasBattleTarget() &&
                 HasSpecificWeakness(CurrentTarget, Debuffs.IceWeakness))
             {
@@ -1663,7 +1669,7 @@ internal partial class OccultCrescent
         {
             foreach (var status in statuses)
             {
-                if (status.StatusId is Debuffs.FireWeakness or Debuffs.IceWeakness 
+                if (status.StatusId is Debuffs.FireWeakness or Debuffs.IceWeakness
                     or Debuffs.LightningWeakness or Debuffs.WindWeakness)
                 {
                     Svc.Log.Debug($"Caching {status.StatusId} to {target.Name}");

@@ -6311,34 +6311,6 @@ public enum Preset
     [JobInfo(Job.SAM)]
     SAM_ST_Adv_Opener = 15006,
 
-    [ParentCombo(SAM_ST_AdvancedMode)]
-    [JobInfo(Job.SAM)]
-    SAM_ST_Adv_Yukikaze = 15004,
-
-    [ParentCombo(SAM_ST_AdvancedMode)]
-    [JobInfo(Job.SAM)]
-    SAM_ST_Adv_Kasha = 15005,
-
-    [ParentCombo(SAM_ST_AdvancedMode)]
-    [JobInfo(Job.SAM)]
-    SAM_ST_Adv_Gekko = 15022,
-
-    #region cooldowns on Main Combo
-
-    [ParentCombo(SAM_ST_AdvancedMode)]
-    [JobInfo(Job.SAM)]
-    SAM_ST_Adv_CDs = 15011,
-
-    [ParentCombo(SAM_ST_Adv_CDs)]
-    [JobInfo(Job.SAM)]
-    SAM_ST_Adv_Meikyo = 15018,
-
-    [ParentCombo(SAM_ST_Adv_CDs)]
-    [JobInfo(Job.SAM)]
-    SAM_ST_Adv_Ikishoten = 15012,
-
-    #endregion
-
     #region Damage skills
 
     [ParentCombo(SAM_ST_AdvancedMode)]
@@ -6371,11 +6343,11 @@ public enum Preset
 
     [ParentCombo(SAM_ST_Adv_Damage)]
     [JobInfo(Job.SAM)]
-    SAM_ST_Adv_Senei = 15020,
+    SAM_ST_Adv_OgiNamikiri = 15015,
 
     [ParentCombo(SAM_ST_Adv_Damage)]
     [JobInfo(Job.SAM)]
-    SAM_ST_Adv_OgiNamikiri = 15015,
+    SAM_ST_Adv_Senei = 15020,
 
     [ParentCombo(SAM_ST_Adv_Damage)]
     [JobInfo(Job.SAM)]
@@ -6394,6 +6366,34 @@ public enum Preset
     SAM_ST_Adv_RangedUptime = 15097,
 
     #endregion
+
+    #region cooldowns on Main Combo
+
+    [ParentCombo(SAM_ST_AdvancedMode)]
+    [JobInfo(Job.SAM)]
+    SAM_ST_Adv_CDs = 15011,
+
+    [ParentCombo(SAM_ST_Adv_CDs)]
+    [JobInfo(Job.SAM)]
+    SAM_ST_Adv_Meikyo = 15018,
+
+    [ParentCombo(SAM_ST_Adv_CDs)]
+    [JobInfo(Job.SAM)]
+    SAM_ST_Adv_Ikishoten = 15012,
+
+    #endregion
+
+    [ParentCombo(SAM_ST_AdvancedMode)]
+    [JobInfo(Job.SAM)]
+    SAM_ST_Adv_Yukikaze = 15004,
+
+    [ParentCombo(SAM_ST_AdvancedMode)]
+    [JobInfo(Job.SAM)]
+    SAM_ST_Adv_Kasha = 15005,
+
+    [ParentCombo(SAM_ST_AdvancedMode)]
+    [JobInfo(Job.SAM)]
+    SAM_ST_Adv_Gekko = 15022,
 
     [ParentCombo(SAM_ST_AdvancedMode)]
     [JobInfo(Job.SAM)]
@@ -6430,9 +6430,37 @@ public enum Preset
     [AdvancedCombo]
     SAM_AoE_AdvancedMode = 15103,
 
+    #region Damage Skills
+
     [ParentCombo(SAM_AoE_AdvancedMode)]
     [JobInfo(Job.SAM)]
-    SAM_AoE_Adv_Oka = 15104,
+    SAM_AoE_Adv_Damage = 15116,
+
+    [ParentCombo(SAM_AoE_Adv_Damage)]
+    [JobInfo(Job.SAM)]
+    SAM_AoE_Adv_TenkaGoken = 15107,
+
+    [ParentCombo(SAM_AoE_Adv_Damage)]
+    [JobInfo(Job.SAM)]
+    SAM_AoE_Adv_OgiNamikiri = 15109,
+
+    [ParentCombo(SAM_AoE_Adv_Damage)]
+    [JobInfo(Job.SAM)]
+    SAM_AoE_Adv_Guren = 15112,
+
+    [ParentCombo(SAM_AoE_Adv_Damage)]
+    [JobInfo(Job.SAM)]
+    SAM_AoE_Adv_Zanshin = 15110,
+
+    [ParentCombo(SAM_AoE_Adv_Damage)]
+    [JobInfo(Job.SAM)]
+    SAM_AoE_Adv_Shoha = 15111,
+
+    [ParentCombo(SAM_AoE_Adv_Damage)]
+    [JobInfo(Job.SAM)]
+    SAM_AoE_Adv_Kyuten = 15105,
+
+    #endregion
 
     #region Cooldowns on Main Combo
 
@@ -6450,37 +6478,9 @@ public enum Preset
 
     #endregion
 
-    #region Damage Skills
-
     [ParentCombo(SAM_AoE_AdvancedMode)]
     [JobInfo(Job.SAM)]
-    SAM_AoE_Adv_Damage = 15116,
-
-    [ParentCombo(SAM_AoE_Adv_Damage)]
-    [JobInfo(Job.SAM)]
-    SAM_AoE_Adv_TenkaGoken = 15107,
-
-    [ParentCombo(SAM_AoE_Adv_Damage)]
-    [JobInfo(Job.SAM)]
-    SAM_AoE_Adv_Guren = 15112,
-
-    [ParentCombo(SAM_AoE_Adv_Damage)]
-    [JobInfo(Job.SAM)]
-    SAM_AoE_Adv_OgiNamikiri = 15109,
-
-    [ParentCombo(SAM_AoE_Adv_Damage)]
-    [JobInfo(Job.SAM)]
-    SAM_AoE_Adv_Zanshin = 15110,
-
-    [ParentCombo(SAM_AoE_Adv_Damage)]
-    [JobInfo(Job.SAM)]
-    SAM_AoE_Adv_Shoha = 15111,
-
-    [ParentCombo(SAM_AoE_Adv_Damage)]
-    [JobInfo(Job.SAM)]
-    SAM_AoE_Adv_Kyuten = 15105,
-
-    #endregion
+    SAM_AoE_Adv_Oka = 15104,
 
     [ParentCombo(SAM_AoE_AdvancedMode)]
     [JobInfo(Job.SAM)]

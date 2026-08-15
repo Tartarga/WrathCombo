@@ -138,7 +138,7 @@ internal partial class SGE
 
                 case Preset.SGE_ST_Advanced_Heal:
                     DrawSliderInt(0, 2, SGE_Heal_HoldAddersgall,
-                        Generics.ChargePool);
+                        FormatAndCache(Generics.ChargePool0, Traits.Addersgall.TraitName()), occurrence: 0);
 
                     DrawAdditionalBoolChoice(SGE_ST_Adv_Heal_IncludeShields,
                         Generics.IncludeShields, "");
@@ -281,7 +281,8 @@ internal partial class SGE
                     break;
 
                 case Preset.SGE_AoE_Advanced_Heal:
-                    DrawSliderInt(0, 2, SGE_Heal_HoldAddersgall, FormatAndCache(Generics.ChargePool, Traits.Addersgall.TraitName()));
+                    DrawSliderInt(0, 2, SGE_Heal_HoldAddersgall,
+                        FormatAndCache(Generics.ChargePool0, Traits.Addersgall.TraitName()), occurrence: 1);
                     break;
 
                 case Preset.SGE_AoE_Adv_Heal_Lucid:
@@ -473,36 +474,38 @@ internal partial class SGE
         public static UserInt
             SGE_Heal_HoldAddersgall = new("SGE_Heal_HoldAddersgall", 1),
             SGE_ST_Adv_Heal_LucidOption = new("SGE_ST_Adv_Heal_LucidOption", 6500),
-            SGE_ST_Adv_Heal_Zoe = new("SGE_ST_Adv_Heal_Zoe", 50),
-            SGE_ST_Adv_Heal_Haima = new("SGE_ST_Adv_Heal_Haima", 50),
-            SGE_ST_Adv_Heal_Krasis = new("SGE_ST_Adv_Heal_Krasis", 40),
-            SGE_ST_Adv_Heal_Pepsis = new("SGE_ST_Adv_Heal_Pepsis", 70),
+            SGE_ST_Adv_Heal_Zoe = new("SGE_ST_Adv_Heal_Zoe", 40),
+            SGE_ST_Adv_Heal_Haima = new("SGE_ST_Adv_Heal_Haima", 45),
+            SGE_ST_Adv_Heal_Krasis = new("SGE_ST_Adv_Heal_Krasis", 70),
+            SGE_ST_Adv_Heal_Pepsis = new("SGE_ST_Adv_Heal_Pepsis", 55),
             SGE_ST_Adv_Heal_Soteria = new("SGE_ST_Adv_Heal_Soteria", 70),
             SGE_ST_Adv_Heal_EDiagnosisHP = new("SGE_ST_Adv_Heal_EDiagnosisHP", 70),
-            SGE_ST_Adv_Heal_Druochole = new("SGE_ST_Adv_Heal_Druochole", 70),
-            SGE_ST_Adv_Heal_Taurochole = new("SGE_ST_Adv_Heal_Taurochole", 60),
+            SGE_ST_Adv_Heal_Druochole = new("SGE_ST_Adv_Heal_Druochole", 55),
+            SGE_ST_Adv_Heal_Taurochole = new("SGE_ST_Adv_Heal_Taurochole", 50),
             SGE_ST_Adv_Heal_KeracholeHP = new("SGE_ST_Adv_Heal_KeracholeHP", 70),
             SGE_ST_Adv_Heal_PhysisHP = new("SGE_ST_Adv_Heal_PhysisHP", 70),
-            SGE_ST_Adv_Heal_PanhaimaHP = new("SGE_ST_Adv_Heal_PanhaimaHP", 70),
-            SGE_ST_Adv_Heal_HolosHP = new("SGE_ST_Adv_Heal_HolosHP", 70),
-            SGE_ST_Adv_Heal_Esuna = new("SGE_ST_Adv_Heal_Esuna", 50),
+            SGE_ST_Adv_Heal_PanhaimaHP = new("SGE_ST_Adv_Heal_PanhaimaHP", 55),
+            SGE_ST_Adv_Heal_HolosHP = new("SGE_ST_Adv_Heal_HolosHP", 55),
+            SGE_ST_Adv_Heal_Esuna = new("SGE_ST_Adv_Heal_Esuna", 40),
             SGE_AoE_Adv_Heal_LucidOption = new("SGE_AoE_Adv_Heal_LucidOption", 6500),
-            SGE_AoE_Adv_Heal_ZoeOption = new("SGE_AoE_Adv_Heal_PneumaOption", 50),
-            SGE_AoE_Adv_Heal_PhysisOption = new("SGE_AoE_Adv_Heal_PhysisOption", 60),
-            SGE_AoE_Adv_Heal_PhilosophiaOption = new("SGE_AoE_Adv_Heal_PhilosophiaOption", 40),
-            SGE_AoE_Adv_Heal_PepsisOption = new("SGE_AoE_Adv_Heal_PepsisOption", 70),
-            SGE_AoE_Adv_Heal_PanhaimaOption = new("SGE_AoE_Adv_Heal_PanhaimaOption", 50),
-            SGE_AoE_Adv_Heal_KeracholeOption = new("SGE_AoE_Adv_Heal_KeracholeOption", 70),
+            SGE_AoE_Adv_Heal_ZoeOption = new("SGE_AoE_Adv_Heal_PneumaOption", 45),
+            SGE_AoE_Adv_Heal_PhysisOption = new("SGE_AoE_Adv_Heal_PhysisOption", 80),
+            SGE_AoE_Adv_Heal_PhilosophiaOption = new("SGE_AoE_Adv_Heal_PhilosophiaOption", 60),
+            SGE_AoE_Adv_Heal_PepsisOption = new("SGE_AoE_Adv_Heal_PepsisOption", 60),
+            SGE_AoE_Adv_Heal_PanhaimaOption = new("SGE_AoE_Adv_Heal_PanhaimaOption", 55),
+            SGE_AoE_Adv_Heal_KeracholeOption = new("SGE_AoE_Adv_Heal_KeracholeOption", 80),
             SGE_AoE_Adv_Heal_IxocholeOption = new("SGE_AoE_Adv_Heal_IxocholeOption", 70),
-            SGE_AoE_Adv_Heal_HolosOption = new("SGE_AoE_Adv_Heal_HolosOption", 60),
-            SGE_AoE_Adv_Heal_EPrognosisOption = new("SGE_AoE_Adv_Heal_EPrognosisOption", 70),
-            SGE_Raidwide_HolosOption = new("SGE_Raidwide_HolosOption", 70),
+            SGE_AoE_Adv_Heal_HolosOption = new("SGE_AoE_Adv_Heal_HolosOption", 65),
+            SGE_AoE_Adv_Heal_EPrognosisOption = new("SGE_AoE_Adv_Heal_EPrognosisOption", 50),
+            SGE_Raidwide_HolosOption = new("SGE_Raidwide_HolosOption", 80),
             SGE_Mit_ST_TaurocholeThreshold = new("SGE_Mit_ST_TaurocholeThreshold", 100),
             SGE_Mit_AoE_PrognosisOption = new("SGE_Mit_AoE_PrognosisOption");
 
         public static UserIntArray
-            SGE_ST_Heals_Priority = new("SGE_ST_Heals_Priority", [5, 10, 11, 7, 6, 8, 9, 12, 1, 2, 3, 4]),
-            SGE_AoE_Heals_Priority = new("SGE_AoE_Heals_Priority", [1, 3, 2, 7, 8, 4, 5, 6, 9]);
+            // ST: Krasis → Physis → Kerachole → Holos → Tauro → Haima → Soteria → Druo → Panhaima → Zoe → Pepsis → E.Diagnosis
+            SGE_ST_Heals_Priority = new("SGE_ST_Heals_Priority", [7, 10, 11, 5, 6, 1, 8, 12, 3, 2, 9, 4]),
+            // AoE: Physis → Kerachole → Holos → Philosophia → Panhaima → Ixochole → Zoe → Pepsis → E.Prognosis
+            SGE_AoE_Heals_Priority = new("SGE_AoE_Heals_Priority", [2, 6, 1, 3, 5, 8, 4, 7, 9]);
 
         public static UserBoolArray
             SGE_ST_Adv_Heal_EDiagnosisOpts = new("SGE_ST_Adv_Heal_EDiagnosisOpts"),

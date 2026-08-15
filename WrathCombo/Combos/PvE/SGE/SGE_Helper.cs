@@ -160,10 +160,18 @@ internal partial class SGE
         }
 
         Preset psychePreset = onAoE ? Preset.SGE_AoE_Adv_DPS_Psyche : Preset.SGE_ST_Adv_DPS_Psyche;
+        bool phlegmaBurstPair = !onAoE &&
+                                (simpleMode || SGE_ST_Adv_DPS_Phlegma_Burst) &&
+                                (simpleMode || IsEnabled(Preset.SGE_ST_Adv_DPS_Phlegma)) &&
+                                LevelChecked(OriginalHook(Phlegma));
         if ((simpleMode || IsEnabled(psychePreset)) &&
             ActionReady(Psyche) &&
             HasBattleTarget() &&
-            InActionRange(Psyche))
+            InActionRange(Psyche) &&
+            (!phlegmaBurstPair ||
+             JustUsed(OriginalHook(Phlegma), 5f) ||
+             !ActionReady(OriginalHook(Phlegma)) ||
+             !InActionRange(OriginalHook(Phlegma))))
         {
             actionID = Psyche;
             return true;
@@ -215,16 +223,24 @@ internal partial class SGE
 
         bool burst = simpleMode || SGE_ST_Adv_DPS_Phlegma_Burst;
         int chargePool = simpleMode ? 1 : SGE_ST_Adv_DPS_Phlegma;
+        bool psycheEnabled = simpleMode || IsEnabled(Preset.SGE_ST_Adv_DPS_Psyche);
 
-        if (IsPhlegmaCapped || GetRemainingCharges(OriginalHook(Phlegma)) > chargePool)
+        if (IsPhlegmaCapped)
             return true;
 
-        if (!burst || !LevelChecked(Psyche))
+        if (!burst && GetRemainingCharges(OriginalHook(Phlegma)) > chargePool)
+            return true;
+
+        if (!burst || !LevelChecked(Psyche) || !psycheEnabled)
             return false;
 
-        return IsOffCooldown(Psyche) ||
-               JustUsed(Psyche, 5f) ||
-               IsMoving();
+        if (JustUsed(Psyche, 5f))
+            return true;
+
+        if (IsOffCooldown(Psyche) && !JustUsed(OriginalHook(Phlegma), 5f))
+            return true;
+
+        return IsMoving();
     }
 
     private static bool UseMovement(ref uint actionID, bool simpleMode)
@@ -589,14 +605,14 @@ internal partial class SGE
         if (HasStatusEffect(Buffs.Eukrasia))
             return OriginalHook(Prognosis);
 
-        if (CanWeave() && UseAoEHealWeave(ref actionID))
-            return actionID;
-
         if (ActionReady(Eukrasia) &&
             GetPartyBuffPercent(Buffs.EukrasianPrognosis) <= 50 &&
             GetPartyBuffPercent(SCH.Buffs.Galvanize) <= 50 &&
             !HasStatusEffect(Buffs.Eukrasia))
             return Eukrasia;
+
+        if (CanWeave() && UseAoEHealWeave(ref actionID))
+            return actionID;
 
         return OriginalHook(Prognosis);
     }

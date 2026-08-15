@@ -143,16 +143,16 @@ internal partial class SAM : Melee
 
             if (CanWeave())
             {
-                if (IsEnabled(Preset.SAM_ST_Adv_CDs))
-                {
-                    if (IsEnabled(Preset.SAM_ST_Adv_Meikyo) &&
-                        UseMeikyo(false, SAM_ST_MeikyoExecuteHP))
-                        return MeikyoShisui;
-                }
+                if (IsEnabled(Preset.SAM_ST_Adv_CDs) &&
+                    IsEnabled(Preset.SAM_ST_Adv_Meikyo) &&
+                    UseMeikyo(false, SAM_ST_MeikyoExecuteHP))
+                    return MeikyoShisui;
 
                 if (IsEnabled(Preset.SAM_ST_Adv_Damage))
                 {
-                    if (IsEnabled(Preset.SAM_ST_Adv_Senei))
+                    bool holdForSenei = IsEnabled(Preset.SAM_ST_Adv_Senei);
+
+                    if (holdForSenei)
                     {
                         if (UseSenei())
                             return Senei;
@@ -162,39 +162,39 @@ internal partial class SAM : Melee
                             UseGuren())
                             return Guren;
                     }
-                }
 
-                if (IsEnabled(Preset.SAM_ST_Adv_CDs))
-                {
                     if (IsEnabled(Preset.SAM_ST_Adv_Shinten) &&
+                        IsEnabled(Preset.SAM_ST_Adv_Ikishoten) &&
                         NeedKenkiRoomForIkishoten() &&
-                        !(IsEnabled(Preset.SAM_ST_Adv_Senei) && ActionReady(Senei)) &&
+                        !(holdForSenei && ActionReady(Senei)) &&
                         UseShinten(SAM_ST_ShintenExecuteHP, SAM_ST_ShintenKenkiOvercap,
-                            holdForBurst: IsEnabled(Preset.SAM_ST_Adv_Senei)))
+                            holdForBurst: holdForSenei))
                         return Shinten;
-
-                    if (IsEnabled(Preset.SAM_ST_Adv_Ikishoten) &&
-                        UseIkishoten())
-                        return Ikishoten;
                 }
+
+                if (IsEnabled(Preset.SAM_ST_Adv_CDs) &&
+                    IsEnabled(Preset.SAM_ST_Adv_Ikishoten) &&
+                    UseIkishoten())
+                    return Ikishoten;
 
                 if (IsEnabled(Preset.SAM_ST_Adv_Damage))
                 {
-                    if (IsEnabled(Preset.SAM_ST_Adv_Senei) &&
-                        UseSenei())
+                    bool holdForSenei = IsEnabled(Preset.SAM_ST_Adv_Senei);
+
+                    if (holdForSenei && UseSenei())
                         return Senei;
 
                     if (IsEnabled(Preset.SAM_ST_Adv_Zanshin) &&
-                        UseZanshin(holdForBurst: IsEnabled(Preset.SAM_ST_Adv_Senei)))
+                        UseZanshin(holdForBurst: holdForSenei))
                         return Zanshin;
 
                     if (IsEnabled(Preset.SAM_ST_Adv_Shoha) &&
-                        UseShoha(holdForBurst: IsEnabled(Preset.SAM_ST_Adv_Senei)))
+                        UseShoha(holdForBurst: holdForSenei))
                         return Shoha;
 
                     if (IsEnabled(Preset.SAM_ST_Adv_Shinten) &&
                         UseShinten(SAM_ST_ShintenExecuteHP, SAM_ST_ShintenKenkiOvercap,
-                            holdForBurst: IsEnabled(Preset.SAM_ST_Adv_Senei)))
+                            holdForBurst: holdForSenei))
                         return Shinten;
                 }
 
@@ -290,36 +290,50 @@ internal partial class SAM : Melee
 
             if (CanWeave())
             {
-                if (IsEnabled(Preset.SAM_AoE_Adv_CDs))
-                {
-                    if (IsEnabled(Preset.SAM_AoE_Adv_Meikyo) &&
-                        UseMeikyo(true))
-                        return MeikyoShisui;
-
-                    if (IsEnabled(Preset.SAM_AoE_Adv_Ikishoten) &&
-                        UseIkishoten())
-                        return Ikishoten;
-                }
+                if (IsEnabled(Preset.SAM_AoE_Adv_CDs) &&
+                    IsEnabled(Preset.SAM_AoE_Adv_Meikyo) &&
+                    UseMeikyo(true))
+                    return MeikyoShisui;
 
                 if (IsEnabled(Preset.SAM_AoE_Adv_Damage))
                 {
+                    bool holdForGuren = IsEnabled(Preset.SAM_AoE_Adv_Guren);
+
+                    if (holdForGuren && UseGuren())
+                        return Guren;
+
+                    if (IsEnabled(Preset.SAM_AoE_Adv_Kyuten) &&
+                        IsEnabled(Preset.SAM_AoE_Adv_Ikishoten) &&
+                        NeedKenkiRoomForIkishoten() &&
+                        !(holdForGuren && ActionReady(Guren)) &&
+                        UseKyuten(SAM_AoE_KyutenKenkiOvercap, holdForBurst: holdForGuren))
+                        return Kyuten;
+                }
+
+                if (IsEnabled(Preset.SAM_AoE_Adv_CDs) &&
+                    IsEnabled(Preset.SAM_AoE_Adv_Ikishoten) &&
+                    UseIkishoten())
+                    return Ikishoten;
+
+                if (IsEnabled(Preset.SAM_AoE_Adv_Damage))
+                {
+                    bool holdForGuren = IsEnabled(Preset.SAM_AoE_Adv_Guren);
+
                     if (IsEnabled(Preset.SAM_AoE_Adv_Zanshin) &&
-                        UseZanshin(holdForBurst: IsEnabled(Preset.SAM_AoE_Adv_Guren)))
+                        UseZanshin(holdForBurst: holdForGuren))
                         return Zanshin;
 
-                    if (IsEnabled(Preset.SAM_AoE_Adv_Guren) &&
-                        UseGuren())
+                    if (holdForGuren && UseGuren())
                         return Guren;
 
                     if (IsEnabled(Preset.SAM_AoE_Adv_Shoha) &&
-                        UseShoha(holdForBurst: IsEnabled(Preset.SAM_AoE_Adv_Guren)))
+                        UseShoha(holdForBurst: holdForGuren))
                         return Shoha;
-                }
 
-                if (IsEnabled(Preset.SAM_AoE_Adv_Kyuten) &&
-                    UseKyuten(SAM_AoE_KyutenKenkiOvercap,
-                        holdForBurst: IsEnabled(Preset.SAM_AoE_Adv_Guren)))
-                    return Kyuten;
+                    if (IsEnabled(Preset.SAM_AoE_Adv_Kyuten) &&
+                        UseKyuten(SAM_AoE_KyutenKenkiOvercap, holdForBurst: holdForGuren))
+                        return Kyuten;
+                }
 
                 if (IsEnabled(Preset.SAM_AoE_Adv_ComboHeals))
                 {

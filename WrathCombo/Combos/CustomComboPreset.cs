@@ -6476,11 +6476,11 @@ public enum Preset
     [JobInfo(Job.SAM)]
     SAM_AoE_Adv_Shoha = 15111,
 
-    #endregion
-
-    [ParentCombo(SAM_AoE_AdvancedMode)]
+    [ParentCombo(SAM_AoE_Adv_Damage)]
     [JobInfo(Job.SAM)]
     SAM_AoE_Adv_Kyuten = 15105,
+
+    #endregion
 
     [ParentCombo(SAM_AoE_AdvancedMode)]
     [JobInfo(Job.SAM)]

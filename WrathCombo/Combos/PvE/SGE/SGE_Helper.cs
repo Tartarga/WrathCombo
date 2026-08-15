@@ -144,6 +144,10 @@ internal partial class SGE
         if (!onAoE && HasStatusEffect(Buffs.Eukrasia))
             return false;
 
+        if (!simpleMode &&
+            !IsEnabled(onAoE ? Preset.SGE_AoE_Adv_DPS_CDs : Preset.SGE_ST_Adv_DPS_CDs))
+            return false;
+
         int addersgallProtect = simpleMode
             ? 3
             : onAoE
@@ -160,10 +164,12 @@ internal partial class SGE
         }
 
         Preset psychePreset = onAoE ? Preset.SGE_AoE_Adv_DPS_Psyche : Preset.SGE_ST_Adv_DPS_Psyche;
-        bool phlegmaBurstPair = !onAoE &&
-                                (simpleMode || SGE_ST_Adv_DPS_Phlegma_Burst) &&
-                                (simpleMode || IsEnabled(Preset.SGE_ST_Adv_DPS_Phlegma)) &&
-                                LevelChecked(OriginalHook(Phlegma));
+        Preset phlegmaPreset = onAoE ? Preset.SGE_AoE_Adv_DPS_Phlegma : Preset.SGE_ST_Adv_DPS_Phlegma;
+        bool phlegmaBurstPair =
+            LevelChecked(OriginalHook(Phlegma)) &&
+            (simpleMode || IsEnabled(phlegmaPreset)) &&
+            (simpleMode || IsEnabled(psychePreset)) &&
+            (simpleMode || onAoE || SGE_ST_Adv_DPS_Phlegma_Burst);
         if ((simpleMode || IsEnabled(psychePreset)) &&
             ActionReady(Psyche) &&
             HasBattleTarget() &&
@@ -216,7 +222,8 @@ internal partial class SGE
 
     private static bool UsePhlegma(bool simpleMode)
     {
-        if ((!simpleMode && !IsEnabled(Preset.SGE_ST_Adv_DPS_Phlegma)) ||
+        if ((!simpleMode && !IsEnabled(Preset.SGE_ST_Adv_DPS_Damage)) ||
+            (!simpleMode && !IsEnabled(Preset.SGE_ST_Adv_DPS_Phlegma)) ||
             !InActionRange(OriginalHook(Phlegma)) ||
             !ActionReady(OriginalHook(Phlegma)))
             return false;
@@ -265,7 +272,8 @@ internal partial class SGE
             return false;
         }
 
-        if (!IsEnabled(Preset.SGE_ST_Adv_DPS_Movement))
+        if (!IsEnabled(Preset.SGE_ST_Adv_DPS_Damage) ||
+            !IsEnabled(Preset.SGE_ST_Adv_DPS_Movement))
             return false;
 
         foreach (int priority in SGE_ST_Adv_DPS_Movement_Priority.OrderBy(x => x))
@@ -298,7 +306,9 @@ internal partial class SGE
             return false;
         }
 
-        if (!IsEnabled(Preset.SGE_ST_Adv_DPS_EDosis) || !PartyInCombat())
+        if (!IsEnabled(Preset.SGE_ST_Adv_DPS_Damage) ||
+            !IsEnabled(Preset.SGE_ST_Adv_DPS_EDosis) ||
+            !PartyInCombat())
             return false;
 
         if (ShouldRefreshEDosis())
@@ -326,7 +336,8 @@ internal partial class SGE
 
     private static bool UseEDyskrasia(bool simpleMode)
     {
-        if ((!simpleMode && !IsEnabled(Preset.SGE_AoE_Adv_DPS_EDyskrasia)) ||
+        if ((!simpleMode && !IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage)) ||
+            (!simpleMode && !IsEnabled(Preset.SGE_AoE_Adv_DPS_EDyskrasia)) ||
             !HasEDyskrasiaTargets() ||
             JustUsed(EukrasianDyskrasia) ||
             !TraitLevelChecked(Traits.OffensiveMagicMasteryII) ||
@@ -336,19 +347,41 @@ internal partial class SGE
         return true;
     }
 
-    private static bool UseAoEPhlegma(bool simpleMode) =>
-        (simpleMode || IsEnabled(Preset.SGE_AoE_Adv_DPS_Phlegma)) &&
-        ActionReady(OriginalHook(Phlegma)) &&
-        HasBattleTarget() &&
-        InActionRange(OriginalHook(Phlegma));
+    private static bool UseAoEPhlegma(bool simpleMode)
+    {
+        if ((!simpleMode && !IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage)) ||
+            (!simpleMode && !IsEnabled(Preset.SGE_AoE_Adv_DPS_Phlegma)) ||
+            !HasBattleTarget() ||
+            !InActionRange(OriginalHook(Phlegma)) ||
+            !ActionReady(OriginalHook(Phlegma)))
+            return false;
+
+        bool psycheEnabled = simpleMode || IsEnabled(Preset.SGE_AoE_Adv_DPS_Psyche);
+
+        if (IsPhlegmaCapped)
+            return true;
+
+        if (!LevelChecked(Psyche) || !psycheEnabled)
+            return true;
+
+        if (JustUsed(Psyche, 5f))
+            return true;
+
+        if (IsOffCooldown(Psyche) && !JustUsed(OriginalHook(Phlegma), 5f))
+            return true;
+
+        return false;
+    }
 
     private static bool UseAoEToxikon(bool simpleMode) =>
+        (simpleMode || IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage)) &&
         (simpleMode || IsEnabled(Preset.SGE_AoE_Adv_DPS_Toxikon)) &&
         ActionReady(OriginalHook(Toxikon)) &&
         HasBattleTarget() && HasAddersting &&
         InActionRange(OriginalHook(Toxikon));
 
     private static bool UseAoEPneuma(bool simpleMode) =>
+        (simpleMode || IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage)) &&
         (simpleMode || IsEnabled(Preset.SGE_AoE_Adv_DPS_Pneuma)) &&
         (simpleMode || SGE_AoE_Adv_DPS_PneumaBossOption == 0 || TargetIsBoss()) &&
         ActionReady(Pneuma) && HasBattleTarget() &&

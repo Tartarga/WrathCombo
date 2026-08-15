@@ -425,31 +425,31 @@ internal partial class SGE
 
         public static UserBool
             SGE_Opener_Potion = new("SGE_Opener_Potion"),
-            SGE_ST_Adv_DPS_EDosis_TwoTarget = new("SGE_ST_Adv_DPS_EDosis_TwoTarget", true),
-            SGE_ST_Adv_DPS_Phlegma_Burst = new("SGE_ST_Adv_DPS_Phlegma_Burst", true);
+            SGE_ST_Adv_DPS_EDosis_TwoTarget = new("SGE_ST_DPS_EDosis_TwoTarget", true),
+            SGE_ST_Adv_DPS_Phlegma_Burst = new("SGE_ST_DPS_Phlegma_Burst", true);
 
         public static UserBoolArray
-            SGE_ST_Adv_DPS_Movement = new("SGE_ST_Adv_DPS_Movement", [true, true, true]);
+            SGE_ST_Adv_DPS_Movement = new("SGE_ST_DPS_Movement", [true, true, true]);
 
         public static UserInt
-            SGE_ST_Adv_DPS_Advanced = new("SGE_ST_Adv_DPS_Adv"),
+            SGE_ST_Adv_DPS_Advanced = new("SGE_ST_DPS_Adv"),
             SGE_Eukrasia_Mode = new("SGE_Eukrasia_Mode", 2),
             SGE_SelectedOpener = new("SGE_SelectedOpener"),
-            SGE_ST_Adv_DPS_Lucid = new("SGE_ST_Adv_DPS_Lucid", 6500),
-            SGE_ST_Adv_DPS_Rhizo = new("SGE_ST_Adv_DPS_Rhizo", 1),
-            SGE_ST_Adv_DPS_Phlegma = new("SGE_ST_Adv_DPS_Phlegma"),
-            SGE_ST_Adv_DPS_EukrasianDosisBossOption = new("SGE_ST_Adv_DPS_EukrasianDosisBossOption"),
-            SGE_ST_Adv_DPS_EukrasianDosisBossAddsOption = new("SGE_ST_Adv_DPS_EukrasianDosisBossAddsOption", 100),
-            SGE_ST_Adv_DPS_EukrasianDosisTrashOption = new("SGE_ST_Adv_DPS_EukrasianDosisTrashOption", 50),
-            SGE_ST_Adv_DPS_AddersgallProtect = new("SGE_ST_Adv_DPS_AddersgallProtect", 3),
+            SGE_ST_Adv_DPS_Lucid = new("SGE_ST_DPS_Lucid", 6500),
+            SGE_ST_Adv_DPS_Rhizo = new("SGE_ST_DPS_Rhizo", 1),
+            SGE_ST_Adv_DPS_Phlegma = new("SGE_ST_DPS_Phlegma"),
+            SGE_ST_Adv_DPS_EukrasianDosisBossOption = new("SGE_ST_DPS_EukrasianDosisBossOption"),
+            SGE_ST_Adv_DPS_EukrasianDosisBossAddsOption = new("SGE_ST_DPS_EukrasianDosisBossAddsOption", 100),
+            SGE_ST_Adv_DPS_EukrasianDosisTrashOption = new("SGE_ST_DPS_EukrasianDosisTrashOption", 50),
+            SGE_ST_Adv_DPS_AddersgallProtect = new("SGE_ST_DPS_AddersgallProtect", 3),
             SGE_AoE_Adv_DPS_Lucid = new("SGE_AoE_Phlegma_Lucid", 6500),
-            SGE_AoE_Adv_DPS_Rhizo = new("SGE_AoE_Adv_DPS_Rhizo", 1),
-            SGE_AoE_Adv_DPS_AddersgallProtect = new("SGE_AoE_Adv_DPS_AddersgallProtect", 3),
-            SGE_AoE_Adv_DPS_PneumaBossOption = new("SGE_AoE_Adv_DPS_Pneuma_SubOption", 1),
+            SGE_AoE_Adv_DPS_Rhizo = new("SGE_AoE_DPS_Rhizo", 1),
+            SGE_AoE_Adv_DPS_AddersgallProtect = new("SGE_AoE_DPS_AddersgallProtect", 3),
+            SGE_AoE_Adv_DPS_PneumaBossOption = new("SGE_AoE_DPS_Pneuma_SubOption", 1),
             SGE_Balance_Content = new("SGE_Balance_Content", 1);
 
         public static UserFloat
-            SGE_ST_Adv_DPS_EukrasianDosisUptime_Threshold = new("SGE_ST_Adv_DPS_EukrasianDosisUptime_Threshold", 5.0f);
+            SGE_ST_Adv_DPS_EukrasianDosisUptime_Threshold = new("SGE_ST_DPS_EukrasianDosisUptime_Threshold", 5.0f);
 
         public static UserIntArray
             SGE_ST_Adv_DPS_Movement_Priority = new("SGE_ST_Movement_Priority");
@@ -459,44 +459,44 @@ internal partial class SGE
         #region Healing
 
         public static UserBool
-            SGE_ST_Adv_Heal_IncludeShields = new("SGE_ST_Adv_Heal_IncludeShields", true),
-            SGE_ST_Adv_Heal_KeracholeBossOption = new("SGE_ST_Adv_Heal_KeracholeBossOption", true),
-            SGE_ST_Adv_Heal_PanhaimaBossOption = new("SGE_ST_Adv_Heal_PanhaimaBossOption", true),
-            SGE_ST_Adv_Heal_PhysisBossOption = new("SGE_ST_Adv_Heal_PhysisBossOption", true),
-            SGE_ST_Adv_Heal_HolosBossOption = new("SGE_ST_Adv_Heal_HolosBossOption", true),
-            SGE_ST_Adv_Heal_HaimaBossOption = new("SGE_ST_Adv_Heal_HaimaBossOption"),
-            SGE_ST_Adv_Heal_KrasisBossOption = new("SGE_ST_Adv_Heal_KrasisBossOption"),
-            SGE_ST_Adv_Heal_Haima_TankOnly = new("SGE_ST_Adv_Heal_Haima_TankOnly", true),
-            SGE_ST_Adv_Heal_Krasis_TankOnly = new("SGE_ST_Adv_Heal_Krasis_TankOnly", true),
-            SGE_ST_Adv_Heal_Taurochole_TankOnly = new("SGE_ST_Adv_Heal_Taurochole_TankOnly", true),
-            SGE_AoE_Adv_Heal_KeracholeTrait = new("SGE_AoE_Adv_Heal_KeracholeTrait", true);
+            SGE_ST_Adv_Heal_IncludeShields = new("SGE_ST_Heal_IncludeShields", true),
+            SGE_ST_Adv_Heal_KeracholeBossOption = new("SGE_ST_Heal_KeracholeBossOption", true),
+            SGE_ST_Adv_Heal_PanhaimaBossOption = new("SGE_ST_Heal_PanhaimaBossOption", true),
+            SGE_ST_Adv_Heal_PhysisBossOption = new("SGE_ST_Heal_PhysisBossOption", true),
+            SGE_ST_Adv_Heal_HolosBossOption = new("SGE_ST_Heal_HolosBossOption", true),
+            SGE_ST_Adv_Heal_HaimaBossOption = new("SGE_ST_Heal_HaimaBossOption"),
+            SGE_ST_Adv_Heal_KrasisBossOption = new("SGE_ST_Heal_KrasisBossOption"),
+            SGE_ST_Adv_Heal_Haima_TankOnly = new("SGE_ST_Heal_Haima_TankOnly", true),
+            SGE_ST_Adv_Heal_Krasis_TankOnly = new("SGE_ST_Heal_Krasis_TankOnly", true),
+            SGE_ST_Adv_Heal_Taurochole_TankOnly = new("SGE_ST_Heal_Taurochole_TankOnly", true),
+            SGE_AoE_Adv_Heal_KeracholeTrait = new("SGE_AoE_Heal_KeracholeTrait", true);
 
         public static UserInt
             SGE_Heal_HoldAddersgall = new("SGE_Heal_HoldAddersgall", 1),
-            SGE_ST_Adv_Heal_LucidOption = new("SGE_ST_Adv_Heal_LucidOption", 6500),
-            SGE_ST_Adv_Heal_Zoe = new("SGE_ST_Adv_Heal_Zoe", 40),
-            SGE_ST_Adv_Heal_Haima = new("SGE_ST_Adv_Heal_Haima", 45),
-            SGE_ST_Adv_Heal_Krasis = new("SGE_ST_Adv_Heal_Krasis", 70),
-            SGE_ST_Adv_Heal_Pepsis = new("SGE_ST_Adv_Heal_Pepsis", 55),
-            SGE_ST_Adv_Heal_Soteria = new("SGE_ST_Adv_Heal_Soteria", 70),
-            SGE_ST_Adv_Heal_EDiagnosisHP = new("SGE_ST_Adv_Heal_EDiagnosisHP", 70),
-            SGE_ST_Adv_Heal_Druochole = new("SGE_ST_Adv_Heal_Druochole", 55),
-            SGE_ST_Adv_Heal_Taurochole = new("SGE_ST_Adv_Heal_Taurochole", 50),
-            SGE_ST_Adv_Heal_KeracholeHP = new("SGE_ST_Adv_Heal_KeracholeHP", 70),
-            SGE_ST_Adv_Heal_PhysisHP = new("SGE_ST_Adv_Heal_PhysisHP", 70),
-            SGE_ST_Adv_Heal_PanhaimaHP = new("SGE_ST_Adv_Heal_PanhaimaHP", 55),
-            SGE_ST_Adv_Heal_HolosHP = new("SGE_ST_Adv_Heal_HolosHP", 55),
-            SGE_ST_Adv_Heal_Esuna = new("SGE_ST_Adv_Heal_Esuna", 40),
-            SGE_AoE_Adv_Heal_LucidOption = new("SGE_AoE_Adv_Heal_LucidOption", 6500),
-            SGE_AoE_Adv_Heal_ZoeOption = new("SGE_AoE_Adv_Heal_PneumaOption", 45),
-            SGE_AoE_Adv_Heal_PhysisOption = new("SGE_AoE_Adv_Heal_PhysisOption", 80),
-            SGE_AoE_Adv_Heal_PhilosophiaOption = new("SGE_AoE_Adv_Heal_PhilosophiaOption", 60),
-            SGE_AoE_Adv_Heal_PepsisOption = new("SGE_AoE_Adv_Heal_PepsisOption", 60),
-            SGE_AoE_Adv_Heal_PanhaimaOption = new("SGE_AoE_Adv_Heal_PanhaimaOption", 55),
-            SGE_AoE_Adv_Heal_KeracholeOption = new("SGE_AoE_Adv_Heal_KeracholeOption", 80),
-            SGE_AoE_Adv_Heal_IxocholeOption = new("SGE_AoE_Adv_Heal_IxocholeOption", 70),
-            SGE_AoE_Adv_Heal_HolosOption = new("SGE_AoE_Adv_Heal_HolosOption", 65),
-            SGE_AoE_Adv_Heal_EPrognosisOption = new("SGE_AoE_Adv_Heal_EPrognosisOption", 50),
+            SGE_ST_Adv_Heal_LucidOption = new("SGE_ST_Heal_LucidOption", 6500),
+            SGE_ST_Adv_Heal_Zoe = new("SGE_ST_Heal_Zoe", 40),
+            SGE_ST_Adv_Heal_Haima = new("SGE_ST_Heal_Haima", 45),
+            SGE_ST_Adv_Heal_Krasis = new("SGE_ST_Heal_Krasis", 70),
+            SGE_ST_Adv_Heal_Pepsis = new("SGE_ST_Heal_Pepsis", 55),
+            SGE_ST_Adv_Heal_Soteria = new("SGE_ST_Heal_Soteria", 70),
+            SGE_ST_Adv_Heal_EDiagnosisHP = new("SGE_ST_Heal_EDiagnosisHP", 70),
+            SGE_ST_Adv_Heal_Druochole = new("SGE_ST_Heal_Druochole", 55),
+            SGE_ST_Adv_Heal_Taurochole = new("SGE_ST_Heal_Taurochole", 50),
+            SGE_ST_Adv_Heal_KeracholeHP = new("SGE_ST_Heal_KeracholeHP", 70),
+            SGE_ST_Adv_Heal_PhysisHP = new("SGE_ST_Heal_PhysisHP", 70),
+            SGE_ST_Adv_Heal_PanhaimaHP = new("SGE_ST_Heal_PanhaimaHP", 55),
+            SGE_ST_Adv_Heal_HolosHP = new("SGE_ST_Heal_HolosHP", 55),
+            SGE_ST_Adv_Heal_Esuna = new("SGE_ST_Heal_Esuna", 40),
+            SGE_AoE_Adv_Heal_LucidOption = new("SGE_AoE_Heal_LucidOption", 6500),
+            SGE_AoE_Adv_Heal_ZoeOption = new("SGE_AoE_Heal_PneumaOption", 45),
+            SGE_AoE_Adv_Heal_PhysisOption = new("SGE_AoE_Heal_PhysisOption", 80),
+            SGE_AoE_Adv_Heal_PhilosophiaOption = new("SGE_AoE_Heal_PhilosophiaOption", 60),
+            SGE_AoE_Adv_Heal_PepsisOption = new("SGE_AoE_Heal_PepsisOption", 60),
+            SGE_AoE_Adv_Heal_PanhaimaOption = new("SGE_AoE_Heal_PanhaimaOption", 55),
+            SGE_AoE_Adv_Heal_KeracholeOption = new("SGE_AoE_Heal_KeracholeOption", 80),
+            SGE_AoE_Adv_Heal_IxocholeOption = new("SGE_AoE_Heal_IxocholeOption", 70),
+            SGE_AoE_Adv_Heal_HolosOption = new("SGE_AoE_Heal_HolosOption", 65),
+            SGE_AoE_Adv_Heal_EPrognosisOption = new("SGE_AoE_Heal_EPrognosisOption", 50),
             SGE_Raidwide_HolosOption = new("SGE_Raidwide_HolosOption", 80),
             SGE_Mit_ST_TaurocholeThreshold = new("SGE_Mit_ST_TaurocholeThreshold", 100),
             SGE_Mit_AoE_PrognosisOption = new("SGE_Mit_AoE_PrognosisOption");
@@ -508,8 +508,8 @@ internal partial class SGE
             SGE_AoE_Heals_Priority = new("SGE_AoE_Heals_Priority", [2, 6, 1, 3, 5, 8, 4, 7, 9]);
 
         public static UserBoolArray
-            SGE_ST_Adv_Heal_EDiagnosisOpts = new("SGE_ST_Adv_Heal_EDiagnosisOpts"),
-            SGE_ST_Adv_Heal_PanhaimaOpts = new("SGE_ST_Adv_Heal_PanhaimaOpts"),
+            SGE_ST_Adv_Heal_EDiagnosisOpts = new("SGE_ST_Heal_EDiagnosisOpts"),
+            SGE_ST_Adv_Heal_PanhaimaOpts = new("SGE_ST_Heal_PanhaimaOpts"),
             SGE_Mit_ST_Options = new("SGE_Mit_ST_Options"),
             SGE_Mit_AoE_Options = new("SGE_Mit_AoE_Options");
 

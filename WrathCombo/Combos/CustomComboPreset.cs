@@ -5911,41 +5911,57 @@ public enum Preset
 
     [ParentCombo(SGE_ST_Advanced_DPS)]
     [JobInfo(Job.SGE)]
-    SGE_ST_Adv_DPS_EDosis = 14003,
+    [Retargeted(SGE.Kardia)]
+    SGE_ST_Adv_DPS_Kardia = 14006,
+
+    #region Cooldowns on Main Combo
 
     [ParentCombo(SGE_ST_Advanced_DPS)]
+    [JobInfo(Job.SGE)]
+    SGE_ST_Adv_DPS_CDs = 14088,
+
+    [ParentCombo(SGE_ST_Adv_DPS_CDs)]
     [JobInfo(Job.SGE)]
     [PossiblyRetargeted(SGE.Druochole)]
     SGE_ST_Adv_DPS_AddersgallProtect = 14054,
 
-    [ParentCombo(SGE_ST_Advanced_DPS)]
+    [ParentCombo(SGE_ST_Adv_DPS_CDs)]
     [JobInfo(Job.SGE)]
     SGE_ST_Adv_DPS_Rhizo = 14007,
 
-    [ParentCombo(SGE_ST_Advanced_DPS)]
-    [JobInfo(Job.SGE)]
-    SGE_ST_Adv_DPS_Phlegma = 14005,
-
-    [ParentCombo(SGE_ST_Advanced_DPS)]
+    [ParentCombo(SGE_ST_Adv_DPS_CDs)]
     [JobInfo(Job.SGE)]
     SGE_ST_Adv_DPS_Psyche = 14008,
 
-    [ParentCombo(SGE_ST_Advanced_DPS)]
+    [ParentCombo(SGE_ST_Adv_DPS_CDs)]
     [JobInfo(Job.SGE)]
-    SGE_ST_Adv_DPS_Movement = 14004,
+    SGE_ST_Adv_DPS_Lucid = 14002,
 
-    [ParentCombo(SGE_ST_Advanced_DPS)]
-    [JobInfo(Job.SGE)]
-    [Retargeted(SGE.Kardia)]
-    SGE_ST_Adv_DPS_Kardia = 14006,
-
-    [ParentCombo(SGE_ST_Advanced_DPS)]
+    [ParentCombo(SGE_ST_Adv_DPS_CDs)]
     [JobInfo(Job.SGE)]
     SGE_ST_Adv_DPS_Soteria = 14056,
 
+    #endregion
+
+    #region Damage skills
+
     [ParentCombo(SGE_ST_Advanced_DPS)]
     [JobInfo(Job.SGE)]
-    SGE_ST_Adv_DPS_Lucid = 14002,
+    SGE_ST_Adv_DPS_Damage = 14089,
+
+    [ParentCombo(SGE_ST_Adv_DPS_Damage)]
+    [JobInfo(Job.SGE)]
+    SGE_ST_Adv_DPS_EDosis = 14003,
+
+    [ParentCombo(SGE_ST_Adv_DPS_Damage)]
+    [JobInfo(Job.SGE)]
+    SGE_ST_Adv_DPS_Phlegma = 14005,
+
+    [ParentCombo(SGE_ST_Adv_DPS_Damage)]
+    [JobInfo(Job.SGE)]
+    SGE_ST_Adv_DPS_Movement = 14004,
+
+    #endregion
 
     #endregion
 
@@ -5958,42 +5974,58 @@ public enum Preset
     [AdvancedCombo]
     SGE_AoE_Advanced_DPS = 14009,
 
-    [ParentCombo(SGE_AoE_Advanced_DPS)]
-    [JobInfo(Job.SGE)]
-    SGE_AoE_Adv_DPS_EDyskrasia = 14052,
+    #region Cooldowns on Main Combo
 
     [ParentCombo(SGE_AoE_Advanced_DPS)]
+    [JobInfo(Job.SGE)]
+    SGE_AoE_Adv_DPS_CDs = 14090,
+
+    [ParentCombo(SGE_AoE_Adv_DPS_CDs)]
     [JobInfo(Job.SGE)]
     [PossiblyRetargeted]
     SGE_AoE_Adv_DPS_AddersgallProtect = 14053,
 
-    [ParentCombo(SGE_AoE_Advanced_DPS)]
+    [ParentCombo(SGE_AoE_Adv_DPS_CDs)]
     [JobInfo(Job.SGE)]
     SGE_AoE_Adv_DPS_Rhizo = 14013,
 
-    [ParentCombo(SGE_AoE_Advanced_DPS)]
-    [JobInfo(Job.SGE)]
-    SGE_AoE_Adv_DPS_Phlegma = 14010,
-
-    [ParentCombo(SGE_AoE_Advanced_DPS)]
+    [ParentCombo(SGE_AoE_Adv_DPS_CDs)]
     [JobInfo(Job.SGE)]
     SGE_AoE_Adv_DPS_Psyche = 14051,
 
-    [ParentCombo(SGE_AoE_Advanced_DPS)]
+    [ParentCombo(SGE_AoE_Adv_DPS_CDs)]
     [JobInfo(Job.SGE)]
-    SGE_AoE_Adv_DPS_Toxikon = 14011,
+    SGE_AoE_Adv_DPS_Lucid = 14012,
 
-    [ParentCombo(SGE_AoE_Advanced_DPS)]
-    [JobInfo(Job.SGE)]
-    SGE_AoE_Adv_DPS_Pneuma = 14059,
-
-    [ParentCombo(SGE_AoE_Advanced_DPS)]
+    [ParentCombo(SGE_AoE_Adv_DPS_CDs)]
     [JobInfo(Job.SGE)]
     SGE_AoE_Adv_DPS_Soteria = 14057,
 
+    #endregion
+
+    #region Damage skills
+
     [ParentCombo(SGE_AoE_Advanced_DPS)]
     [JobInfo(Job.SGE)]
-    SGE_AoE_Adv_DPS_Lucid = 14012,
+    SGE_AoE_Adv_DPS_Damage = 14091,
+
+    [ParentCombo(SGE_AoE_Adv_DPS_Damage)]
+    [JobInfo(Job.SGE)]
+    SGE_AoE_Adv_DPS_EDyskrasia = 14052,
+
+    [ParentCombo(SGE_AoE_Adv_DPS_Damage)]
+    [JobInfo(Job.SGE)]
+    SGE_AoE_Adv_DPS_Phlegma = 14010,
+
+    [ParentCombo(SGE_AoE_Adv_DPS_Damage)]
+    [JobInfo(Job.SGE)]
+    SGE_AoE_Adv_DPS_Toxikon = 14011,
+
+    [ParentCombo(SGE_AoE_Adv_DPS_Damage)]
+    [JobInfo(Job.SGE)]
+    SGE_AoE_Adv_DPS_Pneuma = 14059,
+
+    #endregion
 
     #endregion
 

@@ -105,16 +105,19 @@ internal partial class SGE : Healer
             if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: false, onAoE: false, dosisActions))
                 return actionID;
 
-            if (UseEDosis(ref actionID, simpleMode: false, dosisActions))
-                return actionID;
-
-            if (HasBattleTarget() && !HasStatusEffect(Buffs.Eukrasia) && InCombat())
+            if (IsEnabled(Preset.SGE_ST_Adv_DPS_Damage))
             {
-                if (UsePhlegma(simpleMode: false))
-                    return OriginalHook(Phlegma);
-
-                if (UseMovement(ref actionID, simpleMode: false))
+                if (UseEDosis(ref actionID, simpleMode: false, dosisActions))
                     return actionID;
+
+                if (HasBattleTarget() && !HasStatusEffect(Buffs.Eukrasia) && InCombat())
+                {
+                    if (UsePhlegma(simpleMode: false))
+                        return OriginalHook(Phlegma);
+
+                    if (UseMovement(ref actionID, simpleMode: false))
+                        return actionID;
+                }
             }
 
             return OriginalHook(Dosis);
@@ -139,7 +142,8 @@ internal partial class SGE : Healer
             if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: false, onAoE: true, [actionID]))
                 return actionID;
 
-            if (UseAoEDPSGCD(ref actionID, simpleMode: false))
+            if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage) &&
+                UseAoEDPSGCD(ref actionID, simpleMode: false))
                 return actionID;
 
             return OriginalHook(Dyskrasia);

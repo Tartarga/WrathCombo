@@ -411,6 +411,60 @@ public partial class Leasing
         return ready ? SetResult.OkayWorking : lastResult;
     }
 
+    /// <summary>
+    ///     Enables or disables an Occult Crescent Phantom Job parent combo and
+    ///     all of its options under a lease.
+    /// </summary>
+    /// <param name="lease">
+    ///     Your lease ID from <see cref="Provider.RegisterForLease(string,string)" />
+    /// </param>
+    /// <param name="phantomJobID">
+    ///     Occult Crescent Phantom Job ID (0–23), not a ClassJob ID.
+    /// </param>
+    /// <param name="enabled">Whether to enable or disable the pack.</param>
+    /// <seealso cref="Provider.SetOccultReadyForPhantomJob" />
+    internal SetResult AddRegistrationForOccult
+        (Guid lease, uint phantomJobID, bool enabled)
+    {
+        if (!Registrations.TryGetValue(lease, out var registration))
+            return SetResult.InvalidLease;
+
+        if (!P.IPCSearch.TryGetOccultParentComboName(phantomJobID, out var parent))
+            return SetResult.InvalidValue;
+
+        var ready = true;
+        var lastResult = SetResult.OkayWorking;
+
+        var setParent = AddRegistrationForCombo(lease, parent, enabled, false);
+        if (setParent is SetResult.BlacklistedLease or SetResult.InvalidLease)
+            return setParent;
+
+        if (setParent is not SetResult.Okay)
+        {
+            ready = false;
+            lastResult = setParent;
+        }
+
+        foreach (var option in P.IPCSearch.GetOccultOptionNames(phantomJobID))
+        {
+            var setOption = AddRegistrationForOption(lease, option, enabled);
+            if (setOption is SetResult.BlacklistedLease or SetResult.InvalidLease)
+                return setOption;
+
+            if (setOption is not SetResult.Okay)
+            {
+                ready = false;
+                lastResult = setOption;
+            }
+        }
+
+        registration.LastUpdated = DateTime.Now;
+        CombosUpdated = DateTime.Now;
+        OptionsUpdated = DateTime.Now;
+
+        return ready ? SetResult.OkayWorking : lastResult;
+    }
+
     internal SetResult AddRegistrationForCurrentJob
         (Guid lease, Job? jobOverride = null)
     {

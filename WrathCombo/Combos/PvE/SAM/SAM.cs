@@ -371,8 +371,8 @@ internal partial class SAM : Melee
             if (HasStatusEffect(Buffs.MeikyoShisui))
             {
                 if (LevelChecked(Yukikaze) && !HasSetsu &&
-                    (HasKa || !SAM_Yukikaze_Gekko) &&
-                    (HasGetsu || !SAM_Yukikaze_Kasha))
+                    (HasGetsu || !SAM_Yukikaze_Gekko) &&
+                    (HasKa || !SAM_Yukikaze_Kasha))
                     return Yukikaze;
 
                 if (SAM_Yukikaze_Gekko &&

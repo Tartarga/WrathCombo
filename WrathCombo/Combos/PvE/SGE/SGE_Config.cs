@@ -410,6 +410,11 @@ internal partial class SGE
                         FormatAndCache(SGE_Config.SGE_Mit_AoE_Panhaima_Help, Panhaima.ActionName()), 3, 2);
                     break;
 
+                case Preset.SGE_Raidwide_Holos:
+                    DrawSliderInt(0, 100, SGE_Raidwide_HolosOption,
+                        Generics.StartUsingWhenBelowPartyAverageHPSetTo100ToDisableThisCheck);
+                    break;
+
                 #endregion
             }
         }
@@ -492,6 +497,7 @@ internal partial class SGE
             SGE_AoE_Adv_Heal_IxocholeOption = new("SGE_AoE_Heal_IxocholeOption", 70),
             SGE_AoE_Adv_Heal_HolosOption = new("SGE_AoE_Heal_HolosOption", 65),
             SGE_AoE_Adv_Heal_EPrognosisOption = new("SGE_AoE_Heal_EPrognosisOption", 50),
+            SGE_Raidwide_HolosOption = new("SGE_Raidwide_HolosOption", 80),
             SGE_Mit_ST_TaurocholeThreshold = new("SGE_Mit_ST_TaurocholeThreshold", 100),
             SGE_Mit_AoE_PrognosisOption = new("SGE_Mit_AoE_PrognosisOption");
 

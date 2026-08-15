@@ -141,6 +141,9 @@ internal partial class SGE : Healer
             if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
+            if (UseRaidwide(ref actionID))
+                return actionID;
+
             if (CanWeave() && !HasStatusEffect(Buffs.Eukrasia))
             {
                 if (IsEnabled(Preset.SGE_ST_Adv_DPS_AddersgallProtect) &&
@@ -198,6 +201,9 @@ internal partial class SGE : Healer
 
             if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
+
+            if (UseRaidwide(ref actionID))
+                return actionID;
 
             if (CanWeave())
             {
@@ -405,6 +411,9 @@ internal partial class SGE : Healer
                 HealRetargeting.RetargetSettingOn && SimpleTarget.Stack.AllyToEsuna is not null ||
                 HasCleansableDebuff(healTarget);
 
+            if (UseRaidwide(ref actionID))
+                return actionID;
+
             if (IsEnabled(Preset.SGE_ST_Adv_Heal_Esuna) &&
                 ActionReady(Role.Esuna) &&
                 GetTargetHPPercent(healTarget, SGE_ST_Adv_Heal_IncludeShields) >= SGE_ST_Adv_Heal_Esuna &&
@@ -453,6 +462,9 @@ internal partial class SGE : Healer
         protected override uint Invoke(uint actionID)
         {
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEHeals, Prognosis))
+                return actionID;
+
+            if (UseRaidwide(ref actionID))
                 return actionID;
 
             if (IsEnabled(Preset.SGE_AoE_Adv_Heal_EPrognosis) &&

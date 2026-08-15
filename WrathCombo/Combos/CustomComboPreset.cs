@@ -6255,6 +6255,23 @@ public enum Preset
 
     #endregion
 
+    #region Raidwide Features
+    [JobInfo(Job.SGE)]
+    SGE_Raidwide = 14069,
+
+    [ParentCombo(SGE_Raidwide)]
+    [JobInfo(Job.SGE)]
+    SGE_Raidwide_EPrognosis = 14070,
+
+    [ParentCombo(SGE_Raidwide)]
+    [JobInfo(Job.SGE)]
+    SGE_Raidwide_Kerachole = 14071,
+
+    [ParentCombo(SGE_Raidwide)]
+    [JobInfo(Job.SGE)]
+    SGE_Raidwide_Holos = 14072,
+    #endregion
+
     #endregion
 
     // Last used number = 14087

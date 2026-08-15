@@ -9490,6 +9490,34 @@ Each action can be Retargeted with the Retargeting Features below.</value>
   <data name="SGE_OverProtect_SacredSoil_Name" xml:space="preserve">
     <value>Under Sacred Soil</value>
   </data>
+  <data name="SGE_Raidwide_Desc" xml:space="preserve">
+    <value>Collection of tools designed to try and cast during a raidwide attack when detected.
+This will work for most, but not all raidwide attacks and is no substitute for learning the fight</value>
+  </data>
+  <data name="SGE_Raidwide_EPrognosis_Desc" xml:space="preserve">
+    <value>Will try to cast Shields when a raidwide casting is detected if shieldcheck from Eukrasian Prognosis setting passes. 
+Will be used in all 4 main combos.</value>
+  </data>
+  <data name="SGE_Raidwide_EPrognosis_Name" xml:space="preserve">
+    <value>Eukrasian Prognosis Option</value>
+  </data>
+  <data name="SGE_Raidwide_Holos_Desc" xml:space="preserve">
+    <value>Will try to cast Holos when a raidwide casting is detected. 
+Will be used in all 4 main combos.</value>
+  </data>
+  <data name="SGE_Raidwide_Holos_Name" xml:space="preserve">
+    <value>Holos Option</value>
+  </data>
+  <data name="SGE_Raidwide_Kerachole_Desc" xml:space="preserve">
+    <value>Will try to cast Kerachole when a raidwide casting is detected. 
+Will be used in all 4 main combos.</value>
+  </data>
+  <data name="SGE_Raidwide_Kerachole_Name" xml:space="preserve">
+    <value>Kerachole Option</value>
+  </data>
+  <data name="SGE_Raidwide_Name" xml:space="preserve">
+    <value>Raidwide Options</value>
+  </data>
   <data name="SGE_Raise_Desc" xml:space="preserve">
     <value>Changes Swiftcast to Egeiro while Swiftcast is on cooldown.</value>
   </data>

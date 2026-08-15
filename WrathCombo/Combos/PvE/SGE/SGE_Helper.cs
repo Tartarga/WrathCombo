@@ -105,6 +105,52 @@ internal partial class SGE
         !HasStatusEffect(Buffs.Kardia) &&
         Target is not null;
 
+    private static bool UseRaidwide(ref uint actionID)
+    {
+        if (CanWeave())
+        {
+            if (RaidwideKerachole())
+            {
+                actionID = Kerachole;
+                return true;
+            }
+
+            if (RaidwideHolos())
+            {
+                actionID = Holos;
+                return true;
+            }
+        }
+
+        if (RaidwideEprognosis())
+        {
+            actionID = HasStatusEffect(Buffs.Eukrasia)
+                ? OriginalHook(Prognosis)
+                : Eukrasia;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool RaidwideKerachole() =>
+        IsEnabled(Preset.SGE_Raidwide_Kerachole) &&
+        ActionReady(Kerachole) && HasAddersgallAboveHold &&
+        GroupDamageIncoming();
+
+    private static bool RaidwideHolos() =>
+        IsEnabled(Preset.SGE_Raidwide_Holos) &&
+        ActionReady(Holos) && GroupDamageIncoming() &&
+        GetPartyAvgHPPercent() <= SGE_Raidwide_HolosOption;
+
+    private static bool RaidwideEprognosis()
+    {
+        bool shieldCheck = GetPartyBuffPercent(Buffs.EukrasianPrognosis) <= SGE_AoE_Adv_Heal_EPrognosisOption &&
+                           GetPartyBuffPercent(SCH.Buffs.Galvanize) <= SGE_AoE_Adv_Heal_EPrognosisOption;
+
+        return IsEnabled(Preset.SGE_Raidwide_EPrognosis) && shieldCheck && GroupDamageIncoming() && LevelChecked(Eukrasia);
+    }
+
     private static bool UseAddersgallProtect(int threshold) =>
         ActionReady(Druochole) && Addersgall >= threshold;
 

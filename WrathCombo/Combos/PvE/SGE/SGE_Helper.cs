@@ -100,137 +100,69 @@ internal partial class SGE
 
     #region Combo
 
-    private static bool UseKardia(bool simpleMode)
+    private static bool UseKardia() =>
+        LevelChecked(Kardia) &&
+        !HasStatusEffect(Buffs.Kardia) &&
+        Target is not null;
+
+    private static bool UseAddersgallProtect(int threshold) =>
+        ActionReady(Druochole) && Addersgall >= threshold;
+
+    private static bool PhlegmaBurstPair(bool phlegmaEnabled, bool psycheEnabled, bool burst) =>
+        LevelChecked(OriginalHook(Phlegma)) &&
+        phlegmaEnabled &&
+        psycheEnabled &&
+        burst;
+
+    private static bool UsePsyche(bool phlegmaBurstPair) =>
+        ActionReady(Psyche) &&
+        HasBattleTarget() &&
+        InActionRange(Psyche) &&
+        (!phlegmaBurstPair ||
+         JustUsed(OriginalHook(Phlegma), 5f) ||
+         !ActionReady(OriginalHook(Phlegma)) ||
+         !InActionRange(OriginalHook(Phlegma)));
+
+    private static bool UseLucid(int mpThreshold) =>
+        Role.CanLucidDream(mpThreshold);
+
+    private static bool UseRhizo(int threshold) =>
+        ActionReady(Rhizomata) && Addersgall < threshold;
+
+    private static bool UseSoteria() =>
+        ActionReady(Soteria) && HasStatusEffect(Buffs.Kardia);
+
+    private static bool UsePhysis() =>
+        ActionReady(OriginalHook(Physis));
+
+    private static bool UseKerachole(bool requireEnhanced) =>
+        ActionReady(Kerachole) &&
+        HasAddersgall &&
+        (!requireEnhanced || TraitLevelChecked(Traits.EnhancedKerachole));
+
+    private static bool UseHolos() =>
+        ActionReady(Holos);
+
+    private static bool UseIxochole() =>
+        ActionReady(Ixochole) && HasAddersgall;
+
+    private static bool UsePhilosophia() =>
+        ActionReady(Philosophia) && !HasStatusEffect(Buffs.Panhaima);
+
+    private static bool UsePanhaima() =>
+        ActionReady(Panhaima) && !HasStatusEffect(Buffs.Eudaimonia);
+
+    private static bool UseZoe() =>
+        ActionReady(Zoe) && (ActionReady(Pneuma) || !LevelChecked(Pneuma));
+
+    private static bool UseAoEPepsis() =>
+        ActionReady(Pepsis) && HasStatusEffect(Buffs.EukrasianPrognosis);
+
+    private static bool UsePhlegma(bool burst, int chargePool, bool psycheEnabled)
     {
-        if ((!simpleMode && !IsEnabled(Preset.SGE_ST_Adv_DPS_Kardia)) ||
-            !LevelChecked(Kardia) ||
-            HasStatusEffect(Buffs.Kardia) ||
-            Target is null)
-            return false;
-
-        return true;
-    }
-
-    private static bool UseRaidwide(ref uint actionID)
-    {
-        if (CanWeave())
-        {
-            if (RaidwideKerachole())
-            {
-                actionID = Kerachole;
-                return true;
-            }
-
-            if (RaidwideHolos())
-            {
-                actionID = Holos;
-                return true;
-            }
-        }
-
-        if (RaidwideEprognosis())
-        {
-            actionID = HasStatusEffect(Buffs.Eukrasia)
-                ? OriginalHook(Prognosis)
-                : Eukrasia;
-            return true;
-        }
-
-        return false;
-    }
-
-    private static bool UseDPSWeave(ref uint actionID, bool simpleMode, bool onAoE, uint[] retargetIds)
-    {
-        if (!onAoE && HasStatusEffect(Buffs.Eukrasia))
-            return false;
-
-        if (!simpleMode &&
-            !IsEnabled(onAoE ? Preset.SGE_AoE_Adv_DPS_CDs : Preset.SGE_ST_Adv_DPS_CDs))
-            return false;
-
-        int addersgallProtect = simpleMode
-            ? 3
-            : onAoE
-                ? SGE_AoE_Adv_DPS_AddersgallProtect
-                : SGE_ST_Adv_DPS_AddersgallProtect;
-        Preset protectPreset = onAoE
-            ? Preset.SGE_AoE_Adv_DPS_AddersgallProtect
-            : Preset.SGE_ST_Adv_DPS_AddersgallProtect;
-        if ((simpleMode || IsEnabled(protectPreset)) &&
-            ActionReady(Druochole) && Addersgall >= addersgallProtect)
-        {
-            actionID = Druochole.RetargetIfEnabled(retargetIds);
-            return true;
-        }
-
-        Preset psychePreset = onAoE ? Preset.SGE_AoE_Adv_DPS_Psyche : Preset.SGE_ST_Adv_DPS_Psyche;
-        Preset phlegmaPreset = onAoE ? Preset.SGE_AoE_Adv_DPS_Phlegma : Preset.SGE_ST_Adv_DPS_Phlegma;
-        bool phlegmaBurstPair =
-            LevelChecked(OriginalHook(Phlegma)) &&
-            (simpleMode || IsEnabled(phlegmaPreset)) &&
-            (simpleMode || IsEnabled(psychePreset)) &&
-            (simpleMode || onAoE || SGE_ST_Adv_DPS_Phlegma_Burst);
-        if ((simpleMode || IsEnabled(psychePreset)) &&
-            ActionReady(Psyche) &&
-            HasBattleTarget() &&
-            InActionRange(Psyche) &&
-            (!phlegmaBurstPair ||
-             JustUsed(OriginalHook(Phlegma), 5f) ||
-             !ActionReady(OriginalHook(Phlegma)) ||
-             !InActionRange(OriginalHook(Phlegma))))
-        {
-            actionID = Psyche;
-            return true;
-        }
-
-        int lucidMp = simpleMode
-            ? 7500
-            : onAoE
-                ? SGE_AoE_Adv_DPS_Lucid
-                : SGE_ST_Adv_DPS_Lucid;
-        Preset lucidPreset = onAoE ? Preset.SGE_AoE_Adv_DPS_Lucid : Preset.SGE_ST_Adv_DPS_Lucid;
-        if ((simpleMode || IsEnabled(lucidPreset)) &&
-            Role.CanLucidDream(lucidMp))
-        {
-            actionID = Role.LucidDreaming;
-            return true;
-        }
-
-        int rhizoThreshold = simpleMode
-            ? 1
-            : onAoE
-                ? SGE_AoE_Adv_DPS_Rhizo
-                : SGE_ST_Adv_DPS_Rhizo;
-        Preset rhizoPreset = onAoE ? Preset.SGE_AoE_Adv_DPS_Rhizo : Preset.SGE_ST_Adv_DPS_Rhizo;
-        if ((simpleMode || IsEnabled(rhizoPreset)) &&
-            ActionReady(Rhizomata) && Addersgall < rhizoThreshold)
-        {
-            actionID = Rhizomata;
-            return true;
-        }
-
-        Preset soteriaPreset = onAoE ? Preset.SGE_AoE_Adv_DPS_Soteria : Preset.SGE_ST_Adv_DPS_Soteria;
-        if ((simpleMode || IsEnabled(soteriaPreset)) &&
-            ActionReady(Soteria) && HasStatusEffect(Buffs.Kardia))
-        {
-            actionID = Soteria;
-            return true;
-        }
-
-        return false;
-    }
-
-    private static bool UsePhlegma(bool simpleMode)
-    {
-        if ((!simpleMode && !IsEnabled(Preset.SGE_ST_Adv_DPS_Damage)) ||
-            (!simpleMode && !IsEnabled(Preset.SGE_ST_Adv_DPS_Phlegma)) ||
-            !InActionRange(OriginalHook(Phlegma)) ||
+        if (!InActionRange(OriginalHook(Phlegma)) ||
             !ActionReady(OriginalHook(Phlegma)))
             return false;
-
-        bool burst = simpleMode || SGE_ST_Adv_DPS_Phlegma_Burst;
-        int chargePool = simpleMode ? 1 : SGE_ST_Adv_DPS_Phlegma;
-        bool psycheEnabled = simpleMode || IsEnabled(Preset.SGE_ST_Adv_DPS_Psyche);
 
         if (IsPhlegmaCapped)
             return true;
@@ -247,7 +179,7 @@ internal partial class SGE
         if (IsOffCooldown(Psyche) && !JustUsed(OriginalHook(Phlegma), 5f))
             return true;
 
-        return IsMoving();
+        return false;
     }
 
     private static bool UseMovement(ref uint actionID, bool simpleMode)
@@ -271,10 +203,6 @@ internal partial class SGE
 
             return false;
         }
-
-        if (!IsEnabled(Preset.SGE_ST_Adv_DPS_Damage) ||
-            !IsEnabled(Preset.SGE_ST_Adv_DPS_Movement))
-            return false;
 
         foreach (int priority in SGE_ST_Adv_DPS_Movement_Priority.OrderBy(x => x))
         {
@@ -306,9 +234,7 @@ internal partial class SGE
             return false;
         }
 
-        if (!IsEnabled(Preset.SGE_ST_Adv_DPS_Damage) ||
-            !IsEnabled(Preset.SGE_ST_Adv_DPS_EDosis) ||
-            !PartyInCombat())
+        if (!PartyInCombat())
             return false;
 
         if (ShouldRefreshEDosis())
@@ -334,29 +260,18 @@ internal partial class SGE
         return false;
     }
 
-    private static bool UseEDyskrasia(bool simpleMode)
-    {
-        if ((!simpleMode && !IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage)) ||
-            (!simpleMode && !IsEnabled(Preset.SGE_AoE_Adv_DPS_EDyskrasia)) ||
-            !HasEDyskrasiaTargets() ||
-            JustUsed(EukrasianDyskrasia) ||
-            !TraitLevelChecked(Traits.OffensiveMagicMasteryII) ||
-            !ActionReady(Eukrasia))
-            return false;
+    private static bool UseEDyskrasia() =>
+        HasEDyskrasiaTargets() &&
+        !JustUsed(EukrasianDyskrasia) &&
+        TraitLevelChecked(Traits.OffensiveMagicMasteryII) &&
+        ActionReady(Eukrasia);
 
-        return true;
-    }
-
-    private static bool UseAoEPhlegma(bool simpleMode)
+    private static bool UseAoEPhlegma(bool psycheEnabled)
     {
-        if ((!simpleMode && !IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage)) ||
-            (!simpleMode && !IsEnabled(Preset.SGE_AoE_Adv_DPS_Phlegma)) ||
-            !HasBattleTarget() ||
+        if (!HasBattleTarget() ||
             !InActionRange(OriginalHook(Phlegma)) ||
             !ActionReady(OriginalHook(Phlegma)))
             return false;
-
-        bool psycheEnabled = simpleMode || IsEnabled(Preset.SGE_AoE_Adv_DPS_Psyche);
 
         if (IsPhlegmaCapped)
             return true;
@@ -373,48 +288,15 @@ internal partial class SGE
         return false;
     }
 
-    private static bool UseAoEToxikon(bool simpleMode) =>
-        (simpleMode || IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage)) &&
-        (simpleMode || IsEnabled(Preset.SGE_AoE_Adv_DPS_Toxikon)) &&
+    private static bool UseAoEToxikon() =>
         ActionReady(OriginalHook(Toxikon)) &&
         HasBattleTarget() && HasAddersting &&
         InActionRange(OriginalHook(Toxikon));
 
-    private static bool UseAoEPneuma(bool simpleMode) =>
-        (simpleMode || IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage)) &&
-        (simpleMode || IsEnabled(Preset.SGE_AoE_Adv_DPS_Pneuma)) &&
-        (simpleMode || SGE_AoE_Adv_DPS_PneumaBossOption == 0 || TargetIsBoss()) &&
+    private static bool UseAoEPneuma(bool allowNonBoss) =>
+        (allowNonBoss || TargetIsBoss()) &&
         ActionReady(Pneuma) && HasBattleTarget() &&
         InActionRange(Pneuma);
-
-    private static bool UseAoEDPSGCD(ref uint actionID, bool simpleMode)
-    {
-        if (UseEDyskrasia(simpleMode))
-        {
-            actionID = Eukrasia;
-            return true;
-        }
-
-        if (UseAoEPhlegma(simpleMode))
-        {
-            actionID = OriginalHook(Phlegma);
-            return true;
-        }
-
-        if (UseAoEToxikon(simpleMode))
-        {
-            actionID = OriginalHook(Toxikon);
-            return true;
-        }
-
-        if (UseAoEPneuma(simpleMode))
-        {
-            actionID = Pneuma;
-            return true;
-        }
-
-        return false;
-    }
 
     private static bool HasEDyskrasiaTargets() =>
         EnemiesInRange(EukrasianDyskrasia).Count(x =>
@@ -452,272 +334,6 @@ internal partial class SGE
     #endregion
 
     #region Healing
-
-    #region Raidwides
-
-    private static bool RaidwideKerachole() =>
-        IsEnabled(Preset.SGE_Raidwide_Kerachole) &&
-        ActionReady(Kerachole) && HasAddersgallAboveHold &&
-        GroupDamageIncoming();
-
-    private static bool RaidwideHolos() =>
-        IsEnabled(Preset.SGE_Raidwide_Holos) &&
-        ActionReady(Holos) && GroupDamageIncoming() &&
-        GetPartyAvgHPPercent() <= SGE_Raidwide_HolosOption;
-
-    private static bool RaidwideEprognosis()
-    {
-        bool shieldCheck = GetPartyBuffPercent(Buffs.EukrasianPrognosis) <= SGE_AoE_Adv_Heal_EPrognosisOption &&
-                           GetPartyBuffPercent(SCH.Buffs.Galvanize) <= SGE_AoE_Adv_Heal_EPrognosisOption;
-
-        return IsEnabled(Preset.SGE_Raidwide_EPrognosis) && shieldCheck && GroupDamageIncoming() && LevelChecked(Eukrasia);
-    }
-
-    #endregion
-
-    private static bool UseHealWeave(ref uint actionID, bool simpleMode, bool onAoE)
-    {
-        int lucidMp = simpleMode
-            ? 6500
-            : onAoE
-                ? SGE_AoE_Adv_Heal_LucidOption
-                : SGE_ST_Adv_Heal_LucidOption;
-        Preset lucidPreset = onAoE ? Preset.SGE_AoE_Adv_Heal_Lucid : Preset.SGE_ST_Adv_Heal_Lucid;
-        if ((simpleMode || IsEnabled(lucidPreset)) &&
-            Role.CanLucidDream(lucidMp))
-        {
-            actionID = Role.LucidDreaming;
-            return true;
-        }
-
-        Preset rhizoPreset = onAoE ? Preset.SGE_AoE_Adv_Heal_Rhizomata : Preset.SGE_ST_Adv_Heal_Rhizomata;
-        if ((simpleMode || IsEnabled(rhizoPreset)) &&
-            ActionReady(Rhizomata) && !HasAddersgall)
-        {
-            actionID = Rhizomata;
-            return true;
-        }
-
-        if (simpleMode && !onAoE &&
-            ActionReady(Soteria) && HasStatusEffect(Buffs.Kardia))
-        {
-            actionID = Soteria;
-            return true;
-        }
-
-        return false;
-    }
-
-    private static bool UseAoEHealWeave(ref uint actionID)
-    {
-        if (ActionReady(OriginalHook(Physis)))
-        {
-            actionID = OriginalHook(Physis);
-            return true;
-        }
-
-        if (ActionReady(Kerachole) &&
-            TraitLevelChecked(Traits.EnhancedKerachole) &&
-            HasAddersgall)
-        {
-            actionID = Kerachole;
-            return true;
-        }
-
-        if (ActionReady(Holos))
-        {
-            actionID = Holos;
-            return true;
-        }
-
-        if (ActionReady(Ixochole) && HasAddersgall)
-        {
-            actionID = Ixochole;
-            return true;
-        }
-
-        if (ActionReady(Philosophia) && !HasStatusEffect(Buffs.Panhaima))
-        {
-            actionID = Philosophia;
-            return true;
-        }
-
-        if (ActionReady(Panhaima) && !HasStatusEffect(Buffs.Eudaimonia))
-        {
-            actionID = Panhaima;
-            return true;
-        }
-
-        if (ActionReady(Zoe) && (ActionReady(Pneuma) || !LevelChecked(Pneuma)))
-        {
-            actionID = Zoe;
-            return true;
-        }
-
-        if (ActionReady(Pepsis) &&
-            HasStatusEffect(Buffs.EukrasianPrognosis))
-        {
-            actionID = Pepsis;
-            return true;
-        }
-
-        return false;
-    }
-
-    private static uint DoSTSimpleHeal(uint actionID)
-    {
-        IGameObject? healTarget = SimpleTarget.Stack.OneButtonHealLogic;
-
-        bool cleansableTarget =
-            HealRetargeting.RetargetSettingOn && SimpleTarget.Stack.AllyToEsuna is not null ||
-            HasCleansableDebuff(healTarget);
-
-        if (LevelChecked(Kardia) &&
-            !HasStatusEffect(Buffs.Kardia))
-            return Kardia.Retarget(actionID, SimpleTarget.AnyLivingTank);
-
-        if (ActionReady(Role.Esuna) &&
-            GetTargetHPPercent(healTarget) >= 40 &&
-            cleansableTarget)
-            return Role.Esuna.RetargetIfEnabled(actionID);
-
-        if (CanWeave() && UseHealWeave(ref actionID, simpleMode: true, onAoE: false))
-            return actionID;
-
-        if (ActionReady(OriginalHook(Physis)) &&
-            !InBossEncounter())
-            return OriginalHook(Physis);
-
-        if (ActionReady(Kerachole) &&
-            TraitLevelChecked(Traits.EnhancedKerachole) &&
-            HasAddersgall &&
-            !InBossEncounter())
-            return Kerachole;
-
-        if ((healTarget.IsInParty() && healTarget.Role is CombatRole.Tank) || !IsInParty())
-        {
-            if (ActionReady(Krasis))
-                return Krasis.RetargetIfEnabled(actionID);
-
-            if (ActionReady(Taurochole) && HasAddersgall)
-                return Taurochole.RetargetIfEnabled(actionID);
-
-            if (ActionReady(Haima) && !HasStatusEffect(Buffs.Panhaima, healTarget))
-                return Haima.RetargetIfEnabled(actionID);
-        }
-
-        if (ActionReady(Druochole) && HasAddersgall)
-            return Druochole.RetargetIfEnabled(actionID);
-
-        if (!InBossEncounter())
-        {
-            if (ActionReady(Holos))
-                return Holos;
-
-            if (ActionReady(Panhaima) && !HasStatusEffect(Buffs.Haima, healTarget))
-                return Panhaima;
-        }
-
-        if (ActionReady(Pepsis) &&
-            HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget))
-            return Pepsis;
-
-        if (ActionReady(Eukrasia) && !HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget))
-            return HasStatusEffect(Buffs.Eukrasia)
-                ? EukrasianDiagnosis
-                : Eukrasia;
-
-        return Diagnosis.RetargetIfEnabled(actionID);
-    }
-
-    private static uint DoAoESimpleHeal(uint actionID)
-    {
-        if (CanWeave() && UseHealWeave(ref actionID, simpleMode: true, onAoE: true))
-            return actionID;
-
-        if (HasStatusEffect(Buffs.Eukrasia))
-            return OriginalHook(Prognosis);
-
-        if (ActionReady(Eukrasia) &&
-            GetPartyBuffPercent(Buffs.EukrasianPrognosis) <= 50 &&
-            GetPartyBuffPercent(SCH.Buffs.Galvanize) <= 50 &&
-            !HasStatusEffect(Buffs.Eukrasia))
-            return Eukrasia;
-
-        if (CanWeave() && UseAoEHealWeave(ref actionID))
-            return actionID;
-
-        return OriginalHook(Prognosis);
-    }
-
-    private static uint DoSTAdvancedHeal(uint actionID)
-    {
-        IGameObject? healTarget = SimpleTarget.Stack.OneButtonHealLogic;
-
-        bool cleansableTarget =
-            HealRetargeting.RetargetSettingOn && SimpleTarget.Stack.AllyToEsuna is not null ||
-            HasCleansableDebuff(healTarget);
-
-        if (UseRaidwide(ref actionID))
-            return actionID;
-
-        if (IsEnabled(Preset.SGE_ST_Adv_Heal_Esuna) &&
-            ActionReady(Role.Esuna) &&
-            GetTargetHPPercent(healTarget, SGE_ST_Adv_Heal_IncludeShields) >= SGE_ST_Adv_Heal_Esuna &&
-            cleansableTarget)
-            return Role.Esuna.RetargetIfEnabled(actionID);
-
-        if (HasStatusEffect(Buffs.Eukrasia))
-            return EukrasianDiagnosis.RetargetIfEnabled(actionID);
-
-        if (IsEnabled(Preset.SGE_ST_Adv_Heal_Kardia) &&
-            LevelChecked(Kardia) &&
-            !HasStatusEffect(Buffs.Kardia) &&
-            !HasStatusEffect(Buffs.Kardion, healTarget))
-            return Kardia.Retarget(actionID, Target);
-
-        if (CanWeave() && UseHealWeave(ref actionID, simpleMode: false, onAoE: false))
-            return actionID;
-
-        for (int i = 0; i < SGE_ST_Heals_Priority.Count; i++)
-        {
-            int index = SGE_ST_Heals_Priority.IndexOf(i + 1);
-            if (!TrySTHealOption(index, healTarget, out uint spell, out int config))
-                continue;
-
-            if (GetTargetHPPercent(healTarget, SGE_ST_Adv_Heal_IncludeShields) <= config &&
-                ActionReady(spell))
-                return spell.RetargetIfEnabled(actionID);
-        }
-
-        return Diagnosis.RetargetIfEnabled(actionID);
-    }
-
-    private static uint DoAoEAdvancedHeal(uint actionID)
-    {
-        if (UseRaidwide(ref actionID))
-            return actionID;
-
-        if (IsEnabled(Preset.SGE_AoE_Adv_Heal_EPrognosis) &&
-            HasStatusEffect(Buffs.Eukrasia))
-            return OriginalHook(Prognosis);
-
-        if (CanWeave() && UseHealWeave(ref actionID, simpleMode: false, onAoE: true))
-            return actionID;
-
-        float averagePartyHP = GetPartyAvgHPPercent();
-        for (int i = 0; i < SGE_AoE_Heals_Priority.Count; i++)
-        {
-            int index = SGE_AoE_Heals_Priority.IndexOf(i + 1);
-            if (!TryAoEHealOption(index, out uint spell, out int config))
-                continue;
-
-            if (averagePartyHP <= config && ActionReady(spell))
-                return spell;
-        }
-
-        return OriginalHook(Prognosis);
-    }
 
     private static bool TrySTHealOption(int i, IGameObject? target, out uint action, out int config)
     {

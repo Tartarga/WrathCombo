@@ -7325,34 +7325,6 @@ GCD를 소모하며 기절 면역 적에게 무의미할 수 있습니다.
   <data name="SGE_Retarget_Icarus_Desc" xml:space="preserve">
     <value>'이카로스'의 대상을 마우스오버(UI) 대상으로 전환합니다.</value>
   </data>
-  <data name="SGE_Raidwide_Name" xml:space="preserve">
-    <value>광역 공격 대응 옵션</value>
-  </data>
-  <data name="SGE_Raidwide_Desc" xml:space="preserve">
-    <value>광역 공격이 감지될 때 자동으로 대응 기술을 시전하는 도구 모음입니다.
-대부분의 광역 공격에 작동하지만, 기믹 숙지를 대신할 수는 없습니다.</value>
-  </data>
-  <data name="SGE_Raidwide_EPrognosis_Name" xml:space="preserve">
-    <value>정상건강: 예후 옵션</value>
-  </data>
-  <data name="SGE_Raidwide_EPrognosis_Desc" xml:space="preserve">
-    <value>광역 공격 감지 시 보호막 여부를 확인하여 시전합니다. 
-모든 주요 콤보에서 작동합니다.</value>
-  </data>
-  <data name="SGE_Raidwide_Kerachole_Name" xml:space="preserve">
-    <value>케이라콜레 옵션</value>
-  </data>
-  <data name="SGE_Raidwide_Kerachole_Desc" xml:space="preserve">
-    <value>광역 공격 감지 시 '케이라콜레'를 시전합니다. 
-모든 주요 콤보에서 작동합니다.</value>
-  </data>
-  <data name="SGE_Raidwide_Holos_Name" xml:space="preserve">
-    <value>전체론 옵션</value>
-  </data>
-  <data name="SGE_Raidwide_Holos_Desc" xml:space="preserve">
-    <value>광역 공격 감지 시 '전체론'을 시전합니다.
-모든 주요 콤보에서 작동합니다.</value>
-  </data>
   <data name="SAM_ST_SimpleMode_Name" xml:space="preserve">
     <value>단순 모드 - 단일 대상</value>
   </data>

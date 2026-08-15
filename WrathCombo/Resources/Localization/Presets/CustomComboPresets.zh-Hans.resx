@@ -7376,34 +7376,6 @@
   <data name="SGE_Retarget_Icarus_Desc" xml:space="preserve">
     <value>将“神翼”重定向到 UI 鼠标指向目标。</value>
   </data>
-  <data name="SGE_Raidwide_Name" xml:space="preserve">
-    <value>全屏 AoE 选项</value>
-  </data>
-  <data name="SGE_Raidwide_Desc" xml:space="preserve">
-    <value>用于在检测到全屏 AoE 攻击时尝试自动施放的工具集合。
-该功能可应对大多数但并非全部全屏 AoE，不能替代对战斗机制的学习。</value>
-  </data>
-  <data name="SGE_Raidwide_EPrognosis_Name" xml:space="preserve">
-    <value>均衡预后</value>
-  </data>
-  <data name="SGE_Raidwide_EPrognosis_Desc" xml:space="preserve">
-    <value>检测到全屏 AoE 读条时，若“均衡预后”护盾检测通过，则尝试施放护盾。
-会在 4 个主连击中全部生效。</value>
-  </data>
-  <data name="SGE_Raidwide_Kerachole_Name" xml:space="preserve">
-    <value>坚角清汁</value>
-  </data>
-  <data name="SGE_Raidwide_Kerachole_Desc" xml:space="preserve">
-    <value>检测到全屏 AoE 读条时，尝试施放“坚角清汁”。
-会在 4 个主连击中全部生效。</value>
-  </data>
-  <data name="SGE_Raidwide_Holos_Name" xml:space="preserve">
-    <value>整体论</value>
-  </data>
-  <data name="SGE_Raidwide_Holos_Desc" xml:space="preserve">
-    <value>检测到全屏 AoE 读条时，尝试施放“整体论”。
-会在 4 个主连击中全部生效。</value>
-  </data>
   <data name="SAM_ST_SimpleMode_Name" xml:space="preserve">
     <value>简单输出模式 - 单目标</value>
   </data>

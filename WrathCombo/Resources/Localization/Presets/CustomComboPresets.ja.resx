@@ -7361,34 +7361,6 @@ Lv.70以下では可能な限りフェザーを使用します。</value>
   <data name="SGE_Retarget_Icarus_Desc" xml:space="preserve">
     <value>イカロスを UIマウスオーバーにリターゲットします</value>
   </data>
-  <data name="SGE_Raidwide_Name" xml:space="preserve">
-    <value>全体攻撃 オプション</value>
-  </data>
-  <data name="SGE_Raidwide_Desc" xml:space="preserve">
-    <value>全体攻撃の詠唱が検出された際に、対応アクションを使うための機能群です。
-すべての全体攻撃に対応するわけではありませんが、多くの場面で機能します。攻略理解そのものの代わりにはなりません。</value>
-  </data>
-  <data name="SGE_Raidwide_EPrognosis_Name" xml:space="preserve">
-    <value>エウクラシア・プログノシスオプション</value>
-  </data>
-  <data name="SGE_Raidwide_EPrognosis_Desc" xml:space="preserve">
-    <value>エウクラシア・プログノシスのシールドチェックを満たしている場合、全体攻撃の詠唱が検出されたときにシールドを使用します。
-4つのメインコンボすべてで使用されます。</value>
-  </data>
-  <data name="SGE_Raidwide_Kerachole_Name" xml:space="preserve">
-    <value>ケーラコレオプション</value>
-  </data>
-  <data name="SGE_Raidwide_Kerachole_Desc" xml:space="preserve">
-    <value>全体攻撃の詠唱が検出された場合、ケーラコレを使用します。
-4つのメインコンボすべてで使用されます。</value>
-  </data>
-  <data name="SGE_Raidwide_Holos_Name" xml:space="preserve">
-    <value>ホーリズムオプション</value>
-  </data>
-  <data name="SGE_Raidwide_Holos_Desc" xml:space="preserve">
-    <value>全体攻撃の詠唱が検出された場合、ホーリズムを使用します。
-4つのメインコンボすべてで使用されます。</value>
-  </data>
   <data name="SAM_ST_SimpleMode_Name" xml:space="preserve">
     <value>シンプルモード - 単体</value>
   </data>

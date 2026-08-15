@@ -1,6 +1,9 @@
 using System.Linq;
+using Dalamud.Game.ClientState.Objects.Types;
+using ECommons.GameFunctions;
 using WrathCombo.Core;
 using WrathCombo.CustomComboNS;
+using WrathCombo.Extensions;
 using WrathCombo.Native;
 using static WrathCombo.Combos.PvE.SGE.Config;
 using EZ = ECommons.Throttlers.EzThrottler;
@@ -22,21 +25,36 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetDPS, DosisActions))
                 return actionID;
 
-            if (UseKardia(simpleMode: true))
+            if (UseKardia())
                 return Kardia.Retarget(actionID, Target);
 
             if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
-            if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: true, onAoE: false, [actionID]))
-                return actionID;
+            if (CanWeave() && !HasStatusEffect(Buffs.Eukrasia))
+            {
+                if (UseAddersgallProtect(3))
+                    return Druochole.RetargetIfEnabled([actionID]);
+
+                if (UsePsyche(PhlegmaBurstPair(true, true, true)))
+                    return Psyche;
+
+                if (UseLucid(7500))
+                    return Role.LucidDreaming;
+
+                if (UseRhizo(1))
+                    return Rhizomata;
+
+                if (UseSoteria())
+                    return Soteria;
+            }
 
             if (UseEDosis(ref actionID, simpleMode: true, [actionID]))
                 return actionID;
 
             if (HasBattleTarget() && !HasStatusEffect(Buffs.Eukrasia) && InCombat())
             {
-                if (UsePhlegma(simpleMode: true))
+                if (UsePhlegma(burst: true, chargePool: 1, psycheEnabled: true))
                     return OriginalHook(Phlegma);
 
                 if (UseMovement(ref actionID, simpleMode: true))
@@ -59,11 +77,35 @@ internal partial class SGE : Healer
             if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
-            if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: true, onAoE: true, [actionID]))
-                return actionID;
+            if (CanWeave())
+            {
+                if (UseAddersgallProtect(3))
+                    return Druochole.RetargetIfEnabled([actionID]);
 
-            if (UseAoEDPSGCD(ref actionID, simpleMode: true))
-                return actionID;
+                if (UsePsyche(PhlegmaBurstPair(true, true, true)))
+                    return Psyche;
+
+                if (UseLucid(7500))
+                    return Role.LucidDreaming;
+
+                if (UseRhizo(1))
+                    return Rhizomata;
+
+                if (UseSoteria())
+                    return Soteria;
+            }
+
+            if (UseEDyskrasia())
+                return Eukrasia;
+
+            if (UseAoEPhlegma(psycheEnabled: true))
+                return OriginalHook(Phlegma);
+
+            if (UseAoEToxikon())
+                return OriginalHook(Toxikon);
+
+            if (UseAoEPneuma(allowNonBoss: true))
+                return Pneuma;
 
             return OriginalHook(Dyskrasia);
         }
@@ -89,7 +131,7 @@ internal partial class SGE : Healer
             if (CustomActionHelper.CustomActionEnabled(CustomActionType.SingleTargetDPS))
                 dosisActions = [All.SingleTargetDPS];
 
-            if (UseKardia(simpleMode: false))
+            if (IsEnabled(Preset.SGE_ST_Adv_DPS_Kardia) && UseKardia())
                 return Kardia.Retarget(actionID, Target);
 
             if (IsEnabled(Preset.SGE_ST_Adv_DPS_Opener) &&
@@ -99,23 +141,48 @@ internal partial class SGE : Healer
             if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
-            if (UseRaidwide(ref actionID))
-                return actionID;
+            if (CanWeave() && !HasStatusEffect(Buffs.Eukrasia) &&
+                IsEnabled(Preset.SGE_ST_Adv_DPS_CDs))
+            {
+                if (IsEnabled(Preset.SGE_ST_Adv_DPS_AddersgallProtect) &&
+                    UseAddersgallProtect(SGE_ST_Adv_DPS_AddersgallProtect))
+                    return Druochole.RetargetIfEnabled(dosisActions);
 
-            if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: false, onAoE: false, dosisActions))
-                return actionID;
+                bool psycheEnabled = IsEnabled(Preset.SGE_ST_Adv_DPS_Psyche);
+                bool phlegmaEnabled = IsEnabled(Preset.SGE_ST_Adv_DPS_Phlegma);
+                if (psycheEnabled &&
+                    UsePsyche(PhlegmaBurstPair(phlegmaEnabled, psycheEnabled, SGE_ST_Adv_DPS_Phlegma_Burst)))
+                    return Psyche;
+
+                if (IsEnabled(Preset.SGE_ST_Adv_DPS_Lucid) &&
+                    UseLucid(SGE_ST_Adv_DPS_Lucid))
+                    return Role.LucidDreaming;
+
+                if (IsEnabled(Preset.SGE_ST_Adv_DPS_Rhizo) &&
+                    UseRhizo(SGE_ST_Adv_DPS_Rhizo))
+                    return Rhizomata;
+
+                if (IsEnabled(Preset.SGE_ST_Adv_DPS_Soteria) && UseSoteria())
+                    return Soteria;
+            }
 
             if (IsEnabled(Preset.SGE_ST_Adv_DPS_Damage))
             {
-                if (UseEDosis(ref actionID, simpleMode: false, dosisActions))
+                if (IsEnabled(Preset.SGE_ST_Adv_DPS_EDosis) &&
+                    UseEDosis(ref actionID, simpleMode: false, dosisActions))
                     return actionID;
 
                 if (HasBattleTarget() && !HasStatusEffect(Buffs.Eukrasia) && InCombat())
                 {
-                    if (UsePhlegma(simpleMode: false))
+                    if (IsEnabled(Preset.SGE_ST_Adv_DPS_Phlegma) &&
+                        UsePhlegma(
+                            burst: SGE_ST_Adv_DPS_Phlegma_Burst,
+                            chargePool: SGE_ST_Adv_DPS_Phlegma,
+                            psycheEnabled: IsEnabled(Preset.SGE_ST_Adv_DPS_Psyche)))
                         return OriginalHook(Phlegma);
 
-                    if (UseMovement(ref actionID, simpleMode: false))
+                    if (IsEnabled(Preset.SGE_ST_Adv_DPS_Movement) &&
+                        UseMovement(ref actionID, simpleMode: false))
                         return actionID;
                 }
             }
@@ -136,15 +203,46 @@ internal partial class SGE : Healer
             if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
-            if (UseRaidwide(ref actionID))
-                return actionID;
+            if (CanWeave() && IsEnabled(Preset.SGE_AoE_Adv_DPS_CDs))
+            {
+                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_AddersgallProtect) &&
+                    UseAddersgallProtect(SGE_AoE_Adv_DPS_AddersgallProtect))
+                    return Druochole.RetargetIfEnabled([actionID]);
 
-            if (CanWeave() && UseDPSWeave(ref actionID, simpleMode: false, onAoE: true, [actionID]))
-                return actionID;
+                bool psycheEnabled = IsEnabled(Preset.SGE_AoE_Adv_DPS_Psyche);
+                bool phlegmaEnabled = IsEnabled(Preset.SGE_AoE_Adv_DPS_Phlegma);
+                if (psycheEnabled &&
+                    UsePsyche(PhlegmaBurstPair(phlegmaEnabled, psycheEnabled, burst: true)))
+                    return Psyche;
 
-            if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage) &&
-                UseAoEDPSGCD(ref actionID, simpleMode: false))
-                return actionID;
+                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Lucid) &&
+                    UseLucid(SGE_AoE_Adv_DPS_Lucid))
+                    return Role.LucidDreaming;
+
+                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Rhizo) &&
+                    UseRhizo(SGE_AoE_Adv_DPS_Rhizo))
+                    return Rhizomata;
+
+                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Soteria) && UseSoteria())
+                    return Soteria;
+            }
+
+            if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage))
+            {
+                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_EDyskrasia) && UseEDyskrasia())
+                    return Eukrasia;
+
+                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Phlegma) &&
+                    UseAoEPhlegma(IsEnabled(Preset.SGE_AoE_Adv_DPS_Psyche)))
+                    return OriginalHook(Phlegma);
+
+                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Toxikon) && UseAoEToxikon())
+                    return OriginalHook(Toxikon);
+
+                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Pneuma) &&
+                    UseAoEPneuma(SGE_AoE_Adv_DPS_PneumaBossOption == 0))
+                    return Pneuma;
+            }
 
             return OriginalHook(Dyskrasia);
         }
@@ -163,7 +261,77 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetHeals, Diagnosis))
                 return actionID;
 
-            return DoSTSimpleHeal(actionID);
+            IGameObject? healTarget = SimpleTarget.Stack.OneButtonHealLogic;
+
+            bool cleansableTarget =
+                HealRetargeting.RetargetSettingOn && SimpleTarget.Stack.AllyToEsuna is not null ||
+                HasCleansableDebuff(healTarget);
+
+            if (LevelChecked(Kardia) &&
+                !HasStatusEffect(Buffs.Kardia))
+                return Kardia.Retarget(actionID, SimpleTarget.AnyLivingTank);
+
+            if (ActionReady(Role.Esuna) &&
+                GetTargetHPPercent(healTarget) >= 40 &&
+                cleansableTarget)
+                return Role.Esuna.RetargetIfEnabled(actionID);
+
+            if (CanWeave())
+            {
+                if (UseLucid(6500))
+                    return Role.LucidDreaming;
+
+                if (UseRhizo(1))
+                    return Rhizomata;
+
+                if (UseSoteria())
+                    return Soteria;
+            }
+
+            if (ActionReady(OriginalHook(Physis)) &&
+                !InBossEncounter())
+                return OriginalHook(Physis);
+
+            if (ActionReady(Kerachole) &&
+                TraitLevelChecked(Traits.EnhancedKerachole) &&
+                HasAddersgall &&
+                !InBossEncounter())
+                return Kerachole;
+
+            if ((healTarget.IsInParty() && healTarget.Role is CombatRole.Tank) || !IsInParty())
+            {
+                if (ActionReady(Krasis))
+                    return Krasis.RetargetIfEnabled(actionID);
+
+                if (ActionReady(Taurochole) && HasAddersgall)
+                    return Taurochole.RetargetIfEnabled(actionID);
+
+                if (ActionReady(Haima) && !HasStatusEffect(Buffs.Panhaima, healTarget))
+                    return Haima.RetargetIfEnabled(actionID);
+            }
+
+            if (ActionReady(Druochole) && HasAddersgall)
+                return Druochole.RetargetIfEnabled(actionID);
+
+            if (!InBossEncounter())
+            {
+                if (ActionReady(Holos))
+                    return Holos;
+
+                if (ActionReady(Panhaima) && !HasStatusEffect(Buffs.Haima, healTarget))
+                    return Panhaima;
+            }
+
+            if (ActionReady(Pepsis) &&
+                HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget))
+                return Pepsis;
+
+            if (ActionReady(Eukrasia) && !HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget))
+                return HasStatusEffect(Buffs.Eukrasia)
+                    ? EukrasianDiagnosis
+                    : Eukrasia;
+
+            return Diagnosis.RetargetIfEnabled(actionID);
         }
     }
 
@@ -176,7 +344,52 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEHeals, Prognosis))
                 return actionID;
 
-            return DoAoESimpleHeal(actionID);
+            if (CanWeave())
+            {
+                if (UseLucid(6500))
+                    return Role.LucidDreaming;
+
+                if (UseRhizo(1))
+                    return Rhizomata;
+            }
+
+            if (HasStatusEffect(Buffs.Eukrasia))
+                return OriginalHook(Prognosis);
+
+            if (ActionReady(Eukrasia) &&
+                GetPartyBuffPercent(Buffs.EukrasianPrognosis) <= 50 &&
+                GetPartyBuffPercent(SCH.Buffs.Galvanize) <= 50 &&
+                !HasStatusEffect(Buffs.Eukrasia))
+                return Eukrasia;
+
+            if (CanWeave())
+            {
+                if (UsePhysis())
+                    return OriginalHook(Physis);
+
+                if (UseKerachole(requireEnhanced: true))
+                    return Kerachole;
+
+                if (UseHolos())
+                    return Holos;
+
+                if (UseIxochole())
+                    return Ixochole;
+
+                if (UsePhilosophia())
+                    return Philosophia;
+
+                if (UsePanhaima())
+                    return Panhaima;
+
+                if (UseZoe())
+                    return Zoe;
+
+                if (UseAoEPepsis())
+                    return Pepsis;
+            }
+
+            return OriginalHook(Prognosis);
         }
     }
 
@@ -193,7 +406,50 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetHeals, Diagnosis))
                 return actionID;
 
-            return DoSTAdvancedHeal(actionID);
+            IGameObject? healTarget = SimpleTarget.Stack.OneButtonHealLogic;
+
+            bool cleansableTarget =
+                HealRetargeting.RetargetSettingOn && SimpleTarget.Stack.AllyToEsuna is not null ||
+                HasCleansableDebuff(healTarget);
+
+            if (IsEnabled(Preset.SGE_ST_Adv_Heal_Esuna) &&
+                ActionReady(Role.Esuna) &&
+                GetTargetHPPercent(healTarget, SGE_ST_Adv_Heal_IncludeShields) >= SGE_ST_Adv_Heal_Esuna &&
+                cleansableTarget)
+                return Role.Esuna.RetargetIfEnabled(actionID);
+
+            if (HasStatusEffect(Buffs.Eukrasia))
+                return EukrasianDiagnosis.RetargetIfEnabled(actionID);
+
+            if (IsEnabled(Preset.SGE_ST_Adv_Heal_Kardia) &&
+                LevelChecked(Kardia) &&
+                !HasStatusEffect(Buffs.Kardia) &&
+                !HasStatusEffect(Buffs.Kardion, healTarget))
+                return Kardia.Retarget(actionID, Target);
+
+            if (CanWeave())
+            {
+                if (IsEnabled(Preset.SGE_ST_Adv_Heal_Lucid) &&
+                    UseLucid(SGE_ST_Adv_Heal_LucidOption))
+                    return Role.LucidDreaming;
+
+                if (IsEnabled(Preset.SGE_ST_Adv_Heal_Rhizomata) &&
+                    UseRhizo(1))
+                    return Rhizomata;
+            }
+
+            for (int i = 0; i < SGE_ST_Heals_Priority.Count; i++)
+            {
+                int index = SGE_ST_Heals_Priority.IndexOf(i + 1);
+                if (!TrySTHealOption(index, healTarget, out uint spell, out int config))
+                    continue;
+
+                if (GetTargetHPPercent(healTarget, SGE_ST_Adv_Heal_IncludeShields) <= config &&
+                    ActionReady(spell))
+                    return spell.RetargetIfEnabled(actionID);
+            }
+
+            return Diagnosis.RetargetIfEnabled(actionID);
         }
     }
 
@@ -206,7 +462,33 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEHeals, Prognosis))
                 return actionID;
 
-            return DoAoEAdvancedHeal(actionID);
+            if (IsEnabled(Preset.SGE_AoE_Adv_Heal_EPrognosis) &&
+                HasStatusEffect(Buffs.Eukrasia))
+                return OriginalHook(Prognosis);
+
+            if (CanWeave())
+            {
+                if (IsEnabled(Preset.SGE_AoE_Adv_Heal_Lucid) &&
+                    UseLucid(SGE_AoE_Adv_Heal_LucidOption))
+                    return Role.LucidDreaming;
+
+                if (IsEnabled(Preset.SGE_AoE_Adv_Heal_Rhizomata) &&
+                    UseRhizo(1))
+                    return Rhizomata;
+            }
+
+            float averagePartyHP = GetPartyAvgHPPercent();
+            for (int i = 0; i < SGE_AoE_Heals_Priority.Count; i++)
+            {
+                int index = SGE_AoE_Heals_Priority.IndexOf(i + 1);
+                if (!TryAoEHealOption(index, out uint spell, out int config))
+                    continue;
+
+                if (averagePartyHP <= config && ActionReady(spell))
+                    return spell;
+            }
+
+            return OriginalHook(Prognosis);
         }
     }
 

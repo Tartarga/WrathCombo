@@ -141,8 +141,7 @@ internal partial class SGE : Healer
             if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
-            if (CanWeave() && !HasStatusEffect(Buffs.Eukrasia) &&
-                IsEnabled(Preset.SGE_ST_Adv_DPS_CDs))
+            if (CanWeave() && !HasStatusEffect(Buffs.Eukrasia))
             {
                 if (IsEnabled(Preset.SGE_ST_Adv_DPS_AddersgallProtect) &&
                     UseAddersgallProtect(SGE_ST_Adv_DPS_AddersgallProtect))
@@ -166,25 +165,22 @@ internal partial class SGE : Healer
                     return Soteria;
             }
 
-            if (IsEnabled(Preset.SGE_ST_Adv_DPS_Damage))
+            if (IsEnabled(Preset.SGE_ST_Adv_DPS_EDosis) &&
+                UseEDosis(ref actionID, simpleMode: false, dosisActions))
+                return actionID;
+
+            if (HasBattleTarget() && !HasStatusEffect(Buffs.Eukrasia) && InCombat())
             {
-                if (IsEnabled(Preset.SGE_ST_Adv_DPS_EDosis) &&
-                    UseEDosis(ref actionID, simpleMode: false, dosisActions))
+                if (IsEnabled(Preset.SGE_ST_Adv_DPS_Phlegma) &&
+                    UsePhlegma(
+                        burst: SGE_ST_Adv_DPS_Phlegma_Burst,
+                        chargePool: SGE_ST_Adv_DPS_Phlegma,
+                        psycheEnabled: IsEnabled(Preset.SGE_ST_Adv_DPS_Psyche)))
+                    return OriginalHook(Phlegma);
+
+                if (IsEnabled(Preset.SGE_ST_Adv_DPS_Movement) &&
+                    UseMovement(ref actionID, simpleMode: false))
                     return actionID;
-
-                if (HasBattleTarget() && !HasStatusEffect(Buffs.Eukrasia) && InCombat())
-                {
-                    if (IsEnabled(Preset.SGE_ST_Adv_DPS_Phlegma) &&
-                        UsePhlegma(
-                            burst: SGE_ST_Adv_DPS_Phlegma_Burst,
-                            chargePool: SGE_ST_Adv_DPS_Phlegma,
-                            psycheEnabled: IsEnabled(Preset.SGE_ST_Adv_DPS_Psyche)))
-                        return OriginalHook(Phlegma);
-
-                    if (IsEnabled(Preset.SGE_ST_Adv_DPS_Movement) &&
-                        UseMovement(ref actionID, simpleMode: false))
-                        return actionID;
-                }
             }
 
             return OriginalHook(Dosis);
@@ -203,7 +199,7 @@ internal partial class SGE : Healer
             if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
-            if (CanWeave() && IsEnabled(Preset.SGE_AoE_Adv_DPS_CDs))
+            if (CanWeave())
             {
                 if (IsEnabled(Preset.SGE_AoE_Adv_DPS_AddersgallProtect) &&
                     UseAddersgallProtect(SGE_AoE_Adv_DPS_AddersgallProtect))
@@ -227,22 +223,19 @@ internal partial class SGE : Healer
                     return Soteria;
             }
 
-            if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Damage))
-            {
-                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_EDyskrasia) && UseEDyskrasia())
-                    return Eukrasia;
+            if (IsEnabled(Preset.SGE_AoE_Adv_DPS_EDyskrasia) && UseEDyskrasia())
+                return Eukrasia;
 
-                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Phlegma) &&
-                    UseAoEPhlegma(IsEnabled(Preset.SGE_AoE_Adv_DPS_Psyche)))
-                    return OriginalHook(Phlegma);
+            if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Phlegma) &&
+                UseAoEPhlegma(IsEnabled(Preset.SGE_AoE_Adv_DPS_Psyche)))
+                return OriginalHook(Phlegma);
 
-                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Toxikon) && UseAoEToxikon())
-                    return OriginalHook(Toxikon);
+            if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Toxikon) && UseAoEToxikon())
+                return OriginalHook(Toxikon);
 
-                if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Pneuma) &&
-                    UseAoEPneuma(SGE_AoE_Adv_DPS_PneumaBossOption == 0))
-                    return Pneuma;
-            }
+            if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Pneuma) &&
+                UseAoEPneuma(SGE_AoE_Adv_DPS_PneumaBossOption == 0))
+                return Pneuma;
 
             return OriginalHook(Dyskrasia);
         }

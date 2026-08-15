@@ -7503,10 +7503,10 @@ GCD를 소모하며 기절 면역 적에게 무의미할 수 있습니다.
   <data name="SAM_ST_Adv_TrueNorth_Desc" xml:space="preserve">
     <value>방향 보너스를 받기 어려운 위치일 때 자동으로 '진북'을 사용합니다.</value>
   </data>
-  <data name="SAM_ST_StunInterupt_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_StunInterrupt_Name" xml:space="preserve">
     <value>다리 쳐내기 옵션</value>
   </data>
-  <data name="SAM_ST_StunInterupt_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_StunInterrupt_Desc" xml:space="preserve">
     <value>적이 기술을 시전할 때 '다리 쳐내기'로 차단합니다.</value>
   </data>
   <data name="SAM_ST_Adv_ComboHeals_Name" xml:space="preserve">
@@ -7565,10 +7565,10 @@ GCD를 소모하며 기절 면역 적에게 무의미할 수 있습니다.
   <data name="SAM_AoE_Adv_Meikyo_Desc" xml:space="preserve">
     <value>딜사이클에 '명경지수'를 추가합니다.</value>
   </data>
-  <data name="SAM_AOE_CDs_Ikishoten_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Ikishoten_Name" xml:space="preserve">
     <value>의기충천 옵션</value>
   </data>
-  <data name="SAM_AOE_CDs_Ikishoten_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Ikishoten_Desc" xml:space="preserve">
     <value>검기가 50 이하일 때 '의기충천'을 사용합니다.
 사용 가능 10초 전부터 검기를 소모하여 사용 공간을 확보합니다.</value>
   </data>
@@ -7614,10 +7614,10 @@ GCD를 소모하며 기절 면역 적에게 무의미할 수 있습니다.
   <data name="SAM_AoE_Adv_Kyuten_Desc" xml:space="preserve">
     <value>딜사이클에 '필살검: 구천'을 추가합니다.</value>
   </data>
-  <data name="SAM_AoE_StunInterupt_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_StunInterrupt_Name" xml:space="preserve">
     <value>다리 쳐내기 옵션</value>
   </data>
-  <data name="SAM_AoE_StunInterupt_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_StunInterrupt_Desc" xml:space="preserve">
     <value>적이 기술을 시전할 때 '다리 쳐내기'로 차단합니다.</value>
   </data>
   <data name="SAM_AoE_Adv_ComboHeals_Name" xml:space="preserve">

@@ -7540,10 +7540,10 @@ POST 94: バーストウィンドウ中に使用します。</value>
   <data name="SAM_ST_Adv_TrueNorth_Desc" xml:space="preserve">
     <value>強化された効力ボーナスを得るために正しい位置にいないときにトゥルーノースを追加します。</value>
   </data>
-  <data name="SAM_ST_StunInterupt_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_StunInterrupt_Name" xml:space="preserve">
     <value>レッグスウィープオプション</value>
   </data>
-  <data name="SAM_ST_StunInterupt_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_StunInterrupt_Desc" xml:space="preserve">
     <value>ボス以外のターゲットが詠唱中に足払いを追加します。</value>
   </data>
   <data name="SAM_ST_Adv_ComboHeals_Name" xml:space="preserve">
@@ -7602,10 +7602,10 @@ POST 94: バーストウィンドウ中に使用します。</value>
   <data name="SAM_AoE_Adv_Meikyo_Desc" xml:space="preserve">
     <value>明鏡止水をローテーションに追加します。</value>
   </data>
-  <data name="SAM_AOE_CDs_Ikishoten_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Ikishoten_Name" xml:space="preserve">
     <value>意気衝天オプション</value>
   </data>
-  <data name="SAM_AOE_CDs_Ikishoten_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Ikishoten_Desc" xml:space="preserve">
     <value>剣気50以下で意気衝天を追加します。
 残り10秒の時点で剣気を使い、意気衝天を使えるようにします。</value>
   </data>
@@ -7651,10 +7651,10 @@ POST 94: バーストウィンドウ中に使用します。</value>
   <data name="SAM_AoE_Adv_Kyuten_Desc" xml:space="preserve">
     <value>九天をローテーションに加えます。</value>
   </data>
-  <data name="SAM_AoE_StunInterupt_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_StunInterrupt_Name" xml:space="preserve">
     <value>レッグスウィープオプション</value>
   </data>
-  <data name="SAM_AoE_StunInterupt_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_StunInterrupt_Desc" xml:space="preserve">
     <value>ボス以外のターゲットが詠唱中に足払いを追加します。</value>
   </data>
   <data name="SAM_AoE_Adv_ComboHeals_Name" xml:space="preserve">

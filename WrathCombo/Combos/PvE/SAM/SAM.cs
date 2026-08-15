@@ -168,8 +168,9 @@ internal partial class SAM : Melee
                 {
                     if (IsEnabled(Preset.SAM_ST_Adv_Shinten) &&
                         NeedKenkiRoomForIkishoten() &&
-                        !ActionReady(Senei) &&
-                        UseShinten(SAM_ST_ShintenExecuteHP, SAM_ST_ShintenKenkiOvercap))
+                        !(IsEnabled(Preset.SAM_ST_Adv_Senei) && ActionReady(Senei)) &&
+                        UseShinten(SAM_ST_ShintenExecuteHP, SAM_ST_ShintenKenkiOvercap,
+                            holdForBurst: IsEnabled(Preset.SAM_ST_Adv_Senei)))
                         return Shinten;
 
                     if (IsEnabled(Preset.SAM_ST_Adv_Ikishoten) &&
@@ -184,15 +185,16 @@ internal partial class SAM : Melee
                         return Senei;
 
                     if (IsEnabled(Preset.SAM_ST_Adv_Zanshin) &&
-                        UseZanshin())
+                        UseZanshin(holdForBurst: IsEnabled(Preset.SAM_ST_Adv_Senei)))
                         return Zanshin;
 
                     if (IsEnabled(Preset.SAM_ST_Adv_Shoha) &&
-                        UseShoha())
+                        UseShoha(holdForBurst: IsEnabled(Preset.SAM_ST_Adv_Senei)))
                         return Shoha;
 
                     if (IsEnabled(Preset.SAM_ST_Adv_Shinten) &&
-                        UseShinten(SAM_ST_ShintenExecuteHP, SAM_ST_ShintenKenkiOvercap))
+                        UseShinten(SAM_ST_ShintenExecuteHP, SAM_ST_ShintenKenkiOvercap,
+                            holdForBurst: IsEnabled(Preset.SAM_ST_Adv_Senei)))
                         return Shinten;
                 }
 
@@ -302,7 +304,7 @@ internal partial class SAM : Melee
                 if (IsEnabled(Preset.SAM_AoE_Adv_Damage))
                 {
                     if (IsEnabled(Preset.SAM_AoE_Adv_Zanshin) &&
-                        UseZanshin())
+                        UseZanshin(holdForBurst: IsEnabled(Preset.SAM_AoE_Adv_Guren)))
                         return Zanshin;
 
                     if (IsEnabled(Preset.SAM_AoE_Adv_Guren) &&
@@ -310,12 +312,13 @@ internal partial class SAM : Melee
                         return Guren;
 
                     if (IsEnabled(Preset.SAM_AoE_Adv_Shoha) &&
-                        UseShoha())
+                        UseShoha(holdForBurst: IsEnabled(Preset.SAM_AoE_Adv_Guren)))
                         return Shoha;
                 }
 
                 if (IsEnabled(Preset.SAM_AoE_Adv_Kyuten) &&
-                    UseKyuten(SAM_AoE_KyutenKenkiOvercap))
+                    UseKyuten(SAM_AoE_KyutenKenkiOvercap,
+                        holdForBurst: IsEnabled(Preset.SAM_AoE_Adv_Guren)))
                     return Kyuten;
 
                 if (IsEnabled(Preset.SAM_AoE_Adv_ComboHeals))

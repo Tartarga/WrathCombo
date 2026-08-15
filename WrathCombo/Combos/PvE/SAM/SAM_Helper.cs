@@ -48,13 +48,13 @@ internal partial class SAM
 
             if (useOka &&
                 (!HasKa || !HasStatusEffect(Buffs.Fuka) ||
-                 SenCount is 3 && refreshFuka) &&
+                 SenCount is 2 or 3 && refreshFuka) &&
                 LevelChecked(Oka))
                 return Oka;
 
             if (LevelChecked(Mangetsu) &&
                 (!HasGetsu || !HasStatusEffect(Buffs.Fugetsu) || !useOka || !LevelChecked(Oka) ||
-                 SenCount is 3 && refreshFugetsu))
+                 SenCount is 2 or 3 && refreshFugetsu))
                 return Mangetsu;
 
             return actionID;
@@ -133,6 +133,11 @@ internal partial class SAM
             if (useTenkaGoken &&
                 SenCount is 2 &&
                 OriginalHook(Iaijutsu) is TenkaGoken or TendoGoken)
+                return true;
+
+            if (useMidare &&
+                SenCount is 3 &&
+                OriginalHook(Iaijutsu) is MidareSetsugekka or TendoSetsugekka)
                 return true;
 
             return false;
@@ -255,20 +260,20 @@ internal partial class SAM
          JustUsed(Senei, 20f) ||
          GetCooldownRemainingTime(Senei) <= GCD * 3);
 
-    private static bool UseZanshin() =>
+    private static bool UseZanshin(bool holdForBurst = true) =>
         ActionReady(Zanshin) &&
         InActionRange(Zanshin) &&
         HasStatusEffect(Buffs.ZanshinReady) &&
-        !UseSenei() &&
-        !ActionReady(Senei) &&
+        (!holdForBurst || !UseSenei() && !ActionReady(Senei)) &&
         (GetStatusEffectRemainingTime(Buffs.ZanshinReady) <= 8 ||
-         JustUsed(Senei, 20f));
+         JustUsed(Senei, 20f) ||
+         !holdForBurst);
 
-    private static bool UseShoha() =>
+    private static bool UseShoha(bool holdForBurst = true) =>
         ActionReady(Shoha) &&
         MeditationStacks is 3 &&
         InActionRange(Shoha) &&
-        (!LevelChecked(Senei) || GetCooldownRemainingTime(Senei) >= 7f);
+        (!holdForBurst || !LevelChecked(Senei) || GetCooldownRemainingTime(Senei) >= 7f);
 
     private static bool ShouldRefreshFugetsu =>
         GetStatusEffectRemainingTime(Buffs.Fugetsu) <=
@@ -336,7 +341,7 @@ internal partial class SAM
         Kenki > 50 &&
         (ActionReady(Ikishoten) || GetCooldownRemainingTime(Ikishoten) <= GCD * 5);
 
-    private static bool CanDumpKenki(int kenkiOvercapAmount = 50)
+    private static bool CanDumpKenki(int kenkiOvercapAmount = 50, bool holdForBurst = true)
     {
         if (Kenki >= 95)
             return true;
@@ -346,13 +351,13 @@ internal partial class SAM
             Kenki < 75)
             return false;
 
-        if (NeedKenkiForSenei() && Kenki < 70)
+        if (holdForBurst && NeedKenkiForSenei() && Kenki < 70)
             return false;
 
-        if (ActionReady(Senei) && Kenki < 70)
+        if (holdForBurst && ActionReady(Senei) && Kenki < 70)
             return false;
 
-        if (NeedKenkiRoomForIkishoten() && !ActionReady(Senei))
+        if (NeedKenkiRoomForIkishoten() && !(holdForBurst && ActionReady(Senei)))
             return true;
 
         if (LevelChecked(Guren) && GetCooldownRemainingTime(Guren) <= GCD * 6)
@@ -373,17 +378,21 @@ internal partial class SAM
     private static bool UseGuren() =>
         ActionReady(Guren) && InActionRange(Guren);
 
-    private static bool UseShinten(int executeThreshold = 1, int kenkiOvercapAmount = 50) =>
+    private static bool UseShinten(
+        int executeThreshold = 1,
+        int kenkiOvercapAmount = 50,
+        bool holdForBurst = true) =>
         ActionReady(Shinten) &&
         InActionRange(Shinten) &&
-        (GetTargetHPPercent() < executeThreshold || CanDumpKenki(kenkiOvercapAmount));
+        (GetTargetHPPercent() < executeThreshold ||
+         CanDumpKenki(kenkiOvercapAmount, holdForBurst));
 
-    private static bool UseKyuten(int kenkiOvercapAmount = 50) =>
+    private static bool UseKyuten(int kenkiOvercapAmount = 50, bool holdForBurst = true) =>
         ActionReady(Kyuten) &&
         InActionRange(Kyuten) &&
-        CanDumpKenki(kenkiOvercapAmount);
+        CanDumpKenki(kenkiOvercapAmount, holdForBurst);
 
-    private static bool UseKenki(ref uint actionID, bool onAoE)
+    private static bool UseKenki(ref uint actionID, bool onAoE, bool holdForBurst = true)
     {
         if (onAoE)
         {
@@ -393,7 +402,7 @@ internal partial class SAM
                 return true;
             }
 
-            if (UseKyuten())
+            if (UseKyuten(holdForBurst: holdForBurst))
             {
                 actionID = Kyuten;
                 return true;
@@ -414,13 +423,15 @@ internal partial class SAM
             return true;
         }
 
-        if (NeedKenkiRoomForIkishoten() && !ActionReady(Senei) && UseShinten())
+        if (NeedKenkiRoomForIkishoten() &&
+            !(holdForBurst && ActionReady(Senei)) &&
+            UseShinten(holdForBurst: holdForBurst))
         {
             actionID = Shinten;
             return true;
         }
 
-        if (UseShinten())
+        if (UseShinten(holdForBurst: holdForBurst))
         {
             actionID = Shinten;
             return true;
@@ -449,14 +460,14 @@ internal partial class SAM
 
                 if (useOka &&
                     (!HasKa || !HasStatusEffect(Buffs.Fuka) ||
-                     SenCount is 3 && refreshFuka) &&
+                     SenCount is 2 or 3 && refreshFuka) &&
                     LevelChecked(Oka))
                     return Oka;
 
                 if (LevelChecked(Mangetsu) &&
                     HasStatusEffect(Buffs.Fuka) &&
                     (!HasGetsu || !HasStatusEffect(Buffs.Fugetsu) || !useOka || !LevelChecked(Oka) ||
-                     SenCount is 3 && refreshFugetsu))
+                     SenCount is 2 or 3 && refreshFugetsu))
                     return Mangetsu;
             }
 

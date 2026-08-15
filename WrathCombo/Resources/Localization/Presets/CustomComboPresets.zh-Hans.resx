@@ -7555,10 +7555,10 @@
   <data name="SAM_ST_Adv_TrueNorth_Desc" xml:space="preserve">
     <value>当你站位不满足强化威力加成时，加入“真北”。</value>
   </data>
-  <data name="SAM_ST_StunInterupt_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_StunInterrupt_Name" xml:space="preserve">
     <value>扫腿</value>
   </data>
-  <data name="SAM_ST_StunInterupt_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_StunInterrupt_Desc" xml:space="preserve">
     <value>当非 Boss 目标读条时，加入“扫腿”。</value>
   </data>
   <data name="SAM_ST_Adv_ComboHeals_Name" xml:space="preserve">
@@ -7617,10 +7617,10 @@
   <data name="SAM_AoE_Adv_Meikyo_Desc" xml:space="preserve">
     <value>将“明镜止水”加入循环。</value>
   </data>
-  <data name="SAM_AOE_CDs_Ikishoten_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Ikishoten_Name" xml:space="preserve">
     <value>意气冲天</value>
   </data>
-  <data name="SAM_AOE_CDs_Ikishoten_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Ikishoten_Desc" xml:space="preserve">
     <value>当剑气小于等于 50 时，加入“意气冲天”。
 会在剩余 10 秒时倾泻剑气以便使用“意气冲天”。</value>
   </data>
@@ -7666,10 +7666,10 @@
   <data name="SAM_AoE_Adv_Kyuten_Desc" xml:space="preserve">
     <value>将“必杀剑·九天”加入循环。</value>
   </data>
-  <data name="SAM_AoE_StunInterupt_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_StunInterrupt_Name" xml:space="preserve">
     <value>扫腿</value>
   </data>
-  <data name="SAM_AoE_StunInterupt_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_StunInterrupt_Desc" xml:space="preserve">
     <value>当非 Boss 目标读条时，加入“扫腿”。</value>
   </data>
   <data name="SAM_AoE_Adv_ComboHeals_Name" xml:space="preserve">

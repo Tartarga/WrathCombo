@@ -7397,165 +7397,165 @@
     <value>将“刃风”替换为完整的一键单目标循环。
 如果你想自定义循环，这些功能会更合适。</value>
   </data>
-  <data name="SAM_ST_Opener_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Opener_Name" xml:space="preserve">
     <value>「Balance」起手循环（70/80/90/100级）</value>
   </data>
-  <data name="SAM_ST_Opener_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Opener_Desc" xml:space="preserve">
     <value>在 70/80/90/100 级时加入「Balance」起手循环。</value>
   </data>
-  <data name="SAM_ST_Yukikaze_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Yukikaze_Name" xml:space="preserve">
     <value>雪风连击</value>
   </data>
-  <data name="SAM_ST_Yukikaze_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Yukikaze_Desc" xml:space="preserve">
     <value>将“雪风”连击加入循环。</value>
   </data>
-  <data name="SAM_ST_Kasha_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Kasha_Name" xml:space="preserve">
     <value>花车连击</value>
   </data>
-  <data name="SAM_ST_Kasha_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Kasha_Desc" xml:space="preserve">
     <value>将“花车”连击加入循环。</value>
   </data>
-  <data name="SAM_ST_Gekko_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Gekko_Name" xml:space="preserve">
     <value>月光连击</value>
   </data>
-  <data name="SAM_ST_Gekko_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Gekko_Desc" xml:space="preserve">
     <value>将“月光”连击加入循环。</value>
   </data>
-  <data name="SAM_ST_CDs_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_CDs_Name" xml:space="preserve">
     <value>主连击冷却技能</value>
   </data>
-  <data name="SAM_ST_CDs_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_CDs_Desc" xml:space="preserve">
     <value>主连击中的冷却技能功能集合。</value>
   </data>
-  <data name="SAM_ST_CDs_MeikyoShisui_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meikyo_Name" xml:space="preserve">
     <value>明镜止水</value>
   </data>
-  <data name="SAM_ST_CDs_MeikyoShisui_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meikyo_Desc" xml:space="preserve">
     <value>将“明镜止水”加入循环。</value>
   </data>
-  <data name="SAM_ST_CDs_Ikishoten_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Ikishoten_Name" xml:space="preserve">
     <value>意气冲天</value>
   </data>
-  <data name="SAM_ST_CDs_Ikishoten_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Ikishoten_Desc" xml:space="preserve">
     <value>当剑气小于等于 50 时，加入“意气冲天”。
 94 级前：会在剩余 10 秒时倾泻剑气以便使用“意气冲天”。
 94 级后：会在爆发窗口使用。</value>
   </data>
-  <data name="SAM_ST_Damage_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Damage_Name" xml:space="preserve">
     <value>主连击伤害技能</value>
   </data>
-  <data name="SAM_ST_Damage_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Damage_Desc" xml:space="preserve">
     <value>主连击中的伤害技能功能集合。</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Name" xml:space="preserve">
     <value>居合术</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Desc" xml:space="preserve">
     <value>将“纷乱雪月花”“彼岸花”“回返雪月花”加入循环。</value>
   </data>
-  <data name="SAM_ST_CDs_UseHiganbana_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Higanbana_Name" xml:space="preserve">
     <value>加入彼岸花</value>
   </data>
-  <data name="SAM_ST_CDs_UseHiganbana_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Higanbana_Desc" xml:space="preserve">
     <value>根据子选项使用“彼岸花”。</value>
   </data>
-  <data name="SAM_ST_CDs_UseTenkaGoken_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_TenkaGoken_Name" xml:space="preserve">
     <value>加入天下五剑</value>
   </data>
-  <data name="SAM_ST_CDs_UseTenkaGoken_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_TenkaGoken_Desc" xml:space="preserve">
     <value>等级同步低于 50 级时使用“天下五剑”。</value>
   </data>
-  <data name="SAM_ST_CDs_UseMidare_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Midare_Name" xml:space="preserve">
     <value>加入纷乱雪月花</value>
   </data>
-  <data name="SAM_ST_CDs_UseMidare_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Midare_Desc" xml:space="preserve">
     <value>会使用“纷乱雪月花”和“天道雪月花”。</value>
   </data>
-  <data name="SAM_ST_CDs_UseTsubame_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Tsubame_Name" xml:space="preserve">
     <value>加入燕回返</value>
   </data>
-  <data name="SAM_ST_CDs_UseTsubame_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Tsubame_Desc" xml:space="preserve">
     <value>会使用“燕回返”和“天道回返雪月花”。</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Movement_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Movement_Name" xml:space="preserve">
     <value>居合术移动</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Movement_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Movement_Desc" xml:space="preserve">
     <value>在你未移动时加入“纷乱雪月花”和“彼岸花”。</value>
   </data>
-  <data name="SAM_ST_CDs_Senei_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Senei_Name" xml:space="preserve">
     <value>必杀剑·闪影</value>
   </data>
-  <data name="SAM_ST_CDs_Senei_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Senei_Desc" xml:space="preserve">
     <value>将“必杀剑·闪影”加入循环。</value>
   </data>
-  <data name="SAM_ST_CDs_OgiNamikiri_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_OgiNamikiri_Name" xml:space="preserve">
     <value>奥义斩浪</value>
   </data>
-  <data name="SAM_ST_CDs_OgiNamikiri_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_OgiNamikiri_Desc" xml:space="preserve">
     <value>将“奥义斩浪”和“回返斩浪”加入循环。</value>
   </data>
-  <data name="SAM_ST_CDs_Zanshin_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Zanshin_Name" xml:space="preserve">
     <value>残心</value>
   </data>
-  <data name="SAM_ST_CDs_Zanshin_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Zanshin_Desc" xml:space="preserve">
     <value>当“残心”就绪时加入循环。</value>
   </data>
-  <data name="SAM_ST_CDs_Shoha_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shoha_Name" xml:space="preserve">
     <value>照破</value>
   </data>
-  <data name="SAM_ST_CDs_Shoha_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shoha_Desc" xml:space="preserve">
     <value>当你拥有 3 层“剑压”时加入“照破”。</value>
   </data>
-  <data name="SAM_ST_Shinten_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shinten_Name" xml:space="preserve">
     <value>必杀剑·震天</value>
   </data>
-  <data name="SAM_ST_Shinten_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shinten_Desc" xml:space="preserve">
     <value>将“必杀剑·震天”加入循环。
 会为爆发保留剑气。</value>
   </data>
-  <data name="SAM_ST_RangedUptime_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_RangedUptime_Name" xml:space="preserve">
     <value>远程续输出功能</value>
   </data>
-  <data name="SAM_ST_RangedUptime_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_RangedUptime_Desc" xml:space="preserve">
     <value>当你超出范围时，将“燕飞”加入循环。
 若可用且已启用，会优先使用“奥义斩浪”或“居合术”。</value>
   </data>
-  <data name="SAM_ST_TrueNorth_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_TrueNorth_Name" xml:space="preserve">
     <value>真北功能</value>
   </data>
-  <data name="SAM_ST_TrueNorth_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_TrueNorth_Desc" xml:space="preserve">
     <value>当你站位不满足强化威力加成时，加入“真北”。</value>
   </data>
-  <data name="SAM_ST_StunInterupt_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_StunInterrupt_Name" xml:space="preserve">
     <value>扫腿</value>
   </data>
-  <data name="SAM_ST_StunInterupt_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_StunInterrupt_Desc" xml:space="preserve">
     <value>当非 Boss 目标读条时，加入“扫腿”。</value>
   </data>
-  <data name="SAM_ST_ComboHeals_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_ComboHeals_Name" xml:space="preserve">
     <value>连击自疗</value>
   </data>
-  <data name="SAM_ST_ComboHeals_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_ComboHeals_Desc" xml:space="preserve">
     <value>将“浴血”和“内丹”加入连击，并在生命百分比低于阈值时使用。</value>
   </data>
-  <data name="SAM_ST_Feint_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Feint_Name" xml:space="preserve">
     <value>牵制全屏 AoE</value>
   </data>
-  <data name="SAM_ST_Feint_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Feint_Desc" xml:space="preserve">
     <value>检测到全屏 AoE 读条时，加入“牵制”。</value>
   </data>
-  <data name="SAM_ST_ThirdEye_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_ThirdEye_Name" xml:space="preserve">
     <value>心眼全屏 AoE</value>
   </data>
-  <data name="SAM_ST_ThirdEye_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_ThirdEye_Desc" xml:space="preserve">
     <value>检测到全屏 AoE 读条时，加入“心眼”。
 单刷时按冷却使用。</value>
   </data>
-  <data name="SAM_ST_Meditate_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meditate_Name" xml:space="preserve">
     <value>剑压</value>
   </data>
-  <data name="SAM_ST_Meditate_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meditate_Desc" xml:space="preserve">
     <value>在战斗中、未移动且无目标时，加入“剑压”。</value>
   </data>
   <data name="SAM_AoE_AdvancedMode_Name" xml:space="preserve">
@@ -7565,10 +7565,10 @@
     <value>将“风雅”替换为完整的一键多目标循环。
 如果你想自定义循环，这些功能会更合适。</value>
   </data>
-  <data name="SAM_AoE_Oka_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Oka_Name" xml:space="preserve">
     <value>樱花连击</value>
   </data>
-  <data name="SAM_AoE_Oka_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Oka_Desc" xml:space="preserve">
     <value>将“樱花”连击加入循环。</value>
   </data>
   <data name="SAM_AoE_Hagakure_Name" xml:space="preserve">
@@ -7577,77 +7577,77 @@
   <data name="SAM_AoE_Hagakure_Desc" xml:space="preserve">
     <value>当集齐三闪时，将“叶隐”加入循环。</value>
   </data>
-  <data name="SAM_AoE_CDs_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_CDs_Name" xml:space="preserve">
     <value>主连击冷却技能</value>
   </data>
-  <data name="SAM_AoE_CDs_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_CDs_Desc" xml:space="preserve">
     <value>主连击中的冷却技能功能集合。</value>
   </data>
-  <data name="SAM_AoE_MeikyoShisui_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Meikyo_Name" xml:space="preserve">
     <value>明镜止水</value>
   </data>
-  <data name="SAM_AoE_MeikyoShisui_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Meikyo_Desc" xml:space="preserve">
     <value>将“明镜止水”加入循环。</value>
   </data>
-  <data name="SAM_AOE_CDs_Ikishoten_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Ikishoten_Name" xml:space="preserve">
     <value>意气冲天</value>
   </data>
-  <data name="SAM_AOE_CDs_Ikishoten_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Ikishoten_Desc" xml:space="preserve">
     <value>当剑气小于等于 50 时，加入“意气冲天”。
 会在剩余 10 秒时倾泻剑气以便使用“意气冲天”。</value>
   </data>
-  <data name="SAM_AoE_Damage_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Damage_Name" xml:space="preserve">
     <value>主连击伤害技能</value>
   </data>
-  <data name="SAM_AoE_Damage_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Damage_Desc" xml:space="preserve">
     <value>主连击中的伤害技能功能集合。</value>
   </data>
-  <data name="SAM_AoE_TenkaGoken_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_TenkaGoken_Name" xml:space="preserve">
     <value>居合术</value>
   </data>
-  <data name="SAM_AoE_TenkaGoken_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_TenkaGoken_Desc" xml:space="preserve">
     <value>当技能就绪且你未移动时，将“天下五剑”“纷乱雪月花”“回返五剑”加入循环。</value>
   </data>
-  <data name="SAM_AoE_Guren_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Guren_Name" xml:space="preserve">
     <value>必杀剑·红莲</value>
   </data>
-  <data name="SAM_AoE_Guren_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Guren_Desc" xml:space="preserve">
     <value>将“必杀剑·红莲”加入循环。</value>
   </data>
-  <data name="SAM_AoE_OgiNamikiri_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_OgiNamikiri_Name" xml:space="preserve">
     <value>奥义斩浪</value>
   </data>
-  <data name="SAM_AoE_OgiNamikiri_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_OgiNamikiri_Desc" xml:space="preserve">
     <value>当技能就绪且你未移动时，将“奥义斩浪”和“回返斩浪”加入循环。</value>
   </data>
-  <data name="SAM_AoE_Zanshin_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Zanshin_Name" xml:space="preserve">
     <value>残心</value>
   </data>
-  <data name="SAM_AoE_Zanshin_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Zanshin_Desc" xml:space="preserve">
     <value>将“残心”加入循环。</value>
   </data>
-  <data name="SAM_AoE_Shoha_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Shoha_Name" xml:space="preserve">
     <value>照破</value>
   </data>
-  <data name="SAM_AoE_Shoha_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Shoha_Desc" xml:space="preserve">
     <value>当你拥有 3 层“剑压”时加入“照破”。</value>
   </data>
-  <data name="SAM_AoE_Kyuten_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Kyuten_Name" xml:space="preserve">
     <value>必杀剑·九天</value>
   </data>
-  <data name="SAM_AoE_Kyuten_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Kyuten_Desc" xml:space="preserve">
     <value>将“必杀剑·九天”加入循环。</value>
   </data>
-  <data name="SAM_AoE_StunInterupt_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_StunInterrupt_Name" xml:space="preserve">
     <value>扫腿</value>
   </data>
-  <data name="SAM_AoE_StunInterupt_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_StunInterrupt_Desc" xml:space="preserve">
     <value>当非 Boss 目标读条时，加入“扫腿”。</value>
   </data>
-  <data name="SAM_AoE_ComboHeals_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_ComboHeals_Name" xml:space="preserve">
     <value>连击自疗</value>
   </data>
-  <data name="SAM_AoE_ComboHeals_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_ComboHeals_Desc" xml:space="preserve">
     <value>将“浴血”和“内丹”加入连击，并在生命百分比低于阈值时使用。</value>
   </data>
   <data name="SAM_ST_YukikazeCombo_Name" xml:space="preserve">

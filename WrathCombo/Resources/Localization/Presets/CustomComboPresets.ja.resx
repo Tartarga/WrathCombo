@@ -7382,165 +7382,165 @@ Lv.70以下では可能な限りフェザーを使用します。</value>
     <value>葉風の代わりに、ボタン 1 つでターゲットを完全にローテーションさせることができます。
 ローテーションを細かく調整したい場合に適した設定です。</value>
   </data>
-  <data name="SAM_ST_Opener_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Opener_Name" xml:space="preserve">
     <value>The Balanceオープナー（レベル70／80／90／100）</value>
   </data>
-  <data name="SAM_ST_Opener_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Opener_Desc" xml:space="preserve">
     <value>レベル70／80／90／100にThe Balanceオープナーを追加します。</value>
   </data>
-  <data name="SAM_ST_Yukikaze_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Yukikaze_Name" xml:space="preserve">
     <value>雪風コンボ</value>
   </data>
-  <data name="SAM_ST_Yukikaze_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Yukikaze_Desc" xml:space="preserve">
     <value>雪風のコンボをローテーションに追加します。</value>
   </data>
-  <data name="SAM_ST_Kasha_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Kasha_Name" xml:space="preserve">
     <value>花車コンボ</value>
   </data>
-  <data name="SAM_ST_Kasha_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Kasha_Desc" xml:space="preserve">
     <value>ローテーションにカシャコンボを追加します。</value>
   </data>
-  <data name="SAM_ST_Gekko_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Gekko_Name" xml:space="preserve">
     <value>月光コンボ</value>
   </data>
-  <data name="SAM_ST_Gekko_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Gekko_Desc" xml:space="preserve">
     <value>月光コンボをローテーションに追加します。</value>
   </data>
-  <data name="SAM_ST_CDs_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_CDs_Name" xml:space="preserve">
     <value>メインコンボのアビリティ</value>
   </data>
-  <data name="SAM_ST_CDs_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_CDs_Desc" xml:space="preserve">
     <value>メインコンボのアビリティ機能群。</value>
   </data>
-  <data name="SAM_ST_CDs_MeikyoShisui_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meikyo_Name" xml:space="preserve">
     <value>明鏡止水オプション</value>
   </data>
-  <data name="SAM_ST_CDs_MeikyoShisui_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meikyo_Desc" xml:space="preserve">
     <value>明鏡止水をローテーションに追加します。</value>
   </data>
-  <data name="SAM_ST_CDs_Ikishoten_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Ikishoten_Name" xml:space="preserve">
     <value>意気衝天オプション</value>
   </data>
-  <data name="SAM_ST_CDs_Ikishoten_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Ikishoten_Desc" xml:space="preserve">
     <value>剣気50以下で意気衝天を追加。
 PRE 94: 残り10秒で剣気を消費し、意気衝天を使用可能にします。
 POST 94: バーストウィンドウ中に使用します。</value>
   </data>
-  <data name="SAM_ST_Damage_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Damage_Name" xml:space="preserve">
     <value>メインコンボのダメージスキル</value>
   </data>
-  <data name="SAM_ST_Damage_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Damage_Desc" xml:space="preserve">
     <value>メインコンボのダメージスキルを集めました。</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Name" xml:space="preserve">
     <value>居合術オプション</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Desc" xml:space="preserve">
     <value>「乱れ雪月花」「彼岸花」「かえし：雪月花」をローテーションに追加します。</value>
   </data>
-  <data name="SAM_ST_CDs_UseHiganbana_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Higanbana_Name" xml:space="preserve">
     <value>彼岸花を追加</value>
   </data>
-  <data name="SAM_ST_CDs_UseHiganbana_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Higanbana_Desc" xml:space="preserve">
     <value>サブオプションに応じてヒガンバナを使用します。</value>
   </data>
-  <data name="SAM_ST_CDs_UseTenkaGoken_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_TenkaGoken_Name" xml:space="preserve">
     <value>天下五剣を追加</value>
   </data>
-  <data name="SAM_ST_CDs_UseTenkaGoken_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_TenkaGoken_Desc" xml:space="preserve">
     <value>レベル50以下でレベルシンクした場合、天下五剣を使用します。</value>
   </data>
-  <data name="SAM_ST_CDs_UseMidare_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Midare_Name" xml:space="preserve">
     <value>乱れ雪月花を追加</value>
   </data>
-  <data name="SAM_ST_CDs_UseMidare_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Midare_Desc" xml:space="preserve">
     <value>乱れ雪月花と天童雪月花を使用します。</value>
   </data>
-  <data name="SAM_ST_CDs_UseTsubame_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Tsubame_Name" xml:space="preserve">
     <value>燕返しを追加</value>
   </data>
-  <data name="SAM_ST_CDs_UseTsubame_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Tsubame_Desc" xml:space="preserve">
     <value>燕返しと天童返し雪月花を使用します。</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Movement_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Movement_Name" xml:space="preserve">
     <value>静止時居合術オプション</value>
   </data>
-  <data name="SAM_ST_CDs_Iaijutsu_Movement_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Iaijutsu_Movement_Desc" xml:space="preserve">
     <value>移動していないとき、乱れ雪月花と彼岸花を追加します。</value>
   </data>
-  <data name="SAM_ST_CDs_Senei_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Senei_Name" xml:space="preserve">
     <value>必殺剣・閃影オプション</value>
   </data>
-  <data name="SAM_ST_CDs_Senei_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Senei_Desc" xml:space="preserve">
     <value>必殺剣・閃影をローテーションに追加します。</value>
   </data>
-  <data name="SAM_ST_CDs_OgiNamikiri_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_OgiNamikiri_Name" xml:space="preserve">
     <value>奥義波切オプション</value>
   </data>
-  <data name="SAM_ST_CDs_OgiNamikiri_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_OgiNamikiri_Desc" xml:space="preserve">
     <value>奥義波切と返し波切をローテーションに追加。</value>
   </data>
-  <data name="SAM_ST_CDs_Zanshin_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Zanshin_Name" xml:space="preserve">
     <value>残心オプション</value>
   </data>
-  <data name="SAM_ST_CDs_Zanshin_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Zanshin_Desc" xml:space="preserve">
     <value>ローテーションの準備ができたら残心を追加します。</value>
   </data>
-  <data name="SAM_ST_CDs_Shoha_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shoha_Name" xml:space="preserve">
     <value>照破オプション</value>
   </data>
-  <data name="SAM_ST_CDs_Shoha_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shoha_Desc" xml:space="preserve">
     <value>瞑想スタックが 3 つある場合、照破を追加します。</value>
   </data>
-  <data name="SAM_ST_Shinten_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shinten_Name" xml:space="preserve">
     <value>震天オプション</value>
   </data>
-  <data name="SAM_ST_Shinten_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Shinten_Desc" xml:space="preserve">
     <value>震天をローテーションに追加します。
 バースト用に剣気を温存します。</value>
   </data>
-  <data name="SAM_ST_RangedUptime_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_RangedUptime_Name" xml:space="preserve">
     <value>範囲アップタイム機能</value>
   </data>
-  <data name="SAM_ST_RangedUptime_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_RangedUptime_Desc" xml:space="preserve">
     <value>射程外にいる場合、燕飛をローテーションに追加します。
 使用可能かつ有効な場合は、奥義または居合術を使用します。</value>
   </data>
-  <data name="SAM_ST_TrueNorth_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_TrueNorth_Name" xml:space="preserve">
     <value>トゥルーノース機能</value>
   </data>
-  <data name="SAM_ST_TrueNorth_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_TrueNorth_Desc" xml:space="preserve">
     <value>強化された効力ボーナスを得るために正しい位置にいないときにトゥルーノースを追加します。</value>
   </data>
-  <data name="SAM_ST_StunInterupt_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_StunInterrupt_Name" xml:space="preserve">
     <value>レッグスウィープオプション</value>
   </data>
-  <data name="SAM_ST_StunInterupt_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_StunInterrupt_Desc" xml:space="preserve">
     <value>ボス以外のターゲットが詠唱中に足払いを追加します。</value>
   </data>
-  <data name="SAM_ST_ComboHeals_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_ComboHeals_Name" xml:space="preserve">
     <value>コンボヒールオプション</value>
   </data>
-  <data name="SAM_ST_ComboHeals_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_ComboHeals_Desc" xml:space="preserve">
     <value>ブラッドバスと 内丹をコンボに追加し、HP割合の閾値を下回ったときに使用します。</value>
   </data>
-  <data name="SAM_ST_Feint_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Feint_Name" xml:space="preserve">
     <value>フェイント 全体攻撃 オプション</value>
   </data>
-  <data name="SAM_ST_Feint_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Feint_Desc" xml:space="preserve">
     <value>全体攻撃の詠唱が検出された場合にフェイントを追加します。</value>
   </data>
-  <data name="SAM_ST_ThirdEye_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_ThirdEye_Name" xml:space="preserve">
     <value>心眼 全体攻撃 オプション</value>
   </data>
-  <data name="SAM_ST_ThirdEye_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_ThirdEye_Desc" xml:space="preserve">
     <value>全体攻撃の詠唱を検知した場合、心眼を追加します。
 ソロの場合はCDで使用します。</value>
   </data>
-  <data name="SAM_ST_Meditate_Name" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meditate_Name" xml:space="preserve">
     <value>黙想オプション</value>
   </data>
-  <data name="SAM_ST_Meditate_Desc" xml:space="preserve">
+  <data name="SAM_ST_Adv_Meditate_Desc" xml:space="preserve">
     <value>移動していないとき、ターゲットがいないとき、戦闘中であるときに瞑想を追加します。</value>
   </data>
   <data name="SAM_AoE_AdvancedMode_Name" xml:space="preserve">
@@ -7550,10 +7550,10 @@ POST 94: バーストウィンドウ中に使用します。</value>
     <value>風雅を 1 ボタンの完全な AoE ローテーションに置き換えます。
 ローテーションを細かく調整したい場合に適した設定です。</value>
   </data>
-  <data name="SAM_AoE_Oka_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Oka_Name" xml:space="preserve">
     <value>桜花コンボ</value>
   </data>
-  <data name="SAM_AoE_Oka_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Oka_Desc" xml:space="preserve">
     <value>岡コンボをローテーションに追加します。</value>
   </data>
   <data name="SAM_AoE_Hagakure_Name" xml:space="preserve">
@@ -7562,77 +7562,77 @@ POST 94: バーストウィンドウ中に使用します。</value>
   <data name="SAM_AoE_Hagakure_Desc" xml:space="preserve">
     <value>閃が3枚の場合は葉隠をローテーションに加える。</value>
   </data>
-  <data name="SAM_AoE_CDs_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_CDs_Name" xml:space="preserve">
     <value>メインコンボのアビリティ</value>
   </data>
-  <data name="SAM_AoE_CDs_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_CDs_Desc" xml:space="preserve">
     <value>メインコンボのアビリティ機能群。</value>
   </data>
-  <data name="SAM_AoE_MeikyoShisui_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Meikyo_Name" xml:space="preserve">
     <value>明鏡止水オプション</value>
   </data>
-  <data name="SAM_AoE_MeikyoShisui_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Meikyo_Desc" xml:space="preserve">
     <value>明鏡止水をローテーションに追加します。</value>
   </data>
-  <data name="SAM_AOE_CDs_Ikishoten_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Ikishoten_Name" xml:space="preserve">
     <value>意気衝天オプション</value>
   </data>
-  <data name="SAM_AOE_CDs_Ikishoten_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Ikishoten_Desc" xml:space="preserve">
     <value>剣気50以下で意気衝天を追加します。
 残り10秒の時点で剣気を使い、意気衝天を使えるようにします。</value>
   </data>
-  <data name="SAM_AoE_Damage_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Damage_Name" xml:space="preserve">
     <value>メインコンボのダメージスキル</value>
   </data>
-  <data name="SAM_AoE_Damage_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Damage_Desc" xml:space="preserve">
     <value>メインコンボのダメージスキルを集めました。</value>
   </data>
-  <data name="SAM_AoE_TenkaGoken_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_TenkaGoken_Name" xml:space="preserve">
     <value>居合術オプション</value>
   </data>
-  <data name="SAM_AoE_TenkaGoken_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_TenkaGoken_Desc" xml:space="preserve">
     <value>使用可能で、かつ移動していないとき、天下五剣、乱れ雪月花、返し五剣を追加します。</value>
   </data>
-  <data name="SAM_AoE_Guren_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Guren_Name" xml:space="preserve">
     <value>紅蓮のオプション</value>
   </data>
-  <data name="SAM_AoE_Guren_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Guren_Desc" xml:space="preserve">
     <value>紅蓮をローテーションに加えます。</value>
   </data>
-  <data name="SAM_AoE_OgiNamikiri_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_OgiNamikiri_Name" xml:space="preserve">
     <value>奥義波切オプション</value>
   </data>
-  <data name="SAM_AoE_OgiNamikiri_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_OgiNamikiri_Desc" xml:space="preserve">
     <value>準備ができたときとローテーションに移動していないときに、奥義波切と返し: 波切りを追加します。</value>
   </data>
-  <data name="SAM_AoE_Zanshin_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Zanshin_Name" xml:space="preserve">
     <value>残心オプション</value>
   </data>
-  <data name="SAM_AoE_Zanshin_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Zanshin_Desc" xml:space="preserve">
     <value>残心をローテーションに追加します。</value>
   </data>
-  <data name="SAM_AoE_Shoha_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Shoha_Name" xml:space="preserve">
     <value>照破オプション</value>
   </data>
-  <data name="SAM_AoE_Shoha_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Shoha_Desc" xml:space="preserve">
     <value>瞑想スタックが 3 つある場合、照破を追加します。</value>
   </data>
-  <data name="SAM_AoE_Kyuten_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Kyuten_Name" xml:space="preserve">
     <value>九天オプション</value>
   </data>
-  <data name="SAM_AoE_Kyuten_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_Kyuten_Desc" xml:space="preserve">
     <value>九天をローテーションに加えます。</value>
   </data>
-  <data name="SAM_AoE_StunInterupt_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_StunInterrupt_Name" xml:space="preserve">
     <value>レッグスウィープオプション</value>
   </data>
-  <data name="SAM_AoE_StunInterupt_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_StunInterrupt_Desc" xml:space="preserve">
     <value>ボス以外のターゲットが詠唱中に足払いを追加します。</value>
   </data>
-  <data name="SAM_AoE_ComboHeals_Name" xml:space="preserve">
+  <data name="SAM_AoE_Adv_ComboHeals_Name" xml:space="preserve">
     <value>コンボヒールオプション</value>
   </data>
-  <data name="SAM_AoE_ComboHeals_Desc" xml:space="preserve">
+  <data name="SAM_AoE_Adv_ComboHeals_Desc" xml:space="preserve">
     <value>ブラッドバスと 内丹をコンボに追加し、HP割合の閾値を下回ったときに使用します。</value>
   </data>
   <data name="SAM_ST_YukikazeCombo_Name" xml:space="preserve">

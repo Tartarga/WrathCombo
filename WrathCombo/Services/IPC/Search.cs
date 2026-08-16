@@ -635,7 +635,7 @@ public class Search(Leasing leasing)
                 })
             .ToDictionary(
                 preset => preset.Value.Data.OccultCrescentJob!.JobId,
-                preset => preset.Value.Data.Name);
+                preset => preset.Value.Data.InternalName);
 
     internal bool TryGetOccultParentComboName
         (uint phantomJobID, [NotNullWhen(true)] out string? parent) =>
@@ -653,8 +653,8 @@ public class Search(Leasing leasing)
             .Where(preset =>
                 preset.Value.Data is { Parent: not null } &&
                 preset.Value.Data.IsOccultCrescent &&
-                preset.Value.Data.Parent.Value.Name() == parent)
-            .Select(preset => preset.Value.Data.Name)
+                preset.Value.Data.Parent?.ToString() == parent)
+            .Select(preset => preset.Value.Data.InternalName)
             .ToList();
     }
 

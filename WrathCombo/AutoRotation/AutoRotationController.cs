@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using WrathCombo.API.Enum;
 using WrathCombo.Combos.PvE;
 using WrathCombo.Combos.PvE.Enums;
@@ -135,8 +136,8 @@ internal unsafe class AutoRotationController
         x.BattleChara.IsTargetable &&
         (cfg.HealerSettings.AutoRezOutOfParty || GetPartyMembers().Any(y => y.GameObjectId == x.BattleChara.GameObjectId)) &&
         GetTargetDistance(x.BattleChara) <= QueryRange &&
-        !TargetHasRaiseStatus(x.BattleChara) &&
-        !TargetHasRaiseInvincibility(x.BattleChara) &&
+        !x.BattleChara.HasRaiseStatus &&
+        !x.BattleChara.HasRaiseInvincibility &&
         TimeSpentDead(x.BattleChara.GameObjectId).TotalSeconds > 2;
 
     public static bool LockedST
@@ -174,7 +175,7 @@ internal unsafe class AutoRotationController
                || Player.Mounted
                || !EzThrottler.Throttle("Autorot", cfg.Throttler)
                || (ActionManager.Instance()->QueuedActionId > 0)
-               || TargetHasRaiseInvincibility(Player.Object)
+               || Player.Object.HasRaiseInvincibility
                || Paused;
     }
 
@@ -281,7 +282,7 @@ internal unsafe class AutoRotationController
             if (ActionManager.Instance()->QueuedActionId == RoleActions.Healer.Esuna)
                 ActionManager.Instance()->QueuedActionId = 0;
 
-            if ((!needsHeal || GetPartyMembers().Any(x => HasCleansableDoom(x.BattleChara))) && WrathOpener.CurrentOpener?.CurrentState is not
+            if ((!needsHeal || GetPartyMembers().Any(x => x.BattleChara?.HasCleansableDoom == true)) && WrathOpener.CurrentOpener?.CurrentState is not
                 OpenerState.InOpener)
             {
                 if (cfg.HealerSettings.AutoCleanse && isHealer)
@@ -477,7 +478,10 @@ internal unsafe class AutoRotationController
             _ => 0
         };
 
-        if (regenSpell != 0 && !JustUsed(regenSpell, 4) && SimpleTarget.FocusTarget != null && (!HasStatusEffect(regenBuff, out var regen, SimpleTarget.FocusTarget) || regen?.RemainingTime <= 5f))
+        if (regenSpell != 0
+            && !JustUsed(regenSpell, 4)
+            && SimpleTarget.FocusTarget != null
+            && SimpleTarget.FocusTarget.Status(regenBuff).RemainingTimeOrZero(false) <= 5f)
         {
             var query = Svc.Objects.GetBattleCharas().Where(x => !x.IsDead && x.IsTargetable && x.IsHostile());
             if (!query.Any())
@@ -493,7 +497,7 @@ internal unsafe class AutoRotationController
                 if (!ActionReady(spell))
                     return;
 
-                if (Player.Object is not null && ActionManager.CanUseActionOnTarget(spell, SimpleTarget.FocusTarget.Struct()) && !OutOfRange(spell, Player.Object, SimpleTarget.FocusTarget) && ActionManager.Instance()->GetActionStatus(ActionType.Action, spell) == 0)
+                if (Player.Object is not null && ActionManager.CanUseActionOnTarget(spell, SimpleTarget.FocusTarget.GameObject()) && !OutOfRange(spell, Player.Object, SimpleTarget.FocusTarget) && ActionManager.Instance()->GetActionStatus(ActionType.Action, spell) == 0)
                 {
                     ActionManager.Instance()->UseAction(ActionType.Action, regenSpell, SimpleTarget.FocusTarget.GameObjectId);
                     return;
@@ -527,9 +531,12 @@ internal unsafe class AutoRotationController
             _ => 0
         };
 
-        if (shieldSpell != 0 && !JustUsed(shieldSpell, 4) && SimpleTarget.FocusTarget != null && (!HasStatusEffect(shieldBuff, out var shield, SimpleTarget.FocusTarget) || shield?.RemainingTime <= 1f))
+        if (shieldSpell != 0
+            && !JustUsed(shieldSpell, 4)
+            && SimpleTarget.FocusTarget != null
+            && SimpleTarget.FocusTarget.Status(shieldBuff).RemainingTimeOrZero() <= 1f)
         {
-            if (prepSpell != 0 && !JustUsed(prepSpell, 4) && !HasStatusEffect(SGE.Buffs.Eukrasia))
+            if (prepSpell != 0 && !JustUsed(prepSpell, 4) && !Player.Object!.HasStatus(SGE.Buffs.Eukrasia))
             {
                 var spell = ActionManager.Instance()->GetAdjustedActionId(prepSpell).Retarget(SimpleTarget.FocusTarget);
 
@@ -558,7 +565,7 @@ internal unsafe class AutoRotationController
                     ActionManager.GetAdjustedCastTime(ActionType.Action, spell) > 0 && TimeStoodStill < TimeSpan.FromSeconds(1))
                     return;
 
-                if (Player.Object is not null && ActionManager.CanUseActionOnTarget(spell, SimpleTarget.FocusTarget.Struct()) && !OutOfRange(spell, Player.Object, SimpleTarget.FocusTarget) && ActionManager.Instance()->GetActionStatus(ActionType.Action, spell) == 0)
+                if (Player.Object is not null && ActionManager.CanUseActionOnTarget(spell, SimpleTarget.FocusTarget.GameObject()) && !OutOfRange(spell, Player.Object, SimpleTarget.FocusTarget) && ActionManager.Instance()->GetActionStatus(ActionType.Action, spell) == 0)
                 {
                     ActionManager.Instance()->UseAction(ActionType.Action, spell, SimpleTarget.FocusTarget.GameObjectId);
                     return;
@@ -629,7 +636,7 @@ internal unsafe class AutoRotationController
                     //Try to Swiftcast if Magic DPS
                     if (GetRoleFromJob(Player.Job) is JobRole.MagicalDPS)
                     {
-                        if (ActionReady(RoleActions.Magic.Swiftcast) && !HasStatusEffect(RDM.Buffs.Dualcast))
+                        if (ActionReady(RoleActions.Magic.Swiftcast) && !Player.Object.HasStatus(RDM.Buffs.Dualcast))
                         {
                             if (ActionManager.Instance()->GetActionStatus(ActionType.Action, RoleActions.Magic.Swiftcast) == 0)
                             {
@@ -639,7 +646,7 @@ internal unsafe class AutoRotationController
                         }
                     }
 
-                    if (HasStatusEffect(RoleActions.Magic.Buffs.Swiftcast) || HasStatusEffect(RDM.Buffs.Dualcast) || !IsMoving())
+                    if (Player.Object.HasStatus(RoleActions.Magic.Buffs.Swiftcast) || Player.Object.HasStatus(RDM.Buffs.Dualcast) || !IsMoving())
                     {
                         ActionManager.Instance()->UseAction(ActionType.Action, resSpell, member.BattleChara.GameObjectId);
                         return;
@@ -648,7 +655,7 @@ internal unsafe class AutoRotationController
 
                 if (Player.Job is Job.RDM)
                 {
-                    if (ActionReady(RoleActions.Magic.Swiftcast) && !HasStatusEffect(RDM.Buffs.Dualcast))
+                    if (ActionReady(RoleActions.Magic.Swiftcast) && !Player.Object.HasStatus(RDM.Buffs.Dualcast))
                     {
                         ActionManager.Instance()->UseAction(ActionType.Action, RoleActions.Magic.Swiftcast);
                         return;
@@ -671,7 +678,7 @@ internal unsafe class AutoRotationController
                         }
                     }
 
-                    if (!IsMoving() || HasStatusEffect(RoleActions.Magic.Buffs.Swiftcast))
+                    if (!IsMoving() || Player.Object.HasStatus(RoleActions.Magic.Buffs.Swiftcast))
                     {
 
                         if ((cfg is not null) && ((cfg.HealerSettings.AutoRezRequireSwift && ActionManager.GetAdjustedCastTime(ActionType.Action, resSpell) == 0) || !cfg.HealerSettings.AutoRezRequireSwift))
@@ -706,13 +713,13 @@ internal unsafe class AutoRotationController
         if (!ActionLearned(SGE.Kardia)) return;
         if (CombatEngageDuration().TotalSeconds < 3) return;
 
-        foreach (var member in GetPartyMembers().Where(x => !x.BattleChara.IsDead).OrderByDescending(x => x.BattleChara?.GetRole() is CombatRole.Tank))
+        foreach (var member in GetPartyMembers().Where(x => x.BattleChara is not null && !x.BattleChara.IsDead).OrderByDescending(x => x.BattleChara?.GetRole() is CombatRole.Tank))
         {
             if (cfg.HealerSettings.KardiaTanksOnly && member.BattleChara?.GetRole() is not CombatRole.Tank &&
-                !HasStatusEffect(3615, member.BattleChara, true)) continue; // Duty Support Gosetsu Tank Stance
+                (!member.BattleChara!.HasStatus(3615, true))) continue; // Duty Support Gosetsu Tank Stance
 
             var enemiesTargeting = Svc.Objects.GetBattleCharas().Count(x => x.IsTargetable && x.IsHostile() && x.TargetObjectId == member.BattleChara.GameObjectId);
-            if (enemiesTargeting > 0 && !HasStatusEffect(SGE.Buffs.Kardion, member.BattleChara))
+            if (enemiesTargeting > 0 && !member.BattleChara!.HasStatus(SGE.Buffs.Kardion))
             {
                 ActionManager.Instance()->UseAction(ActionType.Action, SGE.Kardia.Retarget(member.BattleChara), member.BattleChara.GameObjectId);
                 return;
@@ -1089,7 +1096,7 @@ internal unsafe class AutoRotationController
             chara.IsHostile() &&
             IsInRange(chara, InBossEncounter() && cfg.DPSSettings.IgnoreRangeInBoss ? 50f : cfg.DPSSettings.MaxDistance) &&
             GetTargetHeightDifference(chara) <= (InBossEncounter() && cfg.DPSSettings.IgnoreRangeInBoss ? 100f : cfg.DPSSettings.MaxDistance) &&
-            !TargetIsInvincible(chara) &&
+            !chara.IsInvincible &&
             !Service.Configuration.IgnoredNPCs.ContainsKey(chara.BaseId) &&
             ((cfg.DPSSettings.OnlyAttackInCombat && chara.Struct()->InCombat) || !cfg.DPSSettings.OnlyAttackInCombat) &&
             IsInLineOfSight(chara);
@@ -1128,9 +1135,11 @@ internal unsafe class AutoRotationController
 
         public static IGameObject? GetTankTarget()
         {
-            var tank = GetPartyMembers().FirstOrDefault(x => x.BattleChara?.GetRole() == CombatRole.Tank ||
-                HasStatusEffect(1719, x.BattleChara, true) || // BLU Mighty Guard
-                HasStatusEffect(3615, x.BattleChara, true));  // Duty Support Gosetsu Tank Stance
+            var tank = GetPartyMembers().FirstOrDefault(x =>
+                x.BattleChara is not null &&
+                (x.BattleChara?.GetRole() == CombatRole.Tank ||
+                x.BattleChara!.HasStatus(1719, true) || // BLU Mighty Guard
+                x.BattleChara!.HasStatus(3615, true)));  // Duty Support Gosetsu Tank Stance
             if (tank == null)
                 return null;
 
@@ -1193,16 +1202,14 @@ internal unsafe class AutoRotationController
 
     public static class HealerTargeting
     {
-        internal static IGameObject? ManualTarget()
+        internal static IBattleChara? ManualTarget()
         {
-            if (Svc.Targets.Target == null) return null;
-            var t = Svc.Targets.Target;
-            bool goodToHeal = t is IBattleChara &&
-                              t.IsFriendly() &&
+            if (SimpleTarget.HardTarget is not { } t) return null;
+            bool goodToHeal = t.IsFriendly() &&
                               GetTargetHPPercent(t) <=
                               (TargetHasExcog(t) ? cfg.HealerSettings.SingleTargetExcogHPP :
-                                  TargetHasRegen(t) ? cfg.HealerSettings.SingleTargetRegenHPP :
-                                  cfg.HealerSettings.SingleTargetHPP);
+                               TargetHasRegen(t) ? cfg.HealerSettings.SingleTargetRegenHPP :
+                               cfg.HealerSettings.SingleTargetHPP);
             if (goodToHeal && !t.IsHostile())
             {
                 return t;
@@ -1224,18 +1231,19 @@ internal unsafe class AutoRotationController
         internal static IOrderedEnumerable<IBattleChara?> HealTargets()
         {
             return GetPartyMembers()
-                .Where(x => !x.BattleChara.IsDead &&
-                            x.BattleChara.IsTargetable &&
-                            GetTargetDistance(x.BattleChara) <= QueryRange &&
-                            !TargetHasImmortality(x.BattleChara) &&
-                            !StatusCache.HasStatusInCacheList(StatusCache.DoNotHealStatuses, x.BattleChara) &&
-                            GetTargetHPPercent(x.BattleChara, cfg.HealerSettings.IncludeShields) <=
-                            (TargetHasExcog(x.BattleChara) ? cfg.HealerSettings.SingleTargetExcogHPP :
-                                TargetHasRegen(x.BattleChara) ? cfg.HealerSettings.SingleTargetRegenHPP :
-                                cfg.HealerSettings.SingleTargetHPP) &&
-                            IsInLineOfSight(x.BattleChara))
+                .Where(x => x.BattleChara is not null)
                 .Select(x => x.BattleChara)
-                .OrderBy(x => TargetHasTrueInvuln(x));
+                .Where(x => !x.IsDead &&
+                            x.IsTargetable &&
+                            GetTargetDistance(x) <= QueryRange &&
+                            !TargetHasImmortality(x) &&
+                            !StatusCache.HasStatusInCacheList(StatusCache.DoNotHealStatuses, x) &&
+                            GetTargetHPPercent(x, cfg.HealerSettings.IncludeShields) <=
+                            (TargetHasExcog(x) ? cfg.HealerSettings.SingleTargetExcogHPP :
+                                TargetHasRegen(x) ? cfg.HealerSettings.SingleTargetRegenHPP :
+                                cfg.HealerSettings.SingleTargetHPP) &&
+                            IsInLineOfSight(x))
+                .OrderBy(x => TargetHasTrueInvuln(x!));
         }
 
         internal static bool CanAoEHeal(uint outAct = 0)
@@ -1254,36 +1262,36 @@ internal unsafe class AutoRotationController
             return healableCount >= cfg.HealerSettings.AoEHealTargetCount;
         }
 
-        private static bool TargetHasRegen(IGameObject? target)
+        private static bool TargetHasRegen(IBattleChara target)
         {
-            if (target is null) return false;
             return JobID switch
             {
-                Job.AST => HasStatusEffect(AST.Buffs.AspectedBenefic, target),
-                Job.WHM => HasStatusEffect(WHM.Buffs.Regen, target),
+                Job.AST => target.HasStatus(AST.Buffs.AspectedBenefic),
+                Job.WHM => target.HasStatus(WHM.Buffs.Regen),
                 _ => false,
             };
         }
-        private static bool TargetHasExcog(IGameObject? target)
-        {
-            return target is not null && HasStatusEffect(SCH.Buffs.Excogitation, target, true);
-        }
-        /// Used to skip the healing of tanks that are invuln but still receive damage
-        private static bool TargetHasImmortality(IBattleChara? target)
-        {
-            if (target is null) return false;
 
-            return GetStatusEffectRemainingTime(DRK.Buffs.LivingDead, target, true) >= 3 ||
-                   GetStatusEffectRemainingTime(DRK.Buffs.WalkingDead, target, true) >= 5 ||
-                   GetStatusEffectRemainingTime(WAR.Buffs.Holmgang, target, true) >= 5;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool TargetHasExcog(IBattleChara target) =>
+            target.HasStatus(SCH.Buffs.Excogitation, true);
+
+        /// Used to skip the healing of tanks that are invuln but still receive damage
+        private static bool TargetHasImmortality(IBattleChara target)
+        {
+            //if (target is null) return false;
+
+            return target.Status(DRK.Buffs.LivingDead, true).RemainingTimeOrZero() >= 3 ||
+                   target.Status(DRK.Buffs.WalkingDead, true).RemainingTimeOrZero() >= 5 ||
+                   target.Status(WAR.Buffs.Holmgang, true).RemainingTimeOrZero() >= 5;
         }
         /// Used to de-prioritize (not skip) the healing of invuln tanks
-        private static bool TargetHasTrueInvuln(IBattleChara? target)
+        private static bool TargetHasTrueInvuln(IBattleChara target)
         {
-            if (target is null) return false;
+            //if (target is null) return false;
 
-            return GetStatusEffectRemainingTime(GNB.Buffs.Superbolide, target) >= 5 ||
-                   GetStatusEffectRemainingTime(PLD.Buffs.HallowedGround, target) >= 5;
+            return target.Status(GNB.Buffs.Superbolide).RemainingTimeOrZero() >= 5 ||
+                   target.Status(PLD.Buffs.HallowedGround).RemainingTimeOrZero() >= 5;
         }
     }
 

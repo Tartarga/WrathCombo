@@ -331,7 +331,7 @@ internal partial class OccultCrescent
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_TimeMage_OccultDispel, OccultDispel) &&
-            HasTargetNow && HasPhantomDispelStatus(CurrentTarget))
+            HasTargetNow && CurrentTarget!.HasPhantomDispelStatus)
         {
             actionID = OccultDispel; // cleanse
             return true;
@@ -381,7 +381,7 @@ internal partial class OccultCrescent
             }
         }
 
-        var canDebuff = EnemiesInRange(OccultSlowga).Any(x => !ImmuneToStatus(x, Debuffs.Slow)
+        var canDebuff = EnemiesInRange(OccultSlowga).OfType<IBattleChara>().Any(x => !x.IsImmuneToStatus(Debuffs.Slow)
         && !HasStatusEffect(Debuffs.Slow, x)
         && (ICDTracker.StatusIsExpired(Debuffs.Slow, x.GameObjectId)
         || (ICDTracker.NumberOfTimesApplied(Debuffs.Slow, x.GameObjectId) < 3) && IsNotEnabled(Preset.Phantom_TimeMage_OccultSlowga_Wait)));
@@ -555,6 +555,10 @@ internal partial class OccultCrescent
         // Dispel / interrupt before heal cards
         if (IsEnabledAndUsable(Preset.Phantom_Oracle_Recuperation, Recuperation) &&
             HasCleansableDoom())
+            // Cleansable doom is currenttarget then self, but our currenttarget has an overridetarget
+            // thing that SimpleTarget does not do
+            //SimpleTarget.Stack.OverridesSelf is IBattleChara chara &&
+            //chara.HasCleansableDoom)
         {
             actionID = Recuperation;
             return true;

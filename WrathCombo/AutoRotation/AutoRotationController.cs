@@ -135,8 +135,8 @@ internal unsafe class AutoRotationController
         x.BattleChara.IsTargetable &&
         (cfg.HealerSettings.AutoRezOutOfParty || GetPartyMembers().Any(y => y.GameObjectId == x.BattleChara.GameObjectId)) &&
         GetTargetDistance(x.BattleChara) <= QueryRange &&
-        !TargetHasRaiseStatus(x.BattleChara) &&
-        !TargetHasRaiseInvincibility(x.BattleChara) &&
+        !x.BattleChara.HasRaiseStatus &&
+        !x.BattleChara.HasRaiseInvincibility &&
         TimeSpentDead(x.BattleChara.GameObjectId).TotalSeconds > 2;
 
     public static bool LockedST
@@ -174,7 +174,7 @@ internal unsafe class AutoRotationController
                || Player.Mounted
                || !EzThrottler.Throttle("Autorot", cfg.Throttler)
                || (ActionManager.Instance()->QueuedActionId > 0)
-               || TargetHasRaiseInvincibility(Player.Object)
+               || Player.Object.HasRaiseInvincibility
                || Paused;
     }
 
@@ -281,7 +281,7 @@ internal unsafe class AutoRotationController
             if (ActionManager.Instance()->QueuedActionId == RoleActions.Healer.Esuna)
                 ActionManager.Instance()->QueuedActionId = 0;
 
-            if ((!needsHeal || GetPartyMembers().Any(x => HasCleansableDoom(x.BattleChara))) && WrathOpener.CurrentOpener?.CurrentState is not
+            if ((!needsHeal || GetPartyMembers().Any(x => x.BattleChara?.HasCleansableDoom == true)) && WrathOpener.CurrentOpener?.CurrentState is not
                 OpenerState.InOpener)
             {
                 if (cfg.HealerSettings.AutoCleanse && isHealer)
@@ -1089,7 +1089,7 @@ internal unsafe class AutoRotationController
             chara.IsHostile() &&
             IsInRange(chara, InBossEncounter() && cfg.DPSSettings.IgnoreRangeInBoss ? 50f : cfg.DPSSettings.MaxDistance) &&
             GetTargetHeightDifference(chara) <= (InBossEncounter() && cfg.DPSSettings.IgnoreRangeInBoss ? 100f : cfg.DPSSettings.MaxDistance) &&
-            !TargetIsInvincible(chara) &&
+            !chara.IsInvincible &&
             !Service.Configuration.IgnoredNPCs.ContainsKey(chara.BaseId) &&
             ((cfg.DPSSettings.OnlyAttackInCombat && chara.Struct()->InCombat) || !cfg.DPSSettings.OnlyAttackInCombat) &&
             IsInLineOfSight(chara);

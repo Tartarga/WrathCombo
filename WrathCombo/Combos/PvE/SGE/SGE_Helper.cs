@@ -381,6 +381,38 @@ internal partial class SGE
 
     #region Healing
 
+    private static bool UseEukrasianDiagnosis(IGameObject? healTarget, bool simpleMode, ref uint actionID)
+    {
+        if (!LevelChecked(Eukrasia))
+            return false;
+
+        if (HasStatusEffect(Buffs.Eukrasia))
+        {
+            actionID = OriginalHook(Diagnosis).RetargetIfEnabled(actionID);
+            return true;
+        }
+
+        if (HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget))
+            return false;
+
+        if (!simpleMode)
+        {
+            if (!IsEnabled(Preset.SGE_ST_Adv_Heal_EDiagnosis))
+                return false;
+
+            bool shieldCheck = !SGE_ST_Adv_Heal_EDiagnosisOpts[0] ||
+                               (!HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget, true) &&
+                                !HasStatusEffect(Buffs.EukrasianPrognosis, healTarget, true));
+            bool scholarShieldCheck = !SGE_ST_Adv_Heal_EDiagnosisOpts[1] ||
+                                      !HasStatusEffect(SCH.Buffs.Galvanize);
+            if (!shieldCheck || !scholarShieldCheck)
+                return false;
+        }
+
+        actionID = Eukrasia;
+        return true;
+    }
+
     private static bool TrySTHealOption(int i, IGameObject? target, out uint action, out int config)
     {
         IGameObject? healTarget = target ?? SimpleTarget.Stack.AllyToHeal;
@@ -454,7 +486,6 @@ internal partial class SGE
 
             case 7:
                 if (!IsEnabled(Preset.SGE_ST_Adv_Heal_EDiagnosis) ||
-                    GetTargetHPPercent(healTarget, SGE_ST_Adv_Heal_IncludeShields) > SGE_ST_Adv_Heal_EDiagnosisHP ||
                     !shieldCheck || !scholarShieldCheck)
                     return false;
                 action = Eukrasia;

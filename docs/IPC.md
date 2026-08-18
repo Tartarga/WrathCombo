@@ -77,9 +77,9 @@ But there is slightly more to be done as well, if wanted, but not documented her
     - If the user already has their job set up, it will simply act as a lock on
       the user's settings; and if the user does not have the job setup then it will
       activate the minimum settings for the job to be ready for Auto-Rotation
-      (which would be the Simple Modes for the job, if available, and otherwise the
-      Advanced Mode combos for a job with all options enabled, and any healing
-      combos with all options enabled).
+      (which would be the Simple Modes for the job — including Simple healing —
+      if available, and otherwise the Advanced Mode combos for a job with all
+      options enabled, and any healing combos with all options enabled).
 
 See the Provider files ([main](https://github.com/PunishXIV/WrathCombo/blob/main/WrathCombo/Services/IPC/Provider.cs),
 [auto-rot settings](https://github.com/PunishXIV/WrathCombo/blob/main/WrathCombo/Services/IPC/ProvideAutoRotConfig.cs)) for more information on these extra methods.
@@ -192,8 +192,9 @@ comments on each method.
   - Sets the current job to be ready for Auto-Rotation
     - If the job is ready: it will lock all the user's Simple/Advanced settings, and 
       any healing settings
-    - If the job is not ready: it will turn on the job's Simple Modes, or if those 
-      don't exist it will turn on the job's Advanced Modes with all options enabled
+    - If the job is not ready: it will turn on the job's Simple Modes (DPS and
+      healing), or if those don't exist it will turn on the job's Advanced Modes
+      with all options enabled (and HealingCombo heals with all options)
   - Locks the state away from the user
 - `void ReleaseControl(Guid)`
   - Requires a lease
@@ -381,8 +382,8 @@ if (WrathIPC.IsEnabled)
     // make sure the job is ready for Auto-Rotation
     WrathIPC.SetCurrentJobAutoRotationReady(WrathIPC.CurrentLease);
     // if the job is ready, all the user's settings are locked
-    // if the job is not ready, it turns on the job's simple modes, or if those don't
-    // exist, it turns on the job's advanced modes with all options enabled
+    // if the job is not ready, it turns on the job's simple modes (DPS and healing),
+    // or if those don't exist, it turns on the job's advanced modes with all options enabled
 }
 ```
 

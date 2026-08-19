@@ -506,12 +506,13 @@ internal partial class BLU
 
         internal override bool IncludePot => false;
 
+        public override bool AllowReopener { get; set; } = true;
+
         public override List<(int[] Steps, Func<float> HoldDelay)> PrepullDelays { get; set; } =
         [
             ([1], () => CountdownRemaining - 5),
             ([2], () => CountdownRemaining - 3),
-            ([3], () => CountdownRemaining - 1),
-            ([4], () => CountdownRemaining)
+            ([3], () => CountdownRemaining)
         ];
 
         public override bool HasCooldowns() =>
@@ -551,8 +552,8 @@ internal partial class BLU
 
         public override List<(int[] Steps, Func<bool> Condition)> SkipSteps { get; set; } =
         [
-            ([1], () => !IsSpellActive(Whistle)),
-            ([2], () => !IsSpellActive(Tingle)),
+            ([1], () => !IsSpellActive(Whistle) || HasStatusEffect(Buffs.Whistle)),
+            ([2], () => !IsSpellActive(Tingle) || HasStatusEffect(Buffs.Tingle, Target, true)),
             ([3], () => !IsSpellActive(RoseOfDestruction)),
             ([5], () => !IsSpellActive(JKick)),
             ([6], () => !IsSpellActive(TripleTrident) || !ActionReady(TripleTrident)),
@@ -564,6 +565,7 @@ internal partial class BLU
             ([12], () => !IsSpellActive(ShockStrike)),
             ([13], () => !IsSpellActive(BeingMortal)),
             ([14], () => !IsSpellActive(Bristle) || HasStatusEffect(Buffs.Bristle)),
+            ([15], () => !ActionReady(Role.Swiftcast)),
             ([16, 17, 18, 19], () => !IsSpellActive(Surpanakha)),
             ([20], () => !IsSpellActive(MatraMagic) || !HasStatusEffect(Buffs.DPSMimicry)),
             ([21], () => !IsSpellActive(PhantomFlurry))
@@ -606,8 +608,8 @@ internal partial class BLU
 
         public override List<(int[] Steps, Func<bool> Condition)> SkipSteps { get; set; } =
         [
-            ([1], () => !IsSpellActive(Whistle)),
-            ([2], () => !IsSpellActive(Tingle)),
+            ([1], () => !IsSpellActive(Whistle) || HasStatusEffect(Buffs.Whistle)),
+            ([2], () => !IsSpellActive(Tingle) || HasStatusEffect(Buffs.Tingle, Target, true)),
             ([3], () => !IsSpellActive(RoseOfDestruction)),
             ([5], () => !IsSpellActive(JKick)),
             ([6], () => !IsSpellActive(TripleTrident) || !ActionReady(TripleTrident)),
@@ -618,6 +620,7 @@ internal partial class BLU
             ([11], () => !IsSpellActive(BreathOfMagic) && !IsSpellActive(MortalFlame)),
             ([12], () => !IsSpellActive(ShockStrike)),
             ([13], () => !IsSpellActive(Bristle) || HasStatusEffect(Buffs.Bristle)),
+            ([14], () => !ActionReady(Role.Swiftcast)),
             ([15, 16, 17, 18], () => !IsSpellActive(Surpanakha)),
             ([19], () => !IsSpellActive(MatraMagic) || !HasStatusEffect(Buffs.DPSMimicry)),
             ([20], () => !IsSpellActive(BeingMortal)),

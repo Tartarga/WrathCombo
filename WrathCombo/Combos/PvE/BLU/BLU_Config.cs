@@ -22,12 +22,13 @@ internal partial class BLU
                 case Preset.BLU_ST_DPS_Opener:
                     DrawBossOnlyChoice(BLU_Balance_Content);
                     ImGuiEx.TextUnderlined("Select Opener");
+                    ImGui.Spacing();
                     DrawRadioButton(BLU_SelectedOpener,
-                        Generics.StandardOpener,
-                        Generics.UsesStandardOpener, 0, descriptionAsTooltip: true);
+                        "Winged Opener",
+                        "Winged Reprobation opener. Standard 2.50 spell speed.", 0, descriptionAsTooltip: true);
                     DrawRadioButton(BLU_SelectedOpener,
                         "DoT Opener",
-                        "Applies Mortal Flame or Breath of Magic instead of Winged Reprobation. Requires 2.20 or faster spell speed.",
+                        "Mortal Flame or Breath of Magic instead of Winged Reprobation. Requires 2.20 or faster spell speed.",
                         1, descriptionAsTooltip: true);
                     break;
 

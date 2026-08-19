@@ -1497,16 +1497,10 @@ Also used with Healer Mimicry when the party does not need healing.</value>
     <value>Flying Sardine</value>
   </data>
   <data name="BLU_ST_DPS_Opener_Desc" xml:space="preserve">
-    <value>Adds the Moon Flute opener.
-Prepull:
-- Whistle at -5
-- Tingle at -3
-- Rose of Destruction at -1
-- Moon Flute at 0
-Without a countdown, prepull steps have no delay.
-Feather Rain is Retargeted to your target.
-Use remaining Winged Reprobation charges before starting the opener again.
-Standard opener can be done at 2.50 spell speed.</value>
+    <value>Adds the Moon Flute opener, repeated every two minutes.
+Prepull: Whistle at -5, Tingle at -3, Rose of Destruction on pull.
+Keep Nightbloom or bristled Song of Torment up between bursts.
+Feather Rain is Retargeted to your target.</value>
   </data>
   <data name="BLU_ST_DPS_Opener_Name" xml:space="preserve">
     <value>Moon Flute Opener</value>

@@ -187,7 +187,7 @@ public abstract class WrathOpener
 
         if (CurrentState == OpenerState.OpenerNotReady)
         {
-            if (HasCooldowns() && !InCombat())
+            if (HasCooldowns() && (!InCombat() || AllowReopener))
             {
                 CurrentState = OpenerState.OpenerReady;
                 OpenerStep = 1;

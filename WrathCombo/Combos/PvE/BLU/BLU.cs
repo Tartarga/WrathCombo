@@ -2,111 +2,123 @@
 using WrathCombo.Core;
 using WrathCombo.CustomComboNS;
 using WrathCombo.Extensions;
+using WrathCombo.Native;
 
 namespace WrathCombo.Combos.PvE;
 
 internal partial class BLU : Caster
 {
-    public const uint
-        RoseOfDestruction = 23275,
-        ShockStrike = 11429,
-        FeatherRain = 11426,
-        JKick = 18325,
-        Eruption = 11427,
-        SharpenedKnife = 11400,
-        GlassDance = 11430,
-        SonicBoom = 18308,
-        Surpanakha = 18323,
-        Nightbloom = 23290,
-        MoonFlute = 11415,
-        Whistle = 18309,
-        Tingle = 23265,
-        TripleTrident = 23264,
-        MatraMagic = 23285,
-        FinalSting = 11407,
-        Bristle = 11393,
-        PhantomFlurry = 23288,
-        PerpetualRay = 18314,
-        AngelWhisper = 18317,
-        SongOfTorment = 11386,
-        RamsVoice = 11419,
-        Ultravibration = 23277,
-        Devour = 18320,
-        Offguard = 11411,
-        BadBreath = 11388,
-        MagicHammer = 18305,
-        WhiteKnightsTour = 18310,
-        BlackKnightsTour = 18311,
-        PeripheralSynthesis = 23286,
-        BasicInstinct = 23276,
-        HydroPull = 23282,
-        MustardBomb = 23279,
-        WingedReprobation = 34576,
-        SeaShanty = 34580,
-        BeingMortal = 34582,
-        BreathOfMagic = 34567,
-        MortalFlame = 34579,
-        PeatPelt = 34569,
-        DeepClean = 34570,
-        Electrogenesis = 34575;
+    #region DPS
 
-    public static class Buffs
+    internal class BLU_ST_DPS : CustomCombo
     {
-        public const ushort
-            MoonFlute = 1718,
-            Bristle = 1716,
-            WaningNocturne = 1727,
-            PhantomFlurry = 2502,
-            Tingle = 2492,
-            Whistle = 2118,
-            TankMimicry = 2124,
-            DPSMimicry = 2125,
-            BasicInstinct = 2498,
-            WingedReprobation = 3640;
-    }
-
-    public static class Debuffs
-    {
-        public const ushort
-            Slow = 9,
-            Bind = 13,
-            Stun = 142,
-            SongOfTorment = 273,
-            DeepFreeze = 1731,
-            Offguard = 1717,
-            Malodorous = 1715,
-            Conked = 2115,
-            Lightheaded = 2501,
-            MortalFlame = 3643,
-            BreathOfMagic = 3712,
-            Begrimed = 3636;
-    }
-
-    internal class BLU_ST_SimpleMode : CustomCombo
-    {
-        protected internal override Preset Preset => Preset.BLU_ST_SimpleMode;
+        protected internal override Preset Preset => Preset.BLU_ST_DPS;
 
         protected override uint Invoke(uint actionID)
         {
-            if (actionID is not SonicBoom)
+            if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetDPS, SonicBoom))
                 return actionID;
 
-            return DoSimpleDPS(actionID, SonicBoom, onAoE: false);
+            if (CustomActionHelper.CustomActionEnabled(CustomActionType.SingleTargetDPS) &&
+                IsEnabled(Preset.BLU_ST_Tank) &&
+                HasTankMimicry)
+                return actionID;
+
+            return DoDPS(actionID, actionID, onAoE: false);
         }
     }
 
-    internal class BLU_AoE_SimpleMode : CustomCombo
+    internal class BLU_AoE_DPS : CustomCombo
     {
-        protected internal override Preset Preset => Preset.BLU_AoE_SimpleMode;
+        protected internal override Preset Preset => Preset.BLU_AoE_DPS;
 
         protected override uint Invoke(uint actionID)
         {
-            if (actionID is not (Electrogenesis or HydroPull))
+            if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEDPS, Electrogenesis))
                 return actionID;
 
-            return DoSimpleDPS(actionID, actionID, onAoE: true);
+            if (CustomActionHelper.CustomActionEnabled(CustomActionType.AoEDPS) &&
+                IsEnabled(Preset.BLU_AoE_Tank) &&
+                HasTankMimicry)
+                return actionID;
+
+            return DoDPS(actionID, actionID, onAoE: true);
         }
     }
+
+    #endregion
+
+    #region Tank
+
+    internal class BLU_ST_Tank : CustomCombo
+    {
+        protected internal override Preset Preset => Preset.BLU_ST_Tank;
+
+        protected override uint Invoke(uint actionID)
+        {
+            if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetDPS, GoblinPunch))
+                return actionID;
+
+            if (CustomActionHelper.CustomActionEnabled(CustomActionType.SingleTargetDPS) &&
+                IsEnabled(Preset.BLU_ST_DPS) &&
+                !HasTankMimicry)
+                return actionID;
+
+            return DoTank(actionID, actionID, onAoE: false);
+        }
+    }
+
+    internal class BLU_AoE_Tank : CustomCombo
+    {
+        protected internal override Preset Preset => Preset.BLU_AoE_Tank;
+
+        protected override uint Invoke(uint actionID)
+        {
+            if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEDPS, RightRound))
+                return actionID;
+
+            if (CustomActionHelper.CustomActionEnabled(CustomActionType.AoEDPS) &&
+                IsEnabled(Preset.BLU_AoE_DPS) &&
+                !HasTankMimicry)
+                return actionID;
+
+            return DoTank(actionID, actionID, onAoE: true);
+        }
+    }
+
+    #endregion
+
+    #region Healer
+
+    internal class BLU_ST_Heal : CustomCombo
+    {
+        protected internal override Preset Preset => Preset.BLU_ST_Heal;
+
+        protected override uint Invoke(uint actionID)
+        {
+            if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetHeals, PomCure))
+                return actionID;
+
+            return DoHeal(actionID, onAoE: false);
+        }
+    }
+
+    internal class BLU_AoE_Heal : CustomCombo
+    {
+        protected internal override Preset Preset => Preset.BLU_AoE_Heal;
+
+        protected override uint Invoke(uint actionID)
+        {
+            if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEHeals, WhiteWind))
+                return actionID;
+
+            return DoHeal(actionID, onAoE: true);
+        }
+    }
+
+    #endregion
+
+    #region Miscellaneous
 
     internal class BLU_BuffedSoT : CustomCombo
     {
@@ -529,4 +541,6 @@ internal partial class BLU : Caster
             return actionID;
         }
     }
+
+    #endregion
 }

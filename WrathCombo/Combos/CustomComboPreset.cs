@@ -1868,24 +1868,355 @@ public enum Preset
 
     #region BLUE MAGE
 
-    #region Simple Modes
+    #region DPS
 
     [AutoAction(false, false)]
     [ReplaceSkill(BLU.SonicBoom)]
     [BlueInactive(BLU.SonicBoom)]
+    [BlueDPS]
     [JobInfo(Job.BLU)]
-    [SimpleDPSCombo]
+    [AdvancedDPSCombo]
+    [Retargeted(BLU.FeatherRain, BLU.FlyingSardine)]
+    BLU_ST_DPS = 70026,
+
+    [ParentCombo(BLU_ST_DPS)]
+    [BlueInactive(BLU.BreathOfMagic)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
+    BLU_ST_DPS_Breath = 70028,
+
+    [ParentCombo(BLU_ST_DPS)]
+    [BlueInactive(BLU.MortalFlame)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
+    BLU_ST_DPS_Flame = 70029,
+
+    [ParentCombo(BLU_ST_DPS)]
+    [BlueInactive(BLU.SongOfTorment, BLU.Bristle)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
+    BLU_ST_DPS_SongOfTorment = 70034,
+
+    [ParentCombo(BLU_ST_DPS)]
+    [BlueInactive(BLU.TripleTrident)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
+    BLU_ST_DPS_TripleTrident = 70035,
+
+    [ParentCombo(BLU_ST_DPS)]
+    [BlueInactive(BLU.SharpenedKnife)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
+    BLU_ST_DPS_SharpenedKnife = 70036,
+
+    [ParentCombo(BLU_ST_DPS)]
+    [BlueInactive(BLU.FlyingSardine)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
+    [Retargeted(BLU.FlyingSardine)]
+    BLU_ST_DPS_FlyingSardine = 70037,
+
+    [ParentCombo(BLU_ST_DPS)]
+    [BlueInactive(BLU.BasicInstinct)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
+    BLU_ST_DPS_BasicInstinct = 70038,
+
+    [ParentCombo(BLU_ST_DPS)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
     [Retargeted(BLU.FeatherRain)]
-    BLU_ST_SimpleMode = 70026,
+    BLU_ST_DPS_Primals = 70039,
 
     [AutoAction(true, false)]
-    [ReplaceSkill(BLU.Electrogenesis, BLU.HydroPull)]
+    [ReplaceSkill(BLU.Electrogenesis)]
+    [BlueInactive(BLU.Electrogenesis)]
+    [BlueDPS]
     [JobInfo(Job.BLU)]
-    [SimpleDPSCombo]
+    [AdvancedDPSCombo]
+    [Retargeted(BLU.FeatherRain, BLU.FlyingSardine)]
+    BLU_AoE_DPS = 70027,
+
+    [ParentCombo(BLU_AoE_DPS)]
+    [BlueInactive(BLU.FlyingSardine)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
+    [Retargeted(BLU.FlyingSardine)]
+    BLU_AoE_DPS_FlyingSardine = 70040,
+
+    [ParentCombo(BLU_AoE_DPS)]
+    [BlueInactive(BLU.BasicInstinct)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_DPS_BasicInstinct = 70041,
+
+    [ParentCombo(BLU_AoE_DPS)]
+    [BlueInactive(BLU.HydroPull)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_DPS_HydroPull = 70042,
+
+    [ParentCombo(BLU_AoE_DPS)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
     [Retargeted(BLU.FeatherRain)]
-    BLU_AoE_SimpleMode = 70027,
+    BLU_AoE_DPS_Primals = 70043,
+
+    [BlueInactive(BLU.SongOfTorment, BLU.Bristle)]
+    [ReplaceSkill(BLU.SongOfTorment)]
+    [BlueDPS]
+    [JobInfo(Job.BLU)]
+    BLU_BuffedSoT = 70000,
 
     #endregion
+
+    #region Tank
+
+    [AutoAction(false, false)]
+    [ReplaceSkill(BLU.GoblinPunch)]
+    [BlueInactive(BLU.GoblinPunch)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    [AdvancedDPSCombo]
+    [Retargeted(BLU.FeatherRain, BLU.FlyingSardine)]
+    BLU_ST_Tank = 70030,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueInactive(BLU.MightyGuard)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_ST_Tank_MightyGuard = 70044,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueInactive(BLU.BasicInstinct)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_ST_Tank_BasicInstinct = 70045,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueInactive(BLU.ChelonianGate)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_ST_Tank_ChelonianGate = 70046,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueInactive(BLU.DragonForce)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_ST_Tank_DragonForce = 70047,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueInactive(BLU.FlyingSardine)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    [Retargeted(BLU.FlyingSardine)]
+    BLU_ST_Tank_FlyingSardine = 70048,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueInactive(BLU.StickyTongue)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_ST_Tank_StickyTongue = 70049,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueInactive(BLU.FrogLegs)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_ST_Tank_FrogLegs = 70050,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueInactive(BLU.Devour)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_ST_Tank_Devour = 70051,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueInactive(BLU.Offguard)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_ST_Tank_Offguard = 70052,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueInactive(BLU.SongOfTorment, BLU.Bristle)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_ST_Tank_SongOfTorment = 70053,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueInactive(BLU.BadBreath)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_ST_Tank_BadBreath = 70056,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [JobInfo(Job.BLU)]
+    [BlueTank]
+    BLU_ST_Tank_Lucid = 70054,
+
+    [ParentCombo(BLU_ST_Tank)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    [Retargeted(BLU.FeatherRain)]
+    BLU_ST_Tank_Primals = 70055,
+
+    [AutoAction(true, false)]
+    [ReplaceSkill(BLU.RightRound)]
+    [BlueInactive(BLU.RightRound)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    [AdvancedDPSCombo]
+    [Retargeted(BLU.FeatherRain, BLU.FlyingSardine)]
+    BLU_AoE_Tank = 70031,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [BlueInactive(BLU.MightyGuard)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Tank_MightyGuard = 70057,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [BlueInactive(BLU.BasicInstinct)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Tank_BasicInstinct = 70058,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [BlueInactive(BLU.ChelonianGate)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Tank_ChelonianGate = 70059,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [BlueInactive(BLU.DragonForce)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Tank_DragonForce = 70060,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [BlueInactive(BLU.FlyingSardine)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    [Retargeted(BLU.FlyingSardine)]
+    BLU_AoE_Tank_FlyingSardine = 70061,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [BlueInactive(BLU.FrogLegs)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Tank_FrogLegs = 70062,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [BlueInactive(BLU.StickyTongue)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Tank_StickyTongue = 70063,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [BlueInactive(BLU.Devour)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Tank_Devour = 70064,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [JobInfo(Job.BLU)]
+    [BlueTank]
+    BLU_AoE_Tank_Lucid = 70065,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [BlueInactive(BLU.BadBreath)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Tank_BadBreath = 70066,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [BlueInactive(BLU.HydroPull)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Tank_HydroPull = 70067,
+
+    [ParentCombo(BLU_AoE_Tank)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    [Retargeted(BLU.FeatherRain)]
+    BLU_AoE_Tank_Primals = 70068,
+
+    [BlueInactive(BLU.Offguard, BLU.BadBreath, BLU.Devour)]
+    [ReplaceSkill(BLU.Devour, BLU.Offguard, BLU.BadBreath)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_DebuffCombo = 70006,
+
+    [BlueInactive(BLU.MagicHammer)]
+    [ReplaceSkill(BLU.MagicHammer)]
+    [BlueTank]
+    [JobInfo(Job.BLU)]
+    BLU_Addle = 70007,
+
+    #endregion
+
+    #region Healer
+
+    [AutoAction(false, true)]
+    [ReplaceSkill(BLU.PomCure)]
+    [BlueInactive(BLU.PomCure)]
+    [BlueHealer]
+    [JobInfo(Job.BLU)]
+    [AdvancedHealingCombo]
+    [PossiblyRetargeted]
+    BLU_ST_Heal = 70032,
+
+    [ParentCombo(BLU_ST_Heal)]
+    [JobInfo(Job.BLU)]
+    [BlueHealer]
+    BLU_ST_Heal_Lucid = 70069,
+
+    [ParentCombo(BLU_ST_Heal)]
+    [BlueInactive(BLU.Exuviation)]
+    [BlueHealer]
+    [JobInfo(Job.BLU)]
+    [PossiblyRetargeted]
+    BLU_ST_Heal_Exuviation = 70070,
+
+    [ParentCombo(BLU_ST_Heal)]
+    [BlueInactive(BLU.AngelsSnack)]
+    [BlueHealer]
+    [JobInfo(Job.BLU)]
+    BLU_ST_Heal_AngelsSnack = 70071,
+
+    [AutoAction(true, true)]
+    [ReplaceSkill(BLU.WhiteWind)]
+    [BlueInactive(BLU.WhiteWind)]
+    [BlueHealer]
+    [JobInfo(Job.BLU)]
+    [AdvancedHealingCombo]
+    BLU_AoE_Heal = 70033,
+
+    [ParentCombo(BLU_AoE_Heal)]
+    [JobInfo(Job.BLU)]
+    [BlueHealer]
+    BLU_AoE_Heal_Lucid = 70072,
+
+    [ParentCombo(BLU_AoE_Heal)]
+    [BlueInactive(BLU.AngelsSnack)]
+    [BlueHealer]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Heal_AngelsSnack = 70073,
+
+    [ParentCombo(BLU_AoE_Heal)]
+    [BlueInactive(BLU.Stotram)]
+    [BlueHealer]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Heal_Stotram = 70074,
+
+    [ParentCombo(BLU_AoE_Heal)]
+    [BlueInactive(BLU.Gobskin)]
+    [BlueHealer]
+    [JobInfo(Job.BLU)]
+    BLU_AoE_Heal_Gobskin = 70075,
+
+    #endregion
+
+    #region Openers
 
     [ReplaceSkill(BLU.MoonFlute)]
     [BlueInactive(BLU.Whistle, BLU.Tingle, BLU.RoseOfDestruction, BLU.MoonFlute, BLU.JKick, BLU.TripleTrident,
@@ -1926,6 +2257,10 @@ public enum Preset
     [ParentCombo(BLU_FinalSting)]
     [JobInfo(Job.BLU)]
     BLU_SoloMode = 70011,
+
+    #endregion
+
+    #region Miscellaneous
 
     [BlueInactive(BLU.RamsVoice, BLU.Ultravibration)]
     [ReplaceSkill(BLU.Ultravibration)]
@@ -1983,11 +2318,6 @@ public enum Preset
     [JobInfo(Job.BLU)]
     BLU_PrimalCombo_Nightbloom = 70020,
 
-    [BlueInactive(BLU.SongOfTorment, BLU.Bristle)]
-    [ReplaceSkill(BLU.SongOfTorment)]
-    [JobInfo(Job.BLU)]
-    BLU_BuffedSoT = 70000,
-
     [BlueInactive(BLU.PeripheralSynthesis, BLU.MustardBomb)]
     [ReplaceSkill(BLU.PeripheralSynthesis)]
     [JobInfo(Job.BLU)]
@@ -2001,27 +2331,19 @@ public enum Preset
     [JobInfo(Job.BLU)]
     BLU_MeleeCombo = 70016,
 
-    [BlueInactive(BLU.MagicHammer)]
-    [ReplaceSkill(BLU.MagicHammer)]
-    [JobInfo(Job.BLU)]
-    BLU_Addle = 70007,
-
     [BlueInactive(BLU.BlackKnightsTour, BLU.WhiteKnightsTour)]
     [ReplaceSkill(BLU.BlackKnightsTour, BLU.WhiteKnightsTour)]
     [JobInfo(Job.BLU)]
     BLU_KnightCombo = 70009,
-
-    [BlueInactive(BLU.Offguard, BLU.BadBreath, BLU.Devour)]
-    [ReplaceSkill(BLU.Devour, BLU.Offguard, BLU.BadBreath)]
-    [JobInfo(Job.BLU)]
-    BLU_DebuffCombo = 70006,
 
     [ReplaceSkill(BLU.DeepClean)]
     [BlueInactive(BLU.PeatPelt, BLU.DeepClean)]
     [JobInfo(Job.BLU)]
     BLU_PeatClean = 70023,
 
-    // Last value = 70027
+    #endregion
+
+    // Last value = 70075
 
     #endregion
 

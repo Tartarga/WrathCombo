@@ -1874,44 +1874,59 @@ public enum Preset
     [ReplaceSkill(BLU.SonicBoom)]
     [BlueInactive(BLU.SonicBoom)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     [AdvancedDPSCombo]
     [Retargeted(BLU.FeatherRain, BLU.FlyingSardine)]
     BLU_ST_DPS = 70026,
 
     [ParentCombo(BLU_ST_DPS)]
+    [BlueInactive(BLU.MoonFlute)]
+    [BlueDPS]
+    [BlueHealer]
+    [JobInfo(Job.BLU)]
+    [Retargeted(BLU.FeatherRain)]
+    BLU_ST_DPS_Opener = 70076,
+
+    [ParentCombo(BLU_ST_DPS)]
     [BlueInactive(BLU.BreathOfMagic)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     BLU_ST_DPS_Breath = 70028,
 
     [ParentCombo(BLU_ST_DPS)]
     [BlueInactive(BLU.MortalFlame)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     BLU_ST_DPS_Flame = 70029,
 
     [ParentCombo(BLU_ST_DPS)]
     [BlueInactive(BLU.SongOfTorment, BLU.Bristle)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     BLU_ST_DPS_SongOfTorment = 70034,
 
     [ParentCombo(BLU_ST_DPS)]
     [BlueInactive(BLU.TripleTrident)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     BLU_ST_DPS_TripleTrident = 70035,
 
     [ParentCombo(BLU_ST_DPS)]
     [BlueInactive(BLU.SharpenedKnife)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     BLU_ST_DPS_SharpenedKnife = 70036,
 
     [ParentCombo(BLU_ST_DPS)]
     [BlueInactive(BLU.FlyingSardine)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     [Retargeted(BLU.FlyingSardine)]
     BLU_ST_DPS_FlyingSardine = 70037,
@@ -1919,11 +1934,13 @@ public enum Preset
     [ParentCombo(BLU_ST_DPS)]
     [BlueInactive(BLU.BasicInstinct)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     BLU_ST_DPS_BasicInstinct = 70038,
 
     [ParentCombo(BLU_ST_DPS)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     [Retargeted(BLU.FeatherRain)]
     BLU_ST_DPS_Primals = 70039,
@@ -1932,6 +1949,7 @@ public enum Preset
     [ReplaceSkill(BLU.Electrogenesis)]
     [BlueInactive(BLU.Electrogenesis)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     [AdvancedDPSCombo]
     [Retargeted(BLU.FeatherRain, BLU.FlyingSardine)]
@@ -1940,6 +1958,7 @@ public enum Preset
     [ParentCombo(BLU_AoE_DPS)]
     [BlueInactive(BLU.FlyingSardine)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     [Retargeted(BLU.FlyingSardine)]
     BLU_AoE_DPS_FlyingSardine = 70040,
@@ -1947,26 +1966,23 @@ public enum Preset
     [ParentCombo(BLU_AoE_DPS)]
     [BlueInactive(BLU.BasicInstinct)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     BLU_AoE_DPS_BasicInstinct = 70041,
 
     [ParentCombo(BLU_AoE_DPS)]
     [BlueInactive(BLU.HydroPull)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     BLU_AoE_DPS_HydroPull = 70042,
 
     [ParentCombo(BLU_AoE_DPS)]
     [BlueDPS]
+    [BlueHealer]
     [JobInfo(Job.BLU)]
     [Retargeted(BLU.FeatherRain)]
     BLU_AoE_DPS_Primals = 70043,
-
-    [BlueInactive(BLU.SongOfTorment, BLU.Bristle)]
-    [ReplaceSkill(BLU.SongOfTorment)]
-    [BlueDPS]
-    [JobInfo(Job.BLU)]
-    BLU_BuffedSoT = 70000,
 
     #endregion
 
@@ -2216,30 +2232,7 @@ public enum Preset
 
     #endregion
 
-    #region Openers
-
-    [ReplaceSkill(BLU.MoonFlute)]
-    [BlueInactive(BLU.Whistle, BLU.Tingle, BLU.RoseOfDestruction, BLU.MoonFlute, BLU.JKick, BLU.TripleTrident,
-        BLU.Nightbloom, BLU.WingedReprobation, BLU.SeaShanty, BLU.BeingMortal, BLU.ShockStrike, BLU.Surpanakha,
-        BLU.MatraMagic, BLU.PhantomFlurry, BLU.Bristle)]
-    [ConflictingCombos(BLU_Opener)]
-    [JobInfo(Job.BLU)]
-    [Retargeted(BLU.FeatherRain)]
-    BLU_NewMoonFluteOpener = 70021,
-
-    [BlueInactive(BLU.BreathOfMagic, BLU.MortalFlame)]
-    [ParentCombo(BLU_NewMoonFluteOpener)]
-    [JobInfo(Job.BLU)]
-    BLU_NewMoonFluteOpener_DoTOpener = 70022,
-
-    [BlueInactive(BLU.Whistle, BLU.Tingle, BLU.MoonFlute, BLU.JKick, BLU.TripleTrident, BLU.Nightbloom,
-        BLU.RoseOfDestruction, BLU.FeatherRain, BLU.Bristle, BLU.GlassDance, BLU.Surpanakha, BLU.MatraMagic,
-        BLU.ShockStrike, BLU.PhantomFlurry)]
-    [ReplaceSkill(BLU.MoonFlute)]
-    [ConflictingCombos(BLU_NewMoonFluteOpener)]
-    [JobInfo(Job.BLU)]
-    [Retargeted(BLU.FeatherRain)]
-    BLU_Opener = 70001,
+    #region Miscellaneous
 
     [BlueInactive(BLU.MoonFlute, BLU.Tingle, BLU.ShockStrike, BLU.Whistle, BLU.FinalSting)]
     [ReplaceSkill(BLU.FinalSting)]
@@ -2258,10 +2251,6 @@ public enum Preset
     [JobInfo(Job.BLU)]
     BLU_SoloMode = 70011,
 
-    #endregion
-
-    #region Miscellaneous
-
     [BlueInactive(BLU.RamsVoice, BLU.Ultravibration)]
     [ReplaceSkill(BLU.Ultravibration)]
     [JobInfo(Job.BLU)]
@@ -2272,52 +2261,6 @@ public enum Preset
     [JobInfo(Job.BLU)]
     BLU_HydroPull = 70012,
 
-    [BlueInactive(BLU.FeatherRain, BLU.ShockStrike, BLU.RoseOfDestruction, BLU.GlassDance)]
-    [ReplaceSkill(BLU.FeatherRain)]
-    [JobInfo(Job.BLU)]
-    [Retargeted(BLU.FeatherRain)]
-    BLU_PrimalCombo = 70008,
-
-    [BlueInactive(BLU.FeatherRain, BLU.ShockStrike, BLU.RoseOfDestruction, BLU.GlassDance)]
-    [ParentCombo(BLU_PrimalCombo)]
-    [JobInfo(Job.BLU)]
-    BLU_PrimalCombo_Pool = 70015,
-
-    [BlueInactive(BLU.JKick)]
-    [ParentCombo(BLU_PrimalCombo)]
-    [JobInfo(Job.BLU)]
-    BLU_PrimalCombo_JKick = 70013,
-
-    [BlueInactive(BLU.SeaShanty)]
-    [ParentCombo(BLU_PrimalCombo)]
-    [JobInfo(Job.BLU)]
-    BLU_PrimalCombo_SeaShanty = 70024,
-
-    [BlueInactive(BLU.WingedReprobation)]
-    [ParentCombo(BLU_PrimalCombo)]
-    [JobInfo(Job.BLU)]
-    BLU_PrimalCombo_WingedReprobation = 70025,
-
-    [BlueInactive(BLU.MatraMagic)]
-    [ParentCombo(BLU_PrimalCombo)]
-    [JobInfo(Job.BLU)]
-    BLU_PrimalCombo_Matra = 70017,
-
-    [BlueInactive(BLU.Surpanakha)]
-    [ParentCombo(BLU_PrimalCombo)]
-    [JobInfo(Job.BLU)]
-    BLU_PrimalCombo_Suparnakha = 70018,
-
-    [BlueInactive(BLU.PhantomFlurry)]
-    [ParentCombo(BLU_PrimalCombo)]
-    [JobInfo(Job.BLU)]
-    BLU_PrimalCombo_PhantomFlurry = 70019,
-
-    [BlueInactive(BLU.Nightbloom, BLU.Bristle)]
-    [ParentCombo(BLU_PrimalCombo)]
-    [JobInfo(Job.BLU)]
-    BLU_PrimalCombo_Nightbloom = 70020,
-
     [BlueInactive(BLU.PeripheralSynthesis, BLU.MustardBomb)]
     [ReplaceSkill(BLU.PeripheralSynthesis)]
     [JobInfo(Job.BLU)]
@@ -2326,10 +2269,6 @@ public enum Preset
     [BlueInactive(BLU.PerpetualRay, BLU.SharpenedKnife)]
     [JobInfo(Job.BLU)]
     BLU_PerpetualRayStunCombo = 70014,
-
-    [BlueInactive(BLU.SonicBoom, BLU.SharpenedKnife)]
-    [JobInfo(Job.BLU)]
-    BLU_MeleeCombo = 70016,
 
     [BlueInactive(BLU.BlackKnightsTour, BLU.WhiteKnightsTour)]
     [ReplaceSkill(BLU.BlackKnightsTour, BLU.WhiteKnightsTour)]
@@ -2343,7 +2282,7 @@ public enum Preset
 
     #endregion
 
-    // Last value = 70075
+    // Last value = 70076
 
     #endregion
 

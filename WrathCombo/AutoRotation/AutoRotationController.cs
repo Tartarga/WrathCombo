@@ -422,11 +422,11 @@ internal unsafe class AutoRotationController
         if (data.IsBlueTank)
             return BLU.HasTankMimicry;
 
-        if (data.IsBlueHealer)
-            return BLU.HasHealerMimicry;
-
         if (data.IsBlueDPS)
             return !BLU.HasTankMimicry;
+
+        if (data.IsBlueHealer)
+            return BLU.HasHealerMimicry;
 
         return true;
     }

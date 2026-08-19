@@ -333,6 +333,7 @@ public abstract class WrathOpener
         {
             Job.AST => AST.Opener(),
             Job.BLM => BLM.Opener(),
+            Job.BLU => BLU.Opener(),
             Job.BRD => BRD.Opener(),
             Job.DRG => DRG.Opener(),
             Job.DNC => DNC.Opener(),

@@ -16,7 +16,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using WrathCombo.API.Enum;
 using WrathCombo.API.Extension;
-using WrathCombo.Combos;
 using EZ = ECommons.Throttlers.EzThrottler;
 using TS = System.TimeSpan;
 
@@ -479,29 +478,48 @@ public partial class Provider : IDisposable
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public Dictionary<ComboTargetTypeKeys, ComboSimplicityLevelKeys?> IsCurrentJobConfiguredOn()
     {
-        return new Dictionary<ComboTargetTypeKeys, ComboSimplicityLevelKeys?>
+        if (Player.Job.IsHealer())
         {
+            return new Dictionary<ComboTargetTypeKeys, ComboSimplicityLevelKeys?>
             {
-                ComboTargetTypeKeys.SingleTargetDPS,
-                Helper.CheckCurrentJobModeIsEnabled(
-                    ComboTargetTypeKeys.SingleTargetDPS, ComboStateKeys.Enabled)
-            },
+                {
+                    ComboTargetTypeKeys.SingleTargetDPS,
+                    Helper.CheckCurrentJobModeIsEnabled(
+                        ComboTargetTypeKeys.SingleTargetDPS, ComboStateKeys.Enabled)
+                },
+                {
+                    ComboTargetTypeKeys.AoEDPS,
+                    Helper.CheckCurrentJobModeIsEnabled(
+                        ComboTargetTypeKeys.AoEDPS, ComboStateKeys.Enabled)
+                },
+                {
+                    ComboTargetTypeKeys.SingleTargetHeals,
+                    Helper.CheckCurrentJobModeIsEnabled(
+                        ComboTargetTypeKeys.SingleTargetHeals, ComboStateKeys.Enabled)
+                },
+                {
+                    ComboTargetTypeKeys.AoEHeals,
+                    Helper.CheckCurrentJobModeIsEnabled(
+                        ComboTargetTypeKeys.AoEHeals, ComboStateKeys.Enabled)
+                },
+            };
+        }
+        else
+        {
+            return new Dictionary<ComboTargetTypeKeys, ComboSimplicityLevelKeys?>
             {
-                ComboTargetTypeKeys.AoEDPS,
-                Helper.CheckCurrentJobModeIsEnabled(
-                    ComboTargetTypeKeys.AoEDPS, ComboStateKeys.Enabled)
-            },
-            {
-                ComboTargetTypeKeys.SingleTargetHeals,
-                Helper.CheckCurrentJobModeIsEnabled(
-                    ComboTargetTypeKeys.SingleTargetHeals, ComboStateKeys.Enabled)
-            },
-            {
-                ComboTargetTypeKeys.AoEHeals,
-                Helper.CheckCurrentJobModeIsEnabled(
-                    ComboTargetTypeKeys.AoEHeals, ComboStateKeys.Enabled)
-            },
-        };
+                {
+                    ComboTargetTypeKeys.SingleTargetDPS,
+                    Helper.CheckCurrentJobModeIsEnabled(
+                        ComboTargetTypeKeys.SingleTargetDPS, ComboStateKeys.Enabled)
+                },
+                {
+                    ComboTargetTypeKeys.AoEDPS,
+                    Helper.CheckCurrentJobModeIsEnabled(
+                        ComboTargetTypeKeys.AoEDPS, ComboStateKeys.Enabled)
+                },
+            };
+        }
     }
 
     /// <summary>

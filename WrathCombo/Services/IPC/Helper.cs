@@ -254,8 +254,11 @@ public partial class Helper(ref Leasing leasing)
         // Add combos for each target type category
         AddComboForTargetType(combos, comboStates, job, ComboTargetTypeKeys.SingleTargetDPS, includeOptions);
         AddComboForTargetType(combos, comboStates, job, ComboTargetTypeKeys.AoEDPS, includeOptions);
-        AddComboForTargetType(combos, comboStates, job, ComboTargetTypeKeys.SingleTargetHeals, includeOptions);
-        AddComboForTargetType(combos, comboStates, job, ComboTargetTypeKeys.AoEHeals, includeOptions);
+        if (job.IsHealer())
+        {
+            AddComboForTargetType(combos, comboStates, job, ComboTargetTypeKeys.SingleTargetHeals, includeOptions);
+            AddComboForTargetType(combos, comboStates, job, ComboTargetTypeKeys.AoEHeals, includeOptions);
+        }
 
         if (includeOptions)
             CombosForARCache[job] = combos;

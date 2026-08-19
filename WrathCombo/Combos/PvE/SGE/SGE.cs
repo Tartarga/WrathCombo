@@ -409,6 +409,12 @@ internal partial class SGE : Healer
                 HealRetargeting.RetargetSettingOn && SimpleTarget.Stack.AllyToEsuna is not null ||
                 HasCleansableDebuff(healTarget);
 
+            if (IsEnabled(Preset.SGE_ST_Adv_Heal_Kardia) &&
+                LevelChecked(Kardia) &&
+                !HasStatusEffect(Buffs.Kardia) &&
+                !HasStatusEffect(Buffs.Kardion, healTarget))
+                return Kardia.Retarget(actionID, Target);
+
             if (UseRaidwide(ref actionID))
                 return actionID;
 
@@ -420,12 +426,6 @@ internal partial class SGE : Healer
                 GetTargetHPPercent(healTarget, SGE_ST_Adv_Heal_IncludeShields) >= SGE_ST_Adv_Heal_Esuna &&
                 cleansableTarget)
                 return Role.Esuna.RetargetIfEnabled(actionID);
-
-            if (IsEnabled(Preset.SGE_ST_Adv_Heal_Kardia) &&
-                LevelChecked(Kardia) &&
-                !HasStatusEffect(Buffs.Kardia) &&
-                !HasStatusEffect(Buffs.Kardion, healTarget))
-                return Kardia.Retarget(actionID, Target);
 
             if (CanWeave())
             {

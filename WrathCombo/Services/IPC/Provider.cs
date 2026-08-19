@@ -467,10 +467,10 @@ public partial class Provider : IDisposable
     ///     combo configured.
     /// </summary>
     /// <returns>
-    ///     <see cref="ComboTargetTypeKeys.SingleTarget" /> - a
+    ///     <see cref="ComboTargetTypeKeys.SingleTargetDPS" /> - a
     ///     <see cref="ComboSimplicityLevelKeys">SimplicityLevel?</see> indicating
     ///     what mode, if any, is enabled for Auto-Mode for Single-Target.<br />
-    ///     <see cref="ComboTargetTypeKeys.MultiTarget" /> - a
+    ///     <see cref="ComboTargetTypeKeys.AoEDPS" /> - a
     ///     <see cref="ComboSimplicityLevelKeys">SimplicityLevel?</see> indicating
     ///     what mode, if any, is enabled for Auto-Mode for Multi-Target.<br />
     /// </returns>
@@ -482,14 +482,24 @@ public partial class Provider : IDisposable
         return new Dictionary<ComboTargetTypeKeys, ComboSimplicityLevelKeys?>
         {
             {
-                ComboTargetTypeKeys.SingleTarget,
+                ComboTargetTypeKeys.SingleTargetDPS,
                 Helper.CheckCurrentJobModeIsEnabled(
-                    ComboTargetTypeKeys.SingleTarget, ComboStateKeys.Enabled)
+                    ComboTargetTypeKeys.SingleTargetDPS, ComboStateKeys.Enabled)
             },
             {
-                ComboTargetTypeKeys.MultiTarget,
+                ComboTargetTypeKeys.AoEDPS,
                 Helper.CheckCurrentJobModeIsEnabled(
-                    ComboTargetTypeKeys.MultiTarget, ComboStateKeys.Enabled)
+                    ComboTargetTypeKeys.AoEDPS, ComboStateKeys.Enabled)
+            },
+            {
+                ComboTargetTypeKeys.SingleTargetHeals,
+                Helper.CheckCurrentJobModeIsEnabled(
+                    ComboTargetTypeKeys.SingleTargetHeals, ComboStateKeys.Enabled)
+            },
+            {
+                ComboTargetTypeKeys.AoEHeals,
+                Helper.CheckCurrentJobModeIsEnabled(
+                    ComboTargetTypeKeys.AoEHeals, ComboStateKeys.Enabled)
             },
         };
     }
@@ -499,10 +509,10 @@ public partial class Provider : IDisposable
     ///     combo enabled in Auto-Mode.
     /// </summary>
     /// <returns>
-    ///     <see cref="ComboTargetTypeKeys.SingleTarget" /> - a
+    ///     <see cref="ComboTargetTypeKeys.SingleTargetDPS" /> - a
     ///     <see cref="ComboSimplicityLevelKeys">SimplicityLevel?</see> indicating
     ///     what mode, if any, is enabled for Auto-Mode for Single-Target.<br />
-    ///     <see cref="ComboTargetTypeKeys.MultiTarget" /> - a
+    ///     <see cref="ComboTargetTypeKeys.AoEDPS" /> - a
     ///     <see cref="ComboSimplicityLevelKeys">SimplicityLevel?</see> indicating
     ///     what mode, if any, is enabled for Auto-Mode for Multi-Target.<br />
     /// </returns>
@@ -514,14 +524,14 @@ public partial class Provider : IDisposable
         return new Dictionary<ComboTargetTypeKeys, ComboSimplicityLevelKeys?>
         {
             {
-                ComboTargetTypeKeys.SingleTarget,
+                ComboTargetTypeKeys.SingleTargetDPS,
                 Helper.CheckCurrentJobModeIsEnabled(
-                    ComboTargetTypeKeys.SingleTarget, ComboStateKeys.AutoMode)
+                    ComboTargetTypeKeys.SingleTargetDPS, ComboStateKeys.AutoMode)
             },
             {
-                ComboTargetTypeKeys.MultiTarget,
+                ComboTargetTypeKeys.AoEDPS,
                 Helper.CheckCurrentJobModeIsEnabled(
-                    ComboTargetTypeKeys.MultiTarget, ComboStateKeys.AutoMode)
+                    ComboTargetTypeKeys.AoEDPS, ComboStateKeys.AutoMode)
             },
         };
     }
@@ -542,16 +552,16 @@ public partial class Provider : IDisposable
         return new Dictionary<ComboTargetTypeKeys, ComboSimplicityLevelKeys?>
         {
             {
-                ComboTargetTypeKeys.SingleTarget,
+                ComboTargetTypeKeys.SingleTargetDPS,
                 Helper.CheckCurrentJobModeIsEnabled(
-                    ComboTargetTypeKeys.SingleTarget, ComboStateKeys.AutoMode,
-                    previousMatches[ComboTargetTypeKeys.SingleTarget])
+                    ComboTargetTypeKeys.SingleTargetDPS, ComboStateKeys.AutoMode,
+                    previousMatches[ComboTargetTypeKeys.SingleTargetDPS])
             },
             {
-                ComboTargetTypeKeys.MultiTarget,
+                ComboTargetTypeKeys.AoEDPS,
                 Helper.CheckCurrentJobModeIsEnabled(
-                    ComboTargetTypeKeys.MultiTarget, ComboStateKeys.AutoMode,
-                    previousMatches[ComboTargetTypeKeys.MultiTarget])
+                    ComboTargetTypeKeys.AoEDPS, ComboStateKeys.AutoMode,
+                    previousMatches[ComboTargetTypeKeys.AoEDPS])
             },
         };
     }

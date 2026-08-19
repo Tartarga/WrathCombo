@@ -1178,6 +1178,14 @@ Will only be used if Swiftcast is on cooldown.</value>
   <data name="BLU_Addle_Name" xml:space="preserve">
     <value>Addle &amp; Magic Hammer Debuff</value>
   </data>
+  <data name="BLU_AoE_SimpleMode_Desc" xml:space="preserve">
+    <value>Replaces Electrogenesis or Hydro Pull with a one-button AoE rotation for Auto-Rotation.
+Uses equipped primals on cooldown. Filler is Electrogenesis, then Hydro Pull, then Sonic Boom.
+Does not use Moon Flute.</value>
+  </data>
+  <data name="BLU_AoE_SimpleMode_Name" xml:space="preserve">
+    <value>Simple Mode - AoE</value>
+  </data>
   <data name="BLU_BuffedSoT_Desc" xml:space="preserve">
     <value>Turns Song of Torment into Bristle so Song of Torment is buffed.</value>
   </data>
@@ -1324,6 +1332,14 @@ Feather Rain is Retargeted to your target, so you don't have to place it.</value
   </data>
   <data name="BLU_SoloMode_Name" xml:space="preserve">
     <value>Solo Mode</value>
+  </data>
+  <data name="BLU_ST_SimpleMode_Desc" xml:space="preserve">
+    <value>Replaces Sonic Boom with a one-button single target rotation for Auto-Rotation and carnival/solo.
+Uses equipped primals on cooldown. Filler is Sonic Boom at range and Sharpened Knife in melee.
+Does not use Moon Flute, so you are not locked out by Waning Nocturne.</value>
+  </data>
+  <data name="BLU_ST_SimpleMode_Name" xml:space="preserve">
+    <value>Simple Mode - Single Target</value>
   </data>
   <data name="BLU_Ultravibrate_Desc" xml:space="preserve">
     <value>Turns Ultravibration into Ram's Voice if Deep Freeze isn't on the target. Will swiftcast Ultravibration if available.</value>

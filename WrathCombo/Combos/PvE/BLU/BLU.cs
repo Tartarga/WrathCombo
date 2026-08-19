@@ -47,7 +47,8 @@ internal partial class BLU : Caster
         BreathOfMagic = 34567,
         MortalFlame = 34579,
         PeatPelt = 34569,
-        DeepClean = 34570;
+        DeepClean = 34570,
+        Electrogenesis = 34575;
 
     public static class Buffs
     {
@@ -79,6 +80,32 @@ internal partial class BLU : Caster
             MortalFlame = 3643,
             BreathOfMagic = 3712,
             Begrimed = 3636;
+    }
+
+    internal class BLU_ST_SimpleMode : CustomCombo
+    {
+        protected internal override Preset Preset => Preset.BLU_ST_SimpleMode;
+
+        protected override uint Invoke(uint actionID)
+        {
+            if (actionID is not SonicBoom)
+                return actionID;
+
+            return DoSimpleDPS(actionID, SonicBoom, onAoE: false);
+        }
+    }
+
+    internal class BLU_AoE_SimpleMode : CustomCombo
+    {
+        protected internal override Preset Preset => Preset.BLU_AoE_SimpleMode;
+
+        protected override uint Invoke(uint actionID)
+        {
+            if (actionID is not (Electrogenesis or HydroPull))
+                return actionID;
+
+            return DoSimpleDPS(actionID, actionID, onAoE: true);
+        }
     }
 
     internal class BLU_BuffedSoT : CustomCombo

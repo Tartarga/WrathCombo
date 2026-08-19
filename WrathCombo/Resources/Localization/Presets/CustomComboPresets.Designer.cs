@@ -3173,6 +3173,26 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Replaces Electrogenesis or Hydro Pull with a one-button AoE rotation for Auto-Rotation.
+        ///Uses equipped primals on cooldown. Filler is Electrogenesis, then Hydro Pull, then Sonic Boom.
+        ///Does not use Moon Flute.
+        /// </summary>
+        internal static string BLU_AoE_SimpleMode_Desc {
+            get {
+                return ResourceManager.GetString("BLU_AoE_SimpleMode_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simple Mode - AoE.
+        /// </summary>
+        internal static string BLU_AoE_SimpleMode_Name {
+            get {
+                return ResourceManager.GetString("BLU_AoE_SimpleMode_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Turns Song of Torment into Bristle so Song of Torment is buffed..
         /// </summary>
         internal static string BLU_BuffedSoT_Desc {
@@ -3592,6 +3612,26 @@ namespace WrathCombo.Resources.Localization.Presets {
         internal static string BLU_SoloMode_Name {
             get {
                 return ResourceManager.GetString("BLU_SoloMode_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replaces Sonic Boom with a one-button single target rotation for Auto-Rotation and carnival/solo.
+        ///Uses equipped primals on cooldown. Filler is Sonic Boom at range and Sharpened Knife in melee.
+        ///Does not use Moon Flute, so you are not locked out by Waning Nocturne.
+        /// </summary>
+        internal static string BLU_ST_SimpleMode_Desc {
+            get {
+                return ResourceManager.GetString("BLU_ST_SimpleMode_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simple Mode - Single Target.
+        /// </summary>
+        internal static string BLU_ST_SimpleMode_Name {
+            get {
+                return ResourceManager.GetString("BLU_ST_SimpleMode_Name", resourceCulture);
             }
         }
         

@@ -1868,6 +1868,25 @@ public enum Preset
 
     #region BLUE MAGE
 
+    #region Simple Modes
+
+    [AutoAction(false, false)]
+    [ReplaceSkill(BLU.SonicBoom)]
+    [BlueInactive(BLU.SonicBoom)]
+    [JobInfo(Job.BLU)]
+    [SimpleDPSCombo]
+    [Retargeted(BLU.FeatherRain)]
+    BLU_ST_SimpleMode = 70026,
+
+    [AutoAction(true, false)]
+    [ReplaceSkill(BLU.Electrogenesis, BLU.HydroPull)]
+    [JobInfo(Job.BLU)]
+    [SimpleDPSCombo]
+    [Retargeted(BLU.FeatherRain)]
+    BLU_AoE_SimpleMode = 70027,
+
+    #endregion
+
     [ReplaceSkill(BLU.MoonFlute)]
     [BlueInactive(BLU.Whistle, BLU.Tingle, BLU.RoseOfDestruction, BLU.MoonFlute, BLU.JKick, BLU.TripleTrident,
         BLU.Nightbloom, BLU.WingedReprobation, BLU.SeaShanty, BLU.BeingMortal, BLU.ShockStrike, BLU.Surpanakha,
@@ -2002,7 +2021,7 @@ public enum Preset
     [JobInfo(Job.BLU)]
     BLU_PeatClean = 70023,
 
-    // Last value = 70023
+    // Last value = 70027
 
     #endregion
 

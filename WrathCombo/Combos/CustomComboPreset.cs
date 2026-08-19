@@ -1486,6 +1486,7 @@ public enum Preset
     [ReplaceSkill(AST.Helios, AST.AspectedHelios, AST.HeliosConjuction)]
     [ConflictingCombos(AST_Simple_AoE_Heals)]
     [JobInfo(Job.AST)]
+    [AdvancedHealingCombo]
     AST_AoE_Heals = 1010,
 
     [ParentCombo(AST_AoE_Heals)]

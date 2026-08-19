@@ -328,7 +328,7 @@ internal partial class SGE : Healer
                 HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget))
                 return Pepsis;
 
-            return OriginalHook(Diagnosis).RetargetIfEnabled(actionID);
+            return Diagnosis.RetargetIfEnabled(actionID);
         }
     }
 
@@ -452,7 +452,7 @@ internal partial class SGE : Healer
                     return spell.RetargetIfEnabled(actionID);
             }
 
-            return OriginalHook(Diagnosis).RetargetIfEnabled(actionID);
+            return Diagnosis.RetargetIfEnabled(actionID);
         }
     }
 

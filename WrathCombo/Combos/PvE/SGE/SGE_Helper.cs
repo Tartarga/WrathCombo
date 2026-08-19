@@ -386,9 +386,9 @@ internal partial class SGE
         if (!LevelChecked(Eukrasia))
             return false;
 
-        if (HasStatusEffect(Buffs.Eukrasia))
+        if (HasStatusEffect(Buffs.Eukrasia) && ActionReady(EukrasianDiagnosis))
         {
-            actionID = OriginalHook(Diagnosis).RetargetIfEnabled(actionID);
+            actionID = EukrasianDiagnosis.RetargetIfEnabled(actionID);
             return true;
         }
 
@@ -408,6 +408,9 @@ internal partial class SGE
             if (!shieldCheck || !scholarShieldCheck)
                 return false;
         }
+
+        if (!ActionReady(Eukrasia))
+            return false;
 
         actionID = Eukrasia;
         return true;

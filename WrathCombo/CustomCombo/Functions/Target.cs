@@ -39,7 +39,7 @@ internal abstract partial class CustomComboFunctions
     }
 
     /// <summary> Gets the current target or null. </summary>
-    public static IGameObject? CurrentTarget => OverrideTarget ?? Svc.Targets.Target;
+    public static IBattleChara? CurrentTarget => (OverrideTarget ?? SimpleTarget.HardTarget) as IBattleChara;
 
     #region Target Checks
 

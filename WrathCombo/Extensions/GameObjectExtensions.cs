@@ -194,7 +194,7 @@ public static class GameObjectExtensions
         /// </summary>
         public IGameObject? IfMissingHP(float missingHpp = 99) =>
             obj is IBattleChara battle &&
-            GetTargetHPPercent(battle) <= missingHpp
+            battle.Health <= missingHpp
                 ? obj
                 : null;
 

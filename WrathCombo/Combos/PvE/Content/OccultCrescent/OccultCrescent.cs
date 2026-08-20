@@ -310,8 +310,6 @@ internal partial class OccultCrescent
 
     private static bool TryGetTimeMageAction(ref uint actionID)
     {
-        if (CurrentTarget is not IBattleChara CurTarget)
-            return false;
         if (!IsEnabled(Preset.Phantom_TimeMage))
             return false;
 
@@ -333,7 +331,7 @@ internal partial class OccultCrescent
         }
 
         if (IsEnabledAndUsable(Preset.Phantom_TimeMage_OccultDispel, OccultDispel) &&
-            HasTargetNow && CurTarget.HasPhantomDispelStatus)
+            HasTargetNow && CurrentTarget!.HasPhantomDispelStatus)
         {
             actionID = OccultDispel; // cleanse
             return true;

@@ -43,7 +43,7 @@ internal abstract partial class CustomComboFunctions
     /// <param name="target">Optional Target</param>
     /// <param name="anyOwner">Check if the Player owns/created the status, true means anyone owns</param>
     /// <returns>Boolean if the status effect exists or not</returns>
-    [Obsolete("Use the IStatus? extension .Status(id, anyowner).NotNull to retrieve a status and verify it exists")]
+    [Obsolete("Use the IBattleChara.HasStatus extension.")]
     public static bool HasStatusEffect(uint statusId, IGameObject? target = null, bool anyOwner = false)
     {
         // Default to LocalPlayer if no target provided
@@ -123,7 +123,7 @@ internal abstract partial class CustomComboFunctions
     /// <param name="target">Optional Target</param>
     /// <param name="anyOwner">Check if the Player owns/created the status, true means anyone owns</param>
     /// <returns>Float representing remaining status effect time</returns>
-    [Obsolete("Use the IBattleChara & IStatus? extensions .Status(id, anyowner).RemainingTime(). Will return NaN instead of 0 if the status doesn't exist")]
+    [Obsolete("Use the IBattleChara & IStatus? extensions .Status(id, anyowner).RemainingTimeOrNaN() (fails comparison if status does not exist) or .RemainingTimeOrZero()")]
     public unsafe static float GetStatusEffectRemainingTime(uint effectId, IGameObject? target = null, bool anyOwner = false) =>
         GetStatusEffectRemainingTime(GetStatusEffect(effectId, target, anyOwner));
 
@@ -134,7 +134,7 @@ internal abstract partial class CustomComboFunctions
     ///     As in: It will not return <c>0</c>, and pass less than checks.
     /// </summary>
     /// <seealso cref="GetStatusEffectRemainingTime(ushort, IGameObject?, bool)"/>
-    [Obsolete("Use the IBattleChara & IStatus? extensions .Status(id, anyowner).RemainingTime(). Will return NaN instead of 0 if the status doesn't exist")]
+    [Obsolete("Use the IBattleChara & IStatus? extensions .Status(id, anyowner).RemainingTimeOrNaN(). Will return NaN instead of 0 if the status doesn't exist")]
     public static float GetPossessedStatusRemainingTime
     (ushort effectId, IGameObject? target = null, bool anyOwner = false) =>
     HasStatusEffect(effectId, out var status, target, anyOwner)
@@ -206,8 +206,6 @@ internal abstract partial class CustomComboFunctions
     /// </summary>
     public static unsafe bool PlayerHasActionPenalty(bool fromAutorot)
     {
-        if (Player.Object is not null)
-            return false;
         bool hasActionPenalty = false;
 
         // Quick Content Check First
@@ -219,13 +217,13 @@ internal abstract partial class CustomComboFunctions
                 Player.Status.Any(s =>
                     // Acceleration Bomb within Timeframe
                     (StatusCache.PausingStatuses.AccelerationBombs.Contains(s.StatusId) &&
-                        Player.Object!.Status(s.StatusId).RemainingTimeAniLock <= userSetting) ||
+                        Player.Object!.Status(s.StatusId).RemainingTimeOrZero(false) <= userSetting) ||
 
                     // Pyretic
                     StatusCache.PausingStatuses.Pyretics.Contains(s.StatusId) ||
 
                     // Others
-                    (StatusCache.PausingStatuses.Misc.Contains(s.StatusId) && Player.Object!.Status(s.StatusId).RemainingTimeAniLock <= userSetting)
+                    (StatusCache.PausingStatuses.Misc.Contains(s.StatusId) && Player.Object!.Status(s.StatusId).RemainingTimeOrZero(false) <= userSetting)
 
                 );
         }

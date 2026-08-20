@@ -8,6 +8,7 @@ using ECommons.GameFunctions;
 using ECommons.GameHelpers;
 using ECommons.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using WrathCombo.AutoRotation;
 using WrathCombo.Combos.PvE;
@@ -43,8 +44,8 @@ internal static class SimpleTarget
     internal static class Stack
     {
         /// A stack of Mouse Over targets (including model mouseover).
-        public static IGameObject? MouseOver =>
-            UIMouseOverTarget ?? ModelMouseOverTarget;
+        public static IBattleChara? MouseOver =>
+            (UIMouseOverTarget ?? ModelMouseOverTarget) as IBattleChara;
 
         /// A very common stack that targets an ally or self, if there are no manual
         /// overrides targeted.
@@ -300,132 +301,116 @@ internal static class SimpleTarget
     public static IPlayerCharacter? Self =>
         Player.Available ? Player.Object : null;
 
-    public static IGameObject? HardTarget =>
-        Svc.Targets.Target;
+    public static IBattleChara? HardTarget =>
+        Svc.Targets.Target as IBattleChara;
 
-    public static IGameObject? SoftTarget =>
-        Svc.Targets.SoftTarget;
+    public static IBattleChara? SoftTarget =>
+        Svc.Targets.SoftTarget as IBattleChara;
 
-    public static IGameObject? SoftTargetIfMissingHP =>
-        Svc.Targets.SoftTarget.IfMissingHP();
+    public static IBattleChara? SoftTargetIfMissingHP =>
+        (Svc.Targets.SoftTarget as IBattleChara).IfMissingHP();
 
-    public static IGameObject? FocusTarget =>
-        Svc.Targets.FocusTarget;
+    public static IBattleChara? FocusTarget =>
+        Svc.Targets.FocusTarget as IBattleChara;
 
-    public static IGameObject? FocusTargetIfMissingHP =>
-        Svc.Targets.FocusTarget.IfMissingHP();
+    public static IBattleChara? FocusTargetIfMissingHP =>
+        (Svc.Targets.FocusTarget as IBattleChara).IfMissingHP();
 
-    public static IGameObject? TargetsTarget =>
+    public static IBattleChara? TargetsTarget =>
         Svc.Targets.Target is { TargetObjectId: not 0xE0000000 }
-            ? Svc.Targets.Target.TargetObject
+            ? Svc.Targets.Target.TargetObject as IBattleChara
             : null;
 
-    public static IGameObject? UIMouseOverTarget => PronounService.UIMouseOverTarget;
+    public static IBattleChara? UIMouseOverTarget => PronounService.UIMouseOverTarget as IBattleChara;
 
-    public static IGameObject? ModelMouseOverTarget =>
-        Svc.Targets.MouseOverNameplateTarget ?? Svc.Targets.MouseOverTarget;
+    public static IBattleChara? ModelMouseOverTarget =>
+        (Svc.Targets.MouseOverNameplateTarget ?? Svc.Targets.MouseOverTarget) as IBattleChara;
 
     public static IGameObject? Chocobo =>
         Svc.Buddies.CompanionBuddy?.GameObject;
 
-    public static IBattleChara? AnyEnemy =>
-        Svc.Objects
-            .GetBattleCharas()
-            .FirstOrDefault(x => x.IsHostile() && x.IsTargetable &&
-                                 x.IsWithinRange());
-
     #region Enemies
+
+    private static IEnumerable<IBattleChara> GetValidEnemies(float range = 25, bool checkInvuln = true) =>
+        Svc.Objects.GetBattleCharas().Where(x =>
+            x.IsHostile() &&
+            x.IsTargetable &&
+            x.IsWithinRange(range) &&
+            (!checkInvuln || x.IsNotInvincible()));
+
+    public static IBattleChara? AnyEnemy =>
+        GetValidEnemies(checkInvuln: false)
+            .FirstOrDefault();
+
     public static IBattleChara? NearestEnemyTarget =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable && x.IsWithinRange() && x.IsInCombat() && x.IsNotInvincible())
+        GetValidEnemies()
+            .Where(x => x.IsInCombat())
             .OrderBy(x => GetTargetDistance(x))
             .FirstOrDefault();
 
     public static IBattleChara? NearestEnemyOver5YalmsAway =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable && x.IsWithinRange() && x.IsNotInvincible() && x.IsAtLeastFiveYalmsAway())
+        GetValidEnemies()
+            .Where(x => x.IsAtLeastFiveYalmsAway())
             .OrderBy(x => GetTargetDistance(x))
             .FirstOrDefault();
 
     public static IBattleChara? NearestEnemyOver5YalmsAwayNotTargetingPlayer =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable && x.IsWithinRange() && x.IsNotInvincible() && x.IsAtLeastFiveYalmsAway() &&
+        GetValidEnemies()
+            .Where(x => x.IsAtLeastFiveYalmsAway() &&
                         x.TargetObjectId != LocalPlayer?.GameObjectId)
             .OrderBy(x => GetTargetDistance(x))
             .FirstOrDefault();
 
     public static IBattleChara? FurthestEnemyOver5YalmsAway =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable && x.IsWithinRange() && x.IsNotInvincible() && x.IsAtLeastFiveYalmsAway())
+        GetValidEnemies()
+            .Where(x => x.IsAtLeastFiveYalmsAway())
             .OrderByDescending(x => GetTargetDistance(x))
             .FirstOrDefault();
 
     public static IBattleChara? FurthestEnemyOver5YalmsAwayNotTargetingPlayer =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable && x.IsWithinRange() && x.IsNotInvincible() && x.IsAtLeastFiveYalmsAway() &&
+        GetValidEnemies()
+            .Where(x => x.IsAtLeastFiveYalmsAway() &&
                         x.TargetObjectId != LocalPlayer?.GameObjectId)
             .OrderByDescending(x => GetTargetDistance(x))
             .FirstOrDefault();
 
     public static IBattleChara? NearestEnemyToTarget
         (IGameObject? target, float maximumRangeFromPlayer = 35f) =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable && x.IsNotInvincible() &&
-                        x.IsWithinRange(maximumRangeFromPlayer))
+        GetValidEnemies(maximumRangeFromPlayer)
             .OrderBy(x => GetTargetDistance(x, target ?? CurrentTarget))
             .FirstOrDefault();
 
     public static IBattleChara? LowestHPEnemy =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable && x.IsWithinRange())
+        GetValidEnemies(checkInvuln: false)
             .OrderBy(x => x.CurrentHp)
             .FirstOrDefault();
 
     public static IBattleChara? LowestHPEnemyIfNotInvuln =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable &&
-                        x.IsWithinRange() && x.IsNotInvincible())
+        GetValidEnemies()
             .OrderBy(x => x.CurrentHp)
             .FirstOrDefault();
 
     public static IBattleChara? LowestHPPEnemy =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable && x.IsWithinRange())
+        GetValidEnemies(checkInvuln: false)
             .OrderBy(x => (float)x.CurrentHp / x.MaxHp)
             .FirstOrDefault();
 
     public static IBattleChara? LowestHPPEnemyIfNotInvuln =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable &&
-                        x.IsWithinRange() && x.IsNotInvincible())
+        GetValidEnemies()
             .OrderBy(x => (float)x.CurrentHp / x.MaxHp)
             .FirstOrDefault();
 
     public static IBattleChara? InterruptableEnemy =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable &&
-                        x.IsWithinRange(3) && x.IsCastInterruptible)
+        GetValidEnemies(3)
+            .Where(x => x.IsCastInterruptible)
             .OrderByDescending(x =>
                 Svc.Targets.Target?.GameObjectId == x.GameObjectId)
             .FirstOrDefault();
 
     public static IBattleChara? StunnableEnemy(int reStunCheck = 3) =>
-        Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() && x.IsTargetable &&
-                        !x.IsBoss() && x.IsWithinRange(3) &&
-                        !HasStatusEffect(All.Debuffs.Stun, x) &&
+        GetValidEnemies(3)
+            .Where(x => !x.IsBoss() &&
+                        !x.HasStatus(All.Debuffs.Stun) &&
                         (ICDTracker.StatusIsExpired(All.Debuffs.Stun,
                              x.GameObjectId) ||
                          ICDTracker.Trackers.FirstOrDefault(y =>
@@ -452,13 +437,8 @@ internal static class SimpleTarget
         int maxNumberOfEnemiesInRange = 3)
     {
         var range = dotAction.ActionRange();
-        var nearbyEnemies = Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() &&
-                        x.IsTargetable &&
-                        x.IsInCombat() &&
-                        x.IsNotInvincible() &&
-                        x.IsWithinRange(range))
+        var nearbyEnemies = GetValidEnemies(range)
+            .Where(x => x.IsInCombat())
             .ToArray();
 
         if (nearbyEnemies.Length > maxNumberOfEnemiesInRange)
@@ -482,13 +462,8 @@ internal static class SimpleTarget
         ushort dotDebuff)
     {
         var range = dotAction.ActionRange();
-        var nearbyEnemies = Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() &&
-                        x.IsTargetable &&
-                        x.IsInCombat() &&
-                        x.IsNotInvincible() &&
-                        x.IsWithinRange(range))
+        var nearbyEnemies = GetValidEnemies(range)
+            .Where(x => x.IsInCombat())
             .ToArray();
 
         return nearbyEnemies
@@ -519,31 +494,27 @@ internal static class SimpleTarget
         int maxNumberOfEnemiesInRange = 3)
     {
         var range = refreshAction.ActionRange();
-        var nearbyEnemies = Svc.Objects
-            .GetBattleCharas()
-            .Where(x => x.IsHostile() &&
-                        x.IsTargetable &&
-                        x.IsInCombat() &&
-                        x.IsNotInvincible() &&
-                        x.IsWithinRange(range))
+        var nearbyEnemies = GetValidEnemies(range)
+            .Where(x => x.IsInCombat())
             .ToArray();
 
         if (nearbyEnemies.Length > maxNumberOfEnemiesInRange)
             return null;
 
         return nearbyEnemies
-            .Where(x => x.CanUseOn(refreshAction) &&
-                        (float)x.CurrentHp / x.MaxHp * 100f > minHPPercent(x) &&
-                        IsInLineOfSight(x) &&
-                        !JustUsedOn(refreshAction, x) &&
-                        HasStatusEffect(dotDebuff1, x) &&
-                        HasStatusEffect(dotDebuff2, x) &&
-                        (GetStatusEffectRemainingTime(dotDebuff1, x) <= minTime ||
-                         GetStatusEffectRemainingTime(dotDebuff2, x) <= minTime) &&
-                        CanApplyStatus(x, dotDebuff1) &&
-                        CanApplyStatus(x, dotDebuff2))
-            .OrderBy(x => GetStatusEffectRemainingTime(dotDebuff1, x))
-            .ThenByDescending(x => (float)x.CurrentHp / x.MaxHp)
+            // Cache the IBattleChara and it's Statuses to avoid multiple lookups
+            .Select(x => new { x, dot1status = x.Status(dotDebuff1), dot2status = x.Status(dotDebuff2) })
+            .Where(enemy => enemy.x.CanUseOn(refreshAction) &&
+                            enemy.x.Health * 100f > minHPPercent(enemy.x) &&
+                            enemy.dot1status is not null &&
+                            enemy.dot2status is not null &&
+                            (enemy.dot1status.RemainingTimeOrZero() <= minTime ||
+                             enemy.dot2status.RemainingTimeOrZero() <= minTime) &&
+                            enemy.x.CanApplyStatus(dotDebuff1) &&
+                            enemy.x.CanApplyStatus(dotDebuff2))
+            .OrderBy(enemy => enemy.dot1status.RemainingTimeOrZero())
+            .ThenByDescending(enemy => enemy.x.Health)
+            .Select(enemy => enemy.x)
             .FirstOrDefault();
     }
 
@@ -567,10 +538,9 @@ internal static class SimpleTarget
     #region Party Targets
 
     public static IBattleChara? KardionTarget =>
-        Svc.Objects
-            .GetBattleCharas()
-            .FirstOrDefault(x =>
-                HasStatusEffect(SGE.Buffs.Kardion, x));
+        GetPartyMembers()
+            .Select(x => x.BattleChara)
+            .FirstOrDefault(x => x is not null && x.HasStatus(SGE.Buffs.Kardion));
 
     public static IBattleChara? AnyDeadPartyMember =>
         GetPartyMembers()
@@ -587,8 +557,7 @@ internal static class SimpleTarget
     public static IBattleChara? AnyCleansableAlly =>
         GetPartyMembers()
             .Select(x => x.BattleChara)
-            .Where(x => x is not null && x.IsDead() == false && HasCleansableDebuff(x) && IsInLineOfSight(x))
-            .FirstOrDefault();
+            .FirstOrDefault(x => x is not null && x.IsDead() == false && x.HasCleansableDebuff && IsInLineOfSight(x));
 
     #region HP-Based Targets
 

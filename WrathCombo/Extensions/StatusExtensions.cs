@@ -4,12 +4,11 @@ using ECommons.DalamudServices;
 using ECommons.GameFunctions;
 using ECommons.GameHelpers;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using FFXIVClientStructs.FFXIV.Common.Lua;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using WrathCombo.Data;
 using WrathCombo.Data.BattleData;
 using WrathCombo.Services;
 using static WrathCombo.Data.StatusCache;
@@ -38,12 +37,6 @@ namespace WrathCombo.Extensions
         extension(IStatus? status)
         {
             /// <summary>
-            /// Returns true if the status object exists (is not null).
-            /// Usage: if (chara.Status(123).NotNull) { ... }
-            /// </summary>
-            public bool Exists => status is not null; //not sure if we want Has or NotNull
-
-            /// <summary>
             /// Returns the stack count, or 0 if the status doesn't exist.
             /// Usage: ushort s = chara.Status(123).Stacks;
             /// </summary>
@@ -59,16 +52,26 @@ namespace WrathCombo.Extensions
 
             /// <summary>
             /// Returns the remaining time, or NaN if the status doesn't exist. (will fail comparisons if doesn't exist)
-            /// Usage: float t = chara.Status(123).RemainingTimeAniLock;
+            /// Usage: float t = chara.Status(123).RemainingTimeOrNaN();
             /// </summary>
-            public unsafe float RemainingTimeAniLock
+            public unsafe float RemainingTimeOrNaN(bool checkAnimationLock = true)
             {
-                get
-                {
-                    if (status is null) return float.NaN;
-                    if (status.RemainingTime < 0) return (status.RemainingTime * -1) + ActionManager.Instance()->AnimationLock;
-                    return status.RemainingTime;
-                }
+                if (status is null) return float.NaN;
+                if (checkAnimationLock && status.RemainingTime < 0)
+                    return (status.RemainingTime * -1) + ActionManager.Instance()->AnimationLock;
+                return status.RemainingTime;
+            }
+
+            /// <summary>
+            /// Returns the remaining time, or 0 if the status doesn't exist.
+            /// Usage: float t = chara.Status(123).RemainingTimeOrZero();
+            /// </summary>
+            public unsafe float RemainingTimeOrZero(bool checkAnimationLock = true)
+            {
+                if (status is null) return 0;
+                if (checkAnimationLock && status.RemainingTime < 0)
+                    return (status.RemainingTime * -1) + ActionManager.Instance()->AnimationLock;
+                return status.RemainingTime;
             }
         }
 
@@ -87,6 +90,20 @@ namespace WrathCombo.Extensions
                 ulong? sourceId = !anyOwner ? chara.GameObjectId : null;
                 return Service.ComboCache.GetStatus(id, chara, sourceId);
             }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool HasStatus(uint id, bool anyOwner = false) =>
+                chara.Status(id, anyOwner) is not null;
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool HasStatus(uint id, [NotNullWhen(true)] out IStatus? status, bool anyOwner = false)
+            {
+                status = chara.Status(123);
+                return status != null;
+            }
+
+
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private bool HasStatusInCacheList(FrozenSet<uint> statusList)
@@ -111,16 +128,16 @@ namespace WrathCombo.Extensions
             public bool HasCleansableDebuff => chara.HasStatusInCacheList(DispellableStatuses);
             public bool HasCleansableDoom => chara.HasStatusInCacheList(CleansableDoomStatuses);
             public bool HasBeneficialStatus => chara.HasStatusInCacheList(BeneficialStatuses);
-            public bool HasPhantomDispelStatus => chara.HasDamageUp || chara.HasEvasionUp || chara.Status(OCDarkDefensesStatusId).Exists || chara.IsInvincible;
+            public bool HasPhantomDispelStatus => chara.HasDamageUp || chara.HasEvasionUp || chara.HasStatus(OCDarkDefensesStatusId) || chara.IsInvincible;
 
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool HasRezWeakness(bool checkForWeakness = true)
             {
-                if (checkForWeakness && chara.Status(WeaknessStatusId, true).Exists)
+                if (checkForWeakness && chara.HasStatus(WeaknessStatusId, true))
                     return true;
 
-                return chara.Status(BrinkOfDeathStatusId, true).Exists;
+                return chara.HasStatus(BrinkOfDeathStatusId, true);
             }
 
             /// <summary>
@@ -178,7 +195,7 @@ namespace WrathCombo.Extensions
                 if ((chara.IsHostile() && status.StatusCategory != 2) || (chara.IsFriendly() && status.StatusCategory != 1))
                     return false;
 
-                if (!chara.IsStatusCapped || chara.Status(statusId).Exists)
+                if (!chara.IsStatusCapped || chara.HasStatus(statusId))
                     return true;
 
                 return false;

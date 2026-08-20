@@ -383,16 +383,8 @@ internal partial class SGE
 
     private static bool UseEukrasianDiagnosis(IGameObject? healTarget, bool simpleMode, ref uint actionID)
     {
-        if (!LevelChecked(Eukrasia))
-            return false;
-
-        if (HasStatusEffect(Buffs.Eukrasia) && ActionReady(EukrasianDiagnosis))
-        {
-            actionID = EukrasianDiagnosis.RetargetIfEnabled(actionID);
-            return true;
-        }
-
-        if (HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget))
+        if (!LevelChecked(Eukrasia) ||
+            HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget))
             return false;
 
         if (!simpleMode)
@@ -407,6 +399,16 @@ internal partial class SGE
                                       !HasStatusEffect(SCH.Buffs.Galvanize);
             if (!shieldCheck || !scholarShieldCheck)
                 return false;
+
+            if (GetTargetHPPercent(healTarget, SGE_ST_Adv_Heal_IncludeShields) >
+                SGE_ST_Adv_Heal_EDiagnosisHP)
+                return false;
+        }
+
+        if (HasStatusEffect(Buffs.Eukrasia) && ActionReady(EukrasianDiagnosis))
+        {
+            actionID = EukrasianDiagnosis.RetargetIfEnabled(actionID);
+            return true;
         }
 
         if (!ActionReady(Eukrasia))

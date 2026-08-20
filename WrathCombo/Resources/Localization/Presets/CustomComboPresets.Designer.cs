@@ -3173,9 +3173,8 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Electrogenesis or Hydro Pull with a one-button AoE rotation for Auto-Rotation.
-        ///Uses equipped primals on cooldown. Filler is Electrogenesis, then Hydro Pull, then Sonic Boom.
-        ///Does not use Moon Flute.
+        ///   Looks up a localized string similar to Replaces Electrogenesis with a full one-button AoE rotation.
+        ///Also used with Healer Mimicry when the party does not need healing.
         /// </summary>
         internal static string BLU_AoE_DPS_Desc {
             get {
@@ -3184,7 +3183,7 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Simple Mode - AoE.
+        ///   Looks up a localized string similar to DPS Mode - AoE.
         /// </summary>
         internal static string BLU_AoE_DPS_Name {
             get {
@@ -3616,9 +3615,8 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaces Sonic Boom with a one-button single target rotation for Auto-Rotation and carnival/solo.
-        ///Uses equipped primals on cooldown. Filler is Sonic Boom at range and Sharpened Knife in melee.
-        ///Does not use Moon Flute, so you are not locked out by Waning Nocturne.
+        ///   Looks up a localized string similar to Replaces Sonic Boom with a full one-button single target rotation.
+        ///Also used with Healer Mimicry when the party does not need healing.
         /// </summary>
         internal static string BLU_ST_DPS_Desc {
             get {
@@ -3627,7 +3625,7 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Simple Mode - Single Target.
+        ///   Looks up a localized string similar to DPS Mode - Single Target.
         /// </summary>
         internal static string BLU_ST_DPS_Name {
             get {

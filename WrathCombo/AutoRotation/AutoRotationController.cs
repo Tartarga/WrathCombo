@@ -1126,19 +1126,28 @@ internal unsafe class AutoRotationController
         private static List<IBattleChara> RestrictToTreasureHuntKillOrder(List<IBattleChara> targets)
         {
             var minOrder = 0;
+            List<IBattleChara>? atMinOrder = null;
+
             foreach (var target in targets)
             {
                 var order = GetTreasureHuntOrder(target);
                 if (order == 0)
                     continue;
+
                 if (minOrder == 0 || order < minOrder)
+                {
                     minOrder = order;
+                    atMinOrder ??= new List<IBattleChara>(targets.Count);
+                    atMinOrder.Clear();
+                    atMinOrder.Add(target);
+                }
+                else if (order == minOrder)
+                {
+                    atMinOrder!.Add(target);
+                }
             }
 
-            if (minOrder == 0)
-                return targets;
-
-            return targets.Where(x => GetTreasureHuntOrder(x) == minOrder).ToList();
+            return minOrder == 0 ? targets : atMinOrder!;
         }
 
         public static bool IsCombatPriority(IBattleChara x)

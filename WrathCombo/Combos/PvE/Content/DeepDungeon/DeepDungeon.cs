@@ -31,6 +31,18 @@ internal static partial class DeepDungeon
             return true;
         }
 
+        if (IsEnabled(Preset.EO_OrthosPotion) && Items.ItemReady(OrthosPotion) && !HasStatusEffect(Buffs.Rehabilitation) && PlayerHealthPercentageHp() <= Config.EO_SustainingPotion_HP)
+        {
+            potionId = OrthosPotion;
+            return true;
+        }
+
+        if (IsEnabled(Preset.PT_PilgrimsPotion) && Items.ItemReady(PilgrimsPotion) && !HasStatusEffect(Buffs.Rehabilitation) && PlayerHealthPercentageHp() <= Config.PT_SustainingPotion_HP)
+        {
+            potionId = PilgrimsPotion;
+            return true;
+        }
+
         return false;
     }
 

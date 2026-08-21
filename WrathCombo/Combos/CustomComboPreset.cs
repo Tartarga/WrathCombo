@@ -1223,6 +1223,12 @@ public enum Preset
     [DeepDungeon]
     [JobInfo(Job.ADV)]
     HoH_EmpyreanPotion = 110501,
+    [DeepDungeon]
+    [JobInfo(Job.ADV)]
+    EO_OrthosPotion = 110502,
+    [DeepDungeon]
+    [JobInfo(Job.ADV)]
+    PT_PilgrimsPotion = 110503,
 
     #endregion
 

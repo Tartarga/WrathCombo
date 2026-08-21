@@ -11902,6 +11902,24 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adds Empyrean Potion to one button rotations.
+        /// </summary>
+        internal static string HoH_EmpyreanPotion_Desc {
+            get {
+                return ResourceManager.GetString("HoH_EmpyreanPotion_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Heaven on High - Empyrean Potion.
+        /// </summary>
+        internal static string HoH_EmpyreanPotion_Name {
+            get {
+                return ResourceManager.GetString("HoH_EmpyreanPotion_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adds Flamethrower to the rotation.
         ///Will block action whilst channelling..
         /// </summary>

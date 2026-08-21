@@ -9,7 +9,8 @@ internal static partial class DeepDungeon
     internal static class Config
     {
         public static UserInt
-            PoTD_SustainingPotion_HP = new("PoTD_SustainingPotion_HP", 50);
+            PoTD_SustainingPotion_HP = new("PoTD_SustainingPotion_HP", 50),
+            HoH_SustainingPotion_HP = new("HoH_SustainingPotion_HP", 50);
 
         internal static void Draw(Preset preset)
         {
@@ -17,6 +18,10 @@ internal static partial class DeepDungeon
             {
                 case Preset.PoTD_SustainingPotion:
                     DrawSliderInt(1, 100, PoTD_SustainingPotion_HP,
+                        Generics.StopFriendlyHpPercent100, 200);
+                    break;
+                case Preset.HoH_EmpyreanPotion:
+                    DrawSliderInt(1, 100, HoH_SustainingPotion_HP,
                         Generics.StopFriendlyHpPercent100, 200);
                     break;
             }

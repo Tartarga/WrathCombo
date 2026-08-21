@@ -1220,6 +1220,9 @@ public enum Preset
     [DeepDungeon]
     [JobInfo(Job.ADV)]
     PoTD_SustainingPotion = 110500,
+    [DeepDungeon]
+    [JobInfo(Job.ADV)]
+    HoH_EmpyreanPotion = 110501,
 
     #endregion
 

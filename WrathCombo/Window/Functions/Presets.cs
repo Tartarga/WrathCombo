@@ -14,6 +14,7 @@ using System.Linq;
 using System.Numerics;
 using WrathCombo.Attributes;
 using WrathCombo.Combos.PvE;
+using WrathCombo.Combos.PvE.Content.DeepDungeon;
 using WrathCombo.Combos.PvP;
 using WrathCombo.Core;
 using WrathCombo.CustomComboNS.Functions;
@@ -217,6 +218,7 @@ internal class Presets : ConfigWindow
                             Bozja.Config.Draw(preset);
                             Variant.Config.Draw(preset);
                             OccultCrescent.Config.Draw(preset);
+                            DeepDungeon.Config.Draw(preset);
                             break;
                         }
                     case Job.AST: AST.Config.Draw(preset); break;

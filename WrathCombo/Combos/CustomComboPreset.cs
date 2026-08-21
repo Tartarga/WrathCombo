@@ -1215,6 +1215,14 @@ public enum Preset
     //Last Value = 110139
     #endregion
 
+    #region Deep Dungeon
+
+    [DeepDungeon]
+    [JobInfo(Job.ADV)]
+    PoTD_SustainingPotion = 110500,
+
+    #endregion
+
     // Jobs
 
     #region ASTROLOGIAN

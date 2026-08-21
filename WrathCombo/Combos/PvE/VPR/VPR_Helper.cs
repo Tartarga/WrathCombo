@@ -31,11 +31,11 @@ internal partial class VPR
             {
                 if (ComboAction is ReavingMaw or SteelMaw)
                 {
-                    if (LevelChecked(HuntersBite) &&
+                    if (ActionLearned(HuntersBite) &&
                         HasStatusEffect(Buffs.GrimhuntersVenom))
                         return OriginalHook(SteelMaw);
 
-                    if (LevelChecked(SwiftskinsBite) &&
+                    if (ActionLearned(SwiftskinsBite) &&
                         (HasStatusEffect(Buffs.GrimskinsVenom) ||
                          !HasStatusEffect(Buffs.Swiftscaled) && !HasStatusEffect(Buffs.HuntersInstinct)))
                         return OriginalHook(ReavingMaw);
@@ -43,21 +43,21 @@ internal partial class VPR
 
                 if (ComboAction is HuntersBite or SwiftskinsBite)
                 {
-                    if (HasStatusEffect(Buffs.GrimhuntersVenom) && LevelChecked(JaggedMaw))
+                    if (HasStatusEffect(Buffs.GrimhuntersVenom) && ActionLearned(JaggedMaw))
                         return OriginalHook(SteelMaw);
 
-                    if (HasStatusEffect(Buffs.GrimskinsVenom) && LevelChecked(BloodiedMaw))
+                    if (HasStatusEffect(Buffs.GrimskinsVenom) && ActionLearned(BloodiedMaw))
                         return OriginalHook(ReavingMaw);
                 }
 
                 if (ComboAction is BloodiedMaw or JaggedMaw)
-                    return LevelChecked(ReavingMaw) && HasStatusEffect(Buffs.HonedReavers)
+                    return ActionLearned(ReavingMaw) && HasStatusEffect(Buffs.HonedReavers)
                         ? OriginalHook(ReavingMaw)
                         : OriginalHook(SteelMaw);
             }
 
             //for lower lvls
-            if (LevelChecked(ReavingMaw) &&
+            if (ActionLearned(ReavingMaw) &&
                 (HasStatusEffect(Buffs.HonedReavers) ||
                  !HasStatusEffect(Buffs.HonedReavers) && !HasStatusEffect(Buffs.HonedSteel)))
                 return OriginalHook(ReavingMaw);
@@ -70,11 +70,11 @@ internal partial class VPR
         {
             if (ComboAction is ReavingFangs or SteelFangs)
             {
-                if (LevelChecked(SwiftskinsSting) &&
+                if (ActionLearned(SwiftskinsSting) &&
                     (HasHindVenom || IsMissingSwiftscaled || IsMissingBasicComboVenom))
                     return OriginalHook(ReavingFangs);
 
-                if (LevelChecked(HuntersSting) &&
+                if (ActionLearned(HuntersSting) &&
                     (HasFlankVenom || IsMissingHuntersInstinct))
                     return OriginalHook(SteelFangs);
             }
@@ -82,7 +82,7 @@ internal partial class VPR
             if (ComboAction is HuntersSting or SwiftskinsSting)
             {
                 if ((HasStatusEffect(Buffs.FlanksbaneVenom) || HasStatusEffect(Buffs.HindsbaneVenom)) &&
-                    LevelChecked(HindstingStrike))
+                    ActionLearned(HindstingStrike))
                     return IsTrueNorthReady(useTrueNorth, trueNorthCharges, dynamicHoldCharge) &&
                            (!OnTargetsRear() && HasStatusEffect(Buffs.HindsbaneVenom) ||
                             !OnTargetsFlank() && HasStatusEffect(Buffs.FlanksbaneVenom))
@@ -90,7 +90,7 @@ internal partial class VPR
                         : OriginalHook(ReavingFangs);
 
                 if ((HasStatusEffect(Buffs.FlankstungVenom) || HasStatusEffect(Buffs.HindstungVenom)) &&
-                    LevelChecked(FlanksbaneFang))
+                    ActionLearned(FlanksbaneFang))
                     return IsTrueNorthReady(useTrueNorth, trueNorthCharges, dynamicHoldCharge) &&
                            (!OnTargetsRear() && HasStatusEffect(Buffs.HindstungVenom) ||
                             !OnTargetsFlank() && HasStatusEffect(Buffs.FlankstungVenom))
@@ -99,13 +99,13 @@ internal partial class VPR
             }
 
             if (ComboAction is HindstingStrike or HindsbaneFang or FlankstingStrike or FlanksbaneFang)
-                return LevelChecked(ReavingFangs) && HasStatusEffect(Buffs.HonedReavers)
+                return ActionLearned(ReavingFangs) && HasStatusEffect(Buffs.HonedReavers)
                     ? OriginalHook(ReavingFangs)
                     : OriginalHook(SteelFangs);
         }
 
         //LowLevels
-        if (LevelChecked(ReavingFangs) &&
+        if (ActionLearned(ReavingFangs) &&
             (HasStatusEffect(Buffs.HonedReavers) ||
              !HasStatusEffect(Buffs.HonedReavers) && !HasStatusEffect(Buffs.HonedSteel)))
             return OriginalHook(ReavingFangs);
@@ -177,7 +177,7 @@ internal partial class VPR
         InBossEncounter();
 
     private static bool ShouldHoldTwinbladeForIre =>
-        UsesBurstAlignment && LevelChecked(SerpentsIre) && IreCD is > 0 and <= IreDualWieldWindow;
+        UsesBurstAlignment && ActionLearned(SerpentsIre) && IreCD is > 0 and <= IreDualWieldWindow;
 
     private static bool InTwinbladeCombo =>
         UsedVicewinder || UsedHuntersCoil || UsedSwiftskinsCoil ||
@@ -235,7 +235,7 @@ internal partial class VPR
         if (!InBossEncounter())
             return true;
 
-        if (!LevelChecked(Ouroboros) && JustUsed(FourthGeneration))
+        if (!ActionLearned(Ouroboros) && JustUsed(FourthGeneration))
             return true;
 
         if (IreCD is >= 50 and <= 62 &&
@@ -309,14 +309,14 @@ internal partial class VPR
     }
 
     private static bool WithinGCD(uint actionId) =>
-        LevelChecked(actionId) && (HasCharges(actionId) || GetCooldownRemainingTime(actionId) <= GCD);
+        ActionLearned(actionId) && (HasCharges(actionId) || GetCooldownRemainingTime(actionId) <= GCD);
 
     #endregion
 
     #region Weaves
 
     private static bool UseSerpentsTailWeave(bool onAoE, bool allowDeathRattle, bool allowLegacy) =>
-        LevelChecked(SerpentsTail) &&
+        ActionLearned(SerpentsTail) &&
         ((allowDeathRattle &&
           (onAoE
               ? IsLastLashWeave && InActionRange(LastLash)
@@ -410,7 +410,7 @@ internal partial class VPR
         InActionRange(UncoiledFury) &&
         !HasStatusEffect(Buffs.Reawakened) &&
         (onAoE ? IsAoEComboWeaveBlocked : IsSTComboWeaveBlocked) &&
-        (LevelChecked(SerpentsIre) && IreCD <= GCD * (onAoE ? 2 : 3) ||
+        (ActionLearned(SerpentsIre) && IreCD <= GCD * (onAoE ? 2 : 3) ||
          HasCharges(onAoE ? Vicepit : Vicewinder));
 
     private static bool CanUseUncoiledFury(
@@ -459,7 +459,7 @@ internal partial class VPR
         WithinGCD(Vicepit) && !HasStatusEffect(Buffs.Reawakened) && !JustUsed(Vicepit) &&
         !ShouldHoldNewTwinblade &&
         (ignoreRange || InActionRange(Vicepit)) &&
-        (!HasBothBuffs || IreCD >= GCD * 4 || !LevelChecked(SerpentsIre));
+        (!HasBothBuffs || IreCD >= GCD * 4 || !ActionLearned(SerpentsIre));
 
     private static uint UseVicewinder(
         bool useSimpleTrueNorth = true,
@@ -501,7 +501,7 @@ internal partial class VPR
         !JustUsed(Ouroboros) && !HasStatusEffect(Buffs.Reawakened) &&
         (!HasBothBuffs ||
          IsEmpowermentExpiring(4) ||
-         IreCD >= GCD * 3 && InBossEncounter() || !InBossEncounter() || !LevelChecked(SerpentsIre));
+         IreCD >= GCD * 3 && InBossEncounter() || !InBossEncounter() || !ActionLearned(SerpentsIre));
 
     private static bool CanVicewinderCombo(
         ref uint actionId,
@@ -512,7 +512,7 @@ internal partial class VPR
             return false;
 
         if ((UsedVicewinder || UsedSwiftskinsCoil || UsedHuntersCoil) &&
-            LevelChecked(Vicewinder) &&
+            ActionLearned(Vicewinder) &&
             !HasStatusEffect(Buffs.Reawakened))
         {
             if (UsedVicewinder &&

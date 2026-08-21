@@ -72,10 +72,10 @@ internal partial class DRK
 
             var burstAbility = LivingShadow;
             var burstAbilityCDWindow = 90;
-            if (!LevelChecked(LivingShadow))
+            if (!ActionLearned(LivingShadow))
             {
                 burstAbilityCDWindow = 40;
-                burstAbility = LevelChecked(Delirium) ? Delirium : BloodWeapon;
+                burstAbility = ActionLearned(Delirium) ? Delirium : BloodWeapon;
             }
 
             // Fallback resetting of burst

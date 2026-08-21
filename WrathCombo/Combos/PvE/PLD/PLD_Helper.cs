@@ -41,7 +41,7 @@ internal partial class PLD
     ///     Each logic check is already combined with checking if the preset
     ///     <see cref="IsEnabled(Preset)">is enabled</see>
     ///     and if the action is <see cref="ActionReady(uint,bool,bool)">ready</see> and
-    ///     <see cref="LevelChecked(uint)">level-checked</see>.<br />
+    ///     <see cref="ActionLearned(uint)">level-checked</see>.<br />
     ///     Do not add any of these checks to <c>Logic</c>.
     /// </remarks>
     private static (uint Action, Preset Preset, System.Func<bool> Logic)[]
@@ -104,7 +104,7 @@ internal partial class PLD
         (int index, out uint action)
     {
         action = PrioritizedMitigation[index].Action;
-        return ActionReady(action) && LevelChecked(action) &&
+        return ActionReady(action) && ActionLearned(action) &&
                PrioritizedMitigation[index].Logic() &&
                IsEnabled(PrioritizedMitigation[index].Preset);
     }
@@ -552,8 +552,8 @@ internal partial class PLD
             
             if (fightOrFlightEnabled && !HasWeaved() && CombatEngageDuration().TotalSeconds >= 8 && //Time to hold buffing for non opener pulls.
                 OriginalHook(FightOrFlight) is FightOrFlight && ActionReady(FightOrFlight) && //To make sure it doesnt try to weave gcd Goring Blade
-                (!LevelChecked(Requiescat) || hasRequiescatMp) && //Must Have Enough Mana to combo
-                (InMeleeRange() || LevelChecked(Imperator) && InActionRange(Imperator) && IsOffCooldown(Imperator)) && // in melee or ready to start ranged combo with imperator
+                (!ActionLearned(Requiescat) || hasRequiescatMp) && //Must Have Enough Mana to combo
+                (InMeleeRange() || ActionLearned(Imperator) && InActionRange(Imperator) && IsOffCooldown(Imperator)) && // in melee or ready to start ranged combo with imperator
                 GetTargetHPPercent() >= fightOrFlightStopThreshold) //Health Threshold Check, boss check built into config
             {
                 actionID = FightOrFlight;
@@ -561,7 +561,7 @@ internal partial class PLD
             }
             
             if ((requiescatEnabled && ActionReady(OriginalHook(Requiescat)) && GetCooldownRemainingTime(FightOrFlight) > 50 && InActionRange(OriginalHook(Requiescat))) || //Requiescat Logic, in action range because Imperator gets 25y range
-                (bladeOfHonorEnabled && LevelChecked(BladeOfHonor) && OriginalHook(Requiescat) == BladeOfHonor)) //Blade of Honor Logic since it shares the button
+                (bladeOfHonorEnabled && ActionLearned(BladeOfHonor) && OriginalHook(Requiescat) == BladeOfHonor)) //Blade of Honor Logic since it shares the button
             {
                 actionID = OriginalHook(Requiescat);
                 return true;
@@ -679,7 +679,7 @@ internal partial class PLD
         
         if (confiteorComboEnabled && HasStatusEffect(Buffs.Requiescat) && HasDivineMagicMP && //Does not have a battle target check as un-targeting and fast blade retargeting breaks Cofefe combo. DO NOT ADD.
             (HasStatusEffect(Buffs.ConfiteorReady) || //Confiteor
-             LevelChecked(BladeOfFaith) && OriginalHook(Confiteor) != Confiteor)) //Its combo
+             ActionLearned(BladeOfFaith) && OriginalHook(Confiteor) != Confiteor)) //Its combo
         {
             actionID = OriginalHook(Confiteor);
             return true;
@@ -707,7 +707,7 @@ internal partial class PLD
             }
         }
 
-        if (rangedUptimeEnabled && LevelChecked(ShieldLob) && HasBattleTarget() && rangedUptimeRangeCheck)
+        if (rangedUptimeEnabled && ActionLearned(ShieldLob) && HasBattleTarget() && rangedUptimeRangeCheck)
         {
             //Holy Spirit Ranged Uptime Options
             if (ActionReady(HolySpirit) && holySpiritUptime == 1 && !IsMoving())
@@ -748,15 +748,15 @@ internal partial class PLD
     #region Basic Combos
     internal static uint STCombo
         => ComboTimer > 0 
-            ? LevelChecked(RiotBlade) && ComboAction == FastBlade
+            ? ActionLearned(RiotBlade) && ComboAction == FastBlade
                 ? RiotBlade
-                : LevelChecked(RageOfHalone) && ComboAction == RiotBlade 
+                : ActionLearned(RageOfHalone) && ComboAction == RiotBlade 
                     ? OriginalHook(RageOfHalone)
                     : FastBlade
             : FastBlade;
     
     internal static uint AoECombo 
-        => ComboTimer > 0 && LevelChecked(Prominence) && ComboAction == TotalEclipse 
+        => ComboTimer > 0 && ActionLearned(Prominence) && ComboAction == TotalEclipse 
             ? Prominence 
             : TotalEclipse;
     #endregion

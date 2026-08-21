@@ -16,9 +16,9 @@ internal partial class PCT
     #region Variables
     internal static PCTGauge gauge = GetJobGauge<PCTGauge>();
     internal static bool HasPaint => gauge.Paint > 0;
-    internal static bool CreatureMotifReady => !gauge.CreatureMotifDrawn && LevelChecked(CreatureMotif) && !HasStatusEffect(Buffs.StarryMuse);
-    internal static bool WeaponMotifReady => !gauge.WeaponMotifDrawn && LevelChecked(WeaponMotif) && !HasStatusEffect(Buffs.StarryMuse) && !HasStatusEffect(Buffs.HammerTime);
-    internal static bool LandscapeMotifReady => !gauge.LandscapeMotifDrawn && LevelChecked(LandscapeMotif) && !HasStatusEffect(Buffs.StarryMuse);
+    internal static bool CreatureMotifReady => !gauge.CreatureMotifDrawn && ActionLearned(CreatureMotif) && !HasStatusEffect(Buffs.StarryMuse);
+    internal static bool WeaponMotifReady => !gauge.WeaponMotifDrawn && ActionLearned(WeaponMotif) && !HasStatusEffect(Buffs.StarryMuse) && !HasStatusEffect(Buffs.HammerTime);
+    internal static bool LandscapeMotifReady => !gauge.LandscapeMotifDrawn && ActionLearned(LandscapeMotif) && !HasStatusEffect(Buffs.StarryMuse);
     internal static float ScenicCD => GetCooldownRemainingTime(StarryMuse);
     internal static float SteelCD => GetCooldownRemainingTime(StrikingMuse);
     #endregion
@@ -116,7 +116,7 @@ internal partial class PCT
         bool livingMuseReady = ActionReady(OriginalHook(LivingMuse)) && gauge.CreatureMotifDrawn;
         bool steelMuseReady = ActionReady(OriginalHook(SteelMuse))  && gauge.WeaponMotifDrawn && !HasStatusEffect(Buffs.HammerTime);
         bool portraitReady = ActionReady(OriginalHook(MogoftheAges)) && (gauge.MooglePortraitReady || gauge.MadeenPortraitReady); //Check for either portrait being ready
-        bool paletteReady = LevelChecked(SubtractivePalette) && 
+        bool paletteReady = ActionLearned(SubtractivePalette) && 
                             !HasStatusEffect(Buffs.SubtractivePalette) && !HasStatusEffect(Buffs.MonochromeTones) && //Don't overwrite self of comet in black
                                          (HasStatusEffect(Buffs.SubtractiveSpectrum) || //Free use from Starry Muse
                                           gauge.PalleteGauge >= 50 && ScenicCD > 35 || //Use freely before pooling
@@ -151,7 +151,7 @@ internal partial class PCT
                 !JustUsed(StarryMuse) && //Buff propagation issue prevention
                 (!portraitReady || GetRemainingCharges(LivingMuse) == GetMaxCharges(LivingMuse)) && //Overcap Prevention
                 (TargetIsBoss() && GetTargetHPPercent() < burnBossThreshold || //Burn Boss Threshold
-                 !LevelChecked(ScenicMuse) || //Low Level no Scenic
+                 !ActionLearned(ScenicMuse) || //Low Level no Scenic
                  ScenicCD > GetCooldownChargeRemainingTime(LivingMuse) || // Hold for buffs
                  !scenicMuseEnabled)) //Dont Hold for Buffs
             {
@@ -167,7 +167,7 @@ internal partial class PCT
                  !hammerStampMovementEnabled && ScenicCD > SteelCD && ScenicCD >= 40|| //
                  almostCappedOrCappedSteelMuse && CanWeave() || //Use because Capped
                  ScenicCD < 40 && SteelCD < 40 && ScenicCD > SteelCD || //Use charge before the burst prep
-                 !LevelChecked(ScenicMuse) && CanWeave())) //Low Level no Scenic
+                 !ActionLearned(ScenicMuse) && CanWeave())) //Low Level no Scenic
             {
                 actionID = OriginalHook(SteelMuse);
                 return true;
@@ -178,7 +178,7 @@ internal partial class PCT
                 !JustUsed(StarryMuse) && //Buff propagation issue prevention
                 (TargetIsBoss() && GetTargetHPPercent() < burnBossThreshold || //Burn Boss Threshold
                  ScenicCD >= 60 || //wait for scenic
-                 !LevelChecked(ScenicMuse) || //Low Level no Scenic
+                 !ActionLearned(ScenicMuse) || //Low Level no Scenic
                  !scenicMuseEnabled)) //Hold for Buffs
             {
                 actionID = OriginalHook(MogoftheAges);
@@ -214,13 +214,13 @@ internal partial class PCT
 
         if (temperaEnabled && CanWeave() && GroupDamageIncoming() && !JustUsed(Role.Addle, 6))
         {
-            if (LevelChecked(TemperaCoat) && IsOffCooldown(TemperaCoat))
+            if (ActionLearned(TemperaCoat) && IsOffCooldown(TemperaCoat))
             {
                 actionID = TemperaCoat;
                 return true;
             }
                     
-            if (LevelChecked(TemperaGrassa) && IsInParty() &&
+            if (ActionLearned(TemperaGrassa) && IsInParty() &&
                 NumberOfAlliesInRange(TemperaGrassa) >= GetPartyMembers().Count * .75 && //75% of group in range for Spreading your Tempura
                 HasStatusEffect(Buffs.TempuraCoat))
             {
@@ -282,7 +282,7 @@ internal partial class PCT
             return true;
         }
 
-        if (hammerStampEnabled && LevelChecked(HammerStamp) && !HasStatusEffect(Buffs.Hyperphantasia) &&
+        if (hammerStampEnabled && ActionLearned(HammerStamp) && !HasStatusEffect(Buffs.Hyperphantasia) &&
             HasStatusEffect(Buffs.HammerTime))
         {
             actionID = OriginalHook(HammerStamp);
@@ -377,7 +377,7 @@ internal partial class PCT
         if (cometInBlackEnabled && HasStatusEffect(Buffs.MonochromeTones) && HasPaint && 
             !JustUsed(StarryMuse) && //Buff propagation issue prevention
             (!HasStatusEffect(Buffs.StarryMuse) || HasStatusEffect(Buffs.Hyperphantasia)) && //Only use for hyperfantasia in the window
-            (ScenicCD > 10 || !LevelChecked(ScenicMuse) || !scenicMuseEnabled)) //Hold for Buffs if close
+            (ScenicCD > 10 || !ActionLearned(ScenicMuse) || !scenicMuseEnabled)) //Hold for Buffs if close
         {
             actionID = OriginalHook(CometinBlack);
             return true;
@@ -386,7 +386,7 @@ internal partial class PCT
         //Hammer Stamp Combo
         if (hammerStampComboEnabled && ActionReady(OriginalHook(HammerStamp)) &&
             !HasStatusEffect(Buffs.Hyperphantasia) && //Dont use until hyperfantasia is spent
-            (ScenicCD >= 10 || !LevelChecked(ScenicMuse)) &&  // Dont use if close to window. 
+            (ScenicCD >= 10 || !ActionLearned(ScenicMuse)) &&  // Dont use if close to window. 
             (TargetIsBoss() && GetTargetHPPercent() < burnBossThreshold || //Burn Boss Threshold
              HasStatusEffect(Buffs.StarryMuse) || //Use in window
              GetStatusEffectRemainingTime(Buffs.HammerTime) <= TimeRemainingToUseHammer || //Use when time is almost up on Hammer time
@@ -471,7 +471,7 @@ internal partial class PCT
                 (prepullEnabled && !InCombat() || //Prepull Motifs
                  noTargetEnabled && InCombat() && CurrentTarget == null || //Downtime Motifs
                  swiftcastEnabled && HasStatusEffect(Role.Buffs.Swiftcast) && creatureHealthCheck || //Swiftcast Motifs
-                 LevelChecked(ScenicMuse) && ScenicCD <= 20 && creatureHealthCheck || //Burst Prep
+                 ActionLearned(ScenicMuse) && ScenicCD <= 20 && creatureHealthCheck || //Burst Prep
                  hasLivingMuseCharges && creatureHealthCheck)) //Standard Use
             {
                 actionID = OriginalHook(CreatureMotif);
@@ -482,7 +482,7 @@ internal partial class PCT
                 (prepullEnabled && !InCombat() || //Prepull Motifs
                  noTargetEnabled && InCombat() && CurrentTarget == null || //Downtime Motifs
                  swiftcastEnabled && HasStatusEffect(Role.Buffs.Swiftcast) && weaponHealthCheck || //Swiftcast Motifs
-                 LevelChecked(ScenicMuse) && ScenicCD <= 20 && weaponHealthCheck || //Burst Prep
+                 ActionLearned(ScenicMuse) && ScenicCD <= 20 && weaponHealthCheck || //Burst Prep
                  hasSteelMuseCharges && weaponHealthCheck)) //Standard Use
             {
                 actionID = OriginalHook(WeaponMotif);
@@ -493,7 +493,7 @@ internal partial class PCT
                 (prepullEnabled && !InCombat() || //Prepull Motifs
                  noTargetEnabled && InCombat() && CurrentTarget == null || //Downtime Motifs
                  swiftcastEnabled && HasStatusEffect(Role.Buffs.Swiftcast) && landscapeHealthCheck || //Swiftcast Motifs
-                 LevelChecked(ScenicMuse) && ScenicCD <= 20 && landscapeHealthCheck)) //Standard Use is Burst prep
+                 ActionLearned(ScenicMuse) && ScenicCD <= 20 && landscapeHealthCheck)) //Standard Use is Burst prep
             {
                 actionID = OriginalHook(LandscapeMotif);
                 return true;

@@ -210,7 +210,7 @@ internal partial class DNC
             if (Player.Object is null ||
                 Player.Job != Job.DNC ||
                 IsOccupied() ||
-                !LevelChecked(ClosedPosition))
+                !ActionLearned(ClosedPosition))
                 return field = null;
 
             field = TryGetDancePartner(out var partner)

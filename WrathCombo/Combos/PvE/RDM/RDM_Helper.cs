@@ -147,16 +147,16 @@ internal partial class RDM
     internal static bool HasSwiftcast => HasStatusEffect(Buffs.Swiftcast);
     internal static bool HasEmbolden => HasStatusEffect(Buffs.Embolden);
     internal static bool HasManafication => HasStatusEffect(Buffs.Manafication);
-    internal static bool CanAcceleration => LevelChecked(Acceleration) && !CanVerFireAndStone && HasCharges(Acceleration) && CanInstantCD &&
-                                            (EmboldenCD > 15 || LevelChecked(Embolden));
-    internal static bool CanAccelerationMovement => LevelChecked(Acceleration) && IsMoving() && HasCharges(Acceleration) && CanInstantCD;
-    internal static bool CanSwiftcast => Role.CanSwiftcast() && CanInstantCD && !CanVerFireAndStone && (EmboldenCD > 10 || LevelChecked(Embolden));
+    internal static bool CanAcceleration => ActionLearned(Acceleration) && !CanVerFireAndStone && HasCharges(Acceleration) && CanInstantCD &&
+                                            (EmboldenCD > 15 || ActionLearned(Embolden));
+    internal static bool CanAccelerationMovement => ActionLearned(Acceleration) && IsMoving() && HasCharges(Acceleration) && CanInstantCD;
+    internal static bool CanSwiftcast => Role.CanSwiftcast() && CanInstantCD && !CanVerFireAndStone && (EmboldenCD > 10 || ActionLearned(Embolden));
     internal static bool CanSwiftcastMovement => Role.CanSwiftcast() && CanInstantCD && IsMoving();
     internal static bool CanInstantCD => !InCombo && !HasSwiftcast && !CanGrandImpact && !HasEmbolden && !HasDualcast && !HasAccelerate && !InCombo;
-    internal static bool CanEngagement => InMeleeRange() && HasCharges(Engagement) && LevelChecked(Engagement);
-    internal static bool PoolEngagement => !LevelChecked(Embolden) || HasEmbolden || GetRemainingCharges(Engagement) >= 1 && GetCooldownChargeRemainingTime(Engagement) < 3;
+    internal static bool CanEngagement => InMeleeRange() && HasCharges(Engagement) && ActionLearned(Engagement);
+    internal static bool PoolEngagement => !ActionLearned(Embolden) || HasEmbolden || GetRemainingCharges(Engagement) >= 1 && GetCooldownChargeRemainingTime(Engagement) < 3;
     internal static bool SaveEngagement => GetRemainingCharges(Engagement) >= 2;
-    internal static bool CanCorps => LevelChecked(Corpsacorps) && GetRemainingCharges(Corpsacorps) >= 1 && GetCooldownChargeRemainingTime(Corpsacorps) < 1;
+    internal static bool CanCorps => ActionLearned(Corpsacorps) && GetRemainingCharges(Corpsacorps) >= 1 && GetCooldownChargeRemainingTime(Corpsacorps) < 1;
     internal static bool CanInstantCast => HasDualcast || HasAccelerate || HasSwiftcast;
     internal static bool CanNotMagickBarrier => !ActionReady(MagickBarrier) || HasStatusEffect(Buffs.MagickBarrier, anyOwner: true);
     #endregion
@@ -164,7 +164,7 @@ internal partial class RDM
     #region Functions
     internal static int ManaLevel()
     {
-        if (LevelChecked(Embolden)) // Level checks for Embolden then pools certain amounts of mana throughout the cd. 
+        if (ActionLearned(Embolden)) // Level checks for Embolden then pools certain amounts of mana throughout the cd. 
         {
             if (HasEmbolden)
                 return 50;
@@ -180,16 +180,16 @@ internal partial class RDM
                     return 90; // to prevent it from firing unless it is about to cap, should only fire for manual embolden users. 
             }
         }
-        if (LevelChecked(Redoublement)) // Low level stuff
+        if (ActionLearned(Redoublement)) // Low level stuff
             return 50;
-        return LevelChecked(Zwerchhau) ? 35 : 20;
+        return ActionLearned(Zwerchhau) ? 35 : 20;
     }
 
     internal static int ManaLevelStandalone()
     {
-        if (LevelChecked(Redoublement)) // Low level stuff
+        if (ActionLearned(Redoublement)) // Low level stuff
             return 50;
-        return LevelChecked(Zwerchhau) ? 35 : 20;
+        return ActionLearned(Zwerchhau) ? 35 : 20;
     }
     internal static bool UseVerStone()
     {
@@ -213,7 +213,7 @@ internal partial class RDM
     }
     internal static uint UseInstantCastST(uint actionID)
     {
-        if (!LevelChecked(Verthunder) && LevelChecked(Veraero)) // Low level Check
+        if (!ActionLearned(Verthunder) && ActionLearned(Veraero)) // Low level Check
             return OriginalHook(Veraero);
 
         if (BlackHigher)
@@ -230,7 +230,7 @@ internal partial class RDM
     }
     internal static uint UseHolyFlare(uint actionID)
     {
-        if (!LevelChecked(Verholy))
+        if (!ActionLearned(Verholy))
             return Verflare;
 
         if (BlackHigher)
@@ -249,10 +249,10 @@ internal partial class RDM
     }
     internal static uint UseThunderAeroAoE(uint actionID)
     {
-        if (!LevelChecked(Verthunder2))
+        if (!ActionLearned(Verthunder2))
             return OriginalHook(Jolt);
         if (BlackHigher)
-            return LevelChecked(Veraero2) ? Veraero2 : Verthunder2;
+            return ActionLearned(Veraero2) ? Veraero2 : Verthunder2;
         return WhiteHigher ? Verthunder2 : actionID;
     }
     #endregion

@@ -30,25 +30,25 @@ internal partial class DRG
         {
             if (ComboTimer > 0)
             {
-                if (includeDisembowel && !LevelChecked(SonicThrust))
+                if (includeDisembowel && !ActionLearned(SonicThrust))
                 {
-                    if (ComboAction == TrueThrust && LevelChecked(Disembowel))
+                    if (ComboAction == TrueThrust && ActionLearned(Disembowel))
                         return Disembowel;
 
-                    if (ComboAction == Disembowel && LevelChecked(ChaosThrust))
+                    if (ComboAction == Disembowel && ActionLearned(ChaosThrust))
                         return OriginalHook(ChaosThrust);
                 }
                 else
                 {
-                    if (ComboAction is DoomSpike or DraconianFury && LevelChecked(SonicThrust))
+                    if (ComboAction is DoomSpike or DraconianFury && ActionLearned(SonicThrust))
                         return SonicThrust;
 
-                    if (ComboAction == SonicThrust && LevelChecked(CoerthanTorment))
+                    if (ComboAction == SonicThrust && ActionLearned(CoerthanTorment))
                         return CoerthanTorment;
                 }
             }
 
-            if (includeDisembowel && !HasStatusEffect(Buffs.PowerSurge) && !LevelChecked(SonicThrust))
+            if (includeDisembowel && !HasStatusEffect(Buffs.PowerSurge) && !ActionLearned(SonicThrust))
                 return OriginalHook(TrueThrust);
 
             return OriginalHook(DoomSpike);
@@ -56,39 +56,39 @@ internal partial class DRG
 
         if (ComboTimer > 0)
         {
-            if (ComboAction is TrueThrust or RaidenThrust && LevelChecked(VorpalThrust))
-                return LevelChecked(Disembowel) &&
-                       (LevelChecked(ChaosThrust) && ChaosDebuff is null &&
+            if (ComboAction is TrueThrust or RaidenThrust && ActionLearned(VorpalThrust))
+                return ActionLearned(Disembowel) &&
+                       (ActionLearned(ChaosThrust) && ChaosDebuff is null &&
                         CanApplyStatus(CurrentTarget, ChaoticList[OriginalHook(ChaosThrust)]) ||
                         GetStatusEffectRemainingTime(Buffs.PowerSurge) < 15)
                     ? OriginalHook(Disembowel)
                     : OriginalHook(VorpalThrust);
 
-            if (ComboAction == OriginalHook(Disembowel) && LevelChecked(ChaosThrust))
+            if (ComboAction == OriginalHook(Disembowel) && ActionLearned(ChaosThrust))
                 return useTrueNorth &&
                        GetRemainingCharges(Role.TrueNorth) > trueNorthCharges &&
                        Role.CanTrueNorth() && CanDRGWeave() && !OnTargetsRear()
                     ? Role.TrueNorth
                     : OriginalHook(ChaosThrust);
 
-            if (ComboAction == OriginalHook(ChaosThrust) && LevelChecked(WheelingThrust))
+            if (ComboAction == OriginalHook(ChaosThrust) && ActionLearned(WheelingThrust))
                 return useTrueNorth &&
                        GetRemainingCharges(Role.TrueNorth) > trueNorthCharges &&
                        Role.CanTrueNorth() && CanDRGWeave() && !OnTargetsRear()
                     ? Role.TrueNorth
                     : WheelingThrust;
 
-            if (ComboAction == OriginalHook(VorpalThrust) && LevelChecked(FullThrust))
+            if (ComboAction == OriginalHook(VorpalThrust) && ActionLearned(FullThrust))
                 return OriginalHook(FullThrust);
 
-            if (ComboAction == OriginalHook(FullThrust) && LevelChecked(FangAndClaw))
+            if (ComboAction == OriginalHook(FullThrust) && ActionLearned(FangAndClaw))
                 return useTrueNorth &&
                        GetRemainingCharges(Role.TrueNorth) > trueNorthCharges &&
                        Role.CanTrueNorth() && CanDRGWeave() && !OnTargetsFlank()
                     ? Role.TrueNorth
                     : FangAndClaw;
 
-            if (ComboAction is WheelingThrust or FangAndClaw && LevelChecked(Drakesbane))
+            if (ComboAction is WheelingThrust or FangAndClaw && ActionLearned(Drakesbane))
                 return Drakesbane;
         }
 
@@ -109,7 +109,7 @@ internal partial class DRG
             if (!InActionRange(DoomSpike))
                 return false;
 
-            if (LevelChecked(CoerthanTorment))
+            if (ActionLearned(CoerthanTorment))
             {
                 if (!JustUsed(SonicThrust))
                     return false;
@@ -119,7 +119,7 @@ internal partial class DRG
                        IsLoTDActive;
             }
 
-            if (LevelChecked(SonicThrust) && JustUsed(DoomSpike))
+            if (ActionLearned(SonicThrust) && JustUsed(DoomSpike))
                 return true;
 
             return JustUsed(DoomSpike);
@@ -129,19 +129,19 @@ internal partial class DRG
         if (!InActionRange(TrueThrust))
             return false;
 
-        if (LevelChecked(Drakesbane) && IsLoTDActive &&
+        if (ActionLearned(Drakesbane) && IsLoTDActive &&
             (HasStatusEffect(Buffs.LanceCharge) || HasStatusEffect(Buffs.BattleLitany)) &&
             (JustUsed(WheelingThrust) ||
              JustUsed(FangAndClaw) ||
-             LevelChecked(LanceBarrage) && JustUsed(LanceBarrage) ||
-             LevelChecked(HeavensThrust) && JustUsed(OriginalHook(FullThrust)) ||
-             !LevelChecked(LanceBarrage) && JustUsed(OriginalHook(VorpalThrust)) && LevelChecked(HeavensThrust)))
+             ActionLearned(LanceBarrage) && JustUsed(LanceBarrage) ||
+             ActionLearned(HeavensThrust) && JustUsed(OriginalHook(FullThrust)) ||
+             !ActionLearned(LanceBarrage) && JustUsed(OriginalHook(VorpalThrust)) && ActionLearned(HeavensThrust)))
             return true;
 
-        if (!LevelChecked(Drakesbane) && JustUsed(VorpalThrust))
+        if (!ActionLearned(Drakesbane) && JustUsed(VorpalThrust))
             return true;
 
-        if (!LevelChecked(FullThrust) && JustUsed(TrueThrust))
+        if (!ActionLearned(FullThrust) && JustUsed(TrueThrust))
             return true;
 
         return false;
@@ -155,7 +155,7 @@ internal partial class DRG
         !HasWeavedAction(Stardiver) && (!forceFirst || !HasWeaved()) && CanWeave(weaveTime);
 
     private static bool CanWeaveOgcds() =>
-        HasStatusEffect(Buffs.PowerSurge) || !LevelChecked(Disembowel);
+        HasStatusEffect(Buffs.PowerSurge) || !ActionLearned(Disembowel);
 
     private const int HoldOnlyWhenStationary = 0;
     private const int HoldOnlyInMeleeRange = 1;
@@ -184,7 +184,7 @@ internal partial class DRG
 
     private static bool CanLanceCharge(int hpThreshold = 0) =>
         ActionReady(LanceCharge) && HasBattleTarget() && GetTargetHPPercent() > hpThreshold &&
-        (IsOnCooldown(BattleLitany) || !LevelChecked(BattleLitany));
+        (IsOnCooldown(BattleLitany) || !ActionLearned(BattleLitany));
 
     private static bool CanUseWyrmwind() =>
         ActionReady(WyrmwindThrust) &&
@@ -239,8 +239,8 @@ internal partial class DRG
         ActionReady(OriginalHook(Jump)) && CanUseWithHoldOptions(holdOptions) &&
         (onAoE
             ? IsOriginal(Jump) || IsOriginal(HighJump)
-            : !LevelChecked(HighJump) && IsOriginal(Jump) ||
-              LevelChecked(HighJump) && IsOriginal(HighJump) &&
+            : !ActionLearned(HighJump) && IsOriginal(Jump) ||
+              ActionLearned(HighJump) && IsOriginal(HighJump) &&
               (allowDoubleMirageHold || !DRG_ST_DoubleMirage ||
                DRG_ST_DoubleMirage && (GetCooldownRemainingTime(Geirskogul) < 13 || IsLoTDTimerActive)));
 
@@ -250,7 +250,7 @@ internal partial class DRG
         ActionReady(DragonfireDive) && !HasStatusEffect(Buffs.DragonsFlight) &&
         GetTargetHPPercent() > hpThreshold &&
         CanUseWithHoldOptions(holdOptions) &&
-        (IsLoTDTimerActive || !LevelChecked(Geirskogul));
+        (IsLoTDTimerActive || !ActionLearned(Geirskogul));
 
     private static bool CanStardiver(UserBoolArray? holdOptions = null) =>
         ActionReady(Stardiver) && IsLoTDActive && !HasStatusEffect(Buffs.StarcrossReady) &&

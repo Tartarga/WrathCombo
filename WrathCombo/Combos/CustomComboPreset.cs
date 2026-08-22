@@ -1215,6 +1215,23 @@ public enum Preset
     //Last Value = 110139
     #endregion
 
+    #region Deep Dungeon
+
+    [DeepDungeon]
+    [JobInfo(Job.ADV)]
+    PoTD_SustainingPotion = 110500,
+    [DeepDungeon]
+    [JobInfo(Job.ADV)]
+    HoH_EmpyreanPotion = 110501,
+    [DeepDungeon]
+    [JobInfo(Job.ADV)]
+    EO_OrthosPotion = 110502,
+    [DeepDungeon]
+    [JobInfo(Job.ADV)]
+    PT_PilgrimsPotion = 110503,
+
+    #endregion
+
     // Jobs
 
     #region ASTROLOGIAN
@@ -1486,6 +1503,7 @@ public enum Preset
     [ReplaceSkill(AST.Helios, AST.AspectedHelios, AST.HeliosConjuction)]
     [ConflictingCombos(AST_Simple_AoE_Heals)]
     [JobInfo(Job.AST)]
+    [AdvancedHealingCombo]
     AST_AoE_Heals = 1010,
 
     [ParentCombo(AST_AoE_Heals)]

@@ -32,6 +32,7 @@ internal class FeaturesWindow : ConfigWindow
         BlueDPS,
         BlueTank,
         BlueHealer,
+        DeepDungeon,
     }
 
     private const StringComparison Lower = StringComparison.OrdinalIgnoreCase;

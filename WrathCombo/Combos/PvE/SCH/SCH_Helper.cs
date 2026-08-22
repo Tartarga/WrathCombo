@@ -249,7 +249,7 @@ internal partial class SCH
             
             case 7:
                 action = OriginalHook(Succor);
-                enabled = IsEnabled(Preset.SCH_AoE_Heal) && ShieldCheck && LevelChecked(Succor);
+                enabled = IsEnabled(Preset.SCH_AoE_Heal) && ShieldCheck && ActionLearned(Succor);
                 return 100; //Don't HP Check
         }
 

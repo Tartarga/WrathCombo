@@ -26,7 +26,7 @@ namespace WrathCombo.Extensions
     {
         extension(uint value)
         {
-            public string StatusName => ActionAndStatusLocalization.GetStatusName(value);
+            public string StatusName() => ActionAndStatusLocalization.GetStatusName(value);
         }
 
         #region IStatus? Extensions
@@ -51,7 +51,7 @@ namespace WrathCombo.Extensions
             /// <param name="id"></param>
             /// <returns></returns>
             public string Name
-                => status is null ? string.Empty : status.StatusId.StatusName();
+                => status is null ? string.Empty : ActionAndStatusLocalization.GetStatusName(status.StatusId);
 
             /// <summary>
             /// Returns the remaining time, or NaN if the status doesn't exist. (will fail comparisons if doesn't exist)

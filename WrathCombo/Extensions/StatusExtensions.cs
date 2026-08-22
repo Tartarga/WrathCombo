@@ -1,4 +1,5 @@
-﻿using Dalamud.Game.ClientState.Objects.Types;
+﻿#region References
+using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Statuses;
 using ECommons.DalamudServices;
 using ECommons.GameFunctions;
@@ -13,6 +14,7 @@ using WrathCombo.Data.BattleData;
 using WrathCombo.Services;
 using static WrathCombo.Data.StatusCache;
 using static WrathCombo.Window.Text;
+#endregion
 
 
 namespace WrathCombo.Extensions
@@ -27,6 +29,7 @@ namespace WrathCombo.Extensions
             public string StatusName => ActionAndStatusLocalization.GetStatusName(value);
         }
 
+        #region IStatus? Extensions
         /// <summary>
         /// Extensions applied to a NULLABLE status, allowing for a fluent chain even if the status is missing.
         /// </summary>
@@ -74,7 +77,9 @@ namespace WrathCombo.Extensions
                 return status.RemainingTime;
             }
         }
+        #endregion
 
+        #region IBattleChara Extensions
         /// <summary>
         /// Extensions applied to IBattleChara, revolving around status effects
         /// </summary>
@@ -99,7 +104,7 @@ namespace WrathCombo.Extensions
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool HasStatus(uint id, [NotNullWhen(true)] out IStatus? status, bool anyOwner = false)
             {
-                status = chara.Status(123);
+                status = chara.Status(id, anyOwner);
                 return status != null;
             }
 
@@ -220,7 +225,7 @@ namespace WrathCombo.Extensions
                 Service.Configuration.StatusBlacklist.Any(x => x.Status == status && x.BaseId == chara.BaseId);
 
             public bool HasStatusEffects(
-                ushort[] statusIds,
+                uint[] statusIds,
                 bool anyOwner = false,
                 bool matchAll = false)
             {
@@ -228,9 +233,9 @@ namespace WrathCombo.Extensions
                 if (statuses is null)
                     return false;
 
-                ulong? sourceId = !anyOwner ? Player.Object.GameObjectId : null;
+                ulong? sourceId = !anyOwner ? Player.Object?.GameObjectId : null;
 
-                var statusIdSet = new HashSet<uint>(statusIds.Select(s => (uint)s));
+                var statusIdSet = new HashSet<uint>(statusIds);
 
                 if (matchAll)
                 {
@@ -248,5 +253,6 @@ namespace WrathCombo.Extensions
                 }
             }
         }
+        #endregion
     }
 }

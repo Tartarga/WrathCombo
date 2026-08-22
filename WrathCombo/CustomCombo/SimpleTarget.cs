@@ -445,15 +445,19 @@ internal static class SimpleTarget
             return null;
 
         return nearbyEnemies
-            .Where(x => x.CanUseOn(dotAction) &&
-                        (float)x.CurrentHp / x.MaxHp * 100f > minHPPercent(x) &&
-                        !JustUsedOn(dotAction, x) &&
-                        IsInLineOfSight(x) &&
-                        GetStatusEffectRemainingTime
-                            (dotDebuff, x) <= reapplyThreshold &&
-                        CanApplyStatus(x, dotDebuff))
-            .OrderBy(x => GetStatusEffectRemainingTime(dotDebuff, x))
-            .ThenByDescending(x => (float)x.CurrentHp / x.MaxHp)
+            .Select(x => new {
+                Enemy = x,
+                Time = x.Status(dotDebuff).RemainingTimeOrZero(),
+            })
+            .Where(item => item.Enemy.CanUseOn(dotAction) &&
+                        item.Enemy.Health * 100f > minHPPercent(item.Enemy) &&
+                        !JustUsedOn(dotAction, item.Enemy) &&
+                        IsInLineOfSight(item.Enemy) &&
+                        item.Time <= reapplyThreshold &&
+                        item.Enemy.CanApplyStatus(dotDebuff))
+            .OrderBy(item => item.Time)
+            .ThenByDescending(item => item.Enemy.Health)
+            .Select(item => item.Enemy)
             .FirstOrDefault();
     }
 
@@ -467,12 +471,16 @@ internal static class SimpleTarget
             .ToArray();
 
         return nearbyEnemies
-            .Where(x => x.CanUseOn(dotAction) &&
-                        IsInLineOfSight(x) &&
-                        GetStatusEffectRemainingTime
-                            (dotDebuff, x) > 0 &&
-                        CanApplyStatus(x, dotDebuff))
-            .OrderBy(x => GetStatusEffectRemainingTime(dotDebuff, x))
+            .Select(x => new {
+                Enemy = x,
+                Time = x.Status(dotDebuff).RemainingTimeOrZero()
+            })
+            .Where(item => item.Enemy.CanUseOn(dotAction) &&
+                        IsInLineOfSight(item.Enemy) &&
+                        item.Time > 0 &&
+                        item.Enemy.CanApplyStatus(dotDebuff))
+            .OrderBy(item => item.Time)
+            .Select(item => item.Enemy)
             .FirstOrDefault();
     }
 
@@ -503,18 +511,22 @@ internal static class SimpleTarget
 
         return nearbyEnemies
             // Cache the IBattleChara and it's Statuses to avoid multiple lookups
-            .Select(x => new { x, dot1status = x.Status(dotDebuff1), dot2status = x.Status(dotDebuff2) })
-            .Where(enemy => enemy.x.CanUseOn(refreshAction) &&
-                            enemy.x.Health * 100f > minHPPercent(enemy.x) &&
-                            enemy.dot1status is not null &&
-                            enemy.dot2status is not null &&
-                            (enemy.dot1status.RemainingTimeOrZero() <= minTime ||
-                             enemy.dot2status.RemainingTimeOrZero() <= minTime) &&
-                            enemy.x.CanApplyStatus(dotDebuff1) &&
-                            enemy.x.CanApplyStatus(dotDebuff2))
-            .OrderBy(enemy => enemy.dot1status.RemainingTimeOrZero())
-            .ThenByDescending(enemy => enemy.x.Health)
-            .Select(enemy => enemy.x)
+            .Select(x => new { 
+                Enemy = x,
+                dot1status = x.Status(dotDebuff1), 
+                dot2status = x.Status(dotDebuff2)
+            })
+            .Where(item => item.Enemy.CanUseOn(refreshAction) &&
+                            item.Enemy.Health * 100f > minHPPercent(item.Enemy) &&
+                            item.dot1status is not null &&
+                            item.dot2status is not null &&
+                            (item.dot1status.RemainingTimeOrZero() <= minTime ||
+                             item.dot2status.RemainingTimeOrZero() <= minTime) &&
+                            item.Enemy.CanApplyStatus(dotDebuff1) &&
+                            item.Enemy.CanApplyStatus(dotDebuff2))
+            .OrderBy(item => item.dot1status.RemainingTimeOrZero())
+            .ThenByDescending(item => item.Enemy.Health)
+            .Select(item => item.Enemy)
             .FirstOrDefault();
     }
 

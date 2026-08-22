@@ -96,7 +96,7 @@ internal partial class SGE : Healer
             }
 
             if (UseEDyskrasia())
-                return Eukrasia;
+                return HasStatusEffect(Buffs.Eukrasia) ? OriginalHook(Dyskrasia) : Eukrasia;
 
             if (UseAoEPhlegma(psycheEnabled: true))
                 return OriginalHook(Phlegma);
@@ -230,7 +230,7 @@ internal partial class SGE : Healer
             }
 
             if (IsEnabled(Preset.SGE_AoE_Adv_DPS_EDyskrasia) && UseEDyskrasia())
-                return Eukrasia;
+                return HasStatusEffect(Buffs.Eukrasia) ? OriginalHook(Dyskrasia) : Eukrasia;
 
             if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Phlegma) &&
                 UseAoEPhlegma(IsEnabled(Preset.SGE_AoE_Adv_DPS_Psyche)))

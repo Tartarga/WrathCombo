@@ -101,7 +101,7 @@ internal partial class SGE
     #region Combo
 
     private static bool UseKardia() =>
-        LevelChecked(Kardia) &&
+        ActionLearned(Kardia) &&
         !HasStatusEffect(Buffs.Kardia) &&
         Target is not null;
 
@@ -148,14 +148,14 @@ internal partial class SGE
         bool shieldCheck = GetPartyBuffPercent(Buffs.EukrasianPrognosis) <= SGE_AoE_Adv_Heal_EPrognosisOption &&
                            GetPartyBuffPercent(SCH.Buffs.Galvanize) <= SGE_AoE_Adv_Heal_EPrognosisOption;
 
-        return IsEnabled(Preset.SGE_Raidwide_EPrognosis) && shieldCheck && GroupDamageIncoming() && LevelChecked(Eukrasia);
+        return IsEnabled(Preset.SGE_Raidwide_EPrognosis) && shieldCheck && GroupDamageIncoming() && ActionLearned(Eukrasia);
     }
 
     private static bool UseAddersgallProtect(int threshold) =>
         ActionReady(Druochole) && Addersgall >= threshold;
 
     private static bool PhlegmaBurstPair(bool phlegmaEnabled, bool psycheEnabled, bool burst) =>
-        LevelChecked(OriginalHook(Phlegma)) &&
+        ActionLearned(OriginalHook(Phlegma)) &&
         phlegmaEnabled &&
         psycheEnabled &&
         burst;
@@ -199,7 +199,7 @@ internal partial class SGE
         ActionReady(Panhaima) && !HasStatusEffect(Buffs.Eudaimonia);
 
     private static bool UseZoe() =>
-        ActionReady(Zoe) && (ActionReady(Pneuma) || !LevelChecked(Pneuma));
+        ActionReady(Zoe) && (ActionReady(Pneuma) || !ActionLearned(Pneuma));
 
     private static bool UseAoEPepsis() =>
         ActionReady(Pepsis) && HasStatusEffect(Buffs.EukrasianPrognosis);
@@ -216,7 +216,7 @@ internal partial class SGE
         if (!burst && GetRemainingCharges(OriginalHook(Phlegma)) > chargePool)
             return true;
 
-        if (!burst || !LevelChecked(Psyche) || !psycheEnabled)
+        if (!burst || !ActionLearned(Psyche) || !psycheEnabled)
             return false;
 
         if (JustUsed(Psyche, 5f))
@@ -269,7 +269,7 @@ internal partial class SGE
         {
             IGameObject? target = SimpleTarget.DottableEnemy(debuff.Eukrasian, debuff.Debuff, 0, 3, 99);
             if (target is not null && CanApplyStatus(target, debuff.Debuff) &&
-                !JustUsedOn(debuff.Eukrasian, target) && LevelChecked(Eukrasia))
+                !JustUsedOn(debuff.Eukrasian, target) && ActionLearned(Eukrasia))
             {
                 actionID = HasStatusEffect(Buffs.Eukrasia)
                     ? dotAction.Retarget(retargetIds, target)
@@ -295,7 +295,7 @@ internal partial class SGE
 
         if (multiTarget is not null && CanApplyStatus(multiTarget, debuff.Debuff) &&
             !JustUsedOn(debuff.Eukrasian, multiTarget) &&
-            SGE_ST_Adv_DPS_EDosis_TwoTarget && LevelChecked(Eukrasia))
+            SGE_ST_Adv_DPS_EDosis_TwoTarget && ActionLearned(Eukrasia))
         {
             actionID = HasStatusEffect(Buffs.Eukrasia)
                 ? dotAction.Retarget(retargetIds, multiTarget)
@@ -322,7 +322,7 @@ internal partial class SGE
         if (IsPhlegmaCapped)
             return true;
 
-        if (!LevelChecked(Psyche) || !psycheEnabled)
+        if (!ActionLearned(Psyche) || !psycheEnabled)
             return true;
 
         if (JustUsed(Psyche, 5f))
@@ -369,7 +369,7 @@ internal partial class SGE
     private static bool TryMovementOption(int index, ref uint actionID)
     {
         uint candidate = PrioritizedMovement[index].Action;
-        if (!ActionReady(candidate) || !LevelChecked(candidate) ||
+        if (!ActionReady(candidate) || !ActionLearned(candidate) ||
             !PrioritizedMovement[index].Logic())
             return false;
 

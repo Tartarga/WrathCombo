@@ -764,6 +764,7 @@ internal class Debug : ConfigWindow, IDisposable
                 CustomStyleText("Max Charges:", $"{_debugSpell.Value.MaxCharges}");
                 CustomStyleText("Charges (Level):", $"{GetCooldown(_debugSpell.Value.RowId).MaxCharges}");
                 CustomStyleText("Charge CD:", $"{GetCooldown(_debugSpell.Value.RowId).ChargeCooldownRemaining}");
+                CustomStyleText("Action Learned", $"{ActionLearned(_debugSpell.Value.RowId)}");
                 CustomStyleText("Range:", $"{GetActionRange(_debugSpell.Value.RowId)}");
                 CustomStyleText("Effect Range:", $"{_debugSpell.Value.EffectRange}");
                 CustomStyleText("In Range:", $"{InActionRange(_debugSpell.Value.RowId)}");

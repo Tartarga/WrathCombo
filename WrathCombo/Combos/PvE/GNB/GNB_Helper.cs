@@ -30,7 +30,7 @@ internal partial class GNB : Tank
             TraitLevelChecked(Traits.CartridgeCharge) ? HasStatusEffect(Buffs.Bloodfest) ? 4 : 2 : 0; //standard - 2 max base, 4 max buffed
 
     private static bool CanGF 
-        => LevelChecked(GnashingFang) && //unlocked
+        => ActionLearned(GnashingFang) && //unlocked
             InActionRange(GnashingFang) && //in range
             Ammo > 0 && //at least 1 cartridge available
             GunStep == 0 && //not already in GF or Reign combos
@@ -38,37 +38,37 @@ internal partial class GNB : Tank
             !HasStatusEffect(Buffs.ReadyToBlast) //Hypervelocity safety - if we just used Burst Strike, we want to use Hypervelocity first even if we clip it
             ;
     private static bool CanDD 
-        => LevelChecked(DoubleDown) && //unlocked
+        => ActionLearned(DoubleDown) && //unlocked
             InActionRange(DoubleDown) && //in range
             GetCooldownRemainingTime(DoubleDown) < 0.5f && //off cooldown
             Ammo >= 2 //at least 2 cartridges available
             ;
     private static bool CanSB
-        => LevelChecked(SonicBreak) && //unlocked
+        => ActionLearned(SonicBreak) && //unlocked
             InActionRange(SonicBreak) && //in range
             HasStatusEffect(Buffs.ReadyToBreak) //has required buff
             ;
     private static bool CanContinue
-        => LevelChecked(Continuation) && //unlocked
+        => ActionLearned(Continuation) && //unlocked
             InActionRange(JugularRip) &&
             (HasStatusEffect(Buffs.ReadyToRip) || //after Gnashing Fang 
             HasStatusEffect(Buffs.ReadyToTear) || //after Savage Claw
             HasStatusEffect(Buffs.ReadyToGouge)) //after Fated Circle
             ;
     private static bool CanHV
-        => LevelChecked(Hypervelocity) && //unlocked
+        => ActionLearned(Hypervelocity) && //unlocked
             InActionRange(Hypervelocity) && //in range
             HasStatusEffect(Buffs.ReadyToBlast) //has required buff
             ;
     private static bool CanFB
-        => LevelChecked(FatedBrand) && //unlocked
+        => ActionLearned(FatedBrand) && //unlocked
             InActionRange(FatedBrand) && //in range
             HasStatusEffect(Buffs.ReadyToRaze) //has required buff
             ;
     private static bool CanContinueAny => CanContinue || CanHV || CanFB
             ;
     private static bool CanReign
-        => LevelChecked(ReignOfBeasts) && //unlocked
+        => ActionLearned(ReignOfBeasts) && //unlocked
             GunStep == 0 && //not already in GF or Reign combos
             HasStatusEffect(Buffs.ReadyToReign) //has required buff
             ;
@@ -106,7 +106,7 @@ internal partial class GNB : Tank
             JustUsed(Superbolide);
         
         var numberOfEnemies = NumberOfEnemiesInRange(Role.Reprisal);
-        var pre68Mitigation = !LevelChecked(HeartOfStone) && numberOfEnemies >= 3;
+        var pre68Mitigation = !ActionLearned(HeartOfStone) && numberOfEnemies >= 3;
         #endregion
         
         #region Initial Bailout
@@ -371,16 +371,16 @@ internal partial class GNB : Tank
     public static Lv90SlowEarlyNM GNBLv90SlowEarlyNM = new();
     public static Lv100SlowEarlyNM GNBLv100SlowEarlyNM = new();
 
-    public static WrathOpener Opener() => (!IsEnabled(Preset.GNB_ST_Opener) || !LevelChecked(DoubleDown)) ? WrathOpener.Dummy : GetOpener(GNB_Opener_NM == 0);
+    public static WrathOpener Opener() => (!IsEnabled(Preset.GNB_ST_Opener) || !ActionLearned(DoubleDown)) ? WrathOpener.Dummy : GetOpener(GNB_Opener_NM == 0);
     private static WrathOpener GetOpener(bool isNormal) 
         => Fast
             ? isNormal
-                ? (LevelChecked(ReignOfBeasts) ? GNBLv100FastNormalNM : GNBLv90FastNormalNM)
-                : (LevelChecked(ReignOfBeasts) ? GNBLv100FastEarlyNM : GNBLv90FastEarlyNM)
+                ? (ActionLearned(ReignOfBeasts) ? GNBLv100FastNormalNM : GNBLv90FastNormalNM)
+                : (ActionLearned(ReignOfBeasts) ? GNBLv100FastEarlyNM : GNBLv90FastEarlyNM)
          : Slow
             ? isNormal
-                ? (LevelChecked(ReignOfBeasts) ? GNBLv100SlowNormalNM : GNBLv90SlowNormalNM)
-                : (LevelChecked(ReignOfBeasts) ? GNBLv100SlowEarlyNM : GNBLv90SlowEarlyNM)
+                ? (ActionLearned(ReignOfBeasts) ? GNBLv100SlowNormalNM : GNBLv90SlowNormalNM)
+                : (ActionLearned(ReignOfBeasts) ? GNBLv100SlowEarlyNM : GNBLv90SlowEarlyNM)
             : WrathOpener.Dummy;
 
     #region Lv90
@@ -670,7 +670,7 @@ internal partial class GNB : Tank
     #region Rotation
     private static bool CanUseOGCD(uint action, Preset preset)
         => IsEnabled(preset) && //option enabled
-            LevelChecked(action) && //unlocked
+            ActionLearned(action) && //unlocked
             GetCooldownRemainingTime(action) < 0.5f && //off cooldown
             InActionRange(action) && //enemy in range of skill
             CanWeave() //can weave
@@ -684,7 +684,7 @@ internal partial class GNB : Tank
             HasBattleTarget() && //has a good enough target
             GetTargetDistance() <= 5 && //not far from target
             Ammo > 0 && //have at least 1 cartridge
-            (IsOnCooldown(Bloodfest) || !LevelChecked(Bloodfest)) && //use after Bloodfest (or whenever if unavailable)
+            (IsOnCooldown(Bloodfest) || !ActionLearned(Bloodfest)) && //use after Bloodfest (or whenever if unavailable)
             GetTargetHPPercent() > stop; //HP% stop condition
         
         return
@@ -744,19 +744,19 @@ internal partial class GNB : Tank
             ;
     private static bool ShouldSpendCarts(Preset preset, int setup, bool aoe)
         => IsEnabled(preset) && //option enabled
-            LevelChecked(BurstStrike) && //can spend
+            ActionLearned(BurstStrike) && //can spend
             Ammo > 0 && //at least 1 cartridge available
             ComboTimer is > 2.5f or 0.0f && //our combo can actually drop if we carelessly send over and over - we will use 2.5s as our threshold (if not in any combo, just use it)
-            ((setup == 0 && Slow && LevelChecked(DoubleDown) && NMcd < GCDLength) || //precede NM - if 2.5 & Lv90+, we precede NM with our cart action
+            ((setup == 0 && Slow && ActionLearned(DoubleDown) && NMcd < GCDLength) || //precede NM - if 2.5 & Lv90+, we precede NM with our cart action
             (HasNM && (aoe || !CanGF) && !CanReign && !CanDD && !CanSB)) //in burst - use after everything under NM (if we can)
             ;
     private static bool ShouldUseBurstStrike(Preset preset, int setup)
         => InActionRange(BurstStrike) && ShouldSpendCarts(preset, setup, false);
     private static bool ShouldUseFatedCircle(Preset preset, int setup)
-        => (LevelChecked(FatedCircle) ? InActionRange(FatedCircle) : InActionRange(BurstStrike)) && ShouldSpendCarts(preset, setup, true);
+        => (ActionLearned(FatedCircle) ? InActionRange(FatedCircle) : InActionRange(BurstStrike)) && ShouldSpendCarts(preset, setup, true);
     private static bool ShouldUseLightningShot(Preset preset, int proc, int burst) =>
         IsEnabled(preset) && //option enabled
-        LevelChecked(LightningShot) && //unlocked 
+        ActionLearned(LightningShot) && //unlocked 
         InActionRange(LightningShot) && //in range
         !CanWeave() && //don't show during weaves for long-range OGCDs (e.g. Bloodfest)
         HasBattleTarget() && //has a target
@@ -769,14 +769,14 @@ internal partial class GNB : Tank
         if (ComboTimer > 0) //in combo
         {
             if (ComboAction == KeenEdge && //just used 1
-                LevelChecked(BrutalShell)) //2 is unlocked
+                ActionLearned(BrutalShell)) //2 is unlocked
                 return BrutalShell; //use 2
 
             if (ComboAction == BrutalShell && //just used 2
-                LevelChecked(SolidBarrel)) //3 is unlocked
+                ActionLearned(SolidBarrel)) //3 is unlocked
             {
                 return
-                    (LevelChecked(BurstStrike) && //Burst Strike unlocked
+                    (ActionLearned(BurstStrike) && //Burst Strike unlocked
                     Ammo == MaxCartridges && //at max cartridges
                     overcap == 0) //overcap option selected
                     ? BurstStrike //use Burst Strike
@@ -790,15 +790,15 @@ internal partial class GNB : Tank
         if (ComboTimer > 0) //in combo
         {
             if (ComboAction == DemonSlice && //just used 1
-                LevelChecked(DemonSlaughter))
+                ActionLearned(DemonSlaughter))
             {
                 if (Ammo == MaxCartridges && //at max cartridges
                     overcap == 0) //overcap option selected
                 {
-                    if (LevelChecked(FatedCircle)) //Fated Circle is unlocked   
+                    if (ActionLearned(FatedCircle)) //Fated Circle is unlocked   
                         return FatedCircle;
 
-                    if (!LevelChecked(FatedCircle) && //Fated Circle not unlocked
+                    if (!ActionLearned(FatedCircle) && //Fated Circle not unlocked
                         bsChoice == 0) //Burst Strike option selected
                         return BurstStrike; //use Burst Strike
                 }
@@ -937,7 +937,7 @@ internal partial class GNB : Tank
     ///<remarks>
     ///    Each logic check is already combined with checking if the preset is
     ///    enabled and if the action is <see cref="ActionReady(uint)">ready</see>
-    ///    and <see cref="LevelChecked(uint)">level-checked</see>.<br />
+    ///    and <see cref="ActionLearned(uint)">level-checked</see>.<br />
     ///   Do not add any of these checks to <c>Logic</c>.
     ///</remarks>
     private static (uint Action, Preset Preset, System.Func<bool> Logic)[]
@@ -996,7 +996,7 @@ internal partial class GNB : Tank
         (int index, out uint action)
     {
         action = PrioritizedMitigation[index].Action;
-        return ActionReady(action) && LevelChecked(action) &&
+        return ActionReady(action) && ActionLearned(action) &&
                PrioritizedMitigation[index].Logic() &&
                IsEnabled(PrioritizedMitigation[index].Preset);
     }

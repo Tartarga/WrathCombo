@@ -22,7 +22,7 @@ internal partial class WAR : Tank
     internal static (float Status, int Stacks) BF => (GetStatusEffectRemainingTime(Buffs.BurgeoningFury), GetStatusEffectStacks(Buffs.BurgeoningFury));
     internal static (bool Status, bool Stacks) HasIR => (IR.Status > 0, IR.Stacks > 0 || HasStatusEffect(Buffs.InnerReleaseStacks));
     internal static (bool Status, bool Stacks) HasBF => (BF.Status > 0 || HasStatusEffect(Buffs.BurgeoningFury), (BF.Stacks > 0 || HasStatusEffect(Buffs.BurgeoningFury)));
-    internal static bool HasSurgingTempest => !LevelChecked(StormsEye) || HasStatusEffect(Buffs.SurgingTempest);
+    internal static bool HasSurgingTempest => !ActionLearned(StormsEye) || HasStatusEffect(Buffs.SurgingTempest);
     internal static bool HasNascentChaos => HasStatusEffect(Buffs.NascentChaos);
     internal static bool HasWrathful => HasStatusEffect(Buffs.Wrathful);
     #endregion
@@ -237,7 +237,7 @@ internal partial class WAR : Tank
                 ActionReady(Upheaval) && HasSurgingTempest && InActionRange(Upheaval))
             {
                 if (flags.HasFlag(Combo.ST) ||
-                    flags.HasFlag(Combo.AoE) && !LevelChecked(Orogeny)) //Use Upheaval if too low level
+                    flags.HasFlag(Combo.AoE) && !ActionLearned(Orogeny)) //Use Upheaval if too low level
                 {
                     actionID = Upheaval;
                     return true;
@@ -250,7 +250,7 @@ internal partial class WAR : Tank
             }
 
             if (primalWrathEnabled &&
-                LevelChecked(PrimalWrath)  && HasWrathful && HasSurgingTempest && GetTargetDistance() <= 4.99f)
+                ActionLearned(PrimalWrath)  && HasWrathful && HasSurgingTempest && GetTargetDistance() <= 4.99f)
             {
                 actionID = PrimalWrath;
                 return true;
@@ -358,7 +358,7 @@ internal partial class WAR : Tank
             #endregion
 
             #region Inner Beast/Fell Cleave/ Decimate
-            if (fellCleaveEnabled && HasSurgingTempest && LevelChecked(OriginalHook(InnerBeast)) &&
+            if (fellCleaveEnabled && HasSurgingTempest && ActionLearned(OriginalHook(InnerBeast)) &&
                 (HasStatusEffect(Buffs.InnerReleaseStacks) || //Use if you have IR stacks
                  BeastGauge >= spenderGaugeThreshold)) //Use if you have Nascent Buff
             {
@@ -366,14 +366,14 @@ internal partial class WAR : Tank
 
                 if (InMeleeRange() && //Melee range check for single target
                     (flags.HasFlag(Combo.ST) || //Fell Cleave in ST
-                     flags.HasFlag(Combo.AoE) && LevelChecked(FellCleave) && useSmartAoE && (!LevelChecked(Decimate) && enemyCount < 5 || //Fell Cleave in Aoe if Decimate too low level
+                     flags.HasFlag(Combo.AoE) && ActionLearned(FellCleave) && useSmartAoE && (!ActionLearned(Decimate) && enemyCount < 5 || //Fell Cleave in Aoe if Decimate too low level
                          enemyCount < 4 && TraitLevelChecked(Traits.MeleeMastery2)))) //Fell Cleave in Aoe if decimate less than 4 targets
                 {
                     actionID = OriginalHook(InnerBeast);
                     return true;
                 }
 
-                if (flags.HasFlag(Combo.AoE) && LevelChecked(Decimate))
+                if (flags.HasFlag(Combo.AoE) && ActionLearned(Decimate))
                 {
                     actionID = OriginalHook(Decimate);
                     return true;
@@ -396,10 +396,10 @@ internal partial class WAR : Tank
     #region Basic Combos
     internal static uint STCombo
         => ComboTimer > 0
-            ? LevelChecked(Maim) && ComboAction == HeavySwing // Logic for Combo 2
+            ? ActionLearned(Maim) && ComboAction == HeavySwing // Logic for Combo 2
                 ? Maim
-                : LevelChecked(StormsPath) && ComboAction == Maim //Logic for Combos 3.1 and 3.2
-                    ? LevelChecked(StormsEye) && ((IsEnabled(Preset.WAR_ST_Simple) && GetStatusEffectRemainingTime(Buffs.SurgingTempest) <= 29) ||
+                : ActionLearned(StormsPath) && ComboAction == Maim //Logic for Combos 3.1 and 3.2
+                    ? ActionLearned(StormsEye) && ((IsEnabled(Preset.WAR_ST_Simple) && GetStatusEffectRemainingTime(Buffs.SurgingTempest) <= 29) ||
                                                   (IsEnabled(Preset.WAR_ST_Advanced) && IsEnabled(Preset.WAR_ST_StormsEye) && GetStatusEffectRemainingTime(Buffs.SurgingTempest) <= WAR_SurgingRefreshRange))
                         ? StormsEye //return if ST is needed
                         : StormsPath //return if ST is not needed
@@ -407,7 +407,7 @@ internal partial class WAR : Tank
             : HeavySwing; //Return of cant Maim
 
     internal static uint AoECombo
-        => ComboTimer > 0 && LevelChecked(MythrilTempest) && ComboAction == Overpower
+        => ComboTimer > 0 && ActionLearned(MythrilTempest) && ComboAction == Overpower
             ? MythrilTempest
             : Overpower;
     #endregion
@@ -429,7 +429,7 @@ internal partial class WAR : Tank
     /// <remarks>
     ///     Each logic check is already combined with checking if the preset is
     ///     enabled and if the action is <see cref="ActionReady(uint)">ready</see>
-    ///     and <see cref="LevelChecked(uint)">level-checked</see>.<br />
+    ///     and <see cref="ActionLearned(uint)">level-checked</see>.<br />
     ///     Do not add any of these checks to <c>Logic</c>.
     /// </remarks>
     private static (uint Action, Preset Preset, Func<bool> Logic)[]
@@ -478,7 +478,7 @@ internal partial class WAR : Tank
     private static bool CheckMitigationConfigMeetsRequirements(int index, out uint action)
     {
         action = PrioritizedMitigation[index].Action;
-        return ActionReady(action) && LevelChecked(action) &&
+        return ActionReady(action) && ActionLearned(action) &&
                PrioritizedMitigation[index].Logic() &&
                IsEnabled(PrioritizedMitigation[index].Preset);
     }
@@ -499,7 +499,7 @@ internal partial class WAR : Tank
     {
         #region Variables
         var numberOfEnemies = NumberOfEnemiesInRange(Role.Reprisal);
-        var pre56Mitigation = !LevelChecked(RawIntuition) && numberOfEnemies >= 3;
+        var pre56Mitigation = !ActionLearned(RawIntuition) && numberOfEnemies >= 3;
 
         var mitigationRunning = HasStatusEffect(Role.Buffs.ArmsLength) ||
                                 HasStatusEffect(Role.Buffs.Rampart) ||

@@ -170,8 +170,8 @@ internal partial class WHM
                 action = OriginalHook(Medica2);
                 enabled = IsEnabled(Preset.WHM_AoEHeals_Medica2) &&
                           !IsMoving() && !JustUsed(OriginalHook(Medica2)) &&
-                          (LevelChecked(Medica3) && medica3Check ||
-                           !LevelChecked(Medica3) && medica2Check);
+                          (ActionLearned(Medica3) && medica3Check ||
+                           !ActionLearned(Medica3) && medica2Check);
                 return WHM_AoEHeals_Medica2HP;
 
             case 1:

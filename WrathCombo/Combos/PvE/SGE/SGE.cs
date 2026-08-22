@@ -266,7 +266,7 @@ internal partial class SGE : Healer
                 HealRetargeting.RetargetSettingOn && SimpleTarget.Stack.AllyToEsuna is not null ||
                 HasCleansableDebuff(healTarget);
 
-            if (LevelChecked(Kardia) &&
+            if (ActionLearned(Kardia) &&
                 !HasStatusEffect(Buffs.Kardia))
                 return Kardia.Retarget(actionID, SimpleTarget.AnyLivingTank);
 
@@ -614,7 +614,7 @@ internal partial class SGE : Healer
             if (actionID is not Taurochole)
                 return actionID;
 
-            if (!LevelChecked(Taurochole) || IsOnCooldown(Taurochole))
+            if (!ActionLearned(Taurochole) || IsOnCooldown(Taurochole))
                 return IsEnabled(Preset.SGE_Retarget_Druochole)
                     ? Druochole.Retarget(Taurochole, HealStack)
                     : Druochole;

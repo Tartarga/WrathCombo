@@ -254,8 +254,8 @@ internal partial class AST
             case 6:
                 action = OriginalHook(AspectedHelios);
                 enabled = IsEnabled(Preset.AST_AoE_Heals_Aspected) && ActionReady(AspectedHelios) &&
-                          (LevelChecked(HeliosConjuction) && !HasStatusEffect(Buffs.HeliosConjunction) || 
-                           !LevelChecked(HeliosConjuction) && !HasStatusEffect(Buffs.AspectedHelios) ||
+                          (ActionLearned(HeliosConjuction) && !HasStatusEffect(Buffs.HeliosConjunction) || 
+                           !ActionLearned(HeliosConjuction) && !HasStatusEffect(Buffs.AspectedHelios) ||
                            HasStatusEffect(Buffs.NeutralSect) && !HasStatusEffect(Buffs.NeutralSectShield));
                 return AST_AoE_SimpleHeals_Aspected;
             
@@ -293,7 +293,7 @@ internal partial class AST
                 Svc.Condition[ConditionFlag.BetweenAreas] ||
                 Svc.Condition[ConditionFlag.Unconscious] ||
                 Gauge.DrawnCards[0] == CardType.None ||
-                !LevelChecked(Play1) ||
+                !ActionLearned(Play1) ||
                 !IsInParty())
                 return field = null;
             var card = Gauge.DrawnCards[0];

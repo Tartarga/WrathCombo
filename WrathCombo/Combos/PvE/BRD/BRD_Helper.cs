@@ -124,10 +124,10 @@ internal partial class BRD
     internal static bool JustSangSong => JustUsed(WanderersMinuet) || JustUsed(MagesBallad) || JustUsed(ArmysPaeon);
     internal static bool CanBardWeave => CanWeave();
     internal static bool CanWeaveDelayed => CanDelayedWeave();
-    internal static bool CanIronJaws => LevelChecked(IronJaws);
+    internal static bool CanIronJaws => ActionLearned(IronJaws);
     internal static bool BuffWindow => HasStatusEffect(Buffs.RagingStrikes) &&
-                                       (HasStatusEffect(Buffs.BattleVoice) || !LevelChecked(BattleVoice)) &&
-                                       (HasStatusEffect(Buffs.RadiantFinale) || !LevelChecked(RadiantFinale));
+                                       (HasStatusEffect(Buffs.BattleVoice) || !ActionLearned(BattleVoice)) &&
+                                       (HasStatusEffect(Buffs.RadiantFinale) || !ActionLearned(RadiantFinale));
 
     //Buff Tracking
     internal static float RagingCD => GetCooldownRemainingTime(RagingStrikes);
@@ -141,8 +141,8 @@ internal partial class BRD
     // Pitch Perfect Logic
     internal static bool PitchPerfected()
     {
-        if (LevelChecked(PitchPerfect) && SongWanderer &&
-             (gauge.Repertoire == 3 || LevelChecked(EmpyrealArrow) && gauge.Repertoire == 2 && EmpyrealCD < 2))
+        if (ActionLearned(PitchPerfect) && SongWanderer &&
+             (gauge.Repertoire == 3 || ActionLearned(EmpyrealArrow) && gauge.Repertoire == 2 && EmpyrealCD < 2))
             return true;
 
         return false;
@@ -333,7 +333,7 @@ internal partial class BRD
         bool UsePooledBloodRain()
         {
             if ((!WasLastAbility(Bloodletter) || !WasLastAbility(RainOfDeath) || !WasLastAbility(HeartbreakShot)) &&
-                (EmpyrealCD > 2 || !LevelChecked(EmpyrealArrow)))
+                (EmpyrealCD > 2 || !ActionLearned(EmpyrealArrow)))
             {
                 if (BloodletterCharges == 3 && TraitLevelChecked(Traits.EnhancedBloodletter) ||
                     BloodletterCharges == 2 && !TraitLevelChecked(Traits.EnhancedBloodletter) ||
@@ -388,19 +388,19 @@ internal partial class BRD
         #region Buffs
         if (buffsEnabled && CanWeave() && GetTargetHPPercent() > buffsThreshold)
         {
-            if (allBuffsEnabled && !SongNone && LevelChecked(MagesBallad))
+            if (allBuffsEnabled && !SongNone && ActionLearned(MagesBallad))
             {
                 if (ActionReady(RadiantFinale) && RagingCD < 2.2 && CanWeaveDelayed && !HasStatusEffect(Buffs.RadiantEncoreReady))
                 {
                     actionID = RadiantFinale;
                     return true;
                 }
-                if (ActionReady(BattleVoice) && (HasStatusEffect(Buffs.RadiantFinale) || !LevelChecked(RadiantFinale)))
+                if (ActionReady(BattleVoice) && (HasStatusEffect(Buffs.RadiantFinale) || !ActionLearned(RadiantFinale)))
                 {
                     actionID = BattleVoice;
                     return true;
                 }
-                if (ActionReady(RagingStrikes) && (JustUsed(BattleVoice) || !LevelChecked(BattleVoice) || HasStatusEffect(Buffs.BattleVoice)))
+                if (ActionReady(RagingStrikes) && (JustUsed(BattleVoice) || !ActionLearned(BattleVoice) || HasStatusEffect(Buffs.BattleVoice)))
                 {
                     actionID = RagingStrikes;
                     return true;
@@ -412,7 +412,7 @@ internal partial class BRD
                 }
             }
 
-            if (!allBuffsEnabled || !LevelChecked(MagesBallad))
+            if (!allBuffsEnabled || !ActionLearned(MagesBallad))
             {
                 if (ActionReady(RadiantFinale) && radiantEnabled)
                 {
@@ -484,7 +484,7 @@ internal partial class BRD
                 }
             }
 
-            if (!LevelChecked(RainOfDeath) && !WasLastAction(Bloodletter) && BloodletterCharges > 0) //Low Level Just send it
+            if (!ActionLearned(RainOfDeath) && !WasLastAction(Bloodletter) && BloodletterCharges > 0) //Low Level Just send it
             {
                 actionID = OriginalHook(Bloodletter);
                 return true;
@@ -763,19 +763,19 @@ internal partial class BRD
             var purpleTarget = SimpleTarget.DottableEnemy(purpleDotAction, purpleDotDebuffID, ComputeMultidotHpThreshold, computeMultidotRefresh);
             #endregion
 
-            if (ironTarget is not null && LevelChecked(IronJaws))
+            if (ironTarget is not null && ActionLearned(IronJaws))
             {
                 actionID = IronJaws.Retarget(actionID, ironTarget);
                 return true;
             }
 
-            if (blueTarget is not null && LevelChecked(Windbite))
+            if (blueTarget is not null && ActionLearned(Windbite))
             {
                 actionID = blueDotAction.Retarget(actionID, blueTarget);
                 return true;
             }
 
-            if (purpleTarget is not null && LevelChecked(VenomousBite))
+            if (purpleTarget is not null && ActionLearned(VenomousBite))
             {
                 actionID = purpleDotAction.Retarget(actionID, purpleTarget);
                 return true;

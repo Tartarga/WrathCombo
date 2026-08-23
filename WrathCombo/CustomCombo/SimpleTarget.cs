@@ -45,7 +45,8 @@ internal static class SimpleTarget
     {
         /// A stack of Mouse Over targets (including model mouseover).
         public static IBattleChara? MouseOver =>
-            (UIMouseOverTarget ?? ModelMouseOverTarget) as IBattleChara;
+            UIMouseOverTarget as IBattleChara ?? 
+            ModelMouseOverTarget as IBattleChara;
 
         /// A very common stack that targets an ally or self, if there are no manual
         /// overrides targeted.
@@ -324,7 +325,8 @@ internal static class SimpleTarget
     public static IBattleChara? UIMouseOverTarget => PronounService.UIMouseOverTarget as IBattleChara;
 
     public static IBattleChara? ModelMouseOverTarget =>
-        (Svc.Targets.MouseOverNameplateTarget ?? Svc.Targets.MouseOverTarget) as IBattleChara;
+        Svc.Targets.MouseOverNameplateTarget as IBattleChara ?? 
+        Svc.Targets.MouseOverTarget as IBattleChara;
 
     public static IGameObject? Chocobo =>
         Svc.Buddies.CompanionBuddy?.GameObject;

@@ -39,7 +39,9 @@ internal abstract partial class CustomComboFunctions
     }
 
     /// <summary> Gets the current target or null. </summary>
-    public static IBattleChara? CurrentTarget => (OverrideTarget ?? SimpleTarget.HardTarget) as IBattleChara;
+    public static IBattleChara? CurrentTarget => 
+        OverrideTarget as IBattleChara ?? 
+        SimpleTarget.HardTarget;
 
     #region Target Checks
 

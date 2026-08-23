@@ -8,6 +8,7 @@ using System.Linq;
 using WrathCombo.Native;
 using Contents = ECommons.GameHelpers.Content;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
+using static FFXIVClientStructs.FFXIV.Client.Game.InstanceContent.InstanceContentDeepDungeon;
 
 namespace WrathCombo.Combos.PvE.Content.DeepDungeons;
 
@@ -133,7 +134,19 @@ internal static partial class DeepDungeons
 
     }
 
-    internal static bool PomanderReady(Pomanders pomander) => PomanderCount(pomander) > 0 && (!HasStatusEffect(Debuffs.ItemPenalty) || pomander is Pomanders.PomanderOfSerenity or Pomanders.ProtomanderOfSerenity);
+    internal unsafe static DeepDungeonItemInfo GetDDItemInfo(Pomanders pomander)
+    {
+        var dd = EventFramework.Instance()->GetInstanceContentDeepDungeon();
+        if (dd == null) return default;
+        var deepDungeonSheet = Svc.Data.GetExcelSheet<DeepDungeon>().GetRow(dd->DeepDungeonId);
+        if (deepDungeonSheet.PomanderSlot.TryGetFirst(x => x.RowId == (uint)pomander, out var item))
+        {
+            return dd->Items.ToArray().FirstOrDefault(x => x.ItemId == item.Value.RowId);
+        }
+        return default;
+    }
+
+    internal static bool PomanderReady(Pomanders pomander) => PomanderCount(pomander) > 0 && GetDDItemInfo(pomander).IsUsable;
 }
 
 

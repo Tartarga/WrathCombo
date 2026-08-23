@@ -1474,7 +1474,7 @@ internal class Debug : ConfigWindow, IDisposable
         {
             foreach (var pomander in Enum.GetValues<Pomanders>())
             {
-                CustomStyleText($"{pomander}", $"{PomanderCount(pomander)}");
+                CustomStyleText($"{pomander}", $"{PomanderCount(pomander)} Usable: {GetDDItemInfo(pomander).IsUsable}");
             }
         }
 

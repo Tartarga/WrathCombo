@@ -1,17 +1,24 @@
 ﻿using WrathCombo.Combos.PvE.ALL;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 
-namespace WrathCombo.Combos.PvE.Content.DeepDungeon;
+namespace WrathCombo.Combos.PvE.Content.DeepDungeons;
 
-internal static partial class DeepDungeon
+internal static partial class DeepDungeons
 {
-    public static bool TryGetPoTDAction(ref uint actionID)
+    public static bool TryGetDDAction(ref uint actionID)
     {
         if (UseSustainingPotion(out var potionId))
         {
             actionID = Items.UseItem(potionId);
             return true;
         }
+
+        if (UsePomander(out var pomanderId) && pomanderId != 0)
+        {
+            actionID = UsePomander(pomanderId);
+            return true;
+        }
+
         return false;
     }
 
@@ -42,6 +49,21 @@ internal static partial class DeepDungeon
             potionId = PilgrimsPotion;
             return true;
         }
+
+        return false;
+    }
+
+    public static bool UsePomander(out Pomanders pomanderId)
+    {
+        pomanderId = 0;
+        // Fill this in with pomander features
+        // Example
+
+        //if (PomanderCount(Pomanders.PomanderOfStrength) > 0 && !HasStatusEffect(Buffs.DamageUp))
+        //{
+        //    pomanderId = Pomanders.PomanderOfStrength;
+        //    return true;
+        //}
 
         return false;
     }

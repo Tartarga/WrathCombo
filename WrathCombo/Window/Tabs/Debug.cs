@@ -40,6 +40,7 @@ using WrathCombo.Services.ActionRequestIPC;
 using WrathCombo.Services.IPC;
 using WrathCombo.Services.IPC_Subscriber;
 using WrathCombo.Window.Functions;
+using static WrathCombo.Combos.PvE.Content.DeepDungeons.DeepDungeons;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using Action = Lumina.Excel.Sheets.Action;
 using BattleNpcSubKindCS = FFXIVClientStructs.FFXIV.Client.Game.Object.BattleNpcSubKind;
@@ -1466,6 +1467,14 @@ internal class Debug : ConfigWindow, IDisposable
             foreach (var act in P.CustomActions.Manager.Actions)
             {
                 CustomStyleText($"{act.Name}", $"{act.Id}");
+            }
+        }
+
+        if (ImGui.CollapsingHeader("Deep Dungeons"))
+        {
+            foreach (var pomander in Enum.GetValues<Pomanders>())
+            {
+                CustomStyleText($"{pomander}", $"{PomanderCount(pomander)}");
             }
         }
 

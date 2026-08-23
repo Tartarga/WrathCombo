@@ -383,7 +383,7 @@ internal partial class SGE
 
     private static bool UseEukrasianDiagnosis(IGameObject? healTarget, bool simpleMode, ref uint actionID)
     {
-        if (!LevelChecked(Eukrasia) ||
+        if (!ActionLearned(Eukrasia) ||
             HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget))
             return false;
 

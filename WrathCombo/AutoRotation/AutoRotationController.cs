@@ -885,6 +885,9 @@ internal unsafe class AutoRotationController
 
                 }
 
+                if (target is null)
+                    return false;
+
                 ulong targetId = target.GameObjectId;
                 var changed = CheckForChangedTarget(gameAct, ref targetId, out var replacedWith) && targetId != target.GameObjectId;
                 if (changed) target = targetId.GetObject();

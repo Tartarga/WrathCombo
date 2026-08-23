@@ -600,7 +600,7 @@ internal partial class PLD
     private static uint NextConfiteorBlade() =>
         ComboAction switch
         {
-            Confiteor when LevelChecked(BladeOfFaith) => BladeOfFaith,
+            Confiteor when ActionLearned(BladeOfFaith) => BladeOfFaith,
             BladeOfFaith => BladeOfTruth,
             BladeOfTruth => BladeOfValor,
             var _ => OriginalHook(Confiteor),

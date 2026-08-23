@@ -410,7 +410,7 @@ internal partial class SGE : Healer
                 HasCleansableDebuff(healTarget);
 
             if (IsEnabled(Preset.SGE_ST_Adv_Heal_Kardia) &&
-                LevelChecked(Kardia) &&
+                ActionLearned(Kardia) &&
                 !HasStatusEffect(Buffs.Kardia) &&
                 !HasStatusEffect(Buffs.Kardion, healTarget))
                 return Kardia.Retarget(actionID, Target);

@@ -390,19 +390,19 @@ internal partial class SAM : Melee
                     return Yukikaze;
 
                 if (SAM_Yukikaze_Kasha &&
-                    LevelChecked(Kasha) &&
+                    ActionLearned(Kasha) &&
                     (!HasStatusEffect(Buffs.Fuka) ||
                      (OnTargetsFlank() || OnTargetsFront()) && !HasKa ||
                      OnTargetsRear() && HasGetsu && !HasKa ||
-                     !HasKa && (!SAM_Yukikaze_Gekko || !LevelChecked(Gekko) || HasGetsu)))
+                     !HasKa && (!SAM_Yukikaze_Gekko || !ActionLearned(Gekko) || HasGetsu)))
                     return Kasha;
 
                 if (SAM_Yukikaze_Gekko &&
-                    LevelChecked(Gekko) &&
+                    ActionLearned(Gekko) &&
                     (!HasStatusEffect(Buffs.Fugetsu) ||
                      (OnTargetsRear() || OnTargetsFront()) && !HasGetsu ||
                      OnTargetsFlank() && HasKa && !HasGetsu ||
-                     !HasGetsu && (!SAM_Yukikaze_Kasha || !LevelChecked(Kasha) || HasKa)))
+                     !HasGetsu && (!SAM_Yukikaze_Kasha || !ActionLearned(Kasha) || HasKa)))
                     return Gekko;
             }
 
@@ -556,21 +556,21 @@ internal partial class SAM : Melee
             if (actionID is not MeikyoShisui || !HasStatusEffect(Buffs.MeikyoShisui))
                 return actionID;
 
-            if (LevelChecked(Kasha) &&
+            if (ActionLearned(Kasha) &&
                 (!HasStatusEffect(Buffs.Fuka) ||
                  (OnTargetsFlank() || OnTargetsFront()) && !HasKa ||
                  OnTargetsRear() && HasGetsu && !HasKa ||
                  !HasKa && HasGetsu))
                 return Kasha;
 
-            if (LevelChecked(Gekko) &&
+            if (ActionLearned(Gekko) &&
                 (!HasStatusEffect(Buffs.Fugetsu) ||
                  (OnTargetsRear() || OnTargetsFront()) && !HasGetsu ||
                  OnTargetsFlank() && HasKa && !HasGetsu ||
                  !HasGetsu))
                 return Gekko;
 
-            if (!HasSetsu && LevelChecked(Yukikaze))
+            if (!HasSetsu && ActionLearned(Yukikaze))
                 return Yukikaze;
 
             return actionID;

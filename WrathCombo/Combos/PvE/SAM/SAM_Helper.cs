@@ -65,15 +65,15 @@ internal partial class SAM
             (!HasStatusEffect(Buffs.Fuka) ||
              (OnTargetsFlank() || OnTargetsFront()) && !HasKa ||
              OnTargetsRear() && HasGetsu && !HasKa ||
-             !HasKa && (!useGekko || !LevelChecked(Gekko) || HasGetsu)))
+             !HasKa && (!useGekko || !ActionLearned(Gekko) || HasGetsu)))
             return WithTrueNorth(Kasha, OnTargetsFlank(), useTrueNorth, trueNorthCharges);
 
         if (useGekko &&
-            LevelChecked(Gekko) &&
+            ActionLearned(Gekko) &&
             (!HasStatusEffect(Buffs.Fugetsu) ||
              (OnTargetsRear() || OnTargetsFront()) && !HasGetsu ||
              OnTargetsFlank() && HasKa && !HasGetsu ||
-             !HasGetsu && (!useKasha || !LevelChecked(Kasha) || HasKa)))
+             !HasGetsu && (!useKasha || !ActionLearned(Kasha) || HasKa)))
             return WithTrueNorth(Gekko, OnTargetsRear(), useTrueNorth, trueNorthCharges);
 
         if (useYukikaze &&

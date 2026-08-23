@@ -59,7 +59,7 @@ internal static partial class DeepDungeons
         // Fill this in with pomander features
         // Example
 
-        //if (PomanderCount(Pomanders.PomanderOfStrength) > 0 && !HasStatusEffect(Buffs.DamageUp))
+        //if (PomanderReady(Pomanders.PomanderOfStrength) && !HasStatusEffect(Buffs.DamageUp))
         //{
         //    pomanderId = Pomanders.PomanderOfStrength;
         //    return true;

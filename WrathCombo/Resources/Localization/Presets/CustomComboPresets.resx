@@ -6409,7 +6409,7 @@ NOT RECOMMENDED!</value>
     <value>Enable this to add Summoner-specific actions into the rotation.</value>
   </data>
   <data name="Phantom_Summoner_EarthenWall_Desc" xml:space="preserve">
-    <value>Adds Earthen Wall into the rotation.</value>
+    <value>Uses Earthen Wall when a raidwide is incoming.</value>
   </data>
   <data name="Phantom_Summoner_EarthenWall_Name" xml:space="preserve">
     <value>Earthen Wall</value>

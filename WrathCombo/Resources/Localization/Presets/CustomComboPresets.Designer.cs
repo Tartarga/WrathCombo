@@ -18568,7 +18568,7 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Earthen Wall into the rotation..
+        ///   Looks up a localized string similar to Uses Earthen Wall when a raidwide is incoming..
         /// </summary>
         internal static string Phantom_Summoner_EarthenWall_Desc {
             get {

@@ -576,9 +576,16 @@ internal class Debug : ConfigWindow, IDisposable
                         WrathOpener.CurrentOpener.OpenerStep <
                         WrathOpener.CurrentOpener.OpenerActions.Count)
                     {
-                        CustomStyleText("Next Action:", WrathOpener.CurrentOpener.OpenerActions[WrathOpener.CurrentOpener.OpenerStep].ActionName());
+                        CustomStyleText("Next Action:", WrathOpener.CurrentOpener.OpenerActions[WrathOpener.CurrentOpener.OpenerStep].Invoke().ActionName());
                         CustomStyleText("Is Delayed Weave:", WrathOpener.CurrentOpener.DelayedWeaveSteps.Any(x => x == WrathOpener.CurrentOpener.OpenerStep));
                         CustomStyleText("Can Delayed Weave:", CanDelayedWeave(weaveEnd: 0.1f));
+                    }
+
+                    int stepIndex = 0;
+                    foreach (var action in WrathOpener.CurrentOpener.OpenerActions)
+                    {
+                        stepIndex++;
+                        CustomStyleText($"Opener Action {stepIndex}:", action.Invoke().ActionName());
                     }
                 }
 

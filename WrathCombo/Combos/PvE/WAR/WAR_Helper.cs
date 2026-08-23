@@ -40,34 +40,34 @@ internal partial class WAR : Tank
 
     internal class WAROpenerMaxLevel1 : WrathOpener
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            Tomahawk, // 1
-            Infuriate, // 2
-            HeavySwing, // 3
-            Maim, // 4
-            StormsEye, // 5
-            InnerRelease, // 6
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 7
-            InnerChaos, // 8
-            Upheaval, // 9
-            Onslaught, // 10
-            FellCleave, // 11
-            Onslaught, // 12
-            FellCleave, // 13
-            Onslaught, // 14
-            FellCleave, // 15
-            PrimalWrath, // 16
-            Infuriate, // 17
-            PrimalRend, // 18
-            PrimalRuination, // 19
-            InnerChaos, // 20
-            HeavySwing, // 21
-            Maim, // 22
-            StormsPath, // 23
-            FellCleave, // 24
-            Infuriate, // 25
-            InnerChaos // 26
+            () => Tomahawk, // 1
+            () => Infuriate, // 2
+            () => HeavySwing, // 3
+            () => Maim, // 4
+            () => StormsEye, // 5
+            () => InnerRelease, // 6
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 7
+            () => InnerChaos, // 8
+            () => Upheaval, // 9
+            () => Onslaught, // 10
+            () => FellCleave, // 11
+            () => Onslaught, // 12
+            () => FellCleave, // 13
+            () => Onslaught, // 14
+            () => FellCleave, // 15
+            () => PrimalWrath, // 16
+            () => Infuriate, // 17
+            () => PrimalRend, // 18
+            () => PrimalRuination, // 19
+            () => InnerChaos, // 20
+            () => HeavySwing, // 21
+            () => Maim, // 22
+            () => StormsPath, // 23
+            () => FellCleave, // 24
+            () => Infuriate, // 25
+            () => InnerChaos // 26
         ];
         public override int MinOpenerLevel => 100;
         public override int MaxOpenerLevel => 109;
@@ -905,3 +905,5 @@ internal partial class WAR : Tank
 
     #endregion
 }
+
+

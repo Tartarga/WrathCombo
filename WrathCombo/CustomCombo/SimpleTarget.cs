@@ -265,14 +265,14 @@ internal static class SimpleTarget
             }
         }
 
-        private static IGameObject? GetSimpleTargetValueFromName(string name)
+        private static IBattleChara? GetSimpleTargetValueFromName(string name)
         {
             try
             {
                 var property = typeof(SimpleTarget).GetProperty(name);
                 if (property == null) return null;
                 var value = property.GetValue(null);
-                return value as IGameObject;
+                return value as IBattleChara;
             }
             catch (Exception e)
             {
@@ -511,9 +511,9 @@ internal static class SimpleTarget
 
         return nearbyEnemies
             // Cache the IBattleChara and it's Statuses to avoid multiple lookups
-            .Select(x => new { 
+            .Select(x => new {
                 Enemy = x,
-                dot1status = x.Status(dotDebuff1), 
+                dot1status = x.Status(dotDebuff1),
                 dot2status = x.Status(dotDebuff2)
             })
             .Where(item => item.Enemy.CanUseOn(refreshAction) &&

@@ -768,31 +768,31 @@ internal unsafe class AutoRotationController
 
     public static class AutoRotationHelper
     {
-        public static IGameObject? GetSingleTarget(Enum rotationMode)
+        public static IBattleChara? GetSingleTarget(Enum rotationMode)
         {
             if (rotationMode is DPSRotationMode dpsmode)
             {
                 if (Player.Object?.Role is CombatRole.Tank)
                 {
-                    IGameObject? target = dpsmode switch
+                    IBattleChara? target = dpsmode switch
                     {
-                        DPSRotationMode.Manual => Svc.Targets.Target,
+                        DPSRotationMode.Manual => SimpleTarget.HardTarget,
                         DPSRotationMode.Highest_Max => TankTargeting.GetHighestMaxTarget(),
                         DPSRotationMode.Lowest_Max => TankTargeting.GetLowestMaxTarget(),
                         DPSRotationMode.Highest_Current => TankTargeting.GetHighestCurrentTarget(),
                         DPSRotationMode.Lowest_Current => TankTargeting.GetLowestCurrentTarget(),
-                        DPSRotationMode.Tank_Target => Svc.Targets.Target,
+                        DPSRotationMode.Tank_Target => SimpleTarget.HardTarget,
                         DPSRotationMode.Nearest => DPSTargeting.GetNearestTarget(),
                         DPSRotationMode.Furthest => DPSTargeting.GetFurthestTarget(),
-                        _ => Svc.Targets.Target,
+                        _ => SimpleTarget.HardTarget,
                     };
                     return target;
                 }
                 else
                 {
-                    IGameObject? target = dpsmode switch
+                    IBattleChara? target = dpsmode switch
                     {
-                        DPSRotationMode.Manual => Svc.Targets.Target,
+                        DPSRotationMode.Manual => SimpleTarget.HardTarget,
                         DPSRotationMode.Highest_Max => DPSTargeting.GetHighestMaxTarget(),
                         DPSRotationMode.Lowest_Max => DPSTargeting.GetLowestMaxTarget(),
                         DPSRotationMode.Highest_Current => DPSTargeting.GetHighestCurrentTarget(),
@@ -800,7 +800,7 @@ internal unsafe class AutoRotationController
                         DPSRotationMode.Tank_Target => DPSTargeting.GetTankTarget(),
                         DPSRotationMode.Nearest => DPSTargeting.GetNearestTarget(),
                         DPSRotationMode.Furthest => DPSTargeting.GetFurthestTarget(),
-                        _ => Svc.Targets.Target,
+                        _ => SimpleTarget.HardTarget,
                     };
                     return target;
                 }
@@ -808,7 +808,7 @@ internal unsafe class AutoRotationController
             if (rotationMode is HealerRotationMode healermode)
             {
                 if (Player.Object?.Role != CombatRole.Healer) return null;
-                IGameObject? target = healermode switch
+                IBattleChara? target = healermode switch
                 {
                     HealerRotationMode.Manual => HealerTargeting.ManualTarget(),
                     HealerRotationMode.Highest_Current => HealerTargeting.GetHighestCurrent(),
@@ -831,15 +831,15 @@ internal unsafe class AutoRotationController
                 return true;
 
             var autoTarget = DPSTargeting.BaseSelection.MaxBy(x => NumberOfEnemiesInRange(OriginalHook(gameAct), x, true));
-            var manualTarget = Svc.Targets.Target;
+            var manualTarget = SimpleTarget.HardTarget;
 
-            IGameObject? target = null;
+            IBattleChara? target = null;
             // Determine target according to rotation mode and AoE settings
 
             var useAutoTarget = cfg.DPSRotationMode != DPSRotationMode.Manual || (cfg.DPSRotationMode == DPSRotationMode.Manual && cfg.DPSSettings.AoEIgnoreManual && (!cfg.DPSSettings.AoEOnlyWhenTargeting || manualTarget is not null));
             target = useAutoTarget ? autoTarget : manualTarget;
 
-            if ((target is not { } t || (!t.IsHostile() && !t.IsFriendly())) && cfg.PauseWhenNoTarget) return true;
+            if ((target is not IBattleChara t || (!t.IsHostile() && !t.IsFriendly())) && cfg.PauseWhenNoTarget) return true;
 
             if (attributes.AutoAction!.IsHeal)
             {
@@ -888,7 +888,7 @@ internal unsafe class AutoRotationController
 
                 ulong targetId = target.GameObjectId;
                 var changed = CheckForChangedTarget(gameAct, ref targetId, out var replacedWith) && targetId != target.GameObjectId;
-                if (changed) target = targetId.GetObject();
+                if (changed) target = targetId.GetObject() as IBattleChara;
 
                 OverrideTarget = target ?? OverrideTarget;
                 uint outAct = OriginalHook(InvokeCombo(preset, attributes, ref gameAct, OverrideTarget));
@@ -963,7 +963,7 @@ internal unsafe class AutoRotationController
 
             ulong targetId = target?.GameObjectId ?? 0;
             var changed = CheckForChangedTarget(gameAct, ref targetId, out var replacedWith) && targetId != target.GameObjectId;
-            if (changed) target = targetId.GetObject();
+            if (changed) target = targetId.GetObject() as IBattleChara;
 
             OverrideTarget = target ?? OverrideTarget;
             var outAct = OriginalHook(InvokeCombo(preset, attributes, ref gameAct, target));
@@ -996,9 +996,9 @@ internal unsafe class AutoRotationController
                 return false;
 
             var areaTargeted = ActionSheet.TryGetValue(outAct, out var s) && s.TargetArea;
-            var canUseTarget = target is not null && ActionManager.CanUseActionOnTarget(outAct, target.Struct());
+            var canUseTarget = target is not null && ActionManager.CanUseActionOnTarget(outAct, target.GameObject());
 
-            var acRangeCheck = ActionManager.GetActionInRangeOrLoS(outAct, player.GameObject(), target is null ? player.GameObject() : target.Struct());
+            var acRangeCheck = ActionManager.GetActionInRangeOrLoS(outAct, player.GameObject(), target is null ? player.GameObject() : target.GameObject());
             var inRange = acRangeCheck is 0 or 565 || canUseSelf;
 
             var canUse = (canUseSelf || canUseTarget || areaTargeted) && outAct.ActionAttackType() is { } type && ((type is ActionAttackType.Ability && AnimationLock <= cfg.QueueWindow) || (type is not ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow));
@@ -1034,7 +1034,7 @@ internal unsafe class AutoRotationController
             return false;
         }
 
-        private static bool SwitchOnDChole(PresetStorage.PresetData attributes, uint outAct, ref IGameObject? newtarget)
+        private static bool SwitchOnDChole(PresetStorage.PresetData attributes, uint outAct, ref IBattleChara? newtarget)
         {
             if (outAct is SGE.Druochole && !attributes.AutoAction!.IsHeal)
             {
@@ -1127,7 +1127,7 @@ internal unsafe class AutoRotationController
             return inCombat;
         }
 
-        public static IGameObject? GetTankTarget()
+        public static IBattleChara? GetTankTarget()
         {
             var tank = GetPartyMembers().FirstOrDefault(x => x.BattleChara?.GetRole() == CombatRole.Tank ||
                 HasStatusEffect(1719, x.BattleChara, true) || // BLU Mighty Guard
@@ -1135,7 +1135,7 @@ internal unsafe class AutoRotationController
             if (tank == null)
                 return null;
 
-            return tank.BattleChara.TargetObject;
+            return tank.BattleChara.TargetObject as IBattleChara;
         }
 
         public static IBattleChara? GetNearestTarget()
@@ -1208,13 +1208,13 @@ internal unsafe class AutoRotationController
             }
             return null;
         }
-        internal static IGameObject? GetHighestCurrent()
+        internal static IBattleChara? GetHighestCurrent()
         {
             if (GetPartyMembers().Count == 0) return Player.Object;
             return HealTargets().ThenByDescending(x => GetTargetHPPercent(x)).FirstOrDefault();
         }
 
-        internal static IGameObject? GetLowestCurrent()
+        internal static IBattleChara? GetLowestCurrent()
         {
             if (GetPartyMembers().Count == 0) return Player.Object;
             return HealTargets().ThenBy(x => GetTargetHPPercent(x)).FirstOrDefault();

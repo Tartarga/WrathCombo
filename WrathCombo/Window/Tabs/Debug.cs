@@ -1362,7 +1362,7 @@ internal class Debug : ConfigWindow, IDisposable
             {
                 ImGuiEx.TextWrapped($"Mainly to be used with ARR and real party members since they don't actually get added to the party for some reason.");
                 ImGui.Separator();
-                foreach (var obj in Svc.Objects.Where(x => x.IsFriendly()))
+                foreach (var obj in Svc.Objects.GetBattleCharas().Where(x => x.IsFriendly()))
                 {
                     ImGui.Text($"{obj.Name} ({obj.GameObjectId})");
                     DrawVFXTree(obj);
@@ -1718,10 +1718,10 @@ internal class Debug : ConfigWindow, IDisposable
             CustomStyleText("Height Difference:", $"{MathF.Round(GetTargetHeightDifference(target), 2)}y");
             CustomStyleText("Relative Position:", AngleToTarget(target).ToString());
             CustomStyleText("Requires Positionals:", TargetNeedsPositionals(target));
-            CustomStyleText("Is Invincible:", (target as IBattleChara)?.IsInvincible ?? false);
+            CustomStyleText("Is Invincible:", (target as IBattleChara)?.IsInvincible);
             CustomStyleText("Is Hostile:", target?.IsHostile());
-            CustomStyleText("Is Friendly:", target?.IsFriendly());
-            CustomStyleText("Is Boss:", target?.IsBoss());
+            CustomStyleText("Is Friendly:", (target as IBattleChara)?.IsFriendly());
+            CustomStyleText("Is Boss:", (target as IBattleChara)?.IsBoss());
             CustomStyleText("In Boss Encounter:", InBossEncounter());
 
             ImGuiEx.Spacing(new Vector2(0f, SpacingSmall));

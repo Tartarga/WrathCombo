@@ -327,10 +327,10 @@ public static class DebugFile
 
         AddLine("START TARGET INFO");
         AddLine($"IDs: (<entity>/<data or base>): {target?.EntityId} / {target?.BaseId}");
-        AddLine($"Is Friendly: {target.IsFriendly()}");
+        AddLine($"Is Friendly: {battleTarget?.IsFriendly()}");
         AddLine($"Is Hostile: {target.IsHostile()}");
         AddLine($"In Combat: {target.IsInCombat()}");
-        AddLine($"Is Boss: {battleTarget.IsBoss()}");
+        AddLine($"Is Boss: {battleTarget?.IsBoss()}");
         AddLine($"(In Boss Encounter: {InBossEncounter()})");
         AddLine($"Is Dead: {target.IsDead}");
         AddLine($"Distance: {GetTargetDistance(target):F1}y");

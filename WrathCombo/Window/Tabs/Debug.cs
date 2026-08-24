@@ -188,8 +188,9 @@ internal class Debug : ConfigWindow, IDisposable
                     config = JsonConvert.DeserializeObject<Configuration>(decode);
                 }
                 // Fallback to decoding the non-decompressed data
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ex.Log();
                     var decode = Encoding.UTF8.GetString(base64);
                     config = JsonConvert.DeserializeObject<Configuration>(decode);
                 }

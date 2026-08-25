@@ -160,6 +160,7 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
 
         DrawCollapseButton();
 
+
         Presets.DrawDragDrop();
     }
 
@@ -279,6 +280,8 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
         if (OpenWindow == OpenWindow.None)
             OpenWindow = OpenWindow.PvE;
 
+        ImGui.TextWrapped($"Tip: If a combo replaces an action, you can drag the action directly from this window to your hotbar!"); //Todo Remove this after some time once people are used to it.
+
         switch (OpenWindow)
         {
             case OpenWindow.PvE:
@@ -313,7 +316,8 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
             case OpenWindow.CustomActions:
                 CustomActions.Draw();
                 break;
-        };
+        }
+        ;
     }
 
     private static void DrawCollapseButton()

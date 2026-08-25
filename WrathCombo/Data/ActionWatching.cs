@@ -628,7 +628,7 @@ public static class ActionWatching
                     actionManager->QueuedTargetId = 0;
 
                 // However, if we have a queued target ID assume that's what we want and not whatever current retargeting is. TODO: Setting?
-                if (actionManager->QueuedTargetId.Id != 0)
+                if (actionManager->QueuedTargetId.Id != 0 && actionManager->QueuedActionId > 0)
                     targetId = actionManager->QueuedTargetId.Id;
 
                 var areaTargeted = replacedWith >= 1_000_000 ? false : ActionSheet.TryGetValue(replacedWith, out var s) && s.TargetArea;

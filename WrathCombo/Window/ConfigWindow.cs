@@ -18,6 +18,7 @@ using WrathCombo.Core;
 using WrathCombo.Data.Conflicts;
 using WrathCombo.Resources.Localization.UI.MainWindow;
 using WrathCombo.Services;
+using WrathCombo.Window.Functions;
 using WrathCombo.Window.Tabs;
 using static WrathCombo.Core.PresetStorage;
 using static WrathCombo.CustomComboNS.Functions.Jobs;
@@ -158,6 +159,8 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
         }
 
         DrawCollapseButton();
+
+        Presets.DrawDragDrop();
     }
 
     public static void ClearAnySearches()
@@ -310,8 +313,7 @@ internal class ConfigWindow : Dalamud.Interface.Windowing.Window
             case OpenWindow.CustomActions:
                 CustomActions.Draw();
                 break;
-        }
-        ;
+        };
     }
 
     private static void DrawCollapseButton()

@@ -790,29 +790,29 @@ internal partial class PLD
         public override int MinOpenerLevel => 100;
         public override int MaxOpenerLevel => 100;
 
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            HolySpirit, // 1
-            FastBlade, // 2
-            RiotBlade, // 3
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
-            RoyalAuthority, // 5
-            FightOrFlight, // 6
-            Imperator, // 7
-            Confiteor, // 8
-            CircleOfScorn, // 9
-            Expiacion, // 10
-            BladeOfFaith, // 11
-            Intervene, // 12
-            BladeOfTruth, // 13
-            Intervene, // 14
-            BladeOfValor, // 15
-            BladeOfHonor, // 16
-            GoringBlade, // 17
-            Atonement, // 18
-            Supplication, // 19
-            Sepulchre, // 20
-            HolySpirit // 21
+            () => HolySpirit, // 1
+            () => FastBlade, // 2
+            () => RiotBlade, // 3
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
+            () => RoyalAuthority, // 5
+            () => FightOrFlight, // 6
+            () => Imperator, // 7
+            () => Confiteor, // 8
+            () => CircleOfScorn, // 9
+            () => Expiacion, // 10
+            () => BladeOfFaith, // 11
+            () => Intervene, // 12
+            () => BladeOfTruth, // 13
+            () => Intervene, // 14
+            () => BladeOfValor, // 15
+            () => BladeOfHonor, // 16
+            () => GoringBlade, // 17
+            () => Atonement, // 18
+            () => Supplication, // 19
+            () => Sepulchre, // 20
+            () => HolySpirit // 21
         ];
 
         public override List<(int[] Steps, Func<bool> Condition)> SkipSteps { get; set; } =
@@ -840,29 +840,29 @@ internal partial class PLD
         public override int MinOpenerLevel => 100;
         public override int MaxOpenerLevel => 100;
 
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            HolySpirit, // 1
-            FastBlade, // 2
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 3
-            FightOrFlight, // 4
-            Imperator, // 5
-            RiotBlade, // 6
-            CircleOfScorn, // 7
-            Expiacion, // 8
-            RoyalAuthority, // 9
-            Intervene, // 10
-            GoringBlade, // 11
-            Intervene, // 12
-            Confiteor, // 13
-            BladeOfFaith, // 14
-            BladeOfTruth, // 15
-            BladeOfValor, // 16
-            BladeOfHonor, // 17
-            HolySpirit, // 18
-            Atonement, // 19
-            Supplication, // 20
-            Sepulchre // 21
+            () => HolySpirit, // 1
+            () => FastBlade, // 2
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 3
+            () => FightOrFlight, // 4
+            () => Imperator, // 5
+            () => RiotBlade, // 6
+            () => CircleOfScorn, // 7
+            () => Expiacion, // 8
+            () => RoyalAuthority, // 9
+            () => Intervene, // 10
+            () => GoringBlade, // 11
+            () => Intervene, // 12
+            () => Confiteor, // 13
+            () => BladeOfFaith, // 14
+            () => BladeOfTruth, // 15
+            () => BladeOfValor, // 16
+            () => BladeOfHonor, // 17
+            () => HolySpirit, // 18
+            () => Atonement, // 19
+            () => Supplication, // 20
+            () => Sepulchre // 21
         ];
 
         public override List<(int[] Steps, uint NewAction, Func<bool> Condition)> SubstitutionSteps { get; set; } =
@@ -969,3 +969,5 @@ internal partial class PLD
 
     #endregion
 }
+
+

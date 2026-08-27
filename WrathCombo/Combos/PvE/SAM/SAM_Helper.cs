@@ -587,23 +587,23 @@ internal partial class SAM
         public override int MinOpenerLevel => 70;
         public override int MaxOpenerLevel => 70;
 
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            MeikyoShisui, // 1
-            Role.TrueNorth, // 2
-            Gekko, // 3
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
-            Kasha, // 5
-            Ikishoten, // 6
-            Yukikaze, // 7
-            Shinten, // 8
-            MidareSetsugekka, // 9
-            Shinten, // 10
-            Hakaze, // 11
-            Guren, // 12
-            Yukikaze, // 13
-            Shinten, // 14
-            Higanbana // 15
+            () => MeikyoShisui, // 1
+            () => Role.TrueNorth, // 2
+            () => Gekko, // 3
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
+            () => Kasha, // 5
+            () => Ikishoten, // 6
+            () => Yukikaze, // 7
+            () => Shinten, // 8
+            () => MidareSetsugekka, // 9
+            () => Shinten, // 10
+            () => Hakaze, // 11
+            () => Guren, // 12
+            () => Yukikaze, // 13
+            () => Shinten, // 14
+            () => Higanbana // 15
         ];
 
         public override bool HasCooldowns() =>
@@ -617,28 +617,28 @@ internal partial class SAM
         public override int MinOpenerLevel => 80;
         public override int MaxOpenerLevel => 80;
 
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            MeikyoShisui, // 1
-            Role.TrueNorth, // 2
-            Gekko, // 3
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
-            Ikishoten, // 5
-            Kasha, // 6
-            Yukikaze, // 7
-            MidareSetsugekka, // 8
-            Senei, // 9
-            KaeshiSetsugekka, // 10
-            MeikyoShisui, // 11
-            Gekko, // 12
-            Higanbana, // 13
-            Gekko, // 14
-            Kasha, // 15
-            Hakaze, // 16
-            Yukikaze, // 17
-            MidareSetsugekka, // 18
-            Shoha, // 19
-            KaeshiSetsugekka // 20
+            () => MeikyoShisui, // 1
+            () => Role.TrueNorth, // 2
+            () => Gekko, // 3
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
+            () => Ikishoten, // 5
+            () => Kasha, // 6
+            () => Yukikaze, // 7
+            () => MidareSetsugekka, // 8
+            () => Senei, // 9
+            () => KaeshiSetsugekka, // 10
+            () => MeikyoShisui, // 11
+            () => Gekko, // 12
+            () => Higanbana, // 13
+            () => Gekko, // 14
+            () => Kasha, // 15
+            () => Hakaze, // 16
+            () => Yukikaze, // 17
+            () => MidareSetsugekka, // 18
+            () => Shoha, // 19
+            () => KaeshiSetsugekka // 20
         ];
 
         public override bool HasCooldowns() =>
@@ -652,30 +652,30 @@ internal partial class SAM
         public override int MinOpenerLevel => 90;
         public override int MaxOpenerLevel => 90;
 
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            MeikyoShisui, // 1
-            Role.TrueNorth, // 2
-            Gekko, // 3
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
-            Ikishoten, // 5
-            Kasha, // 6
-            Yukikaze, // 7
-            MidareSetsugekka, // 8
-            Senei, // 9
-            KaeshiSetsugekka, // 10
-            MeikyoShisui, // 11
-            Gekko, // 12
-            Higanbana, // 13
-            OgiNamikiri, // 14
-            Shoha, // 15
-            KaeshiNamikiri, // 16
-            Kasha, // 17
-            Gekko, // 18
-            Hakaze, // 19
-            Yukikaze, // 20
-            MidareSetsugekka, // 21
-            KaeshiSetsugekka // 22
+            () => MeikyoShisui, // 1
+            () => Role.TrueNorth, // 2
+            () => Gekko, // 3
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
+            () => Ikishoten, // 5
+            () => Kasha, // 6
+            () => Yukikaze, // 7
+            () => MidareSetsugekka, // 8
+            () => Senei, // 9
+            () => KaeshiSetsugekka, // 10
+            () => MeikyoShisui, // 11
+            () => Gekko, // 12
+            () => Higanbana, // 13
+            () => OgiNamikiri, // 14
+            () => Shoha, // 15
+            () => KaeshiNamikiri, // 16
+            () => Kasha, // 17
+            () => Gekko, // 18
+            () => Hakaze, // 19
+            () => Yukikaze, // 20
+            () => MidareSetsugekka, // 21
+            () => KaeshiSetsugekka // 22
         ];
 
         public override bool HasCooldowns() =>
@@ -689,35 +689,35 @@ internal partial class SAM
         public override int MinOpenerLevel => 100;
         public override int MaxOpenerLevel => 100;
 
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            MeikyoShisui, // 1
-            Role.TrueNorth, // 2
-            Gekko, // 3
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
-            Kasha, // 5
-            Ikishoten, // 6
-            Yukikaze, // 7
-            TendoSetsugekka, // 8
-            Senei, // 9
-            TendoKaeshiSetsugekka, // 10
-            MeikyoShisui, // 11
-            Gekko, // 12
-            Zanshin, // 13
-            Higanbana, // 14
-            OgiNamikiri, // 15
-            Shoha, // 16
-            KaeshiNamikiri, // 17
-            Kasha, // 18
-            Shinten, // 19
-            Gekko, // 20
-            Gyoten, // 21
-            Gyofu, // 22
-            Yukikaze, // 23
-            Shinten, // 24
-            TendoSetsugekka, // 25
-            Gyoten, // 26
-            TendoKaeshiSetsugekka // 27
+            () => MeikyoShisui, // 1
+            () => Role.TrueNorth, // 2
+            () => Gekko, // 3
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
+            () => Kasha, // 5
+            () => Ikishoten, // 6
+            () => Yukikaze, // 7
+            () => TendoSetsugekka, // 8
+            () => Senei, // 9
+            () => TendoKaeshiSetsugekka, // 10
+            () => MeikyoShisui, // 11
+            () => Gekko, // 12
+            () => Zanshin, // 13
+            () => Higanbana, // 14
+            () => OgiNamikiri, // 15
+            () => Shoha, // 16
+            () => KaeshiNamikiri, // 17
+            () => Kasha, // 18
+            () => Shinten, // 19
+            () => Gekko, // 20
+            () => Gyoten, // 21
+            () => Gyofu, // 22
+            () => Yukikaze, // 23
+            () => Shinten, // 24
+            () => TendoSetsugekka, // 25
+            () => Gyoten, // 26
+            () => TendoKaeshiSetsugekka // 27
         ];
 
         public override List<(int[] Steps, Func<bool> Condition)> SkipSteps { get; set; } =
@@ -846,3 +846,5 @@ internal partial class SAM
 
     #endregion
 }
+
+

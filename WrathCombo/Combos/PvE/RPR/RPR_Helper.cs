@@ -710,32 +710,32 @@ internal partial class RPR
         public override int MinOpenerLevel => 100;
         public override int MaxOpenerLevel => 100;
 
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            Harpe, // 1
-            ShadowOfDeath, // 2
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 3
-            SoulSlice, // 4
-            ArcaneCircle, // 5
-            Gluttony, // 6
-            ExecutionersGibbet, // 7
-            ExecutionersGallows, // 8
-            SoulSlice, // 9
-            PlentifulHarvest, // 10
-            Enshroud, // 11
-            VoidReaping, // 12
-            Sacrificium, // 13
-            CrossReaping, // 14
-            LemuresSlice, // 15
-            VoidReaping, // 16
-            CrossReaping, // 17
-            LemuresSlice, // 18
-            Communio, // 19
-            Perfectio, // 20
-            UnveiledGibbet, // 21
-            Gibbet, // 22
-            ShadowOfDeath, // 23
-            Slice // 24
+            () => Harpe, // 1
+            () => ShadowOfDeath, // 2
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 3
+            () => SoulSlice, // 4
+            () => ArcaneCircle, // 5
+            () => Gluttony, // 6
+            () => ExecutionersGibbet, // 7
+            () => ExecutionersGallows, // 8
+            () => SoulSlice, // 9
+            () => PlentifulHarvest, // 10
+            () => Enshroud, // 11
+            () => VoidReaping, // 12
+            () => Sacrificium, // 13
+            () => CrossReaping, // 14
+            () => LemuresSlice, // 15
+            () => VoidReaping, // 16
+            () => CrossReaping, // 17
+            () => LemuresSlice, // 18
+            () => Communio, // 19
+            () => Perfectio, // 20
+            () => UnveiledGibbet, // 21
+            () => Gibbet, // 22
+            () => ShadowOfDeath, // 23
+            () => Slice // 24
         ];
 
         public override List<(int[], uint, Func<bool>)> SubstitutionSteps { get; set; } =
@@ -764,31 +764,31 @@ internal partial class RPR
         public override int MinOpenerLevel => 100;
         public override int MaxOpenerLevel => 100;
 
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            SoulSlice, // 1
-            ArcaneCircle, // 2
-            ShadowOfDeath, // 3
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
-            Gluttony, // 5
-            ExecutionersGibbet, // 6
-            ExecutionersGallows, // 7
-            PlentifulHarvest, // 8
-            Enshroud, // 9
-            VoidReaping, // 10
-            Sacrificium, // 11
-            CrossReaping, // 12
-            LemuresSlice, // 13
-            VoidReaping, // 14
-            CrossReaping, // 15
-            LemuresSlice, // 16
-            Communio, // 17
-            Perfectio, // 18
-            SoulSlice, // 19
-            UnveiledGibbet, // 20
-            Gibbet, // 21
-            ShadowOfDeath, // 22
-            Slice // 23
+            () => SoulSlice, // 1
+            () => ArcaneCircle, // 2
+            () => ShadowOfDeath, // 3
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
+            () => Gluttony, // 5
+            () => ExecutionersGibbet, // 6
+            () => ExecutionersGallows, // 7
+            () => PlentifulHarvest, // 8
+            () => Enshroud, // 9
+            () => VoidReaping, // 10
+            () => Sacrificium, // 11
+            () => CrossReaping, // 12
+            () => LemuresSlice, // 13
+            () => VoidReaping, // 14
+            () => CrossReaping, // 15
+            () => LemuresSlice, // 16
+            () => Communio, // 17
+            () => Perfectio, // 18
+            () => SoulSlice, // 19
+            () => UnveiledGibbet, // 20
+            () => Gibbet, // 21
+            () => ShadowOfDeath, // 22
+            () => Slice // 23
         ];
 
         public override List<(int[], uint, Func<bool>)> SubstitutionSteps { get; set; } =
@@ -807,29 +807,29 @@ internal partial class RPR
         public override int MinOpenerLevel => 90;
         public override int MaxOpenerLevel => 90;
 
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            Harpe, // 1
-            ShadowOfDeath, // 2
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 3
-            ArcaneCircle, // 4
-            SoulSlice, // 5
-            SoulSlice, // 6
-            PlentifulHarvest, // 7
-            Enshroud, // 8
-            VoidReaping, // 9
-            CrossReaping, // 10
-            LemuresSlice, // 11
-            VoidReaping, // 12
-            CrossReaping, // 13
-            LemuresSlice, // 14
-            Communio, // 15
-            HarvestMoon, // 16
-            Gluttony, // 17
-            Gibbet, // 18
-            Gallows, // 19
-            UnveiledGibbet, // 20
-            Gibbet // 21
+            () => Harpe, // 1
+            () => ShadowOfDeath, // 2
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 3
+            () => ArcaneCircle, // 4
+            () => SoulSlice, // 5
+            () => SoulSlice, // 6
+            () => PlentifulHarvest, // 7
+            () => Enshroud, // 8
+            () => VoidReaping, // 9
+            () => CrossReaping, // 10
+            () => LemuresSlice, // 11
+            () => VoidReaping, // 12
+            () => CrossReaping, // 13
+            () => LemuresSlice, // 14
+            () => Communio, // 15
+            () => HarvestMoon, // 16
+            () => Gluttony, // 17
+            () => Gibbet, // 18
+            () => Gallows, // 19
+            () => UnveiledGibbet, // 20
+            () => Gibbet // 21
         ];
 
         public override List<(int[], uint, Func<bool>)> SubstitutionSteps { get; set; } =
@@ -956,3 +956,5 @@ internal partial class RPR
 
     #endregion
 }
+
+

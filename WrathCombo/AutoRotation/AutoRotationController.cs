@@ -884,8 +884,8 @@ internal unsafe class AutoRotationController
                         return false;
 
                 }
-                ulong targetId = target.GameObjectId;
-                var changed = CheckForChangedTarget(gameAct, ref targetId, out var replacedWith) && targetId != target.GameObjectId;
+                ulong targetId = target?.GameObjectId ?? 0;
+                var changed = CheckForChangedTarget(gameAct, ref targetId, out var replacedWith) && targetId != target?.GameObjectId;
                 if (changed) target = targetId.GetObject();
 
                 OverrideTarget = target ?? OverrideTarget;
@@ -960,7 +960,7 @@ internal unsafe class AutoRotationController
             if ((target is not { } t || (!t.IsHostile() && !t.IsFriendly())) && cfg.PauseWhenNoTarget) return true;
 
             ulong targetId = target?.GameObjectId ?? 0;
-            var changed = CheckForChangedTarget(gameAct, ref targetId, out var replacedWith) && targetId != target.GameObjectId;
+            var changed = CheckForChangedTarget(gameAct, ref targetId, out var replacedWith) && targetId != target?.GameObjectId;
             if (changed) target = targetId.GetObject();
 
             OverrideTarget = target ?? OverrideTarget;

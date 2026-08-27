@@ -667,27 +667,27 @@ internal partial class SGE
 
     internal class SGEToxikonOpener : SGEOpenerBase
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            Eukrasia,
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
-            Toxikon2,
-            EukrasianDosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Phlegma3,
-            Psyche,
-            Phlegma3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Eukrasia,
-            EukrasianDosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3
+            () => Eukrasia,
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
+            () => Toxikon2,
+            () => EukrasianDosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Phlegma3,
+            () => Psyche,
+            () => Phlegma3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Eukrasia,
+            () => EukrasianDosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3
         ];
 
         public override bool HasCooldowns() =>
@@ -697,27 +697,27 @@ internal partial class SGE
 
     internal class SGEPneumaOpener : SGEOpenerBase
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            Eukrasia,
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
-            Pneuma,
-            EukrasianDosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Phlegma3,
-            Psyche,
-            Phlegma3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Eukrasia,
-            EukrasianDosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3
+            () => Eukrasia,
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
+            () => Pneuma,
+            () => EukrasianDosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Phlegma3,
+            () => Psyche,
+            () => Phlegma3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Eukrasia,
+            () => EukrasianDosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3
         ];
 
         public override bool HasCooldowns() =>
@@ -817,3 +817,5 @@ internal partial class SGE
 
     #endregion
 }
+
+

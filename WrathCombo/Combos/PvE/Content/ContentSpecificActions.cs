@@ -1,5 +1,5 @@
 using WrathCombo.Combos.PvE.Content;
-using WrathCombo.Combos.PvE.Content.DeepDungeon;
+using WrathCombo.Combos.PvE.Content.DeepDungeons;
 
 namespace WrathCombo.Combos.PvE;
 
@@ -48,7 +48,7 @@ public static class ContentSpecificActions
         if (Bozja.TryGetBozjaAction(ref contentAction))
             return true;
 
-        if (DeepDungeon.TryGetPoTDAction(ref contentAction))
+        if (DeepDungeons.TryGetDDAction(ref contentAction))
             return true;
 
         // Deep dungeons next?

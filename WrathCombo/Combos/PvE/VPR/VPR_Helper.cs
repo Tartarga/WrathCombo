@@ -195,7 +195,7 @@ internal partial class VPR
 
     #region Reawaken
 
-    private static bool CanReawaken(
+    private static bool UseReawaken(
         bool onAoE = false,
         int hpThresholdUsage = 0,
         int hpThresholdDontSave = 5,
@@ -260,7 +260,7 @@ internal partial class VPR
             ReawakenThirdGeneration => ThirdGeneration,
             ReawakenFourthGeneration => FourthGeneration,
             0 => Ouroboros,
-            var _ => actionId
+            _ => actionId
         };
 
     private static int ReawakenHPThreshold()
@@ -318,10 +318,10 @@ internal partial class VPR
 
     private static bool UseSerpentsTailWeave(bool onAoE, bool allowDeathRattle, bool allowLegacy) =>
         ActionLearned(SerpentsTail) &&
-        ((allowDeathRattle &&
-          (onAoE
-              ? IsLastLashWeave && InActionRange(LastLash)
-              : IsDeathRattleWeave && InActionRange(DeathRattle))) ||
+        (allowDeathRattle &&
+         (onAoE
+             ? IsLastLashWeave && InActionRange(LastLash)
+             : IsDeathRattleWeave && InActionRange(DeathRattle)) ||
          allowLegacy && IsLegacyWeaveReady && InActionRange(FirstLegacy));
 
     private static bool UsePoisedTwinWeaves(ref uint actionID, bool enabled = true)
@@ -386,7 +386,7 @@ internal partial class VPR
         return false;
     }
 
-    private static bool CanSerpentsIre(int hpThreshold = 0) =>
+    private static bool UseSerpentsIre(int hpThreshold = 0) =>
         InCombat() && !IsCoilsCapped && ActionReady(SerpentsIre) &&
         GetTargetHPPercent() > hpThreshold;
 
@@ -394,7 +394,7 @@ internal partial class VPR
         RattlingCoilStacks > holdCharges ||
         GetTargetHPPercent() < hpThreshold && HasRattlingCoilStacks;
 
-    private static bool CanUseUncoiledFuryInRotation(bool onAoE) =>
+    private static bool UseUncoiledFuryInRotation(bool onAoE) =>
         !ShouldHoldNewTwinblade &&
         HasBothBuffs &&
         !HasStatusEffect(Buffs.Reawakened) && !HasStatusEffect(Buffs.ReadyToReawaken) &&
@@ -414,7 +414,7 @@ internal partial class VPR
         (ActionLearned(SerpentsIre) && IreCD <= GCD * (onAoE ? 2 : 3) ||
          HasCharges(onAoE ? Vicepit : Vicewinder));
 
-    private static bool CanUseUncoiledFury(
+    private static bool UseUncoiledFury(
         bool onAoE = false,
         int stHoldCharges = 1,
         int stHpThreshold = 1,
@@ -427,7 +427,7 @@ internal partial class VPR
         if (!onAoE && HasRattlingCoilStacks && !InMeleeRange() && HasBattleTarget())
             return true;
 
-        if (!CanUseUncoiledFuryInRotation(onAoE))
+        if (!UseUncoiledFuryInRotation(onAoE))
             return false;
 
         return ShouldSpendCoilStacks(onAoE ? aoeHoldCharges : stHoldCharges,
@@ -456,13 +456,13 @@ internal partial class VPR
         return false;
     }
 
-    private static bool CanVicepit(bool ignoreRange = false) =>
+    private static bool UseVicepit(bool ignoreRange = false) =>
         WithinGCD(Vicepit) && !HasStatusEffect(Buffs.Reawakened) && !JustUsed(Vicepit) &&
         !ShouldHoldNewTwinblade &&
         (ignoreRange || InActionRange(Vicepit)) &&
         (!HasBothBuffs || IreCD >= GCD * 4 || !ActionLearned(SerpentsIre));
 
-    private static uint UseVicewinder(
+    private static uint DoVicewinder(
         bool useSimpleTrueNorth = true,
         bool useDynamicTrueNorth = false,
         int trueNorthCharges = 0)
@@ -493,7 +493,7 @@ internal partial class VPR
 
     #region Vicewinder & Uncoiled Fury Combo
 
-    private static bool CanUseVicewinder =>
+    private static bool UseVicewinder() =>
         WithinGCD(Vicewinder) && InActionRange(Vicewinder) && InCombat() &&
         !ShouldHoldNewTwinblade &&
         !IsComboExpiring(6) && !IsVenomExpiring(4) && !IsHoningExpiring(4) &&
@@ -504,7 +504,7 @@ internal partial class VPR
          IsEmpowermentExpiring(4) ||
          IreCD >= GCD * 3 && InBossEncounter() || !InBossEncounter() || !ActionLearned(SerpentsIre));
 
-    private static bool CanVicewinderCombo(
+    private static bool UseVicewinderCombo(
         ref uint actionId,
         bool vicewinderBuffPrio = false,
         bool preferRangedWhenOor = false)
@@ -578,10 +578,10 @@ internal partial class VPR
 
         private protected static bool OpenerTwinBiteMissed() =>
             OpenerReawakenAlreadyUsed() ||
-            (!HasStatusEffect(Buffs.HuntersVenom) &&
-             !HasStatusEffect(Buffs.SwiftskinsVenom) &&
-             !JustUsed(HuntersCoil) &&
-             !JustUsed(SwiftskinsCoil));
+            !HasStatusEffect(Buffs.HuntersVenom) &&
+            !HasStatusEffect(Buffs.SwiftskinsVenom) &&
+            !JustUsed(HuntersCoil) &&
+            !JustUsed(SwiftskinsCoil);
     }
 
     internal class VPRStandardOpener : VPROpenerBase
@@ -836,5 +836,3 @@ internal partial class VPR
 
     #endregion
 }
-
-

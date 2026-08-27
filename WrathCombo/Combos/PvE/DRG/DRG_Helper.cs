@@ -101,7 +101,7 @@ internal partial class DRG
 
     #region Lifesurge
 
-    private static bool CanLifeSurge(bool onAoE = false)
+    private static bool UseLifeSurge(bool onAoE = false)
     {
         if (!ActionReady(LifeSurge) || HasStatusEffect(Buffs.LifeSurge))
             return false;
@@ -181,14 +181,14 @@ internal partial class DRG
 
     #region Burst skills
 
-    private static bool CanBattleLitany(int hpThreshold = 0) =>
+    private static bool UseBattleLitany(int hpThreshold = 0) =>
         ActionReady(BattleLitany) && GetTargetHPPercent() > hpThreshold;
 
-    private static bool CanLanceCharge(int hpThreshold = 0) =>
+    private static bool UseLanceCharge(int hpThreshold = 0) =>
         ActionReady(LanceCharge) && HasBattleTarget() && GetTargetHPPercent() > hpThreshold &&
         (IsOnCooldown(BattleLitany) || !ActionLearned(BattleLitany));
 
-    private static bool CanUseWyrmwind() =>
+    private static bool UseWyrmwind() =>
         ActionReady(WyrmwindThrust) &&
         FirstmindsFocus is 2 &&
         InActionRange(WyrmwindThrust) &&
@@ -197,7 +197,7 @@ internal partial class DRG
          HasStatusEffect(Buffs.RaidenThrustReady) ||
          NumberOfEnemiesInRange(WyrmwindThrust, CurrentTarget) >= 2);
 
-    private static bool CanMirageDive(bool onAoE = false, bool ignoreDoubleMirageHold = false)
+    private static bool UseMirageDive(bool onAoE = false, bool ignoreDoubleMirageHold = false)
     {
         if (!ActionReady(MirageDive) || !HasStatusEffect(Buffs.DiveReady) ||
             OriginalHook(Jump) is not MirageDive || !InActionRange(MirageDive))
@@ -212,7 +212,7 @@ internal partial class DRG
         return diveExpiring || !DRG_ST_DoubleMirage;
     }
 
-    private static bool CanUseGeirskogul(int hpThreshold = 0) =>
+    private static bool UseGeirskogul(int hpThreshold = 0) =>
         ActionReady(Geirskogul) &&
         InActionRange(Geirskogul) &&
         HasBattleTarget() &&
@@ -225,16 +225,16 @@ internal partial class DRG
                 : DRG_ST_GeirskogulBossAddsHPOption
             : DRG_ST_GeirskogulTrashHPOption;
 
-    private static bool CanStarcross() =>
+    private static bool UseStarcross() =>
         ActionReady(Starcross) && HasStatusEffect(Buffs.StarcrossReady) && InActionRange(Starcross);
 
-    private static bool CanRiseOfTheDragon() =>
+    private static bool UseRiseOfTheDragon() =>
         ActionReady(RiseOfTheDragon) && HasStatusEffect(Buffs.DragonsFlight) && InActionRange(RiseOfTheDragon);
 
-    private static bool CanNastrond() =>
+    private static bool UseNastrond() =>
         ActionReady(Nastrond) && HasStatusEffect(Buffs.NastrondReady) && IsLoTDActive && InActionRange(Nastrond);
 
-    private static bool CanHighJump(
+    private static bool UseHighJump(
         bool onAoE = false,
         UserBoolArray? holdOptions = null,
         bool allowDoubleMirageHold = true) =>
@@ -246,7 +246,7 @@ internal partial class DRG
               (allowDoubleMirageHold || !DRG_ST_DoubleMirage ||
                DRG_ST_DoubleMirage && (GetCooldownRemainingTime(Geirskogul) < 13 || IsLoTDTimerActive)));
 
-    private static bool CanDragonfireDive(
+    private static bool UseDragonfireDive(
         UserBoolArray? holdOptions = null,
         int hpThreshold = 0) =>
         ActionReady(DragonfireDive) && !HasStatusEffect(Buffs.DragonsFlight) &&
@@ -254,7 +254,7 @@ internal partial class DRG
         CanUseWithHoldOptions(holdOptions) &&
         (IsLoTDTimerActive || !ActionLearned(Geirskogul));
 
-    private static bool CanStardiver(UserBoolArray? holdOptions = null) =>
+    private static bool UseStardiver(UserBoolArray? holdOptions = null) =>
         ActionReady(Stardiver) && IsLoTDActive && !HasStatusEffect(Buffs.StarcrossReady) &&
         CanUseWithHoldOptions(holdOptions);
 
@@ -313,27 +313,27 @@ internal partial class DRG
         if (options.OnAoE)
         {
             if (options.UseMirage &&
-                CanMirageDive(true, options.IgnoreDoubleMirageHold) && InCombat())
+                UseMirageDive(true, options.IgnoreDoubleMirageHold) && InCombat())
                 return MirageDive;
 
             if (options.UseWyrmwind &&
-                CanUseWyrmwind() && InCombat())
+                UseWyrmwind() && InCombat())
                 return WyrmwindThrust;
 
             if (options.UseStarcross &&
-                CanStarcross() && InCombat())
+                UseStarcross() && InCombat())
                 return Starcross;
 
             if (options.UseRiseOfTheDragon &&
-                CanRiseOfTheDragon() && InCombat())
+                UseRiseOfTheDragon() && InCombat())
                 return RiseOfTheDragon;
 
             if (options.UseGeirskogul &&
-                CanUseGeirskogul(options.GeirskogulHpThreshold) && InCombat())
+                UseGeirskogul(options.GeirskogulHpThreshold) && InCombat())
                 return Geirskogul;
 
             if (options.UseNastrond &&
-                CanNastrond() && InCombat())
+                UseNastrond() && InCombat())
                 return Nastrond;
 
             if (options.UseRangedUptime &&
@@ -344,27 +344,27 @@ internal partial class DRG
         }
 
         if (options.UseMirage &&
-            CanMirageDive(ignoreDoubleMirageHold: options.IgnoreDoubleMirageHold) && InCombat())
+            UseMirageDive(ignoreDoubleMirageHold: options.IgnoreDoubleMirageHold) && InCombat())
             return MirageDive;
 
         if (options.UseWyrmwind &&
-            CanUseWyrmwind() && InCombat())
+            UseWyrmwind() && InCombat())
             return WyrmwindThrust;
 
         if (options.UseStarcross &&
-            CanStarcross() && InCombat())
+            UseStarcross() && InCombat())
             return Starcross;
 
         if (options.UseRiseOfTheDragon &&
-            CanRiseOfTheDragon() && InCombat())
+            UseRiseOfTheDragon() && InCombat())
             return RiseOfTheDragon;
 
         if (options.UseGeirskogul &&
-            CanUseGeirskogul(hpThreshold: options.GeirskogulHpThreshold) && InCombat())
+            UseGeirskogul(hpThreshold: options.GeirskogulHpThreshold) && InCombat())
             return Geirskogul;
 
         if (options.UseNastrond &&
-            CanNastrond() && InCombat())
+            UseNastrond() && InCombat())
             return Nastrond;
 
         if (options.UseRangedUptime &&

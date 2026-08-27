@@ -502,7 +502,7 @@ internal partial class SGE
             SGE_Mit_AoE_PrognosisOption = new("SGE_Mit_AoE_PrognosisOption");
 
         public static UserIntArray
-            SGE_ST_Heals_Priority = new("SGE_ST_Heals_Priority", [7, 10, 11, 5, 6, 1, 8, 12, 3, 2, 9, 4]), 
+            SGE_ST_Heals_Priority = new("SGE_ST_Heals_Priority", [7, 10, 11, 5, 6, 1, 8, 12, 3, 2, 9, 4]),
             SGE_AoE_Heals_Priority = new("SGE_AoE_Heals_Priority", [2, 6, 1, 3, 5, 8, 4, 7, 9]);
 
         public static UserBoolArray

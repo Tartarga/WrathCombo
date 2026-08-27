@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using WrathCombo.Combos.PvE.ALL;
 using WrathCombo.CustomComboNS;
 using WrathCombo.CustomComboNS.Functions;
+using static ECommons.DalamudServices.Svc;
 using static FFXIVClientStructs.FFXIV.Client.Game.ActionManager;
 using static WrathCombo.Combos.PvE.VPR.Config;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
@@ -544,18 +545,18 @@ internal partial class VPR
 
     internal static WrathOpener Opener()
     {
-        if (StandardOpener.LevelChecked && VPR_OpenerSelection == 0)
+        if (DMUOpener.LevelChecked &&
+            ClientState.TerritoryType == 1363)
+            return DMUOpener;
+
+        if (StandardOpener.LevelChecked)
             return StandardOpener;
-
-        if (EarlyBuffOpener.LevelChecked && VPR_OpenerSelection == 1)
-            return EarlyBuffOpener;
-
 
         return WrathOpener.Dummy;
     }
 
     internal static VPRStandardOpener StandardOpener = new();
-    internal static VPREarlyBuffOpener EarlyBuffOpener = new();
+    internal static VPRDMUOpener DMUOpener = new();
 
     internal abstract class VPROpenerBase : WrathOpener
     {
@@ -647,7 +648,7 @@ internal partial class VPR
         public override List<int> DelayedWeaveSteps { get; set; } = [5];
     }
 
-    internal class VPREarlyBuffOpener : VPROpenerBase
+    internal class VPRDMUOpener : VPROpenerBase
     {
         public override List<Func<uint>> OpenerActions { get; set; } =
         [

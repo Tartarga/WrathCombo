@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using WrathCombo.Combos.PvE.ALL;
 using WrathCombo.CustomComboNS;
 using WrathCombo.CustomComboNS.Functions;
+using static ECommons.DalamudServices.Svc;
 using static WrathCombo.Combos.PvE.MNK.Config;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 namespace WrathCombo.Combos.PvE;
@@ -182,7 +183,8 @@ internal partial class MNK
         IsBrotherhoodInPerfectBalanceWindow();
 
     private static bool IsDoubleLunarOpener(bool useOpenerBalance) =>
-        useOpenerBalance && (MNK_SelectedOpener == 0 || MNK_SelectedOpener == 2);
+        useOpenerBalance &&
+        (MNK_SelectedOpener != 1 || ClientState.TerritoryType == 1363);
 
     private static bool ShouldUsePreRoFPerfectBalance(bool useOpenerBalance)
     {
@@ -544,14 +546,9 @@ internal partial class MNK
 
     internal static WrathOpener Opener()
     {
-        if (MNK_SelectedOpener == 0)
-        {
-            if (Lvl100LLOpener.LevelChecked)
-                return Lvl100LLOpener;
-
-            if (Lvl90LLOpener.LevelChecked)
-                return Lvl90LLOpener;
-        }
+        if (DMUOpener.LevelChecked &&
+            ClientState.TerritoryType == 1363)
+            return DMUOpener;
 
         if (MNK_SelectedOpener == 1)
         {
@@ -562,9 +559,11 @@ internal partial class MNK
                 return Lvl90SLOpener;
         }
 
-        if (MNK_SelectedOpener == 2 &&
-            Lvl100BHFirstOpener.LevelChecked)
-            return Lvl100BHFirstOpener;
+        if (Lvl100LLOpener.LevelChecked)
+            return Lvl100LLOpener;
+
+        if (Lvl90LLOpener.LevelChecked)
+            return Lvl90LLOpener;
 
         return WrathOpener.Dummy;
     }
@@ -573,7 +572,7 @@ internal partial class MNK
     internal static MNKLvl100LLOpener Lvl100LLOpener = new();
     internal static MNKLvl90SLOpener Lvl90SLOpener = new();
     internal static MNKLvl100SLOpener Lvl100SLOpener = new();
-    internal static MNKLvl100BHFirstOpener Lvl100BHFirstOpener = new();
+    internal static MNKLvl100DMUOpener DMUOpener = new();
 
     internal abstract class MNKOpenerBase : WrathOpener
     {
@@ -741,7 +740,7 @@ internal partial class MNK
         ];
     }
 
-    internal class MNKLvl100BHFirstOpener : MNKOpenerBase
+    internal class MNKLvl100DMUOpener : MNKOpenerBase
     {
         public override int MinOpenerLevel => 100;
         public override int MaxOpenerLevel => 100;

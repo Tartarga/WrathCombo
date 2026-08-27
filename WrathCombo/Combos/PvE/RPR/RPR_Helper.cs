@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using WrathCombo.Combos.PvE.ALL;
 using WrathCombo.CustomComboNS;
 using WrathCombo.CustomComboNS.Functions;
+using static ECommons.DalamudServices.Svc;
 using static WrathCombo.Combos.PvE.RPR.Config;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 namespace WrathCombo.Combos.PvE;
@@ -673,13 +674,12 @@ internal partial class RPR
 
     internal static WrathOpener Opener()
     {
-        if (StandardOpenerLvl100.LevelChecked &&
-            RPR_SelectedOpener == 0)
-            return StandardOpenerLvl100;
+        if (DMUOpener.LevelChecked &&
+            ClientState.TerritoryType == 1363)
+            return DMUOpener;
 
-        if (FirstGcdBuffsOpenerLvl100.LevelChecked &&
-            RPR_SelectedOpener == 1)
-            return FirstGcdBuffsOpenerLvl100;
+        if (StandardOpenerLvl100.LevelChecked)
+            return StandardOpenerLvl100;
 
         if (StandardOpenerLvl90.LevelChecked)
             return StandardOpenerLvl90;
@@ -688,7 +688,7 @@ internal partial class RPR
     }
 
     internal static RPRStandardOpenerLvl100 StandardOpenerLvl100 = new();
-    internal static RPRFirstGcdBuffsOpenerLvl100 FirstGcdBuffsOpenerLvl100 = new();
+    internal static RPRDMUOpenerLvl100 DMUOpener = new();
     internal static RPRStandardOpenerLvl90 StandardOpenerLvl90 = new();
 
     internal abstract class RPROpenerBase : WrathOpener
@@ -759,7 +759,7 @@ internal partial class RPR
         public override List<int> DelayedWeaveSteps { get; set; } = [3];
     }
 
-    internal class RPRFirstGcdBuffsOpenerLvl100 : RPROpenerBase
+    internal class RPRDMUOpenerLvl100 : RPROpenerBase
     {
         public override int MinOpenerLevel => 100;
         public override int MaxOpenerLevel => 100;

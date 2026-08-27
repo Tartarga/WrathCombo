@@ -418,9 +418,9 @@ internal partial class BLM
         useManaward && ActionReady(Manaward) && !LocalPlayer!.HasShield() &&
         (simpleLogic
             ? PlayerHealthPercentageHp() < hpThreshold && !IsInParty() || GroupDamageIncoming()
-            : (triggerMode == 0 && PlayerHealthPercentageHp() <= hpThreshold && GroupDamageIncoming()) ||
-              ((triggerMode == 1 || triggerMode == 0 && soloOption && !IsInParty()) &&
-               PlayerHealthPercentageHp() <= hpThreshold) ||
+            : triggerMode == 0 && PlayerHealthPercentageHp() <= hpThreshold && GroupDamageIncoming() ||
+              (triggerMode == 1 || triggerMode == 0 && soloOption && !IsInParty()) &&
+              PlayerHealthPercentageHp() <= hpThreshold ||
               triggerMode == 2 && GroupDamageIncoming());
 
     private static bool CanStAddleWeave(bool useAddle = true) =>
@@ -717,7 +717,7 @@ internal partial class BLM
         !BLM_ST_MovementOption[MovementDespair] ||
         GetRemainingCharges(Triplecast) > BLM_ST_TriplecastMovementCharges;
 
-    private static (uint Action, Preset Preset, System.Func<bool> Logic)[]
+    private static (uint Action, Preset Preset, Func<bool> Logic)[]
         PrioritizedMovement =>
     [
         //Despair at lvl 100
@@ -1045,5 +1045,3 @@ internal partial class BLM
 
     #endregion
 }
-
-

@@ -353,7 +353,7 @@ internal partial class BLM : Caster
                             !ActionLearned(Fire4) && !HasStatusEffect(Buffs.Firestarter)) &&
                            !JustUsed(OriginalHook(Fire)) => OriginalHook(Fire),
 
-                var _ => actionID
+                _ => actionID
             };
         }
     }
@@ -419,7 +419,7 @@ internal partial class BLM : Caster
                 Flare when BLM_Flare_FlareStar && IsInFirePhase && CanFlareStar() => FlareStar,
                 Flare when IsInFirePhase && ActionLearned(Flare) => Flare,
                 Flare when IsInIcePhase && ActionReady(Freeze) => Freeze,
-                var _ => actionID
+                _ => actionID
             };
         }
     }
@@ -443,7 +443,7 @@ internal partial class BLM : Caster
                 Blizzard3 when BLM_B1to3 == 1 && ActionLearned(Blizzard3) && IsInIcePhase && UmbralIceStacks is 3 => OriginalHook(Blizzard),
                 Blizzard3 when BLM_Blizzard3_Despair && IsInFirePhase && ActionLearned(Despair) && MP.Cur >= 800 => Despair,
 
-                var _ => actionID
+                _ => actionID
             };
         }
     }
@@ -490,7 +490,7 @@ internal partial class BLM : Caster
             {
                 Freeze when IsUmbralHeartCapped && ActionLearned(Paradox) && IsParadoxActive && IsInIcePhase => OriginalHook(Blizzard),
                 Freeze when !ActionLearned(Freeze) => Blizzard2,
-                var _ => actionID
+                _ => actionID
             };
         }
     }

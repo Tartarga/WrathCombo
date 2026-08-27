@@ -49,15 +49,15 @@ internal partial class SGE : Healer
                     return Soteria;
             }
 
-            if (UseEDosis(ref actionID, simpleMode: true, [actionID]))
+            if (UseEDosis(ref actionID, true, [actionID]))
                 return actionID;
 
             if (HasBattleTarget() && !HasStatusEffect(Buffs.Eukrasia) && InCombat())
             {
-                if (UsePhlegma(burst: true, chargePool: 1, psycheEnabled: true))
+                if (UsePhlegma(true, 1, true))
                     return OriginalHook(Phlegma);
 
-                if (UseMovement(ref actionID, simpleMode: true))
+                if (UseMovement(ref actionID, true))
                     return actionID;
             }
 
@@ -169,20 +169,20 @@ internal partial class SGE : Healer
             }
 
             if (IsEnabled(Preset.SGE_ST_Adv_DPS_EDosis) &&
-                UseEDosis(ref actionID, simpleMode: false, dosisActions))
+                UseEDosis(ref actionID, false, dosisActions))
                 return actionID;
 
             if (HasBattleTarget() && !HasStatusEffect(Buffs.Eukrasia) && InCombat())
             {
                 if (IsEnabled(Preset.SGE_ST_Adv_DPS_Phlegma) &&
                     UsePhlegma(
-                        burst: SGE_ST_Adv_DPS_Phlegma_Burst,
-                        chargePool: SGE_ST_Adv_DPS_Phlegma,
-                        psycheEnabled: IsEnabled(Preset.SGE_ST_Adv_DPS_Psyche)))
+                        SGE_ST_Adv_DPS_Phlegma_Burst,
+                        SGE_ST_Adv_DPS_Phlegma,
+                        IsEnabled(Preset.SGE_ST_Adv_DPS_Psyche)))
                     return OriginalHook(Phlegma);
 
                 if (IsEnabled(Preset.SGE_ST_Adv_DPS_Movement) &&
-                    UseMovement(ref actionID, simpleMode: false))
+                    UseMovement(ref actionID, false))
                     return actionID;
             }
 
@@ -214,7 +214,7 @@ internal partial class SGE : Healer
                 bool psycheEnabled = IsEnabled(Preset.SGE_AoE_Adv_DPS_Psyche);
                 bool phlegmaEnabled = IsEnabled(Preset.SGE_AoE_Adv_DPS_Phlegma);
                 if (psycheEnabled &&
-                    UsePsyche(PhlegmaBurstPair(phlegmaEnabled, psycheEnabled, burst: true)))
+                    UsePsyche(PhlegmaBurstPair(phlegmaEnabled, psycheEnabled, true)))
                     return Psyche;
 
                 if (IsEnabled(Preset.SGE_AoE_Adv_DPS_Lucid) &&
@@ -260,7 +260,7 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetHeals, Diagnosis))
                 return actionID;
 
-            IGameObject? healTarget = SimpleTarget.Stack.OneButtonHealLogic;
+            var healTarget = SimpleTarget.Stack.OneButtonHealLogic;
 
             bool cleansableTarget =
                 HealRetargeting.RetargetSettingOn && SimpleTarget.Stack.AllyToEsuna is not null ||
@@ -270,7 +270,7 @@ internal partial class SGE : Healer
                 !HasStatusEffect(Buffs.Kardia))
                 return Kardia.Retarget(actionID, SimpleTarget.AnyLivingTank);
 
-            if (UseEukrasianDiagnosis(healTarget, simpleMode: true, ref actionID))
+            if (UseEukrasianDiagnosis(healTarget, true, ref actionID))
                 return actionID;
 
             if (ActionReady(Role.Esuna) &&
@@ -300,7 +300,7 @@ internal partial class SGE : Healer
                 !InBossEncounter())
                 return Kerachole;
 
-            if ((healTarget.IsInParty() && healTarget.Role is CombatRole.Tank) || !IsInParty())
+            if (healTarget.IsInParty() && healTarget.Role is CombatRole.Tank || !IsInParty())
             {
                 if (ActionReady(Krasis))
                     return Krasis.RetargetIfEnabled(actionID);
@@ -403,7 +403,7 @@ internal partial class SGE : Healer
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetHeals, Diagnosis))
                 return actionID;
 
-            IGameObject? healTarget = SimpleTarget.Stack.OneButtonHealLogic;
+            var healTarget = SimpleTarget.Stack.OneButtonHealLogic;
 
             bool cleansableTarget =
                 HealRetargeting.RetargetSettingOn && SimpleTarget.Stack.AllyToEsuna is not null ||
@@ -418,7 +418,7 @@ internal partial class SGE : Healer
             if (UseRaidwide(ref actionID))
                 return actionID;
 
-            if (UseEukrasianDiagnosis(healTarget, simpleMode: false, ref actionID))
+            if (UseEukrasianDiagnosis(healTarget, false, ref actionID))
                 return actionID;
 
             if (IsEnabled(Preset.SGE_ST_Adv_Heal_Esuna) &&
@@ -438,7 +438,7 @@ internal partial class SGE : Healer
                     return Rhizomata;
             }
 
-            for (int i = 0; i < SGE_ST_Heals_Priority.Count; i++)
+            for(var i = 0; i < SGE_ST_Heals_Priority.Count; i++)
             {
                 int index = SGE_ST_Heals_Priority.IndexOf(i + 1);
                 if (index == 7)
@@ -484,7 +484,7 @@ internal partial class SGE : Healer
             }
 
             float averagePartyHP = GetPartyAvgHPPercent();
-            for (int i = 0; i < SGE_AoE_Heals_Priority.Count; i++)
+            for(var i = 0; i < SGE_AoE_Heals_Priority.Count; i++)
             {
                 int index = SGE_AoE_Heals_Priority.IndexOf(i + 1);
                 if (!TryAoEHealOption(index, out uint spell, out int config))

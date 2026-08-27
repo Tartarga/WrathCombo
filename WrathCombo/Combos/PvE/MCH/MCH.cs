@@ -41,7 +41,7 @@ internal partial class MCH : PhysicalRanged
 
                 if (!IsOverheated)
                 {
-                    if (CanReassemble(false, reassembleChoice: 0))
+                    if (CanReassemble(false, 0))
                         return Reassemble;
 
                     if (CanBarrelStabilizer(requireBoss: true))
@@ -74,7 +74,7 @@ internal partial class MCH : PhysicalRanged
                 return FullMetalField;
 
             // Prefer Reassemble→tool over weaving without a tool ready
-            if (CanReassemble(false, reassembleChoice: 0) && !IsOverheated)
+            if (CanReassemble(false, 0) && !IsOverheated)
                 return Reassemble;
 
             //Tools
@@ -565,7 +565,7 @@ internal partial class MCH : PhysicalRanged
                 HotShot when ActionLearned(AirAnchor) => CalcBestAction(actionID, AirAnchor, Drill),
                 HotShot when ActionLearned(Drill) => CalcBestAction(actionID, Drill, HotShot),
                 HotShot when !ActionLearned(Drill) => HotShot,
-                var _ => actionID
+                _ => actionID
             };
         }
     }
@@ -585,7 +585,7 @@ internal partial class MCH : PhysicalRanged
                 GaussRound or DoubleCheck when MCH_GaussRico == 0 && ActionReady(OriginalHook(Ricochet)) && CanRicochet => OriginalHook(Ricochet),
                 Ricochet or CheckMate when MCH_GaussRico == 1 && ActionReady(OriginalHook(GaussRound)) && (CanGaussRound || !ActionLearned(Ricochet)) => OriginalHook(GaussRound),
                 Ricochet or CheckMate when MCH_GaussRico == 1 && ActionReady(OriginalHook(Ricochet)) && CanRicochet => OriginalHook(Ricochet),
-                var _ => actionID
+                _ => actionID
             };
         }
     }

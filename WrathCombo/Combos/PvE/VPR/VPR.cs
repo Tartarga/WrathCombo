@@ -377,13 +377,13 @@ internal partial class VPR : Melee
             {
                 case Reawaken when VPR_ReawakenLegacyButton == 0 && HasStatusEffect(Buffs.Reawakened):
                 case ReavingFangs when VPR_ReawakenLegacyButton == 1 && HasStatusEffect(Buffs.Reawakened):
-                {
-                    return IsEnabled(Preset.VPR_ReawakenLegacyWeaves) &&
-                           TraitLevelChecked(Traits.SerpentsLegacy) &&
-                           HasStatusEffect(Buffs.Reawakened) && IsLegacyWeaveReady
-                        ? OriginalHook(SerpentsTail)
-                        : ReawakenCombo(actionID);
-                }
+                    {
+                        return IsEnabled(Preset.VPR_ReawakenLegacyWeaves) &&
+                               TraitLevelChecked(Traits.SerpentsLegacy) &&
+                               HasStatusEffect(Buffs.Reawakened) && IsLegacyWeaveReady
+                            ? OriginalHook(SerpentsTail)
+                            : ReawakenCombo(actionID);
+                    }
             }
 
             return actionID;
@@ -431,7 +431,7 @@ internal partial class VPR : Melee
                 ReavingFangs when Gauge.SerpentCombo is SerpentCombo.SecondLegacy => OriginalHook(SerpentsTail),
                 HuntersCoil when Gauge.SerpentCombo is SerpentCombo.ThirdLegacy => OriginalHook(SerpentsTail),
                 SwiftskinsCoil when Gauge.SerpentCombo is SerpentCombo.FourthLegacy => OriginalHook(SerpentsTail),
-                var _ => actionID
+                _ => actionID
             };
         }
     }
@@ -449,7 +449,7 @@ internal partial class VPR : Melee
             {
                 SteelFangs or ReavingFangs when IsDeathRattleWeave => OriginalHook(SerpentsTail),
                 SteelMaw or ReavingMaw when IsLastLashWeave => OriginalHook(SerpentsTail),
-                var _ => actionID
+                _ => actionID
             };
         }
     }

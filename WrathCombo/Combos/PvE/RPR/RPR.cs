@@ -436,88 +436,88 @@ internal partial class RPR : Melee
             switch (actionID)
             {
                 case GrimSwathe:
-                {
-                    if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_OGCD))
                     {
-                        if (ActionReady(Enshroud) || HasStatusEffect(Buffs.IdealHost))
-                            return Enshroud;
-
-                        if (HasStatusEffect(Buffs.Enshrouded))
+                        if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_OGCD))
                         {
-                            //Sacrificium
-                            if (Lemure is 2 && HasStatusEffect(Buffs.Oblatio))
-                                return OriginalHook(Gluttony);
+                            if (ActionReady(Enshroud) || HasStatusEffect(Buffs.IdealHost))
+                                return Enshroud;
 
-                            //Lemure's Slice
-                            if (Void >= 2 && ActionLearned(LemuresScythe))
-                                return OriginalHook(GrimSwathe);
+                            if (HasStatusEffect(Buffs.Enshrouded))
+                            {
+                                //Sacrificium
+                                if (Lemure is 2 && HasStatusEffect(Buffs.Oblatio))
+                                    return OriginalHook(Gluttony);
+
+                                //Lemure's Slice
+                                if (Void >= 2 && ActionLearned(LemuresScythe))
+                                    return OriginalHook(GrimSwathe);
+                            }
                         }
-                    }
 
-                    if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_Enshroud))
-                    {
-                        if (TryBloodStalkGrimSwatheEnshroudGCD(ref actionID))
+                        if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_Enshroud))
+                        {
+                            if (TryBloodStalkGrimSwatheEnshroudGCD(ref actionID))
+                                return actionID;
+                        }
+
+                        if (ActionReady(Gluttony) && !HasStatusEffect(Buffs.Enshrouded) && !HasStatusEffect(Buffs.SoulReaver))
+                            return Gluttony;
+
+                        if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_Sacrificium) &&
+                            HasStatusEffect(Buffs.Enshrouded) && HasStatusEffect(Buffs.Oblatio))
+                            return OriginalHook(Gluttony);
+
+                        if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_BloodSwatheCombo) &&
+                            TryBloodStalkGrimSwatheSoulReaverGCD(ref actionID,
+                                IsEnabled(Preset.RPR_GluttonyBloodSwathe_Enshroud)))
                             return actionID;
+
+                        break;
                     }
-
-                    if (ActionReady(Gluttony) && !HasStatusEffect(Buffs.Enshrouded) && !HasStatusEffect(Buffs.SoulReaver))
-                        return Gluttony;
-
-                    if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_Sacrificium) &&
-                        HasStatusEffect(Buffs.Enshrouded) && HasStatusEffect(Buffs.Oblatio))
-                        return OriginalHook(Gluttony);
-
-                    if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_BloodSwatheCombo) &&
-                        TryBloodStalkGrimSwatheSoulReaverGCD(ref actionID,
-                            IsEnabled(Preset.RPR_GluttonyBloodSwathe_Enshroud)))
-                        return actionID;
-
-                    break;
-                }
 
                 case BloodStalk:
-                {
-                    if (IsEnabled(Preset.RPR_TrueNorthGluttony) && Role.CanTrueNorth() &&
-                        (GetStatusEffectStacks(Buffs.SoulReaver) is 2 || HasStatusEffect(Buffs.Executioner)))
-                        return Role.TrueNorth;
-
-                    if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_OGCD))
                     {
-                        if (ActionReady(Enshroud) || HasStatusEffect(Buffs.IdealHost))
-                            return Enshroud;
+                        if (IsEnabled(Preset.RPR_TrueNorthGluttony) && Role.CanTrueNorth() &&
+                            (GetStatusEffectStacks(Buffs.SoulReaver) is 2 || HasStatusEffect(Buffs.Executioner)))
+                            return Role.TrueNorth;
 
-                        if (HasStatusEffect(Buffs.Enshrouded))
+                        if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_OGCD))
                         {
-                            //Sacrificium
-                            if (Lemure is 2 && HasStatusEffect(Buffs.Oblatio))
-                                return OriginalHook(Gluttony);
+                            if (ActionReady(Enshroud) || HasStatusEffect(Buffs.IdealHost))
+                                return Enshroud;
 
-                            //Lemure's Slice
-                            if (Void >= 2 && ActionLearned(LemuresSlice))
-                                return OriginalHook(BloodStalk);
+                            if (HasStatusEffect(Buffs.Enshrouded))
+                            {
+                                //Sacrificium
+                                if (Lemure is 2 && HasStatusEffect(Buffs.Oblatio))
+                                    return OriginalHook(Gluttony);
+
+                                //Lemure's Slice
+                                if (Void >= 2 && ActionLearned(LemuresSlice))
+                                    return OriginalHook(BloodStalk);
+                            }
                         }
-                    }
 
-                    if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_Enshroud))
-                    {
-                        if (TryBloodStalkGrimSwatheEnshroudGCD(ref actionID))
+                        if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_Enshroud))
+                        {
+                            if (TryBloodStalkGrimSwatheEnshroudGCD(ref actionID))
+                                return actionID;
+                        }
+
+                        if (ActionReady(Gluttony) && !HasStatusEffect(Buffs.Enshrouded) && !HasStatusEffect(Buffs.SoulReaver))
+                            return Gluttony;
+
+                        if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_Sacrificium) &&
+                            HasStatusEffect(Buffs.Enshrouded) && HasStatusEffect(Buffs.Oblatio))
+                            return OriginalHook(Gluttony);
+
+                        if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_BloodSwatheCombo) &&
+                            TryBloodStalkGrimSwatheSoulReaverGCD(ref actionID,
+                                IsEnabled(Preset.RPR_GluttonyBloodSwathe_Enshroud)))
                             return actionID;
+
+                        break;
                     }
-
-                    if (ActionReady(Gluttony) && !HasStatusEffect(Buffs.Enshrouded) && !HasStatusEffect(Buffs.SoulReaver))
-                        return Gluttony;
-
-                    if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_Sacrificium) &&
-                        HasStatusEffect(Buffs.Enshrouded) && HasStatusEffect(Buffs.Oblatio))
-                        return OriginalHook(Gluttony);
-
-                    if (IsEnabled(Preset.RPR_GluttonyBloodSwathe_BloodSwatheCombo) &&
-                        TryBloodStalkGrimSwatheSoulReaverGCD(ref actionID,
-                            IsEnabled(Preset.RPR_GluttonyBloodSwathe_Enshroud)))
-                        return actionID;
-
-                    break;
-                }
             }
 
             return actionID;
@@ -658,28 +658,28 @@ internal partial class RPR : Melee
             switch (actionID)
             {
                 case Gibbet or Gallows when HasStatusEffect(Buffs.Enshrouded):
-                {
-                    if (Gauge is { LemureShroud: 1, VoidShroud: 0 } && ActionLearned(Communio))
-                        return Communio;
+                    {
+                        if (Gauge is { LemureShroud: 1, VoidShroud: 0 } && ActionLearned(Communio))
+                            return Communio;
 
-                    if (IsEnabled(Preset.RPR_LemureOnGGG) &&
-                        Void >= 2 && ActionLearned(LemuresSlice) && CanWeave())
-                        return OriginalHook(BloodStalk);
+                        if (IsEnabled(Preset.RPR_LemureOnGGG) &&
+                            Void >= 2 && ActionLearned(LemuresSlice) && CanWeave())
+                            return OriginalHook(BloodStalk);
 
-                    break;
-                }
+                        break;
+                    }
 
                 case Guillotine when HasStatusEffect(Buffs.Enshrouded):
-                {
-                    if (Gauge is { LemureShroud: 1, VoidShroud: 0 } && ActionLearned(Communio))
-                        return Communio;
+                    {
+                        if (Gauge is { LemureShroud: 1, VoidShroud: 0 } && ActionLearned(Communio))
+                            return Communio;
 
-                    if (IsEnabled(Preset.RPR_LemureOnGGG) &&
-                        Void >= 2 && ActionLearned(LemuresScythe) && CanWeave())
-                        return OriginalHook(GrimSwathe);
+                        if (IsEnabled(Preset.RPR_LemureOnGGG) &&
+                            Void >= 2 && ActionLearned(LemuresScythe) && CanWeave())
+                            return OriginalHook(GrimSwathe);
 
-                    break;
-                }
+                        break;
+                    }
             }
 
             return actionID;

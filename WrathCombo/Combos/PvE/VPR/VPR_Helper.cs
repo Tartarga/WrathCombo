@@ -575,44 +575,44 @@ internal partial class VPR
 
     internal class VPRStandardOpener : VPROpenerBase
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            ReavingFangs, // 1
-            SerpentsIre, // 2
-            SwiftskinsSting, // 3
-            Vicewinder, // 4
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Dex)), // 5
-            HuntersCoil, // 6
-            TwinfangBite, // 7
-            TwinbloodBite, // 8
-            SwiftskinsCoil, // 9
-            TwinbloodBite, // 10
-            TwinfangBite, // 11
-            Reawaken, // 12
-            FirstGeneration, // 13
-            FirstLegacy, // 14
-            SecondGeneration, // 15
-            SecondLegacy, // 16
-            ThirdGeneration, // 17
-            ThirdLegacy, // 18
-            FourthGeneration, // 19
-            FourthLegacy, // 20
-            Ouroboros, // 21
-            UncoiledFury, // 22
-            UncoiledTwinfang, // 23
-            UncoiledTwinblood, // 24
-            UncoiledFury, // 25
-            UncoiledTwinfang, // 26
-            UncoiledTwinblood, // 27
-            HindstingStrike, // 28
-            DeathRattle, // 29
-            Vicewinder, // 30
-            HuntersCoil, // 31
-            TwinfangBite, // 32
-            TwinbloodBite, // 33
-            SwiftskinsCoil, // 34
-            TwinbloodBite, // 35
-            TwinfangBite // 36
+            () => ReavingFangs, // 1
+            () => SerpentsIre, // 2
+            () => SwiftskinsSting, // 3
+            () => Vicewinder, // 4
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Dex)), // 5
+            () => HuntersCoil, // 6
+            () => TwinfangBite, // 7
+            () => TwinbloodBite, // 8
+            () => SwiftskinsCoil, // 9
+            () => TwinbloodBite, // 10
+            () => TwinfangBite, // 11
+            () => Reawaken, // 12
+            () => FirstGeneration, // 13
+            () => FirstLegacy, // 14
+            () => SecondGeneration, // 15
+            () => SecondLegacy, // 16
+            () => ThirdGeneration, // 17
+            () => ThirdLegacy, // 18
+            () => FourthGeneration, // 19
+            () => FourthLegacy, // 20
+            () => Ouroboros, // 21
+            () => UncoiledFury, // 22
+            () => UncoiledTwinfang, // 23
+            () => UncoiledTwinblood, // 24
+            () => UncoiledFury, // 25
+            () => UncoiledTwinfang, // 26
+            () => UncoiledTwinblood, // 27
+            () => HindstingStrike, // 28
+            () => DeathRattle, // 29
+            () => Vicewinder, // 30
+            () => HuntersCoil, // 31
+            () => TwinfangBite, // 32
+            () => TwinbloodBite, // 33
+            () => SwiftskinsCoil, // 34
+            () => TwinbloodBite, // 35
+            () => TwinfangBite // 36
         ];
 
         public override List<(int[], uint, Func<bool>)> SubstitutionSteps { get; set; } =
@@ -637,43 +637,43 @@ internal partial class VPR
 
     internal class VPREarlyBuffOpener : VPROpenerBase
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            Vicewinder, // 1
-            SerpentsIre, // 2
-            HuntersCoil, // 3
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Dex)), // 4
-            TwinfangBite, // 5
-            TwinbloodBite, // 6
-            SwiftskinsCoil, // 7
-            TwinbloodBite, // 8
-            TwinfangBite, // 9
-            Reawaken, // 10
-            FirstGeneration, // 11
-            FirstLegacy, // 12
-            SecondGeneration, // 13
-            SecondLegacy, // 14
-            ThirdGeneration, // 15
-            ThirdLegacy, // 16
-            FourthGeneration, // 17
-            FourthLegacy, // 18
-            Ouroboros, // 19
-            UncoiledFury, // 20
-            UncoiledTwinfang, // 21
-            UncoiledTwinblood, // 22
-            Vicewinder, // 23
-            HuntersCoil, // 24
-            TwinfangBite, // 25
-            TwinbloodBite, // 26
-            SwiftskinsCoil, // 27
-            TwinbloodBite, // 28
-            TwinfangBite, // 29
-            UncoiledFury, // 30
-            UncoiledTwinfang, // 31
-            UncoiledTwinblood, // 32
-            UncoiledFury, // 33
-            UncoiledTwinfang, // 34
-            UncoiledTwinblood // 35
+            () => Vicewinder, // 1
+            () => SerpentsIre, // 2
+            () => HuntersCoil, // 3
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Dex)), // 4
+            () => TwinfangBite, // 5
+            () => TwinbloodBite, // 6
+            () => SwiftskinsCoil, // 7
+            () => TwinbloodBite, // 8
+            () => TwinfangBite, // 9
+            () => Reawaken, // 10
+            () => FirstGeneration, // 11
+            () => FirstLegacy, // 12
+            () => SecondGeneration, // 13
+            () => SecondLegacy, // 14
+            () => ThirdGeneration, // 15
+            () => ThirdLegacy, // 16
+            () => FourthGeneration, // 17
+            () => FourthLegacy, // 18
+            () => Ouroboros, // 19
+            () => UncoiledFury, // 20
+            () => UncoiledTwinfang, // 21
+            () => UncoiledTwinblood, // 22
+            () => Vicewinder, // 23
+            () => HuntersCoil, // 24
+            () => TwinfangBite, // 25
+            () => TwinbloodBite, // 26
+            () => SwiftskinsCoil, // 27
+            () => TwinbloodBite, // 28
+            () => TwinfangBite, // 29
+            () => UncoiledFury, // 30
+            () => UncoiledTwinfang, // 31
+            () => UncoiledTwinblood, // 32
+            () => UncoiledFury, // 33
+            () => UncoiledTwinfang, // 34
+            () => UncoiledTwinblood // 35
         ];
 
         public override List<(int[], uint, Func<bool>)> SubstitutionSteps { get; set; } =
@@ -821,3 +821,5 @@ internal partial class VPR
 
     #endregion
 }
+
+

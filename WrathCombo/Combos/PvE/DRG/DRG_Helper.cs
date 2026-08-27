@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using WrathCombo.Combos.PvE.ALL;
 using WrathCombo.CustomComboNS;
 using WrathCombo.CustomComboNS.Functions;
+using static ECommons.DalamudServices.Svc;
 using static WrathCombo.Combos.PvE.DRG.Config;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 namespace WrathCombo.Combos.PvE;
@@ -18,6 +19,7 @@ internal partial class DRG
         GetStatusEffect(ChaoticList[OriginalHook(ChaosThrust)], CurrentTarget);
 
     #endregion
+
     #region Basic Combo
 
     private static uint DoBasicCombo(
@@ -394,6 +396,14 @@ internal partial class DRG
 
     internal static WrathOpener Opener()
     {
+        if (FRUOpener.LevelChecked &&
+            ClientState.TerritoryType == 1283)
+            return FRUOpener;
+
+        if (DMUOpener.LevelChecked &&
+            ClientState.TerritoryType == 1363)
+            return DMUOpener;
+
         if (StandardOpener.LevelChecked &&
             DRG_SelectedOpener == 0)
             return StandardOpener;
@@ -402,25 +412,24 @@ internal partial class DRG
             DRG_SelectedOpener == 1)
             return PiercingTalonOpener;
 
-        if (EarlyBuffOpener.LevelChecked &&
-            DRG_SelectedOpener == 2)
-            return EarlyBuffOpener;
-
         return WrathOpener.Dummy;
     }
 
     internal static DRGStandardOpener StandardOpener = new();
     internal static DRGPiercingTalonOpener PiercingTalonOpener = new();
-    internal static DRGEarlyBuffOpener EarlyBuffOpener = new();
+    internal static DRGFRUOpener FRUOpener = new();
+    internal static DRGEDMUOpener DMUOpener = new();
 
     internal abstract class DRGOpenerBase : WrathOpener
     {
         public override int MinOpenerLevel => 100;
+
         public override int MaxOpenerLevel => 100;
 
         public override Preset Preset => Preset.DRG_ST_Opener;
 
         internal override UserData ContentCheckConfig => DRG_BalanceContent;
+
         internal override bool IncludePot => DRG_Opener_Potion;
 
         public override bool HasCooldowns() => SharedOpenerCooldowns();
@@ -497,7 +506,44 @@ internal partial class DRG
         ];
     }
 
-    internal class DRGEarlyBuffOpener : DRGOpenerBase
+    internal class DRGFRUOpener : DRGOpenerBase
+    {
+        public override List<uint> OpenerActions { get; set; } =
+        [
+            TrueThrust, // 1
+            HighJump, // 2
+            SpiralBlow, // 3
+            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
+            ChaoticSpring, // 5
+            BattleLitany, // 6
+            WheelingThrust, // 7
+            Drakesbane, // 8
+            LanceCharge, // 9
+            Geirskogul, // 10
+            RaidenThrust, // 11
+            DragonfireDive, // 12
+            MirageDive, // 13
+            LanceBarrage, // 14
+            LifeSurge, // 15
+            Nastrond, // 16
+            HeavensThrust, // 17
+            Stardiver, // 18
+            FangAndClaw, // 19
+            Starcross, // 20
+            LifeSurge, // 21
+            Drakesbane, // 22
+            RiseOfTheDragon, // 23
+            RaidenThrust, // 24
+            WyrmwindThrust, // 25
+            LanceCharge, //26
+            HeavensThrust, //27
+            HighJump, //28
+            MirageDive, //29
+            FangAndClaw //30
+        ];
+    }
+
+    internal class DRGEDMUOpener : DRGOpenerBase
     {
         public override List<uint> OpenerActions { get; set; } =
         [

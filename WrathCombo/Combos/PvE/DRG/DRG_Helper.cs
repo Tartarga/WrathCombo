@@ -508,38 +508,38 @@ internal partial class DRG
 
     internal class DRGFRUOpener : DRGOpenerBase
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            TrueThrust, // 1
-            HighJump, // 2
-            SpiralBlow, // 3
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
-            ChaoticSpring, // 5
-            BattleLitany, // 6
-            WheelingThrust, // 7
-            Drakesbane, // 8
-            LanceCharge, // 9
-            Geirskogul, // 10
-            RaidenThrust, // 11
-            DragonfireDive, // 12
-            MirageDive, // 13
-            LanceBarrage, // 14
-            LifeSurge, // 15
-            Nastrond, // 16
-            HeavensThrust, // 17
-            Stardiver, // 18
-            FangAndClaw, // 19
-            Starcross, // 20
-            LifeSurge, // 21
-            Drakesbane, // 22
-            RiseOfTheDragon, // 23
-            RaidenThrust, // 24
-            WyrmwindThrust, // 25
-            LanceCharge, //26
-            HeavensThrust, //27
-            HighJump, //28
-            MirageDive, //29
-            FangAndClaw //30
+            () => TrueThrust, // 1
+            () => HighJump, // 2
+            () => SpiralBlow, // 3
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
+            () => ChaoticSpring, // 5
+            () => BattleLitany, // 6
+            () => WheelingThrust, // 7
+            () => Drakesbane, // 8
+            () => LanceCharge, // 9
+            () => Geirskogul, // 10
+            () => RaidenThrust, // 11
+            () => DragonfireDive, // 12
+            () => MirageDive, // 13
+            () => LanceBarrage, // 14
+            () => LifeSurge, // 15
+            () => Nastrond, // 16
+            () => HeavensThrust, // 17
+            () => Stardiver, // 18
+            () => FangAndClaw, // 19
+            () => Starcross, // 20
+            () => LifeSurge, // 21
+            () => Drakesbane, // 22
+            () => RiseOfTheDragon, // 23
+            () => RaidenThrust, // 24
+            () => WyrmwindThrust, // 25
+            () => LanceCharge, //26
+            () => HeavensThrust, //27
+            () => HighJump, //28
+            () => MirageDive, //29
+            () => FangAndClaw //30
         ];
     }
 
@@ -670,5 +670,3 @@ internal partial class DRG
 
     #endregion
 }
-
-

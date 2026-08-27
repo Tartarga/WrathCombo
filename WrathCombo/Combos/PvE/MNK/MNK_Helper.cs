@@ -607,7 +607,7 @@ internal partial class MNK
     internal class MNKLvl90LLOpener : MNKOpenerBase
     {
         public override int MinOpenerLevel => 90;
-        public override int MaxOpenerLevel => 90;
+        public override int MaxOpenerLevel => 95;
 
         public override List<Func<uint>> OpenerActions { get; set; } =
         [
@@ -630,12 +630,14 @@ internal partial class MNK
             () => ElixirField, // 17
             () => DragonKick // 18
         ];
+
+        public override List<int> AllowUpgradeSteps { get; set; } = [6, 8, 11, 14, 16, 17];
     }
 
     internal class MNKLvl90SLOpener : MNKOpenerBase
     {
         public override int MinOpenerLevel => 90;
-        public override int MaxOpenerLevel => 90;
+        public override int MaxOpenerLevel => 95;
 
         public override List<Func<uint>> OpenerActions { get; set; } =
         [
@@ -658,6 +660,8 @@ internal partial class MNK
             () => RisingPhoenix, // 17
             () => DragonKick // 18
         ];
+
+        public override List<int> AllowUpgradeSteps { get; set; } = [6, 8, 11, 14];
     }
 
     internal class MNKLvl100LLOpener : MNKOpenerBase

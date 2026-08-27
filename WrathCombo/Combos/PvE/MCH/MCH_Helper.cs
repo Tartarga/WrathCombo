@@ -770,7 +770,7 @@ internal partial class MCH
     internal class MCHLvl90EarlyToolsOpener : MCHOpenerBase
     {
         public override int MinOpenerLevel => 90;
-        public override int MaxOpenerLevel => 90;
+        public override int MaxOpenerLevel => 95;
 
         public override List<Func<uint>> OpenerActions { get; set; } =
         [
@@ -804,6 +804,9 @@ internal partial class MCH
             () => Reassemble, // 28
             () => Drill // 29
         ];
+
+        public override List<int> AllowUpgradeSteps { get; set; } =
+            [4, 5, 9, 10, 12, 13, 20, 22, 24, 26];
 
         public override List<int> DelayedWeaveSteps { get; set; } =
         [

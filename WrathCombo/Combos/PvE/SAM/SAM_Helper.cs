@@ -656,7 +656,7 @@ internal partial class SAM
     internal class SAMLvl90Opener : SAMOpenerBase
     {
         public override int MinOpenerLevel => 90;
-        public override int MaxOpenerLevel => 90;
+        public override int MaxOpenerLevel => 95;
 
         public override List<Func<uint>> OpenerActions { get; set; } =
         [
@@ -683,6 +683,8 @@ internal partial class SAM
             () => MidareSetsugekka, // 21
             () => KaeshiSetsugekka // 22
         ];
+
+        public override List<int> AllowUpgradeSteps { get; set; } = [19];
 
         public override bool HasCooldowns() =>
             GetRemainingCharges(MeikyoShisui) is 2 &&

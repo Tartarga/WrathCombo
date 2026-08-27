@@ -2,9 +2,9 @@
 using WrathCombo.Resources.Localization.JobConfigs;
 using static WrathCombo.Window.Functions.UserConfig;
 
-namespace WrathCombo.Combos.PvE.Content.DeepDungeon;
+namespace WrathCombo.Combos.PvE.Content.DeepDungeons;
 
-internal static partial class DeepDungeon
+internal static partial class DeepDungeons
 {
     internal static class Config
     {

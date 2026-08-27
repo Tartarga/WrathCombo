@@ -176,7 +176,7 @@ internal partial class BLU
         if (!IsEnabled(option) || !ActionReady(FlyingSardine))
             return false;
 
-        IGameObject? interruptTarget = CurrentTarget;
+        var interruptTarget = CurrentTarget;
         if (interruptTarget is null ||
             !CanInterruptEnemy(null, interruptTarget) ||
             !InActionRange(FlyingSardine, interruptTarget))
@@ -202,7 +202,7 @@ internal partial class BLU
         if (!InCombat())
             return false;
 
-        IGameObject? provokeTarget = CurrentTarget;
+        var provokeTarget = CurrentTarget;
         bool targetNotOnUs = provokeTarget is IBattleChara enemy &&
                              enemy.TargetObjectId != LocalPlayer?.GameObjectId;
 
@@ -212,7 +212,7 @@ internal partial class BLU
         if (onAoE &&
             IsEnabled(frog) &&
             ActionReady(FrogLegs) &&
-            !JustUsed(FrogLegs, 3f))
+            !JustUsed(FrogLegs))
         {
             actionID = FrogLegs;
             return true;
@@ -222,7 +222,7 @@ internal partial class BLU
             ActionReady(StickyTongue) &&
             provokeTarget is not null &&
             InActionRange(StickyTongue, provokeTarget) &&
-            !JustUsed(StickyTongue, 3f))
+            !JustUsed(StickyTongue))
         {
             actionID = StickyTongue;
             return true;
@@ -231,7 +231,7 @@ internal partial class BLU
         if (!onAoE &&
             IsEnabled(frog) &&
             ActionReady(FrogLegs) &&
-            !JustUsed(FrogLegs, 3f))
+            !JustUsed(FrogLegs))
         {
             actionID = FrogLegs;
             return true;
@@ -292,9 +292,9 @@ internal partial class BLU
 
     private static uint DoDPS(uint actionID, uint retargetFrom, bool onAoE)
     {
-        Preset instinct = onAoE ? Preset.BLU_AoE_DPS_BasicInstinct : Preset.BLU_ST_DPS_BasicInstinct;
-        Preset sardine = onAoE ? Preset.BLU_AoE_DPS_FlyingSardine : Preset.BLU_ST_DPS_FlyingSardine;
-        Preset primals = onAoE ? Preset.BLU_AoE_DPS_Primals : Preset.BLU_ST_DPS_Primals;
+        var instinct = onAoE ? Preset.BLU_AoE_DPS_BasicInstinct : Preset.BLU_ST_DPS_BasicInstinct;
+        var sardine = onAoE ? Preset.BLU_AoE_DPS_FlyingSardine : Preset.BLU_ST_DPS_FlyingSardine;
+        var primals = onAoE ? Preset.BLU_AoE_DPS_Primals : Preset.BLU_ST_DPS_Primals;
 
         if (HasStatusEffect(Buffs.WaningNocturne))
             return actionID;
@@ -317,7 +317,7 @@ internal partial class BLU
         if (UsePrimalCDs(ref actionID, retargetFrom, primals))
             return actionID;
 
-        if (!onAoE && UseDoT(ref actionID, tank: false))
+        if (!onAoE && UseDoT(ref actionID, false))
             return actionID;
 
         if (!onAoE &&
@@ -341,17 +341,17 @@ internal partial class BLU
 
     private static uint DoTank(uint actionID, uint retargetFrom, bool onAoE)
     {
-        Preset mighty = onAoE ? Preset.BLU_AoE_Tank_MightyGuard : Preset.BLU_ST_Tank_MightyGuard;
-        Preset instinct = onAoE ? Preset.BLU_AoE_Tank_BasicInstinct : Preset.BLU_ST_Tank_BasicInstinct;
-        Preset gate = onAoE ? Preset.BLU_AoE_Tank_ChelonianGate : Preset.BLU_ST_Tank_ChelonianGate;
-        Preset dragon = onAoE ? Preset.BLU_AoE_Tank_DragonForce : Preset.BLU_ST_Tank_DragonForce;
-        Preset sardine = onAoE ? Preset.BLU_AoE_Tank_FlyingSardine : Preset.BLU_ST_Tank_FlyingSardine;
-        Preset frog = onAoE ? Preset.BLU_AoE_Tank_FrogLegs : Preset.BLU_ST_Tank_FrogLegs;
-        Preset tongue = onAoE ? Preset.BLU_AoE_Tank_StickyTongue : Preset.BLU_ST_Tank_StickyTongue;
-        Preset primals = onAoE ? Preset.BLU_AoE_Tank_Primals : Preset.BLU_ST_Tank_Primals;
-        Preset devour = onAoE ? Preset.BLU_AoE_Tank_Devour : Preset.BLU_ST_Tank_Devour;
-        Preset lucid = onAoE ? Preset.BLU_AoE_Tank_Lucid : Preset.BLU_ST_Tank_Lucid;
-        Preset badBreath = onAoE ? Preset.BLU_AoE_Tank_BadBreath : Preset.BLU_ST_Tank_BadBreath;
+        var mighty = onAoE ? Preset.BLU_AoE_Tank_MightyGuard : Preset.BLU_ST_Tank_MightyGuard;
+        var instinct = onAoE ? Preset.BLU_AoE_Tank_BasicInstinct : Preset.BLU_ST_Tank_BasicInstinct;
+        var gate = onAoE ? Preset.BLU_AoE_Tank_ChelonianGate : Preset.BLU_ST_Tank_ChelonianGate;
+        var dragon = onAoE ? Preset.BLU_AoE_Tank_DragonForce : Preset.BLU_ST_Tank_DragonForce;
+        var sardine = onAoE ? Preset.BLU_AoE_Tank_FlyingSardine : Preset.BLU_ST_Tank_FlyingSardine;
+        var frog = onAoE ? Preset.BLU_AoE_Tank_FrogLegs : Preset.BLU_ST_Tank_FrogLegs;
+        var tongue = onAoE ? Preset.BLU_AoE_Tank_StickyTongue : Preset.BLU_ST_Tank_StickyTongue;
+        var primals = onAoE ? Preset.BLU_AoE_Tank_Primals : Preset.BLU_ST_Tank_Primals;
+        var devour = onAoE ? Preset.BLU_AoE_Tank_Devour : Preset.BLU_ST_Tank_Devour;
+        var lucid = onAoE ? Preset.BLU_AoE_Tank_Lucid : Preset.BLU_ST_Tank_Lucid;
+        var badBreath = onAoE ? Preset.BLU_AoE_Tank_BadBreath : Preset.BLU_ST_Tank_BadBreath;
 
         if (HasStatusEffect(Buffs.WaningNocturne))
             return actionID;
@@ -410,7 +410,7 @@ internal partial class BLU
             !HasStatusEffect(Debuffs.Malodorous, Target, true))
             return BadBreath;
 
-        if (!onAoE && UseDoT(ref actionID, tank: true))
+        if (!onAoE && UseDoT(ref actionID, true))
             return actionID;
 
         if (onAoE)
@@ -432,8 +432,8 @@ internal partial class BLU
 
     private static uint DoHeal(uint actionID, bool onAoE)
     {
-        Preset lucid = onAoE ? Preset.BLU_AoE_Heal_Lucid : Preset.BLU_ST_Heal_Lucid;
-        Preset snack = onAoE ? Preset.BLU_AoE_Heal_AngelsSnack : Preset.BLU_ST_Heal_AngelsSnack;
+        var lucid = onAoE ? Preset.BLU_AoE_Heal_Lucid : Preset.BLU_ST_Heal_Lucid;
+        var snack = onAoE ? Preset.BLU_AoE_Heal_AngelsSnack : Preset.BLU_ST_Heal_AngelsSnack;
 
         if (IsEnabled(lucid) && Role.CanLucidDream(9000))
             return Role.LucidDreaming;
@@ -455,7 +455,7 @@ internal partial class BLU
             return actionID;
         }
 
-        IGameObject? healTarget = SimpleTarget.Stack.AllyToHeal;
+        var healTarget = SimpleTarget.Stack.AllyToHeal;
         if (IsEnabled(Preset.BLU_ST_Heal_Exuviation) &&
             ActionReady(Exuviation) &&
             HasCleansableDebuff(healTarget))
@@ -525,29 +525,29 @@ internal partial class BLU
 
     internal class BLUMoonFluteOpener : BLUOpenerBase
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            Whistle,
-            Tingle,
-            RoseOfDestruction,
-            MoonFlute,
-            JKick,
-            TripleTrident,
-            Nightbloom,
-            WingedReprobation,
-            FeatherRain,
-            SeaShanty,
-            WingedReprobation,
-            ShockStrike,
-            BeingMortal,
-            Bristle,
-            Role.Swiftcast,
-            Surpanakha,
-            Surpanakha,
-            Surpanakha,
-            Surpanakha,
-            MatraMagic,
-            PhantomFlurry
+            () => Whistle,
+            () => Tingle,
+            () => RoseOfDestruction,
+            () => MoonFlute,
+            () => JKick,
+            () => TripleTrident,
+            () => Nightbloom,
+            () => WingedReprobation,
+            () => FeatherRain,
+            () => SeaShanty,
+            () => WingedReprobation,
+            () => ShockStrike,
+            () => BeingMortal,
+            () => Bristle,
+            () => Role.Swiftcast,
+            () => Surpanakha,
+            () => Surpanakha,
+            () => Surpanakha,
+            () => Surpanakha,
+            () => MatraMagic,
+            () => PhantomFlurry
         ];
 
         public override List<(int[] Steps, Func<bool> Condition)> SkipSteps { get; set; } =
@@ -576,29 +576,29 @@ internal partial class BLU
 
     internal class BLUMoonFluteDoTOpener : BLUOpenerBase
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            Whistle,
-            Tingle,
-            RoseOfDestruction,
-            MoonFlute,
-            JKick,
-            TripleTrident,
-            Nightbloom,
-            Bristle,
-            FeatherRain,
-            SeaShanty,
-            BreathOfMagic,
-            ShockStrike,
-            Bristle,
-            Role.Swiftcast,
-            Surpanakha,
-            Surpanakha,
-            Surpanakha,
-            Surpanakha,
-            MatraMagic,
-            BeingMortal,
-            PhantomFlurry
+            () => Whistle,
+            () => Tingle,
+            () => RoseOfDestruction,
+            () => MoonFlute,
+            () => JKick,
+            () => TripleTrident,
+            () => Nightbloom,
+            () => Bristle,
+            () => FeatherRain,
+            () => SeaShanty,
+            () => BreathOfMagic,
+            () => ShockStrike,
+            () => Bristle,
+            () => Role.Swiftcast,
+            () => Surpanakha,
+            () => Surpanakha,
+            () => Surpanakha,
+            () => Surpanakha,
+            () => MatraMagic,
+            () => BeingMortal,
+            () => PhantomFlurry
         ];
 
         public override List<(int[] Steps, uint NewAction, Func<bool> Condition)> SubstitutionSteps { get; set; } =

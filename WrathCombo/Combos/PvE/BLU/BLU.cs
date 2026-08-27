@@ -24,7 +24,7 @@ internal partial class BLU : Caster
                 HasTankMimicry)
                 return actionID;
 
-            return DoDPS(actionID, actionID, onAoE: false);
+            return DoDPS(actionID, actionID, false);
         }
     }
 
@@ -42,7 +42,7 @@ internal partial class BLU : Caster
                 HasTankMimicry)
                 return actionID;
 
-            return DoDPS(actionID, actionID, onAoE: true);
+            return DoDPS(actionID, actionID, true);
         }
     }
 
@@ -64,7 +64,7 @@ internal partial class BLU : Caster
                 !HasTankMimicry)
                 return actionID;
 
-            return DoTank(actionID, actionID, onAoE: false);
+            return DoTank(actionID, actionID, false);
         }
     }
 
@@ -82,7 +82,7 @@ internal partial class BLU : Caster
                 !HasTankMimicry)
                 return actionID;
 
-            return DoTank(actionID, actionID, onAoE: true);
+            return DoTank(actionID, actionID, true);
         }
     }
 
@@ -99,7 +99,7 @@ internal partial class BLU : Caster
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.SingleTargetHeals, PomCure))
                 return actionID;
 
-            return DoHeal(actionID, onAoE: false);
+            return DoHeal(actionID, false);
         }
     }
 
@@ -112,7 +112,7 @@ internal partial class BLU : Caster
             if (!CustomActionHelper.OneButtonRotationChecker(actionID, CustomActionType.AoEHeals, WhiteWind))
                 return actionID;
 
-            return DoHeal(actionID, onAoE: true);
+            return DoHeal(actionID, true);
         }
     }
 
@@ -216,7 +216,7 @@ internal partial class BLU : Caster
     {
         protected internal override Preset Preset => Preset.BLU_Addle;
 
-        protected override uint Invoke(uint actionID) => (actionID is MagicHammer && IsOnCooldown(MagicHammer) && ActionReady(Role.Addle) && !HasStatusEffect(Role.Debuffs.Addle, CurrentTarget) && !HasStatusEffect(Debuffs.Conked, CurrentTarget)) ? Role.Addle : actionID;
+        protected override uint Invoke(uint actionID) => actionID is MagicHammer && IsOnCooldown(MagicHammer) && ActionReady(Role.Addle) && !HasStatusEffect(Role.Debuffs.Addle, CurrentTarget) && !HasStatusEffect(Debuffs.Conked, CurrentTarget) ? Role.Addle : actionID;
     }
 
     internal class BLU_KnightCombo : CustomCombo
@@ -259,7 +259,7 @@ internal partial class BLU : Caster
     {
         protected internal override Preset Preset => Preset.BLU_PerpetualRayStunCombo;
 
-        protected override uint Invoke(uint actionID) => (actionID is PerpetualRay && (HasStatusEffect(Debuffs.Stun, CurrentTarget, true) || WasLastAction(PerpetualRay)) && ActionReady(SharpenedKnife) && InMeleeRange()) ? SharpenedKnife : actionID;
+        protected override uint Invoke(uint actionID) => actionID is PerpetualRay && (HasStatusEffect(Debuffs.Stun, CurrentTarget, true) || WasLastAction(PerpetualRay)) && ActionReady(SharpenedKnife) && InMeleeRange() ? SharpenedKnife : actionID;
     }
 
     internal class BLU_PeatClean : CustomCombo

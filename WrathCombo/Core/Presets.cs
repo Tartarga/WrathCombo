@@ -6,6 +6,7 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using WrathCombo.API.Enum;
 using WrathCombo.Attributes;
@@ -579,7 +580,12 @@ internal class PresetStorageData
     /// </summary>
     internal void Init()
     {
+        var timer = Stopwatch.StartNew();
+        var timer2 = Stopwatch.StartNew();
         AllPresetsData = BuildPresets();
+        timer.Stop();
+        PluginLog.Information($"PresetStorageData Main Dictionary initialized in {timer.ElapsedMilliseconds} ms. {AllPresetsData.Count} Presets");
+
         // Then parallelize the three derived dictionaries
         Parallel.Invoke(
             () => ConflictingCombosData = BuildConflictingCombos(),
@@ -591,6 +597,8 @@ internal class PresetStorageData
                 preset => (int)preset,
                 preset => preset)
         );
+        timer2.Stop();
+        PluginLog.Information($"PresetStorageData Init completed in {timer2.ElapsedMilliseconds} ms.");
     }
 
     private static FrozenDictionary<Preset, PresetStorage.PresetData> BuildPresets()
@@ -631,7 +639,6 @@ internal class PresetStorageData
             }
         }
 
-        PluginLog.Information($"Cached {frozen.Count} presets & attributes.");
         return frozen;
     }
 

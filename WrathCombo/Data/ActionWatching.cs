@@ -11,9 +11,9 @@ using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Client.Network;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
+using Lumina.Excel;
 using Lumina.Excel.Sheets;
 using System;
-using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -35,9 +35,9 @@ public class ActionWatching
     public static ActionWatching Instance { get; internal set; } = null!;
 
     // Static accessors for backward compatibility with "using static ActionWatching"
-    public static FrozenDictionary<uint, BNpcBase> BNPCSheet => Instance._bNPCSheet;
-    public static FrozenDictionary<uint, Action> ActionSheet => Instance._actionSheet;
-    public static FrozenDictionary<uint, Trait> TraitSheet => Instance._traitSheet;
+    public static ExcelSheet<BNpcBase> BNPCSheet => Instance._bNPCSheet;
+    public static ExcelSheet<Action> ActionSheet => Instance._actionSheet;
+    public static ExcelSheet<Trait> TraitSheet => Instance._traitSheet;
     public static Dictionary<uint, long> ActionTimestamps => Instance._actionTimestamps;
     public static Dictionary<uint, long> LastSuccessfulUseTime => Instance._lastSuccessfulUseTime;
     public static Dictionary<(uint, ulong), long> UsedOnDict => Instance._usedOnDict;
@@ -46,12 +46,9 @@ public class ActionWatching
     public static HashSet<uint> BossesBaseIds => Instance._bossesBaseIds;
     public static List<PendingHPChange> PendingHPChanges => Instance._pendingHPChanges;
 
-    // Dictionaries
-    private FrozenDictionary<uint, BNpcBase> _bNPCSheet;
-
-    private FrozenDictionary<uint, Action> _actionSheet;
-
-    private FrozenDictionary<uint, Trait> _traitSheet;
+    private ExcelSheet<BNpcBase> _bNPCSheet = null!;
+    private ExcelSheet<Action> _actionSheet = null!;
+    private ExcelSheet<Trait> _traitSheet = null!;
 
     internal readonly Dictionary<uint, long> _actionTimestamps = [];
     internal readonly Dictionary<uint, long> _lastSuccessfulUseTime = [];
@@ -90,10 +87,10 @@ public class ActionWatching
 
     public unsafe void Init()
     {
-        _bossesBaseIds.AddRange(Svc.Data.GetExcelSheet<BNpcBase>().Where(charaSheet => charaSheet.Rank is 2 or 6).Select(charaSheet => charaSheet.RowId));
-        _bNPCSheet = Svc.Data.GetExcelSheet<BNpcBase>()!.ToFrozenDictionary(i => i.RowId);
-        _actionSheet = Svc.Data.GetExcelSheet<Action>()!.ToFrozenDictionary(i => i.RowId);
-        _traitSheet = Svc.Data.GetExcelSheet<Trait>()!.ToFrozenDictionary(i => i.RowId);
+        _bNPCSheet = Svc.Data.GetExcelSheet<BNpcBase>()!;
+        _actionSheet = Svc.Data.GetExcelSheet<Action>()!;
+        _traitSheet = Svc.Data.GetExcelSheet<Trait>()!;
+        _bossesBaseIds.AddRange(_bNPCSheet.Where(charaSheet => charaSheet.Rank is 2 or 6).Select(charaSheet => charaSheet.RowId));
         ReceiveActionEffectHook ??= Svc.Hook.HookFromAddress<Delegates.Receive>(Addresses.Receive.Value, ReceiveActionEffectDetour);
         SendActionHook ??= Svc.Hook.HookFromSignature<SendActionDelegate>("48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 57 48 81 EC ?? ?? ?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 84 24 ?? ?? ?? ?? 48 8B E9 41 0F B7 D9", SendActionDetour);
         UseActionHook ??= Svc.Hook.HookFromAddress<ActionManager.Delegates.UseAction>(ActionManager.Addresses.UseAction.Value, UseActionDetour);
@@ -362,7 +359,7 @@ public class ActionWatching
                 }
             }
 
-            if (casterEntityId == Player.Object.EntityId && (actionType == ActionType.Action && _actionSheet.TryGetValue(actionId, out var actionSheet) && actionSheet.TargetArea) || actionType == ActionType.Item)
+            if (casterEntityId == Player.Object.EntityId && (actionType == ActionType.Action && _actionSheet.TryGetRow(actionId, out var actionSheet) && actionSheet.TargetArea) || actionType == ActionType.Item)
             {
                 UpdateLastUsedAction(actionId, actionType, 0, 0);
             }
@@ -395,7 +392,7 @@ public class ActionWatching
         LastSuccessfulUseTime[actionId] = currentTick;
         if (actionType == ActionType.Action)
         {
-            if (_actionSheet.TryGetValue(actionId, out var actionSheet))
+            if (_actionSheet.TryGetRow(actionId, out var actionSheet))
             {
                 switch (actionSheet.ActionCategory.Value.RowId)
                 {
@@ -643,7 +640,7 @@ public class ActionWatching
                 if (actionManager->QueuedTargetId.Id != 0)
                     targetId = actionManager->QueuedTargetId.Id;
 
-                var areaTargeted = replacedWith >= 1_000_000 ? false : _actionSheet.TryGetValue(replacedWith, out var s) && s.TargetArea;
+                var areaTargeted = replacedWith >= 1_000_000 ? false : _actionSheet.TryGetRow(replacedWith, out var s) && s.TargetArea;
 
                 if (areaTargeted && disablingReplacingTemp) //Ground targets don't hit the send method, so it has to be re-enabled here. Could be re-enabled further down the line if it causes output issues.
                     Service.ActionReplacer.EnableActionReplacingIfRequired();
@@ -788,7 +785,7 @@ public class ActionWatching
 
     public static ActionAttackType GetAttackType(uint actionId)
     {
-        if (!ActionSheet.TryGetValue(actionId, out var actionSheet))
+        if (!ActionSheet.TryGetRow(actionId, out var actionSheet))
             return ActionAttackType.Unknown;
 
         return Enum.IsDefined(typeof(ActionAttackType), actionSheet.ActionCategory.RowId)

@@ -1717,7 +1717,7 @@ internal class Debug : ConfigWindow, IDisposable
         {
             bool? foundSheet = null;
             BNpcBase? battleNPCRow = null;
-            if (AW.BNPCSheet.TryGetValue(target.BaseId,
+            if (AW.BNPCSheet.TryGetRow(target.BaseId,
                     out var sheetRow))
             {
                 battleNPCRow = sheetRow;

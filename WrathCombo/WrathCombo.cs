@@ -13,10 +13,12 @@ using ECommons.ExcelServices;
 using ECommons.GameHelpers;
 using ECommons.Logging;
 using Lumina.Excel.Sheets;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PunishLib;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -187,39 +189,64 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
     public async Task LoadAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        var loadSw = Stopwatch.StartNew();
 
         P = this;
         pluginInterface.Create<Service>();
-        ECommonsMain.Init(pluginInterface, this, Module.All);
-        PunishLibMain.Init(pluginInterface, "Wrath Combo");
-        ActionRequestIPCProvider.Initialize();
+        LogLoadStep("ECommons", () =>
+            ECommonsMain.Init(pluginInterface, this, Module.VfxTracking, Module.DalamudReflector));
+        LogLoadStep("PunishLib", () =>
+        {
+            PunishLibMain.Init(pluginInterface, "Wrath Combo");
+            ActionRequestIPCProvider.Initialize();
+        });
 
         TM = new();
-        await RemoveNullAutosAsync(cancellationToken).ConfigureAwait(false);
-        Service.Configuration = pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
-        Service.Address = new AddressResolver();
-        Service.Address.Setup(Svc.SigScanner);
-        MoveHook = new();
-        CustomActions = new();
-        ActionWatching.Instance = new ActionWatching();
-        ActionWatching.Instance.Init();
-        ActionWatching.Instance.Enable();
-        PresetStorage.Instance = new PresetStorageData();
-        PresetStorage.Instance.Init();
-        PresetStorage.RemoveRedundantPresets();
-        StatusCache.Instance = new StatusCache();
-        StatusCache.Instance.Init();
-        await OpCodeConfigHelper.UpdateOpCodesAsync(cancellationToken).ConfigureAwait(false);
+        var configSw = Stopwatch.StartNew();
+        Service.Configuration = await LoadConfigurationAsync(cancellationToken).ConfigureAwait(false);
+        PluginLog.Information($"Config load completed in {configSw.ElapsedMilliseconds} ms.");
+        _ = OpCodeConfigHelper.UpdateOpCodesAsync(cancellationToken);
+
+        LogLoadStep("AddressResolver", () =>
+        {
+            Service.Address = new AddressResolver();
+            Service.Address.Setup(Svc.SigScanner);
+        });
+        LogLoadStep("MovementHook", () => MoveHook = new());
+        LogLoadStep("CustomActions", () => CustomActions = new());
+        LogLoadStep("ActionWatching", () =>
+        {
+            ActionWatching.Instance = new ActionWatching();
+            ActionWatching.Instance.Init();
+            ActionWatching.Instance.Enable();
+        });
+        LogLoadStep("PresetStorage", () =>
+        {
+            PresetStorage.Instance = new PresetStorageData();
+            PresetStorage.Instance.Init();
+            PresetStorage.RemoveRedundantPresets();
+        });
+        LogLoadStep("StatusCache", () =>
+        {
+            StatusCache.Instance = new StatusCache();
+            StatusCache.Instance.Init();
+        });
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        Service.ComboCache = new CustomComboCache();
-        Service.ActionReplacer = new ActionReplacer();
-        Service.AutoRotationController = new AutoRotationController();
-        ActionRetargeting = new ActionRetargeting();
-        IPC = Provider.Init();
-        PingPluginIPC.Init();
-        ConflictingPluginsChecks.Begin();
+        LogLoadStep("ActionReplacer", () =>
+        {
+            Service.ComboCache = new CustomComboCache();
+            Service.ActionReplacer = new ActionReplacer();
+        });
+        LogLoadStep("AutoRotation + Retarget + IPC", () =>
+        {
+            Service.AutoRotationController = new AutoRotationController();
+            ActionRetargeting = new ActionRetargeting();
+            IPC = Provider.Init();
+            PingPluginIPC.Init();
+            ConflictingPluginsChecks.Begin();
+        });
 
         // Subscribe to language changes to update localized text if needed (Client != Selected UI)
         Svc.PluginInterface.LanguageChanged += Text.OnLanguageChanged;
@@ -232,12 +259,10 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
             Text.OnLanguageChanged(Svc.PluginInterface.UiLanguage);
         }
 
-        ConfigWindow = new ConfigWindow();
         Settings.SanitiseSettings();
         _majorChangesWindow = new MajorChangesWindow();
         TargetHelper = new();
         ws = new();
-        ws.AddWindow(ConfigWindow);
         ws.AddWindow(_majorChangesWindow);
         ws.AddWindow(TargetHelper);
 
@@ -288,13 +313,16 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
 
 #if DEBUG
         VfxManager.Logging = true;
-        ConfigWindow.IsOpen = true;
-        _ = Svc.Framework.RunOnTick(() =>
-        {
-            if (Service.Configuration.OpenToCurrentJob && Player.Available)
-                HandleOpenCommand([""], forceOpen: true);
-        });
+        _ = Svc.Framework.RunOnTick(() => HandleOpenCommand([""], forceOpen: true));
 #endif
+        PluginLog.Information($"LoadAsync completed in {loadSw.ElapsedMilliseconds} ms.");
+    }
+
+    private static void LogLoadStep(string name, System.Action action)
+    {
+        var sw = Stopwatch.StartNew();
+        action();
+        PluginLog.Information($"{name} completed in {sw.ElapsedMilliseconds} ms.");
     }
 
     private void OnErrorToast(ref SeString message, ref bool isHandled)
@@ -313,18 +341,22 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
         }
     }
 
-    private async Task RemoveNullAutosAsync(CancellationToken cancellationToken)
+    /// <summary>
+    /// Strip stale AutoActions keys, then deserialize once.
+    /// Skips GetPluginConfig, which scans the assembly for a config type and reads the file again.
+    /// </summary>
+    private async Task<Configuration> LoadConfigurationAsync(CancellationToken cancellationToken)
     {
         try
         {
-            var save = false;
-            if (!Svc.PluginInterface.ConfigFile.Exists) return;
+            if (!Svc.PluginInterface.ConfigFile.Exists)
+                return new Configuration();
 
             var json = JObject.Parse(await File.ReadAllTextAsync(Svc.PluginInterface.ConfigFile.FullName, cancellationToken).ConfigureAwait(false));
             if (json["AutoActions"] is JObject autoActions)
             {
-                var clone = autoActions.JSONClone();
-                foreach (var a in clone)
+                List<string>? staleKeys = null;
+                foreach (var a in autoActions)
                 {
                     if (a.Key == "$type")
                         continue;
@@ -333,12 +365,20 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
                         continue;
 
                     Svc.Log.Debug($"Couldn't find {a.Key}");
-                    autoActions[a.Key].Parent.Remove();
-                    save = true;
+                    staleKeys ??= [];
+                    staleKeys.Add(a.Key);
+                }
+
+                if (staleKeys is not null)
+                {
+                    foreach (var key in staleKeys)
+                        autoActions.Remove(key);
+
+                    await File.WriteAllTextAsync(Svc.PluginInterface.ConfigFile.FullName, json.ToString(), cancellationToken).ConfigureAwait(false);
                 }
             }
-            if (save)
-                await File.WriteAllTextAsync(Svc.PluginInterface.ConfigFile.FullName, json.ToString(), cancellationToken).ConfigureAwait(false);
+
+            return json.ToObject<Configuration>() ?? new Configuration();
         }
         catch (OperationCanceledException)
         {
@@ -347,6 +387,7 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
         catch (Exception e)
         {
             e.Log();
+            return pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
         }
     }
 
@@ -512,7 +553,7 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
         {
             ActionRetargeting?.Dispose();
             ConfigWindow?.Dispose();
-            Debug.Dispose();
+            Window.Tabs.Debug.Dispose();
 
             // Try to force a config save if there are some pending
             if (Service.Configuration is not null && Configuration.SaveQueue.Count > 0)
@@ -570,4 +611,15 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
 
     internal void OnOpenConfigUi() =>
         HandleOpenCommand(tab: OpenWindow.Settings, forceOpen: true);
+
+    private void EnsureConfigWindow()
+    {
+        if (ConfigWindow is not null)
+            return;
+
+        var sw = Stopwatch.StartNew();
+        ConfigWindow = new ConfigWindow();
+        ws.AddWindow(ConfigWindow);
+        PluginLog.Information($"ConfigWindow created in {sw.ElapsedMilliseconds} ms.");
+    }
 }

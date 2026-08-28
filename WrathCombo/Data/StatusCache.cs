@@ -1,5 +1,7 @@
-﻿using Dalamud.Game.ClientState.Objects.Types;
+﻿using Dalamud.Game;
+using Dalamud.Game.ClientState.Objects.Types;
 using ECommons.DalamudServices;
+using Lumina.Excel;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
@@ -62,85 +64,79 @@ public class StatusCache
 
     public void Init()
     {
-        StatusSheet = Svc.Data.GetExcelSheet<Lumina.Excel.Sheets.Status>()
-            .ToFrozenDictionary(i => i.RowId);
+        StatusSheet = Svc.Data.GetExcelSheet<Lumina.Excel.Sheets.Status>()!;
+        ENStatusSheet = Svc.Data.GetExcelSheet<Lumina.Excel.Sheets.Status>(ClientLanguage.English)!;
 
-        ENStatusSheet = Svc.Data.GetExcelSheet<Lumina.Excel.Sheets.Status>(Dalamud.Game.ClientLanguage.English)
-            .ToFrozenDictionary(i => i.RowId);
+        string? damageDownName = ENStatusSheet.TryGetRow(62, out var ddRow) ? ddRow.Name.ToString() : null;
+        string? damageUpName = ENStatusSheet.TryGetRow(61, out var duRow) ? duRow.Name.ToString() : null;
+        string? evasionUpName = ENStatusSheet.TryGetRow(31, out var euRow) ? euRow.Name.ToString() : null;
 
-        DamageDownStatuses = ENStatusSheet.TryGetValue(62, out var ddRow)
-            ? ENStatusSheet
-                .Where(x => x.Value.Name.ToString().Equals(ddRow.Name.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                .Select(x => x.Key)
-                .ToFrozenSet()
-            : [];
+        var damageDown = new List<uint>();
+        var damageUp = new List<uint>();
+        var evasionUp = new List<uint>();
+        foreach (var row in ENStatusSheet)
+        {
+            var name = row.Name.ToString();
+            if (damageDownName is not null &&
+                name.Equals(damageDownName, StringComparison.CurrentCultureIgnoreCase))
+                damageDown.Add(row.RowId);
+            if (damageUpName is not null &&
+                name.Contains(damageUpName, StringComparison.CurrentCultureIgnoreCase))
+                damageUp.Add(row.RowId);
+            if (evasionUpName is not null &&
+                name.Contains(evasionUpName, StringComparison.CurrentCultureIgnoreCase))
+                evasionUp.Add(row.RowId);
+        }
 
-        CleansableDoomStatuses = StatusSheet
-            .Where(x => x.Value.Icon == 215503 && x.Value.CanDispel)
-            .Select(x => x.Key)
-            .ToFrozenSet();
-
-        DamageUpStatuses = ENStatusSheet.TryGetValue(61, out var duRow)
-           ? ENStatusSheet
-               .Where(x => x.Value.Name.ToString().Contains(duRow.Name.ToString(), StringComparison.CurrentCultureIgnoreCase))
-               .Select(x => x.Key)
-               .ToFrozenSet()
-           : [];
-
-        EvasionUpStatuses =
-        ENStatusSheet.TryGetValue(31, out var euRow)
-            ? ENStatusSheet
-                .Where(x => x.Value.Name.ToString().Contains(euRow.Name.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                .Select(x => x.Key)
-                .ToFrozenSet()
-            : [];
-
-        DispellableStatuses =
-        StatusSheet
-            .Where(kvp => kvp.Value.CanDispel)
-            .Select(kvp => kvp.Key)
-            .ToFrozenSet();
-
-        BeneficialStatuses =
-        StatusSheet
-            .Where(kvp => kvp.Value.StatusCategory == 1)
-            .Select(kvp => kvp.Key)
-            .ToFrozenSet();
-
-        InvincibleStatuses =
-        StatusSheet
-            .Where(row => row.Value.Icon == 215024)
-            .Select(row => row.Key)
-            .Concat(new uint[] {
-                151, 198, 469, 592, 1240, 1302, 1303,
-                1567, 1936, 2413, 2654, 3012, 3039,
-                3052, 3054, 4175
-            })
-            .ToFrozenSet();
-
-        RaiseInvincibilityStatuses =
-        StatusSheet
-            .Where(row => row.Value.Icon == 215273) // Transcendant statuses, based on Icon
-            .Select(row => row.Key)
-            .ToFrozenSet();
-
-        RaiseStatuses =
-        StatusSheet
-            .Where(row => row.Value.Icon == 210406) // Raise statuses, based on Icon
-            .Select(row => row.Key)
-            .ToFrozenSet();
-
-        DoNotHealStatuses = new uint[]
+        var cleansableDoom = new List<uint>();
+        var dispellable = new List<uint>();
+        var beneficial = new List<uint>();
+        var invincible = new List<uint> { 151, 198, 469, 592, 1240, 1302, 1303, 1567, 1936, 2413, 2654, 3012, 3039, 3052, 3054, 4175 };
+        var raiseInvuln = new List<uint>();
+        var raise = new List<uint>();
+        foreach (var row in StatusSheet)
+        {
+            if (row.CanDispel)
             {
-                2852,
-            }.ToFrozenSet();
+                dispellable.Add(row.RowId);
+                if (row.Icon == 215503)
+                    cleansableDoom.Add(row.RowId);
+            }
+
+            if (row.StatusCategory == 1)
+                beneficial.Add(row.RowId);
+
+            switch (row.Icon)
+            {
+                case 215024:
+                    invincible.Add(row.RowId);
+                    break;
+                case 215273:
+                    raiseInvuln.Add(row.RowId);
+                    break;
+                case 210406:
+                    raise.Add(row.RowId);
+                    break;
+            }
+        }
+
+        DamageDownStatuses = damageDown.ToFrozenSet();
+        CleansableDoomStatuses = cleansableDoom.ToFrozenSet();
+        DamageUpStatuses = damageUp.ToFrozenSet();
+        EvasionUpStatuses = evasionUp.ToFrozenSet();
+        DispellableStatuses = dispellable.ToFrozenSet();
+        BeneficialStatuses = beneficial.ToFrozenSet();
+        InvincibleStatuses = invincible.ToFrozenSet();
+        RaiseInvincibilityStatuses = raiseInvuln.ToFrozenSet();
+        RaiseStatuses = raise.ToFrozenSet();
+        DoNotHealStatuses = new uint[] { 2852 }.ToFrozenSet();
 
         PausingStatuses = new();
         PausingStatuses.Init();
     }
 
-    internal FrozenDictionary<uint, Lumina.Excel.Sheets.Status> StatusSheet = null!;
-    internal FrozenDictionary<uint, Lumina.Excel.Sheets.Status> ENStatusSheet = null!;
+    internal ExcelSheet<Lumina.Excel.Sheets.Status> StatusSheet = null!;
+    internal ExcelSheet<Lumina.Excel.Sheets.Status> ENStatusSheet = null!;
     internal FrozenSet<uint> DamageDownStatuses = null!;
     internal FrozenSet<uint> CleansableDoomStatuses = null!;
     internal FrozenSet<uint> DamageUpStatuses = null!;
@@ -165,7 +161,7 @@ public class StatusCache
     /// </summary>
     /// <param name="id">Status ID</param>
     /// <returns></returns>
-    public static string GetStatusName(uint id) => Instance.StatusSheet.TryGetValue(id, out var status) ? status.Name.ToString() : "Unknown Status";
+    public static string GetStatusName(uint id) => Instance.StatusSheet.TryGetRow(id, out var status) ? status.Name.ToString() : "Unknown Status";
 
     /// <summary>
     /// Returns an uint List of Status IDs based on Name.
@@ -177,8 +173,8 @@ public class StatusCache
         if (string.IsNullOrEmpty(status))
             return null;
         var statusIds = Instance.StatusSheet
-            .Where(x => x.Value.Name.ToString().Equals(status, StringComparison.CurrentCultureIgnoreCase))
-            .Select(x => x.Key)
+            .Where(x => x.Name.ToString().Equals(status, StringComparison.CurrentCultureIgnoreCase))
+            .Select(x => x.RowId)
             .ToList();
         return statusIds.Count != 0 ? statusIds : null;
     }
@@ -213,8 +209,8 @@ public class PausingStatuses
         AccelerationBombs =
         new HashSet<uint>(
             StatusCache.Instance.StatusSheet
-                .Where(row => row.Value.Icon == 215727) // Acceleration Bomb Icon
-                .Select(row => row.Key)
+                .Where(row => row.Icon == 215727) // Acceleration Bomb Icon
+                .Select(row => row.RowId)
         )
         {
             1132, // Baelsar's Wall - Extreme Caution
@@ -225,8 +221,8 @@ public class PausingStatuses
         Pyretics =
         new HashSet<uint>(
             StatusCache.Instance.StatusSheet
-                .Where(row => row.Value.Icon == 215647) // Pyretic Icon
-                .Select(row => row.Key)
+                .Where(row => row.Icon == 215647) // Pyretic Icon
+                .Select(row => row.RowId)
         )
         {
             514 // Causality

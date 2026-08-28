@@ -1,10 +1,12 @@
 ﻿using ECommons;
 using ECommons.Logging;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using WrathCombo.API.Enum;
 using WrathCombo.Attributes;
 using WrathCombo.Extensions;
@@ -578,56 +580,58 @@ internal class PresetStorageData
     internal void Init()
     {
         AllPresetsData = BuildPresets();
-        ConflictingCombosData = BuildConflictingCombos();
-        PresetsByNameData = AllPresetsData.Values.ToFrozenDictionary(
-            data => data.InternalName,
-            data => data.Preset,
-            StringComparer.OrdinalIgnoreCase);
-        PresetsByIdData = AllPresetsData.Keys.ToFrozenDictionary(preset => (int)preset, preset => preset);
-        AllRetargetedActionsCache = null!;
+        // Then parallelize the three derived dictionaries
+        Parallel.Invoke(
+            () => ConflictingCombosData = BuildConflictingCombos(),
+            () => PresetsByNameData = AllPresetsData.Values.ToFrozenDictionary(
+                data => data.InternalName,
+                data => data.Preset,
+                StringComparer.OrdinalIgnoreCase),
+            () => PresetsByIdData = AllPresetsData.Keys.ToFrozenDictionary(
+                preset => (int)preset,
+                preset => preset)
+        );
     }
 
-    private FrozenDictionary<Preset, PresetStorage.PresetData> BuildPresets()
+    private static FrozenDictionary<Preset, PresetStorage.PresetData> BuildPresets()
     {
-        // Master dictionary of presets and attributes
-        var dict = new Dictionary<Preset, PresetStorage.PresetData>();
+        var dict = new ConcurrentDictionary<Preset, PresetStorage.PresetData>();
 
-        foreach (var preset in Enum.GetValues<Preset>())
+        // Create all data objects
+        Parallel.ForEach(Enum.GetValues<Preset>(), preset =>
         {
+            // This operation is independent for each preset
             dict[preset] = new PresetStorage.PresetData(preset);
-        }
+        });
 
         var frozen = dict.ToFrozenDictionary();
 
-        // Precompute parent hierarchy
+        // Do not Parallel, seems slower
         foreach (var (preset, attrs) in frozen)
         {
             if (attrs.Parent.HasValue)
             {
-                var root = attrs.Parent.Value;
+                // Walk to root once
+                var current = attrs.Parent.Value;
+                var ancestors = new List<Preset> { current };
 
-                while (frozen[root].Parent.HasValue)
+                while (frozen[current].Parent.HasValue)
                 {
-                    root = frozen[root].Parent!.Value;
+                    current = frozen[current].Parent!.Value;
+                    ancestors.Add(current);
                 }
 
-                attrs.RootParent = root;
-
-                attrs.GrandParent = frozen[attrs.Parent.Value].Parent;
-                attrs.GreatGrandParent = attrs.GrandParent.HasValue
-                    ? frozen[attrs.GrandParent.Value].Parent
-                    : null;
+                attrs.RootParent = current;
+                attrs.GrandParent = ancestors.Count > 1 ? ancestors[1] : null;
+                attrs.GreatGrandParent = ancestors.Count > 2 ? ancestors[2] : null;
             }
             else
             {
                 attrs.RootParent = preset;
-                attrs.GrandParent = null;
-                attrs.GreatGrandParent = null;
             }
         }
 
         PluginLog.Information($"Cached {frozen.Count} presets & attributes.");
-
         return frozen;
     }
 

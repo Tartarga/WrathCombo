@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using WrathCombo.API.Enum;
 using WrathCombo.AutoRotation;
@@ -44,28 +45,29 @@ using GenericHelpers = ECommons.GenericHelpers;
 namespace WrathCombo;
 
 /// <summary> Main plugin implementation. </summary>
-public sealed partial class WrathCombo : IDalamudPlugin
+public sealed partial class WrathCombo : IAsyncDalamudPlugin
 {
     internal static TaskManager? TM;
-    internal readonly ConfigWindow ConfigWindow;
-    private readonly MajorChangesWindow _majorChangesWindow;
-    private readonly TargetHelper TargetHelper;
+    internal ConfigWindow ConfigWindow = null!;
+    private MajorChangesWindow _majorChangesWindow = null!;
+    private TargetHelper TargetHelper = null!;
     internal static WrathCombo? P;
-    private readonly WindowSystem ws;
+    private WindowSystem ws = null!;
     private static readonly SocketsHttpHandler httpHandler = new()
     {
         AutomaticDecompression = DecompressionMethods.All,
         ConnectCallback = new HappyEyeballsCallback().ConnectCallback,
     };
     internal readonly HttpClient HTTPClient = new(httpHandler) { Timeout = TimeSpan.FromSeconds(5) };
-    private readonly IDtrBarEntry DtrBarEntry;
-    public readonly IDtrBarEntry OpenerDtr;
-    internal Provider IPC;
+    private IDtrBarEntry DtrBarEntry = null!;
+    public IDtrBarEntry OpenerDtr = null!;
+    internal Provider IPC = null!;
     internal Search IPCSearch = null!;
     internal UIHelper UIHelper = null!;
     internal ActionRetargeting ActionRetargeting = null!;
-    internal MovementHook MoveHook;
-    internal CustomActionSetup CustomActions;
+    internal MovementHook MoveHook = null!;
+    internal CustomActionSetup CustomActions = null!;
+    private readonly IDalamudPluginInterface pluginInterface;
     //private readonly CustomActionListAddon _listAddon;
 
     internal static bool IsAprilFools => DateTime.UtcNow.Day == 1 && DateTime.UtcNow.Month == 4;
@@ -178,6 +180,14 @@ public sealed partial class WrathCombo : IDalamudPlugin
     /// <param name="pluginInterface"> Dalamud plugin interface. </param>
     public WrathCombo(IDalamudPluginInterface pluginInterface)
     {
+        this.pluginInterface = pluginInterface;
+    }
+
+    /// <inheritdoc/>
+    public async Task LoadAsync(CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
         P = this;
         pluginInterface.Create<Service>();
         ECommonsMain.Init(pluginInterface, this, Module.All);
@@ -185,14 +195,16 @@ public sealed partial class WrathCombo : IDalamudPlugin
         ActionRequestIPCProvider.Initialize();
 
         TM = new();
-        RemoveNullAutos();
+        await RemoveNullAutosAsync(cancellationToken).ConfigureAwait(false);
         Service.Configuration = pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
         Service.Address = new AddressResolver();
         Service.Address.Setup(Svc.SigScanner);
         MoveHook = new();
         CustomActions = new();
         PresetStorage.RemoveRedundantPresets();
-        OpCodeConfigHelper.UpdateOpCodes();
+        await OpCodeConfigHelper.UpdateOpCodesAsync(cancellationToken).ConfigureAwait(false);
+
+        cancellationToken.ThrowIfCancellationRequested();
 
         Service.ComboCache = new CustomComboCache();
         Service.ActionReplacer = new ActionReplacer();
@@ -231,7 +243,7 @@ public sealed partial class WrathCombo : IDalamudPlugin
 
         RegisterCommands();
 
-        DtrBarEntry ??= Svc.DtrBar.Get("Wrath Combo");
+        DtrBarEntry = Svc.DtrBar.Get("Wrath Combo");
         DtrBarEntry.OnClick = (_) =>
         {
             AutoRotationController.ToggleAutoRotation(!Service.Configuration.RotationConfig.Enabled);
@@ -240,7 +252,7 @@ public sealed partial class WrathCombo : IDalamudPlugin
         new TextPayload("Click to toggle Wrath Combo's Auto-Rotation.\n"),
         new TextPayload("Disable this icon in /xlsettings -> Server Info Bar"));
 
-        OpenerDtr ??= Svc.DtrBar.Get("Wrath Combo Opener");
+        OpenerDtr = Svc.DtrBar.Get("Wrath Combo Opener");
 
         OpenerDtr.OnClick += (_) =>
         {
@@ -265,13 +277,13 @@ public sealed partial class WrathCombo : IDalamudPlugin
         CustomComboFunctions.TimerSetup();
 
         // Starts Retarget list cleaning process after a delay
-        Svc.Framework.RunOnTick(ActionRetargeting.ClearOldRetargets,
+        _ = Svc.Framework.RunOnTick(ActionRetargeting.ClearOldRetargets,
             TimeSpan.FromSeconds(60));
 
 #if DEBUG
         VfxManager.Logging = true;
         ConfigWindow.IsOpen = true;
-        Svc.Framework.RunOnTick(() =>
+        _ = Svc.Framework.RunOnTick(() =>
         {
             if (Service.Configuration.OpenToCurrentJob && Player.Available)
                 HandleOpenCommand([""], forceOpen: true);
@@ -295,14 +307,14 @@ public sealed partial class WrathCombo : IDalamudPlugin
         }
     }
 
-    private void RemoveNullAutos()
+    private async Task RemoveNullAutosAsync(CancellationToken cancellationToken)
     {
         try
         {
             var save = false;
             if (!Svc.PluginInterface.ConfigFile.Exists) return;
 
-            var json = JObject.Parse(File.ReadAllText(Svc.PluginInterface.ConfigFile.FullName));
+            var json = JObject.Parse(await File.ReadAllTextAsync(Svc.PluginInterface.ConfigFile.FullName, cancellationToken).ConfigureAwait(false));
             if (json["AutoActions"] is JObject autoActions)
             {
                 var clone = autoActions.JSONClone();
@@ -320,7 +332,11 @@ public sealed partial class WrathCombo : IDalamudPlugin
                 }
             }
             if (save)
-                File.WriteAllText(Svc.PluginInterface.ConfigFile.FullName, json.ToString());
+                await File.WriteAllTextAsync(Svc.PluginInterface.ConfigFile.FullName, json.ToString(), cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
         }
         catch (Exception e)
         {
@@ -484,44 +500,63 @@ public sealed partial class WrathCombo : IDalamudPlugin
     public string Name => MainWindowUI.Wrath_Combo;
 
     /// <inheritdoc/>
-    public void Dispose()
+    public ValueTask DisposeAsync()
     {
-        ActionRetargeting.Dispose();
-        ConfigWindow.Dispose();
-        Debug.Dispose();
+        try
+        {
+            ActionRetargeting?.Dispose();
+            ConfigWindow?.Dispose();
+            Debug.Dispose();
 
-        // Try to force a config save if there are some pending
-        if (Configuration.SaveQueue.Count > 0)
-            lock (Configuration.SaveQueue)
+            // Try to force a config save if there are some pending
+            if (Service.Configuration is not null && Configuration.SaveQueue.Count > 0)
+                lock (Configuration.SaveQueue)
+                {
+                    Configuration.SaveQueue.Clear();
+                    Service.Configuration.Save();
+                    Configuration.ProcessSaveQueue();
+                }
+
+            ws?.RemoveAllWindows();
+
+            if (Svc.PluginInterface is not null)
             {
-                Configuration.SaveQueue.Clear();
-                Service.Configuration.Save();
-                Configuration.ProcessSaveQueue();
+                Svc.DtrBar.Remove("Wrath Combo");
+                Svc.DtrBar.Remove("Wrath Combo Opener");
+                Configuration.ConfigChanged -= DebugFile.LoggingConfigChanges;
+                Svc.Framework.Update -= OnFrameworkUpdate;
+                Svc.ClientState.TerritoryChanged -= ClientState_TerritoryChanged;
+                Svc.PluginInterface.LanguageChanged -= Text.OnLanguageChanged;
+                Svc.PluginInterface.UiBuilder.OpenMainUi -= OnOpenMainUi;
+                Svc.PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;
+                if (ws is not null)
+                    Svc.PluginInterface.UiBuilder.Draw -= ws.Draw;
+                Svc.Toasts.ErrorToast -= OnErrorToast;
+                Svc.ClientState.Login -= PrintLoginMessage;
             }
 
-        ws.RemoveAllWindows();
-        Svc.DtrBar.Remove("Wrath Combo");
-        Svc.DtrBar.Remove("Wrath Combo Opener");
-        Configuration.ConfigChanged -= DebugFile.LoggingConfigChanges;
-        Svc.Framework.Update -= OnFrameworkUpdate;
-        Svc.ClientState.TerritoryChanged -= ClientState_TerritoryChanged;
-        Svc.PluginInterface.UiBuilder.OpenConfigUi -= OnOpenConfigUi;
-        Svc.PluginInterface.UiBuilder.Draw -= DrawUI;
+            Service.ActionReplacer?.Dispose();
+            Service.ComboCache?.Dispose();
+            Service.AutoRotationController?.Dispose();
+            ActionWatching.Dispose();
+            if (Svc.PluginInterface is not null)
+                CustomComboFunctions.TimerDispose();
+            IPC?.Dispose();
+            MoveHook?.Dispose();
+            CustomActions?.Dispose();
 
-        Service.ActionReplacer.Dispose();
-        Service.ComboCache.Dispose();
-        Service.AutoRotationController.Dispose();
-        ActionWatching.Dispose();
-        CustomComboFunctions.TimerDispose();
-        IPC.Dispose();
-        MoveHook.Dispose();
-        CustomActions.Dispose();
+            ConflictingPluginsChecks.Dispose();
+            AllStaticIPCSubscriptions.Dispose();
+            if (Svc.PluginInterface is not null)
+                ECommonsMain.Dispose();
+        }
+        catch (Exception e)
+        {
+            e.Log();
+        }
 
-        ConflictingPluginsChecks.Dispose();
-        AllStaticIPCSubscriptions.Dispose();
-        Svc.ClientState.Login -= PrintLoginMessage;
-        ECommonsMain.Dispose();
         P = null;
+        return ValueTask.CompletedTask;
     }
 
     private void OnOpenMainUi() =>

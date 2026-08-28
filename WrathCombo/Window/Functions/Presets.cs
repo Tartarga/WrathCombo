@@ -33,6 +33,7 @@ using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 using static WrathCombo.Core.PresetStorage;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using static WrathCombo.CustomComboNS.Functions.Jobs;
+using AW = WrathCombo.Data.ActionWatching;
 namespace WrathCombo.Window.Functions;
 
 internal class Presets : ConfigWindow
@@ -196,7 +197,7 @@ internal class Presets : ConfigWindow
             if (blueAttr.Actions.Count > 0)
             {
                 ImGui.PushStyleColor(ImGuiCol.Text, blueAttr.NoneSet ? ImGuiColors.DPSRed : ImGuiColors.DalamudOrange);
-                ImGui.Text($"{(blueAttr.NoneSet ? FeaturesUI.Warning_BLUNoSpells : FeaturesUI.Warning_BLUMissingSpells)} {string.Join(", ", blueAttr.Actions.Select(x => ActionWatching.GetBLUIndex(x) + GetActionName(x)))}");
+                ImGui.Text($"{(blueAttr.NoneSet ? FeaturesUI.Warning_BLUNoSpells : FeaturesUI.Warning_BLUMissingSpells)} {string.Join(", ", blueAttr.Actions.Select(x => AW.Instance.GetBLUIndex(x) + CustomComboFunctions.GetActionName(x)))}");
                 ImGui.PopStyleColor();
             }
 

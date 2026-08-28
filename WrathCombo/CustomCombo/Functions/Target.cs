@@ -15,6 +15,7 @@ using WrathCombo.Core;
 using WrathCombo.Data;
 using WrathCombo.Extensions;
 using WrathCombo.Services;
+using AW = WrathCombo.Data.ActionWatching;
 using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
 namespace WrathCombo.CustomComboNS.Functions;
 
@@ -69,7 +70,7 @@ internal abstract partial class CustomComboFunctions
         if (EnemiesThatShouldNotBeConsideredBosses.Contains(chara.BaseId))
             return false;
 
-        return chara.NameId == 541 || ActionWatching.BossesBaseIds.Contains(chara.BaseId);
+        return chara.NameId == 541 || AW.BossesBaseIds.Contains(chara.BaseId);
     }
 
     /// <summary> Checks if an object is quest-related. Defaults to CurrentTarget unless specified. </summary>

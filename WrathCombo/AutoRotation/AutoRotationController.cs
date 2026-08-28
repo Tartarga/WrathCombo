@@ -29,6 +29,7 @@ using WrathCombo.Window.Functions;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
 using static WrathCombo.CustomComboNS.Functions.Jobs;
 using static WrathCombo.Data.ActionWatching;
+using AW = WrathCombo.Data.ActionWatching;
 using ActionType = FFXIVClientStructs.FFXIV.Client.Game.ActionType;
 using Content = ECommons.GameHelpers.Content;
 
@@ -493,7 +494,7 @@ internal unsafe class AutoRotationController
                 if (!ActionReady(spell))
                     return;
 
-                if (Player.Object is not null && ActionManager.CanUseActionOnTarget(spell, SimpleTarget.FocusTarget.Struct()) && !OutOfRange(spell, Player.Object, SimpleTarget.FocusTarget) && ActionManager.Instance()->GetActionStatus(ActionType.Action, spell) == 0)
+                if (Player.Object is not null && ActionManager.CanUseActionOnTarget(spell, SimpleTarget.FocusTarget.Struct()) && !AW.Instance.OutOfRange(spell, Player.Object, SimpleTarget.FocusTarget) && ActionManager.Instance()->GetActionStatus(ActionType.Action, spell) == 0)
                 {
                     ActionManager.Instance()->UseAction(ActionType.Action, regenSpell, SimpleTarget.FocusTarget.GameObjectId);
                     return;
@@ -558,7 +559,7 @@ internal unsafe class AutoRotationController
                     ActionManager.GetAdjustedCastTime(ActionType.Action, spell) > 0 && TimeStoodStill < TimeSpan.FromSeconds(1))
                     return;
 
-                if (Player.Object is not null && ActionManager.CanUseActionOnTarget(spell, SimpleTarget.FocusTarget.Struct()) && !OutOfRange(spell, Player.Object, SimpleTarget.FocusTarget) && ActionManager.Instance()->GetActionStatus(ActionType.Action, spell) == 0)
+                if (Player.Object is not null && ActionManager.CanUseActionOnTarget(spell, SimpleTarget.FocusTarget.Struct()) && !AW.Instance.OutOfRange(spell, Player.Object, SimpleTarget.FocusTarget) && ActionManager.Instance()->GetActionStatus(ActionType.Action, spell) == 0)
                 {
                     ActionManager.Instance()->UseAction(ActionType.Action, spell, SimpleTarget.FocusTarget.GameObjectId);
                     return;
@@ -849,7 +850,7 @@ internal unsafe class AutoRotationController
                 if (!ActionReady(outAct))
                     return false;
 
-                var canQueue = outAct.ActionAttackType() is { } type && (type is ActionAttackType.Ability || type is not ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow);
+                var canQueue = outAct.ActionAttackType() is { } type && (type is AW.ActionAttackType.Ability || type is not AW.ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow);
                 if (!canQueue)
                     return false;
 
@@ -861,7 +862,7 @@ internal unsafe class AutoRotationController
                         return false;
 
                     var targetId = player.GameObjectId;
-                    var changed = CheckForChangedTarget(gameAct, ref targetId, out var replacedWith);
+                    var changed = AW.Instance.CheckForChangedTarget(gameAct, ref targetId, out var replacedWith);
                     WouldLikeToGroundTarget = ActionSheet.TryGetValue(outAct, out var s) && s.TargetArea;
                     var ret = ActionManager.Instance()->UseAction(ActionType.Action, Service.Configuration.ActionChanging ? gameAct : outAct, targetId);
                     WouldLikeToGroundTarget = false;
@@ -886,7 +887,7 @@ internal unsafe class AutoRotationController
                 }
 
                 ulong targetId = target?.GameObjectId ?? 0;
-                var changed = CheckForChangedTarget(gameAct, ref targetId, out var replacedWith) && targetId != target?.GameObjectId;
+                var changed = AW.Instance.CheckForChangedTarget(gameAct, ref targetId, out var replacedWith) && targetId != target?.GameObjectId;
                 if (changed) target = targetId.GetObject();
 
                 OverrideTarget = target ?? OverrideTarget;
@@ -895,7 +896,7 @@ internal unsafe class AutoRotationController
                 if (!ActionReady(outAct))
                     return false;
 
-                var canQueue = outAct.ActionAttackType() is { } type && ((type is ActionAttackType.Ability && AnimationLock <= cfg.QueueWindow) || (type is not ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow));
+                var canQueue = outAct.ActionAttackType() is { } type && ((type is AW.ActionAttackType.Ability && AnimationLock <= cfg.QueueWindow) || (type is not AW.ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow));
                 if (!canQueue)
                     return false;
 
@@ -961,7 +962,7 @@ internal unsafe class AutoRotationController
             if ((target is not { } t || (!t.IsHostile() && !t.IsFriendly())) && cfg.PauseWhenNoTarget) return true;
 
             ulong targetId = target?.GameObjectId ?? 0;
-            var changed = CheckForChangedTarget(gameAct, ref targetId, out var replacedWith) && targetId != target?.GameObjectId;
+            var changed = AW.Instance.CheckForChangedTarget(gameAct, ref targetId, out var replacedWith) && targetId != target?.GameObjectId;
             if (changed) target = targetId.GetObject();
 
             OverrideTarget = target ?? OverrideTarget;
@@ -1000,7 +1001,7 @@ internal unsafe class AutoRotationController
             var acRangeCheck = ActionManager.GetActionInRangeOrLoS(outAct, player.GameObject(), target is null ? player.GameObject() : target.Struct());
             var inRange = acRangeCheck is 0 or 565 || canUseSelf;
 
-            var canUse = (canUseSelf || canUseTarget || areaTargeted) && outAct.ActionAttackType() is { } type && ((type is ActionAttackType.Ability && AnimationLock <= cfg.QueueWindow) || (type is not ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow));
+            var canUse = (canUseSelf || canUseTarget || areaTargeted) && outAct.ActionAttackType() is { } type && ((type is AW.ActionAttackType.Ability && AnimationLock <= cfg.QueueWindow) || (type is not AW.ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow));
             var isHeal = attributes.AutoAction!.IsHeal;
 
             var castTime = ActionManager.GetAdjustedCastTime(ActionType.Action, outAct);

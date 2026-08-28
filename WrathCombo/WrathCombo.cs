@@ -201,6 +201,9 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
         Service.Address.Setup(Svc.SigScanner);
         MoveHook = new();
         CustomActions = new();
+        ActionWatching.Instance = new ActionWatching();
+        ActionWatching.Instance.Init();
+        ActionWatching.Instance.Enable();
         PresetStorage.RemoveRedundantPresets();
         await OpCodeConfigHelper.UpdateOpCodesAsync(cancellationToken).ConfigureAwait(false);
 
@@ -210,7 +213,6 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
         Service.ActionReplacer = new ActionReplacer();
         Service.AutoRotationController = new AutoRotationController();
         ActionRetargeting = new ActionRetargeting();
-        ActionWatching.Enable();
         IPC = Provider.Init();
         PingPluginIPC.Init();
         ConflictingPluginsChecks.Begin();
@@ -538,7 +540,7 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
             Service.ActionReplacer?.Dispose();
             Service.ComboCache?.Dispose();
             Service.AutoRotationController?.Dispose();
-            ActionWatching.Dispose();
+            ActionWatching.Instance?.Dispose();
             if (Svc.PluginInterface is not null)
                 CustomComboFunctions.TimerDispose();
             IPC?.Dispose();

@@ -187,13 +187,12 @@ namespace WrathCombo.Data.BattleData
                 case 1346: //The Forked Tower: Magic
                     // Two-headed Aevis Blue Head = 14491
                     // Two-headed Aevis Green Head = 14490
-                    _invincibleCheck = (target, _, _) =>
+                    _invincibleCheck = (tar, _, _) =>
                     {
-                        var nameId = target.GetNameId();
-                        if (nameId is 14491 or 14490)
+                        if (tar?.NameId is 14491 or 14490)
                         {
-                            if (HasStatusEffect(4192)) return Result(nameId != 14491); // Two-headed Aevis Blue Head
-                            if (HasStatusEffect(4194)) return Result(nameId != 14490); // Two-headed Aevis Green Head
+                            if (HasStatusEffect(4192)) return Result(tar.NameId != 14491); // Two-headed Aevis Blue Head
+                            if (HasStatusEffect(4194)) return Result(tar.NameId != 14490); // Two-headed Aevis Green Head
                         }
                         return Invincible.False;
                     };

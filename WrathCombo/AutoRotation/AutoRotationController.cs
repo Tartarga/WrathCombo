@@ -850,7 +850,7 @@ internal unsafe class AutoRotationController
                 if (!ActionReady(outAct))
                     return false;
 
-                var canQueue = outAct.ActionAttackType() is { } type && (type is AW.ActionAttackType.Ability || type is not AW.ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow);
+                var canQueue = outAct.ActionAttackType() is { } type && (type is ActionAttackType.Ability || type is not AW.ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow);
                 if (!canQueue)
                     return false;
 
@@ -896,7 +896,7 @@ internal unsafe class AutoRotationController
                 if (!ActionReady(outAct))
                     return false;
 
-                var canQueue = outAct.ActionAttackType() is { } type && ((type is AW.ActionAttackType.Ability && AnimationLock <= cfg.QueueWindow) || (type is not AW.ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow));
+                var canQueue = outAct.ActionAttackType() is { } type && ((type is ActionAttackType.Ability && AnimationLock <= cfg.QueueWindow) || (type is not AW.ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow));
                 if (!canQueue)
                     return false;
 
@@ -1001,7 +1001,7 @@ internal unsafe class AutoRotationController
             var acRangeCheck = ActionManager.GetActionInRangeOrLoS(outAct, player.GameObject(), target is null ? player.GameObject() : target.Struct());
             var inRange = acRangeCheck is 0 or 565 || canUseSelf;
 
-            var canUse = (canUseSelf || canUseTarget || areaTargeted) && outAct.ActionAttackType() is { } type && ((type is AW.ActionAttackType.Ability && AnimationLock <= cfg.QueueWindow) || (type is not AW.ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow));
+            var canUse = (canUseSelf || canUseTarget || areaTargeted) && outAct.ActionAttackType() is { } type && ((type is ActionAttackType.Ability && AnimationLock <= cfg.QueueWindow) || (type is not AW.ActionAttackType.Ability && RemainingGCD <= cfg.QueueWindow));
             var isHeal = attributes.AutoAction!.IsHeal;
 
             var castTime = ActionManager.GetAdjustedCastTime(ActionType.Action, outAct);

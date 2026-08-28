@@ -717,7 +717,7 @@ internal partial class BLM
         !BLM_ST_MovementOption[MovementDespair] ||
         GetRemainingCharges(Triplecast) > BLM_ST_TriplecastMovementCharges;
 
-    private static (uint Action, Preset Preset, System.Func<bool> Logic)[]
+    private static (uint Action, Preset Preset, Func<bool> Logic)[]
         PrioritizedMovement =>
     [
         //Despair at lvl 100

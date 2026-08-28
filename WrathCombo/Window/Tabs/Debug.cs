@@ -524,15 +524,15 @@ internal class Debug : ConfigWindow, IDisposable
 
         if (ImGui.CollapsingHeader("Action Data"))
         {
-            CustomStyleText("Time Since Last Action:", $"{ActionWatching.TimeSinceLastAction}");
+            CustomStyleText("Time Since Last Action:", $"{AW.TimeSinceLastAction}");
             CustomStyleText("Last Action:",
-                ActionWatching.LastAction == 0
+                AW.LastAction == 0
                     ? string.Empty
                     : $"{(string.IsNullOrEmpty(GetActionName(AW.LastAction))
                         ? "Unknown"
                         : GetActionName(AW.LastAction))} (ID: {AW.LastAction})");
-            CustomStyleText("Last Action Cost:", GetResourceCost(ActionWatching.LastAction));
-            CustomStyleText("Last Action Type:", ActionWatching.GetAttackType(ActionWatching.LastAction));
+            CustomStyleText("Last Action Cost:", GetResourceCost(AW.LastAction));
+            CustomStyleText("Last Action Type:", AW.GetAttackType(AW.LastAction));
             CustomStyleText("Last Weaponskill:", GetActionName(AW.LastWeaponskill));
             CustomStyleText("Last Spell:", GetActionName(AW.LastSpell));
             CustomStyleText("Last Ability:", GetActionName(AW.LastAbility));
@@ -784,7 +784,7 @@ internal class Debug : ConfigWindow, IDisposable
                 CustomStyleText("Can Target Friendly:", $"{_debugSpell.Value.CanTargetAlly}");
                 CustomStyleText("Can Target Party:", $"{_debugSpell.Value.CanTargetParty}");
                 CustomStyleText("Can Target Area:", $"{_debugSpell.Value.TargetArea}");
-                CustomStyleText("Can Queue:", $"{ActionWatching.CanQueueCS(_debugSpell.Value.RowId)}");
+                CustomStyleText("Can Queue:", $"{AW.CanQueueCS(_debugSpell.Value.RowId)}");
                 CustomStyleText("Cast Type:", $"{_debugSpell.Value.CastType}");
                 CustomStyleText("Friendly?:", $"{(_debugSpell.Value.Unknown4 == 1 ? "No" : $"Yes {_debugSpell.Value.Unknown4}")}");
 
@@ -1433,7 +1433,7 @@ internal class Debug : ConfigWindow, IDisposable
                                     if (ef.Type == 0)
                                         continue;
 
-                                    CustomStyleText($"{(Data.ActionEffectType)ef.Type}", $"{ef.Value + ((ef.Param4 & 0x40) != 0 ? ef.Param3 * 0x10000 : 0)}");
+                                    CustomStyleText($"{(ActionEffectType)ef.Type}", $"{ef.Value + ((ef.Param4 & 0x40) != 0 ? ef.Param3 * 0x10000 : 0)}");
                                 }
                             }
                         }
@@ -1717,7 +1717,7 @@ internal class Debug : ConfigWindow, IDisposable
         {
             bool? foundSheet = null;
             BNpcBase? battleNPCRow = null;
-            if (ActionWatching.BNPCSheet.TryGetValue(target.BaseId,
+            if (AW.BNPCSheet.TryGetValue(target.BaseId,
                     out var sheetRow))
             {
                 battleNPCRow = sheetRow;

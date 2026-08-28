@@ -109,7 +109,7 @@ internal abstract partial class CustomComboFunctions
         if ((optionalTarget ?? CurrentTarget) is not IBattleChara chara || HasStatusEffect(3808, chara, true))
             return false;
 
-        return ActionWatching.BNPCSheet.TryGetValue(chara.BaseId, out var charaSheet) && !charaSheet.IsOmnidirectional;
+        return AW.BNPCSheet.TryGetValue(chara.BaseId, out var charaSheet) && !charaSheet.IsOmnidirectional;
     }
 
     /// <summary>
@@ -395,7 +395,7 @@ internal abstract partial class CustomComboFunctions
 
     public static IEnumerable<IGameObject> EnemiesInRange(uint aoeSpell, IGameObject? target = null, bool checkIgnoredList = false)
     {
-        if (!ActionWatching.ActionSheet.TryGetValue(aoeSpell, out var sheetSpell))
+        if (!AW.ActionSheet.TryGetValue(aoeSpell, out var sheetSpell))
             return Enumerable.Empty<IGameObject>();
 
         if (sheetSpell.CanTargetHostile && sheetSpell.CastType == 1)
@@ -437,7 +437,7 @@ internal abstract partial class CustomComboFunctions
     public static int NumberOfAlliesInRange
         (uint aoeSpell, IGameObject? target = null)
     {
-        if (!ActionWatching.ActionSheet.TryGetValue(aoeSpell, out var sheetSpell))
+        if (!AW.ActionSheet.TryGetValue(aoeSpell, out var sheetSpell))
             return 0;
 
         if (sheetSpell.CanTargetAlly &&
@@ -751,7 +751,7 @@ internal abstract partial class CustomComboFunctions
     /// <param name="checkInvincible">
     ///     Whether enemies should be checked for invincibility.<br />
     ///     Should only be set to <see langword="false" /> by
-    ///     <see cref="CustomComboFunctions.TargetIsInvincible"/>.
+    ///     <see cref="TargetIsInvincible"/>.
     /// </param>
     /// <returns>
     ///     Number of enemies within the specified AoE shape.

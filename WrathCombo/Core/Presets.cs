@@ -19,34 +19,44 @@ namespace WrathCombo.Core;
 
 internal static class PresetStorage
 {
+    private static PresetStorageData? _instance;
+
+    /// <summary>
+    /// Singleton instance holding all preset data, initialized during plugin load.
+    /// </summary>
+    internal static PresetStorageData Instance
+    {
+        get => _instance ?? throw new InvalidOperationException("PresetStorage not initialized");
+        set => _instance = value;  // Make it private-accessible to this class only
+    }
+
     /// <summary>
     /// A frozen dictionary containing the Preset as the key, and a PresetData object containing all of its relevant attributes as the value.
     /// </summary>
-    internal static readonly FrozenDictionary<Preset, PresetData> AllPresets = BuildPresets();
+    internal static FrozenDictionary<Preset, PresetData> AllPresets =>
+        Instance.AllPresetsData;
 
     /// <summary>
     /// A frozen set of presets that have at least one conflict with another preset
     /// </summary>
-    internal static readonly FrozenSet<Preset> ConflictingCombos = BuildConflictingCombos();
+    internal static FrozenSet<Preset> ConflictingCombos =>
+        Instance.ConflictingCombosData;
 
     /// <summary>
     ///     A frozen lookup from a preset's internal name (case-insensitive) to
     ///     the <see cref="Preset" /> itself, used by <see cref="GetPresetByName" />
     ///     so that resolving a name doesn't require scanning every preset.
     /// </summary>
-    private static readonly FrozenDictionary<string, Preset> PresetsByName =
-        AllPresets.Values.ToFrozenDictionary(
-            data => data.InternalName,
-            data => data.Preset,
-            StringComparer.OrdinalIgnoreCase);
+    private static FrozenDictionary<string, Preset> PresetsByName =>
+        Instance.PresetsByNameData;
 
     /// <summary>
     ///     A frozen lookup from a preset's underlying integer ID to the
     ///     <see cref="Preset" /> itself, used by <see cref="GetPresetByInt" />
     ///     so that resolving an ID doesn't require scanning every preset.
     /// </summary>
-    private static readonly FrozenDictionary<int, Preset> PresetsById =
-        AllPresets.Keys.ToFrozenDictionary(preset => (int)preset, preset => preset);
+    private static FrozenDictionary<int, Preset> PresetsById =>
+        Instance.PresetsByIdData;
 
     internal class PresetData
     {
@@ -196,67 +206,17 @@ internal static class PresetStorage
         get
         {
             if (!EZ.Throttle("allRetargetedActions", TS.FromSeconds(3)))
-                return field;
-            var result = AllPresets.Values
+                return Instance.AllRetargetedActionsCache;
+            var result = Instance.AllPresetsData.Values
                 .SelectMany(attr => attr.RetargetedActions ?? [])
                 .ToHashSet();
             PluginLog.Verbose($"Retrieved {result.Count} retargeted actions");
-            field = result;
+            Instance.AllRetargetedActionsCache = result;
             return result;
         }
-    } = null!;
-
-    private static FrozenDictionary<Preset, PresetData> BuildPresets()
-    {
-        // Master dictionary of presets and attributes
-        var dict = new Dictionary<Preset, PresetData>();
-
-        foreach (var preset in Enum.GetValues<Preset>())
-        {
-            dict[preset] = new PresetData(preset);
-        }
-
-        var frozen = dict.ToFrozenDictionary();
-
-        // Precompute parent hierarchy
-        foreach (var (preset, attrs) in frozen)
-        {
-            if (attrs.Parent.HasValue)
-            {
-                var root = attrs.Parent.Value;
-
-                while (frozen[root].Parent.HasValue)
-                {
-                    root = frozen[root].Parent!.Value;
-                }
-
-                attrs.RootParent = root;
-
-                attrs.GrandParent = frozen[attrs.Parent.Value].Parent;
-                attrs.GreatGrandParent = attrs.GrandParent.HasValue
-                    ? frozen[attrs.GrandParent.Value].Parent
-                    : null;
-            }
-            else
-            {
-                attrs.RootParent = preset;
-                attrs.GrandParent = null;
-                attrs.GreatGrandParent = null;
-            }
-        }
-
-        PluginLog.Information($"Cached {frozen.Count} presets & attributes.");
-
-        return frozen;
     }
 
-    internal static FrozenSet<Preset> BuildConflictingCombos()
-    {
-        return AllPresets
-            .Where(kvp => kvp.Value.Conflicts is { Length: > 0 })
-            .Select(kvp => kvp.Key)
-            .ToFrozenSet();
-    }
+    // Build methods moved to PresetStorageData class below
 
     /// <summary> Gets a value indicating whether a preset is enabled. </summary>
     /// <param name="preset"> Preset to check. </param>
@@ -596,5 +556,86 @@ internal static class PresetStorage
             return ComboType.Feature;
 
         return ComboType.Option;
+    }
+}
+
+/// <summary>
+/// Instance-backed data store for PresetStorage. Holds all preset collections and initialization logic.
+/// This class is instantiated as a singleton and accessed through PresetStorage.Instance.
+/// </summary>
+internal class PresetStorageData
+{
+    // Public properties that mirror the static interface
+    public FrozenDictionary<Preset, PresetStorage.PresetData> AllPresetsData { get; private set; } = null!;
+    public FrozenSet<Preset> ConflictingCombosData { get; private set; } = null!;
+    public FrozenDictionary<string, Preset> PresetsByNameData { get; private set; } = null!;
+    public FrozenDictionary<int, Preset> PresetsByIdData { get; private set; } = null!;
+    public HashSet<uint> AllRetargetedActionsCache { get; set; } = null!;
+
+    /// <summary>
+    /// Initializes the PresetStorageData singleton with all preset data.
+    /// </summary>
+    internal void Init()
+    {
+        AllPresetsData = BuildPresets();
+        ConflictingCombosData = BuildConflictingCombos();
+        PresetsByNameData = AllPresetsData.Values.ToFrozenDictionary(
+            data => data.InternalName,
+            data => data.Preset,
+            StringComparer.OrdinalIgnoreCase);
+        PresetsByIdData = AllPresetsData.Keys.ToFrozenDictionary(preset => (int)preset, preset => preset);
+        AllRetargetedActionsCache = null!;
+    }
+
+    private FrozenDictionary<Preset, PresetStorage.PresetData> BuildPresets()
+    {
+        // Master dictionary of presets and attributes
+        var dict = new Dictionary<Preset, PresetStorage.PresetData>();
+
+        foreach (var preset in Enum.GetValues<Preset>())
+        {
+            dict[preset] = new PresetStorage.PresetData(preset);
+        }
+
+        var frozen = dict.ToFrozenDictionary();
+
+        // Precompute parent hierarchy
+        foreach (var (preset, attrs) in frozen)
+        {
+            if (attrs.Parent.HasValue)
+            {
+                var root = attrs.Parent.Value;
+
+                while (frozen[root].Parent.HasValue)
+                {
+                    root = frozen[root].Parent!.Value;
+                }
+
+                attrs.RootParent = root;
+
+                attrs.GrandParent = frozen[attrs.Parent.Value].Parent;
+                attrs.GreatGrandParent = attrs.GrandParent.HasValue
+                    ? frozen[attrs.GrandParent.Value].Parent
+                    : null;
+            }
+            else
+            {
+                attrs.RootParent = preset;
+                attrs.GrandParent = null;
+                attrs.GreatGrandParent = null;
+            }
+        }
+
+        PluginLog.Information($"Cached {frozen.Count} presets & attributes.");
+
+        return frozen;
+    }
+
+    internal FrozenSet<Preset> BuildConflictingCombos()
+    {
+        return AllPresetsData
+            .Where(kvp => kvp.Value.Conflicts is { Length: > 0 })
+            .Select(kvp => kvp.Key)
+            .ToFrozenSet();
     }
 }

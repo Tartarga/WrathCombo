@@ -157,9 +157,9 @@ internal abstract partial class CustomComboFunctions
     /// <returns></returns>
     public static string GetStatusName(uint id) => StatusCache.GetStatusName(id);
 
-    public static bool TargetHasDamageDown(IGameObject? target) => StatusCache.HasDamageDown(target);
+    public static bool TargetHasDamageDown(IGameObject? target) => StatusCache.Instance.HasDamageDown(target);
 
-    public static bool TargetHasDamageUp(IGameObject? target) => StatusCache.HasDamageUp(target);
+    public static bool TargetHasDamageUp(IGameObject? target) => StatusCache.Instance.HasDamageUp(target);
 
     public static bool TargetHasRezWeakness(IGameObject? target, bool checkForWeakness = true)
     {
@@ -169,24 +169,24 @@ internal abstract partial class CustomComboFunctions
         return HasStatusEffect(44, target, true); //Brink of Death = 44
     }
 
-    public static bool TargetHasRaiseInvincibility(IBattleChara? target) => StatusCache.HasRaiseInvincibility(target);
-    public static bool TargetHasRaiseStatus(IBattleChara? target) => StatusCache.HasRaiseStatus(target);
+    public static bool TargetHasRaiseInvincibility(IBattleChara? target) => StatusCache.Instance.HasRaiseInvincibility(target);
+    public static bool TargetHasRaiseStatus(IBattleChara? target) => StatusCache.Instance.HasRaiseStatus(target);
 
     /// <summary>
     /// Checks if the target has a debuff that can be dispelled.
     /// </summary>
     /// <param name="target">The game object to check. Defaults to the current target if null.</param>
     /// <returns>True if the target has a cleansable debuff; otherwise, false.</returns>
-    public static bool HasCleansableDebuff(IGameObject? target) => StatusCache.HasCleansableDebuff(target);
+    public static bool HasCleansableDebuff(IGameObject? target) => StatusCache.Instance.HasCleansableDebuff(target);
 
     /// <summary>
     /// Checks if the target has a beneficial status.
     /// </summary>
     /// <param name="target"></param>
     /// <returns></returns>
-    public static bool HasBeneficialStatus(IGameObject? target) => StatusCache.HasBeneficialStatus(target);
+    public static bool HasBeneficialStatus(IGameObject? target) => StatusCache.Instance.HasBeneficialStatus(target);
 
-    public static bool HasPhantomDispelStatus(IGameObject? target) => StatusCache.HasDamageUp(target) || StatusCache.HasEvasionUp(target) || HasStatusEffect(4355, target) || TargetIsInvincible(target);
+    public static bool HasPhantomDispelStatus(IGameObject? target) => StatusCache.Instance.HasDamageUp(target) || StatusCache.Instance.HasEvasionUp(target) || HasStatusEffect(4355, target) || TargetIsInvincible(target);
 
     /// <summary>
     /// Checks to see if the player has a status that should stop all actions and unselect targets
@@ -253,7 +253,7 @@ internal abstract partial class CustomComboFunctions
             // Are we to bother with checking statuses per Battle Data
             BattleData.Invincible.False => false,
             // General invincibility check, not using StatusCache.HasStatusInCacheList because statuses is derived from SafeStatusList
-            BattleData.Invincible.CheckStatuses => statuses.Any(s => StatusCache.InvincibleStatuses.Contains(s.StatusId)),
+            BattleData.Invincible.CheckStatuses => statuses.Any(s => StatusCache.Instance.InvincibleStatuses.Contains(s.StatusId)),
             _ => false,
         };
     }
@@ -323,7 +323,7 @@ internal abstract partial class CustomComboFunctions
         if (target is not IBattleChara { } chara)
             return false;
 
-        return StatusCache.HasCleansableDoom(target);
+        return StatusCache.Instance.HasCleansableDoom(target);
     }
 
     public static bool ImmuneToStatus(IGameObject? target, uint status) => Service.Configuration.StatusBlacklist.Any(x => x.Status == status && x.BaseId == target?.BaseId);

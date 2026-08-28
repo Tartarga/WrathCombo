@@ -207,6 +207,8 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
         PresetStorage.Instance = new PresetStorageData();
         PresetStorage.Instance.Init();
         PresetStorage.RemoveRedundantPresets();
+        StatusCache.Instance = new StatusCache();
+        StatusCache.Instance.Init();
         await OpCodeConfigHelper.UpdateOpCodesAsync(cancellationToken).ConfigureAwait(false);
 
         cancellationToken.ThrowIfCancellationRequested();

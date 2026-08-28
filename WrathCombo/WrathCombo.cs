@@ -195,42 +195,52 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
         pluginInterface.Create<Service>();
         LogLoadStep("ECommons", () =>
             ECommonsMain.Init(pluginInterface, this, Module.VfxTracking, Module.DalamudReflector));
+
+        TM = new();
+
+        // Config parse (~120ms) overlaps PunishLib, ActionWatching.Init, CustomActions,
+        // PresetStorage, and StatusCache. ActionWatching.Enable waits for config so
+        // packet detours never see a null Configuration.
+        var overlapSw = Stopwatch.StartNew();
+        var configTask = TimedConfigLoad(cancellationToken);
+
         LogLoadStep("PunishLib", () =>
         {
             PunishLibMain.Init(pluginInterface, "Wrath Combo");
             ActionRequestIPCProvider.Initialize();
         });
-
-        TM = new();
-        var configSw = Stopwatch.StartNew();
-        Service.Configuration = await LoadConfigurationAsync(cancellationToken).ConfigureAwait(false);
-        PluginLog.Information($"Config load completed in {configSw.ElapsedMilliseconds} ms.");
-        _ = OpCodeConfigHelper.UpdateOpCodesAsync(cancellationToken);
-
         LogLoadStep("AddressResolver", () =>
         {
             Service.Address = new AddressResolver();
             Service.Address.Setup(Svc.SigScanner);
         });
         LogLoadStep("MovementHook", () => MoveHook = new());
-        LogLoadStep("CustomActions", () => CustomActions = new());
-        LogLoadStep("ActionWatching", () =>
+        LogLoadStep("ActionWatching Init", () =>
         {
             ActionWatching.Instance = new ActionWatching();
             ActionWatching.Instance.Init();
-            ActionWatching.Instance.Enable();
         });
-        LogLoadStep("PresetStorage", () =>
+
+        var presetTask = Task.Run(() => LogLoadStep("PresetStorage", () =>
         {
             PresetStorage.Instance = new PresetStorageData();
             PresetStorage.Instance.Init();
-            PresetStorage.RemoveRedundantPresets();
-        });
-        LogLoadStep("StatusCache", () =>
+        }), cancellationToken);
+        var statusTask = Task.Run(() => LogLoadStep("StatusCache", () =>
         {
             StatusCache.Instance = new StatusCache();
             StatusCache.Instance.Init();
-        });
+        }), cancellationToken);
+
+        LogLoadStep("CustomActions", () => CustomActions = new());
+
+        Service.Configuration = await configTask.ConfigureAwait(false);
+        await presetTask.ConfigureAwait(false);
+        await statusTask.ConfigureAwait(false);
+        PresetStorage.RemoveRedundantPresets();
+        ActionWatching.Instance.Enable();
+        PluginLog.Information($"Overlapped init completed in {overlapSw.ElapsedMilliseconds} ms.");
+        _ = OpCodeConfigHelper.UpdateOpCodesAsync(cancellationToken);
 
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -323,6 +333,14 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
         var sw = Stopwatch.StartNew();
         action();
         PluginLog.Information($"{name} completed in {sw.ElapsedMilliseconds} ms.");
+    }
+
+    private async Task<Configuration> TimedConfigLoad(CancellationToken cancellationToken)
+    {
+        var sw = Stopwatch.StartNew();
+        var config = await LoadConfigurationAsync(cancellationToken).ConfigureAwait(false);
+        PluginLog.Information($"Config load completed in {sw.ElapsedMilliseconds} ms.");
+        return config;
     }
 
     private void OnErrorToast(ref SeString message, ref bool isHandled)

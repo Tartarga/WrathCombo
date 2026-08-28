@@ -46,8 +46,8 @@ internal abstract partial class CustomCombo : CustomComboFunctions
     ///     Without the action also being checked, the preset would block all
     ///     other presets.
     /// </remarks>
-    private readonly Dictionary<Preset, uint>
-        _presetsAllowedToReturnUnchanged = new()
+    private static readonly Dictionary<Preset, uint>
+        PresetsAllowedToReturnUnchanged = new()
         {
             { Preset.DNC_DesirablePartner, DNC.ClosedPosition },
         };
@@ -84,7 +84,7 @@ internal abstract partial class CustomCombo : CustomComboFunctions
 
         uint resultingActionID = Invoke(actionID);
 
-        var presetException = _presetsAllowedToReturnUnchanged
+        var presetException = PresetsAllowedToReturnUnchanged
             .TryGetValue(Preset, out var actionException);
         var hasException = presetException && resultingActionID == actionException;
         if (resultingActionID == 0 ||

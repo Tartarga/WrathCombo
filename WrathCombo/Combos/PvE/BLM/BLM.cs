@@ -20,6 +20,9 @@ internal partial class BLM : Caster
             if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
+            if (UseManaward())
+                return Manaward;
+
             if (CanWeave())
             {
                 if (UseAmplifier())
@@ -33,9 +36,6 @@ internal partial class BLM : Caster
 
                 if (UseIceWeave(ref actionID))
                     return actionID;
-
-                if (UseManaward())
-                    return Manaward;
 
                 if (UseAddle())
                     return Role.Addle;
@@ -145,16 +145,16 @@ internal partial class BLM : Caster
             if (ContentSpecificActions.TryGet(ref actionID, out uint contentAction))
                 return contentAction;
 
+            if (IsEnabled(Preset.BLM_ST_Manaward) &&
+                UseManaward(
+                    BLM_ST_ManawardHPThreshold,
+                    false,
+                    BLM_ST_ManawardTrigger,
+                    BLM_ST_ManawardSolo))
+                return Manaward;
+
             if (CanWeave())
             {
-                if (IsEnabled(Preset.BLM_ST_Manaward) &&
-                    UseManaward(
-                        BLM_ST_ManawardHPThreshold,
-                        false,
-                        BLM_ST_ManawardTrigger,
-                        BLM_ST_ManawardSolo))
-                    return Manaward;
-
                 if (IsEnabled(Preset.BLM_ST_Amplifier) && UseAmplifier())
                     return Amplifier;
 

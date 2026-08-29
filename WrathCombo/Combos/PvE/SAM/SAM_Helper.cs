@@ -61,10 +61,10 @@ internal partial class SAM
             return actionID;
         }
 
-        if (useGekko && ActionLearned(Gekko) && (!HasGetsu) || !HasStatusEffect(Buffs.Fugetsu))
+        if (useGekko && ActionLearned(Gekko) && !HasGetsu || !HasStatusEffect(Buffs.Fugetsu))
             return WithTrueNorth(Gekko, OnTargetsRear(), useTrueNorth, trueNorthCharges);
 
-        if (useKasha && ActionLearned(Kasha) && (!HasKa) || !HasStatusEffect(Buffs.Fuka))
+        if (useKasha && ActionLearned(Kasha) && !HasKa || !HasStatusEffect(Buffs.Fuka))
             return WithTrueNorth(Kasha, OnTargetsFlank(), useTrueNorth, trueNorthCharges);
 
         if (useYukikaze &&

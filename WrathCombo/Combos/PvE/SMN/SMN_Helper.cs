@@ -330,8 +330,8 @@ internal partial class SMN
 
         bool SearingLightBurstEnabled =
             flags.HasFlag(Combo.Simple) ||
-            IsSTEnabled(flags, Preset.SMN_AoE_Advanced_Combo_SearingLight_Burst) ||
-            IsAoEEnabled(flags, Preset.SMN_ST_Advanced_Combo_SearingLight_Burst);
+            IsSTEnabled(flags, Preset.SMN_ST_Advanced_Combo_SearingLight_Burst) ||
+            IsAoEEnabled(flags, Preset.SMN_AoE_Advanced_Combo_SearingLight_Burst);
 
         bool energyDrainEnabled =
             flags.HasFlag(Combo.Simple) ||
@@ -782,36 +782,36 @@ internal partial class SMN
 
     internal class SMNOpenerMaxLevel1 : WrathOpener
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            Ruin3, // 1
-            SummonSolarBahamut, // 2
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Int)), // 3
-            UmbralImpulse, // 4
-            SearingLight, // 5
-            UmbralImpulse, // 6
-            UmbralImpulse, // 7
-            EnergyDrain, // 8
-            UmbralImpulse, // 9
-            EnkindleSolarBahamut, // 10
-            Necrotize, // 11
-            UmbralImpulse, // 12
-            Sunflare, // 13
-            Necrotize, // 14
-            UmbralImpulse, // 15
-            SearingFlash, // 16
-            SummonTitan2, // 17
-            TopazRite, // 18
-            MountainBuster, // 19
-            TopazRite, // 20
-            MountainBuster, // 21
-            TopazRite, // 22
-            MountainBuster, // 23
-            TopazRite, // 24
-            MountainBuster, // 25
-            SummonGaruda2, // 26
-            Role.Swiftcast, // 27
-            Slipstream, // 28
+            () => Ruin3, // 1
+            () => SummonSolarBahamut, // 2
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Int)), // 3
+            () => UmbralImpulse, // 4
+            () => SearingLight, // 5
+            () => UmbralImpulse, // 6
+            () => UmbralImpulse, // 7
+            () => EnergyDrain, // 8
+            () => UmbralImpulse, // 9
+            () => EnkindleSolarBahamut, // 10
+            () => Necrotize, // 11
+            () => UmbralImpulse, // 12
+            () => Sunflare, // 13
+            () => Necrotize, // 14
+            () => UmbralImpulse, // 15
+            () => SearingFlash, // 16
+            () => SummonTitan2, // 17
+            () => TopazRite, // 18
+            () => MountainBuster, // 19
+            () => TopazRite, // 20
+            () => MountainBuster, // 21
+            () => TopazRite, // 22
+            () => MountainBuster, // 23
+            () => TopazRite, // 24
+            () => MountainBuster, // 25
+            () => SummonGaruda2, // 26
+            () => Role.Swiftcast, // 27
+            () => Slipstream, // 28
 
         ];
 
@@ -843,4 +843,6 @@ internal partial class SMN
     }
     #endregion
 }
+
+
 

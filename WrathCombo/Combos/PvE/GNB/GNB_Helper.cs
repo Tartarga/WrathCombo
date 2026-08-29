@@ -25,11 +25,11 @@ internal partial class GNB : Tank
     private static bool Slow => GCDLength >= 2.5f; //base GCD ("slowGNB")
     private static bool Fast => GCDLength < 2.5f; //not base GCD ("fastGNB")
     private static int HPThresholdNM => (GNB_ST_NM_BossOption == 1 || !TargetIsBoss()) ? GNB_ST_NM_HPOption : 0;
-    private static int MaxCartridges 
+    private static int MaxCartridges
         => TraitLevelChecked(Traits.CartridgeChargeII) ? HasStatusEffect(Buffs.Bloodfest) ? 6 : 3 : //enhanced - 3 max base, 6 max buffed
             TraitLevelChecked(Traits.CartridgeCharge) ? HasStatusEffect(Buffs.Bloodfest) ? 4 : 2 : 0; //standard - 2 max base, 4 max buffed
 
-    private static bool CanGF 
+    private static bool CanGF
         => ActionLearned(GnashingFang) && //unlocked
             InActionRange(GnashingFang) && //in range
             Ammo > 0 && //at least 1 cartridge available
@@ -37,7 +37,7 @@ internal partial class GNB : Tank
             GetCooldownRemainingTime(GnashingFang) < 30.5f && //off cooldown
             !HasStatusEffect(Buffs.ReadyToBlast) //Hypervelocity safety - if we just used Burst Strike, we want to use Hypervelocity first even if we clip it
             ;
-    private static bool CanDD 
+    private static bool CanDD
         => ActionLearned(DoubleDown) && //unlocked
             InActionRange(DoubleDown) && //in range
             GetCooldownRemainingTime(DoubleDown) < 0.5f && //off cooldown
@@ -73,29 +73,30 @@ internal partial class GNB : Tank
             HasStatusEffect(Buffs.ReadyToReign) //has required buff
             ;
     #endregion
-    
+
     #region Auto Mitigation System
-    
+
     [Flags]
-    private enum RotationMode{
+    private enum RotationMode
+    {
         simple = 1 << 0,
         advanced = 1 << 1
     }
-    
+
     private static bool TryUseMits(RotationMode rotationFlags, ref uint actionID) => CanUseNonBossMits(rotationFlags, ref actionID) || CanUseBossMits(rotationFlags, ref actionID);
-    
+
     private static bool CanUseNonBossMits(RotationMode rotationFlags, ref uint actionID)
     {
         #region Variables
         var mitigationRunning =
             HasStatusEffect(Role.Buffs.ArmsLength) ||
-            HasStatusEffect(Role.Buffs.Rampart) || 
+            HasStatusEffect(Role.Buffs.Rampart) ||
             HasStatusEffect(Buffs.Superbolide) ||
             HasStatusEffect(Buffs.Camouflage) ||
-            HasStatusEffect(Buffs.Nebula) || 
-            HasStatusEffect(Buffs.GreatNebula)||
+            HasStatusEffect(Buffs.Nebula) ||
+            HasStatusEffect(Buffs.GreatNebula) ||
             HasStatusEffect(Role.Debuffs.Reprisal, CurrentTarget);
-        
+
         var justMitted =
             JustUsed(OriginalHook(Camouflage)) ||
             JustUsed(OriginalHook(Nebula)) ||
@@ -104,22 +105,22 @@ internal partial class GNB : Tank
             JustUsed(Role.Reprisal) ||
             JustUsed(Role.Rampart) ||
             JustUsed(Superbolide);
-        
+
         var numberOfEnemies = NumberOfEnemiesInRange(Role.Reprisal);
         var pre68Mitigation = !ActionLearned(HeartOfStone) && numberOfEnemies >= 3;
         #endregion
-        
+
         #region Initial Bailout
-        if (!InCombat() || 
-            InBossEncounter() || 
-            !IsEnabled(Preset.GNB_Mit_Advanced_NonBoss) || 
-            (CombatEngageDuration().TotalSeconds <= 15 && IsMoving()))  
+        if (!InCombat() ||
+            InBossEncounter() ||
+            !IsEnabled(Preset.GNB_Mit_Advanced_NonBoss) ||
+            (CombatEngageDuration().TotalSeconds <= 15 && IsMoving()))
             return false;
         #endregion
-        
+
         #region Superbolide Invulnerability
         var bolideThreshold = rotationFlags.HasFlag(RotationMode.simple) ? 20 : GNB_Mit_Advanced_NonBoss_SuperBolide_Health;
-        
+
         if (IsEnabled(Preset.GNB_Mit_Advanced_NonBoss_SuperBolideEmergency) && ActionReady(Superbolide) &&
             PlayerHealthPercentageHp() <= bolideThreshold)
         {
@@ -127,10 +128,10 @@ internal partial class GNB : Tank
             return true;
         }
         #endregion
-        
+
         #region Heart Of Stone/Corundrum Use Always
-        if (IsEnabled(Preset.GNB_Mit_Advanced_NonBoss_HeartOfStone) && 
-            ActionReady(OriginalHook(HeartOfStone)) && 
+        if (IsEnabled(Preset.GNB_Mit_Advanced_NonBoss_HeartOfStone) &&
+            ActionReady(OriginalHook(HeartOfStone)) &&
             CanWeave() && !justMitted &&
             !HasStatusEffect(Buffs.Superbolide))
         {
@@ -140,35 +141,35 @@ internal partial class GNB : Tank
         #endregion
 
         #region Mitigation Threshold Bailout
-        float mitigationThreshold = rotationFlags.HasFlag(RotationMode.simple) 
-            ? 10 
+        float mitigationThreshold = rotationFlags.HasFlag(RotationMode.simple)
+            ? 10
             : GNB_Mit_Advanced_NonBoss_MitigationThreshold;
-        
-        if (GetAvgEnemyHPPercentInRange(5f) <= mitigationThreshold || !CanWeave() || justMitted) 
+
+        if (GetAvgEnemyHPPercentInRange(5f) <= mitigationThreshold || !CanWeave() || justMitted)
             return false;
         #endregion
-        
+
         #region Heart of Light Overlapping 5+
-        if ((numberOfEnemies >= 5 || pre68Mitigation) && 
-            IsEnabled(Preset.GNB_Mit_Advanced_NonBoss_HeartOfLight) && 
+        if ((numberOfEnemies >= 5 || pre68Mitigation) &&
+            IsEnabled(Preset.GNB_Mit_Advanced_NonBoss_HeartOfLight) &&
             ActionReady(HeartOfLight) && !HasStatusEffect(Buffs.Superbolide))
         {
             actionID = HeartOfLight;
             return true;
         }
         #endregion
-        
+
         #region Aurora Overlapping 3+
-        if (numberOfEnemies >= 3 &&  IsEnabled(Preset.GNB_Mit_Advanced_NonBoss_Aurora) && 
+        if (numberOfEnemies >= 3 && IsEnabled(Preset.GNB_Mit_Advanced_NonBoss_Aurora) &&
             ActionReady(Aurora) && !HasStatusEffect(Buffs.Aurora) && !JustUsed(Aurora))
         {
             actionID = OriginalHook(Aurora);
             return true;
         }
         #endregion
-        
+
         if (mitigationRunning || numberOfEnemies <= 2) return false; //Bail if already Mitted or too few enemies
-        
+
         #region Mitigation 5+
         if (numberOfEnemies >= 5 || pre68Mitigation)
         {
@@ -194,7 +195,7 @@ internal partial class GNB : Tank
             }
         }
         #endregion
-        
+
         #region Mitigation 3+
         if (Role.CanRampart() && IsEnabled(Preset.GNB_Mit_Advanced_NonBoss_Rampart))
         {
@@ -206,36 +207,36 @@ internal partial class GNB : Tank
             actionID = Camouflage;
             return true;
         }
-        
+
         #endregion
-        
+
         return false;
 
         bool IsEnabled(Preset preset)
         {
             if (rotationFlags.HasFlag(RotationMode.simple))
                 return true;
-            
+
             return CustomComboFunctions.IsEnabled(preset);
         }
     }
-    
+
     private static bool CanUseBossMits(RotationMode rotationFlags, ref uint actionID)
     {
         #region Initial Bailout
         if (!InCombat() || !CanWeave() || !InBossEncounter() || !IsEnabled(Preset.GNB_Mit_Advanced_Boss)) return false;
         #endregion
-        
+
         #region Nebula
         var nebulaFirst = rotationFlags.HasFlag(RotationMode.simple)
             ? false
             : GNB_Mit_Advanced_Boss_Nebula_First;
-        
-        var nebulaInMitigationContent = rotationFlags.HasFlag(RotationMode.simple) || 
+
+        var nebulaInMitigationContent = rotationFlags.HasFlag(RotationMode.simple) ||
                                            ContentCheck.IsInConfiguredContent(GNB_Mit_Advanced_Boss_Nebula_Difficulty, GNB_Boss_Mit_DifficultyListSet);
-        
-        if (IsEnabled(Preset.GNB_Mit_Advanced_Boss_Nebula) && 
-            ActionReady(OriginalHook(Nebula)) && nebulaInMitigationContent && HasIncomingTankBusterEffect() && 
+
+        if (IsEnabled(Preset.GNB_Mit_Advanced_Boss_Nebula) &&
+            ActionReady(OriginalHook(Nebula)) && nebulaInMitigationContent && HasIncomingTankBusterEffect() &&
             !JustUsed(Role.Rampart, 20f) && // Prevent double big mits
             (!ActionReady(Role.Rampart) || nebulaFirst)) //Nebula First or don't use unless rampart is on cd.
         {
@@ -243,27 +244,27 @@ internal partial class GNB : Tank
             return true;
         }
         #endregion
-        
+
         #region Rampart
-        var rampartInMitigationContent = rotationFlags.HasFlag(RotationMode.simple) || 
+        var rampartInMitigationContent = rotationFlags.HasFlag(RotationMode.simple) ||
                                          ContentCheck.IsInConfiguredContent(GNB_Mit_Advanced_Boss_Rampart_Difficulty, GNB_Boss_Mit_DifficultyListSet);
-        
-        if (IsEnabled(Preset.GNB_Mit_Advanced_Boss_Rampart) && 
-            ActionReady(Role.Rampart) && rampartInMitigationContent && HasIncomingTankBusterEffect() && 
+
+        if (IsEnabled(Preset.GNB_Mit_Advanced_Boss_Rampart) &&
+            ActionReady(Role.Rampart) && rampartInMitigationContent && HasIncomingTankBusterEffect() &&
             !JustUsed(OriginalHook(Nebula), 15f)) // Prevent double big mits
         {
             actionID = Role.Rampart;
             return true;
         }
         #endregion
-        
+
         #region Heart of Stone/Corundrum
         var HeartOfStoneOnCDInMitigationContent = rotationFlags.HasFlag(RotationMode.simple) ||
                                                   ContentCheck.IsInConfiguredContent(GNB_Mit_Advanced_Boss_HeartOfStone_OnCD_Difficulty, GNB_Boss_Mit_DifficultyListSet);
-        
+
         var HeartOfStoneTankBusterInMitigationContent = rotationFlags.HasFlag(RotationMode.simple) ||
                                                         ContentCheck.IsInConfiguredContent(GNB_Mit_Advanced_Boss_HeartOfStone_TankBuster_Difficulty, GNB_Boss_Mit_DifficultyListSet);
-        var HeartOfStoneHealthThreshold = rotationFlags.HasFlag(RotationMode.simple) 
+        var HeartOfStoneHealthThreshold = rotationFlags.HasFlag(RotationMode.simple)
             ? 50
             : GNB_Mit_Advanced_Boss_HeartOfStone_Health;
 
@@ -271,48 +272,48 @@ internal partial class GNB : Tank
             ? 0
             : GNB_Mit_Advanced_Boss_HeartOfStoneDelay;
 
-        bool heartOfStoneOnCD = IsEnabled(Preset.GNB_Mit_Advanced_Boss_HeartOfStone_OnCD) &&  
+        bool heartOfStoneOnCD = IsEnabled(Preset.GNB_Mit_Advanced_Boss_HeartOfStone_OnCD) &&
                                 PlayerHealthPercentageHp() <= HeartOfStoneHealthThreshold && IsPlayerTargeted() && HeartOfStoneOnCDInMitigationContent;
         bool heartOfStoneTankBuster = IsEnabled(Preset.GNB_Mit_Advanced_Boss_HeartOfStone_TankBuster) && HeartOfStoneTankBusterInMitigationContent &&
-                                      HasIncomingTankBusterEffect(out var incomingBusterAge) && incomingBusterAge >= heartOfStoneDelay;;
-            
+                                      HasIncomingTankBusterEffect(out var incomingBusterAge) && incomingBusterAge >= heartOfStoneDelay; ;
+
         if (ActionReady(OriginalHook(HeartOfStone)) && (heartOfStoneOnCD || heartOfStoneTankBuster))
         {
             actionID = OriginalHook(HeartOfStone);
             return true;
         }
         #endregion
-        
+
         #region Camouflage
         float emergencyCamouflageThreshold = rotationFlags.HasFlag(RotationMode.simple)
             ? 80
             : GNB_Mit_Advanced_Boss_Camouflage_Threshold;
-        
+
         var alignCamouflage = rotationFlags.HasFlag(RotationMode.simple)
             ? true
             : GNB_Mit_Advanced_Boss_Camouflage_Align;
-        
-        var CamouflageInMitigationContent = rotationFlags.HasFlag(RotationMode.simple) || 
+
+        var CamouflageInMitigationContent = rotationFlags.HasFlag(RotationMode.simple) ||
                                          ContentCheck.IsInConfiguredContent(GNB_Mit_Advanced_Boss_Camouflage_Difficulty, GNB_Boss_Mit_DifficultyListSet);
 
         bool emergencyCamo = PlayerHealthPercentageHp() <= emergencyCamouflageThreshold;
         bool noOtherMitsToUse = !ActionReady(OriginalHook(Nebula)) && !JustUsed(OriginalHook(Nebula), 13f) && !ActionReady(Role.Rampart) && !JustUsed(Role.Rampart, 18f);
         bool alignCamouflageWithRampart = JustUsed(Role.Rampart, 20f) && alignCamouflage;
-        
+
         if (IsEnabled(Preset.GNB_Mit_Advanced_Boss_Camouflage) && ActionReady(Camouflage) && HasIncomingTankBusterEffect() && CamouflageInMitigationContent &&
-            ( emergencyCamo || noOtherMitsToUse || alignCamouflageWithRampart))
+            (emergencyCamo || noOtherMitsToUse || alignCamouflageWithRampart))
         {
             actionID = Camouflage;
             return true;
         }
         #endregion
-        
+
         #region Aurora
         var auroraThreshold = rotationFlags.HasFlag(RotationMode.simple)
             ? 90
             : GNB_Mit_Advanced_Boss_Aurora_Health;
-        
-        if (IsEnabled(Preset.GNB_Mit_Advanced_Boss_Aurora) && 
+
+        if (IsEnabled(Preset.GNB_Mit_Advanced_Boss_Aurora) &&
             ActionReady(Aurora) && PlayerHealthPercentageHp() <= auroraThreshold &&
             !HasStatusEffect(Buffs.Aurora) && !JustUsed(Aurora))
         {
@@ -320,26 +321,26 @@ internal partial class GNB : Tank
             return true;
         }
         #endregion
-        
+
         #region Reprisal
-        
+
         var ReprisalInMitigationContent = rotationFlags.HasFlag(RotationMode.simple) ||
                                           ContentCheck.IsInConfiguredContent(GNB_Mit_Advanced_Boss_Reprisal_Difficulty, GNB_Boss_Mit_DifficultyListSet);
-        
-        if (IsEnabled(Preset.GNB_Mit_Advanced_Boss_Reprisal) && 
-            ReprisalInMitigationContent && Role.CanReprisal(enemyCount:1) && GroupDamageIncoming() &&
+
+        if (IsEnabled(Preset.GNB_Mit_Advanced_Boss_Reprisal) &&
+            ReprisalInMitigationContent && Role.CanReprisal(enemyCount: 1) && GroupDamageIncoming() &&
             !JustUsed(HeartOfLight, 10f))
         {
             actionID = Role.Reprisal;
             return true;
         }
-        #endregion 
-        
+        #endregion
+
         #region Heart Of Light
-        var HeartOfLightInMitigationContent = rotationFlags.HasFlag(RotationMode.simple) || 
+        var HeartOfLightInMitigationContent = rotationFlags.HasFlag(RotationMode.simple) ||
                                               ContentCheck.IsInConfiguredContent(GNB_Mit_Advanced_Boss_HeartOfLight_Difficulty, GNB_Boss_Mit_DifficultyListSet);
-        
-        if (IsEnabled(Preset.GNB_Mit_Advanced_Boss_HeartOfLight) && 
+
+        if (IsEnabled(Preset.GNB_Mit_Advanced_Boss_HeartOfLight) &&
             HeartOfLightInMitigationContent && ActionReady(HeartOfLight) && GroupDamageIncoming() &&
             !JustUsed(Role.Reprisal, 10f))
         {
@@ -347,18 +348,18 @@ internal partial class GNB : Tank
             return true;
         }
         #endregion
-        
+
         return false;
-        
+
         bool IsEnabled(Preset preset)
         {
             if (rotationFlags.HasFlag(RotationMode.simple))
                 return true;
-            
+
             return CustomComboFunctions.IsEnabled(preset);
         }
     }
-    
+
     #endregion
 
     #region Openers
@@ -372,7 +373,7 @@ internal partial class GNB : Tank
     public static Lv100SlowEarlyNM GNBLv100SlowEarlyNM = new();
 
     public static WrathOpener Opener() => (!IsEnabled(Preset.GNB_ST_Opener) || !ActionLearned(DoubleDown)) ? WrathOpener.Dummy : GetOpener(GNB_Opener_NM == 0);
-    private static WrathOpener GetOpener(bool isNormal) 
+    private static WrathOpener GetOpener(bool isNormal)
         => Fast
             ? isNormal
                 ? (ActionLearned(ReignOfBeasts) ? GNBLv100FastNormalNM : GNBLv90FastNormalNM)
@@ -395,124 +396,124 @@ internal partial class GNB : Tank
     }
     internal class Lv90FastNormalNM : GNBOpenerLv90Base
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            LightningShot, // 1
-            Bloodfest, // +3 (3) | 2
-            KeenEdge, // 3
-            BrutalShell, // 4
-            NoMercy, // LateWeave | 5
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 6
-            GnashingFang, // -1 (2) | 7
-            JugularRip, // 8
-            DoubleDown, // -1 (0) | 9
-            BlastingZone, // 10
-            BowShock, // 11
-            SonicBreak, // 12
-            SavageClaw, // 13
-            AbdomenTear, // 14
-            WickedTalon, // 15
-            EyeGouge, // 16
-            SolidBarrel, // +1 (1) | 17
-            GnashingFang, // -1 (0) | 18
-            JugularRip, // 19
-            SavageClaw, // 20
-            AbdomenTear, // 21
-            WickedTalon, // 22
-            EyeGouge // 23
+            () => LightningShot, // 1
+            () => Bloodfest, // +3 (3) | 2
+            () => KeenEdge, // 3
+            () => BrutalShell, // 4
+            () => NoMercy, // LateWeave | 5
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 6
+            () => GnashingFang, // -1 (2) | 7
+            () => JugularRip, // 8
+            () => DoubleDown, // -1 (0) | 9
+            () => BlastingZone, // 10
+            () => BowShock, // 11
+            () => SonicBreak, // 12
+            () => SavageClaw, // 13
+            () => AbdomenTear, // 14
+            () => WickedTalon, // 15
+            () => EyeGouge, // 16
+            () => SolidBarrel, // +1 (1) | 17
+            () => GnashingFang, // -1 (0) | 18
+            () => JugularRip, // 19
+            () => SavageClaw, // 20
+            () => AbdomenTear, // 21
+            () => WickedTalon, // 22
+            () => EyeGouge // 23
         ];
         public override Preset Preset => Preset.GNB_ST_Opener;
-        
+
         public override List<int> VeryDelayedWeaveSteps { get; set; } = [5];
     }
     internal class Lv90SlowNormalNM : GNBOpenerLv90Base
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            LightningShot, // 1
-            Bloodfest, // +3 (3) | 2
-            KeenEdge, // 3
-            BrutalShell, // 4
-            NoMercy, // 5
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 6
-            GnashingFang, // -1 (2) | 7
-            JugularRip, // 8
-            DoubleDown, // -1 (0) | 9
-            BlastingZone, // 10
-            BowShock, // 11
-            SonicBreak, // 12
-            SavageClaw, // 13
-            AbdomenTear, // 14
-            WickedTalon, // 15
-            EyeGouge, // 16
-            SolidBarrel, // +1 (1) | 17
-            GnashingFang, // -1 (0) | 18
-            JugularRip, // 19
-            SavageClaw, // 20
-            AbdomenTear, // 21
-            WickedTalon, // 22
-            EyeGouge // 23
+            () => LightningShot, // 1
+            () => Bloodfest, // +3 (3) | 2
+            () => KeenEdge, // 3
+            () => BrutalShell, // 4
+            () => NoMercy, // 5
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 6
+            () => GnashingFang, // -1 (2) | 7
+            () => JugularRip, // 8
+            () => DoubleDown, // -1 (0) | 9
+            () => BlastingZone, // 10
+            () => BowShock, // 11
+            () => SonicBreak, // 12
+            () => SavageClaw, // 13
+            () => AbdomenTear, // 14
+            () => WickedTalon, // 15
+            () => EyeGouge, // 16
+            () => SolidBarrel, // +1 (1) | 17
+            () => GnashingFang, // -1 (0) | 18
+            () => JugularRip, // 19
+            () => SavageClaw, // 20
+            () => AbdomenTear, // 21
+            () => WickedTalon, // 22
+            () => EyeGouge // 23
         ];
         public override Preset Preset => Preset.GNB_ST_Opener;
     }
     internal class Lv90FastEarlyNM : GNBOpenerLv90Base
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            LightningShot, // 1
-            Bloodfest, // +3 (3) | 2
-            KeenEdge, // 3
-            NoMercy, // LateWeave | 4
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 5
-            GnashingFang, // -1 (2) | 6
-            JugularRip, // 7
-            DoubleDown, // -1 (0) | 8
-            BlastingZone, // 9
-            BowShock, // 10
-            SonicBreak, // 11
-            SavageClaw, // 12
-            AbdomenTear, // 13
-            WickedTalon, // 14
-            EyeGouge, // 15
-            BrutalShell, // 16
-            SolidBarrel, // +1 (1) | 17
-            GnashingFang, // -1 (0) | 18
-            JugularRip, // 19
-            SavageClaw, // 20
-            AbdomenTear, // 21
-            WickedTalon, // 22
-            EyeGouge // 23
+            () => LightningShot, // 1
+            () => Bloodfest, // +3 (3) | 2
+            () => KeenEdge, // 3
+            () => NoMercy, // LateWeave | 4
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 5
+            () => GnashingFang, // -1 (2) | 6
+            () => JugularRip, // 7
+            () => DoubleDown, // -1 (0) | 8
+            () => BlastingZone, // 9
+            () => BowShock, // 10
+            () => SonicBreak, // 11
+            () => SavageClaw, // 12
+            () => AbdomenTear, // 13
+            () => WickedTalon, // 14
+            () => EyeGouge, // 15
+            () => BrutalShell, // 16
+            () => SolidBarrel, // +1 (1) | 17
+            () => GnashingFang, // -1 (0) | 18
+            () => JugularRip, // 19
+            () => SavageClaw, // 20
+            () => AbdomenTear, // 21
+            () => WickedTalon, // 22
+            () => EyeGouge // 23
         ];
         public override Preset Preset => Preset.GNB_ST_Opener;
         public override List<int> VeryDelayedWeaveSteps { get; set; } = [4];
     }
     internal class Lv90SlowEarlyNM : GNBOpenerLv90Base
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            LightningShot, // 1
-            Bloodfest, // +3 (3) | 2
-            KeenEdge, // 3
-            NoMercy, // 4
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 5
-            GnashingFang, // -1 (2) | 6
-            JugularRip, // 7
-            DoubleDown, // -1 (0) | 8
-            BlastingZone, // 9
-            BowShock, // 10
-            SonicBreak, // 11
-            SavageClaw, // 12
-            AbdomenTear, // 13
-            WickedTalon, // 14
-            EyeGouge, // 15
-            BrutalShell, // 16
-            SolidBarrel, // +1 (1) | 17
-            GnashingFang, // -1 (0) | 18
-            JugularRip, // 19
-            SavageClaw, // 20
-            AbdomenTear, // 21
-            WickedTalon, // 22
-            EyeGouge // 23
+            () => LightningShot, // 1
+            () => Bloodfest, // +3 (3) | 2
+            () => KeenEdge, // 3
+            () => NoMercy, // 4
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 5
+            () => GnashingFang, // -1 (2) | 6
+            () => JugularRip, // 7
+            () => DoubleDown, // -1 (0) | 8
+            () => BlastingZone, // 9
+            () => BowShock, // 10
+            () => SonicBreak, // 11
+            () => SavageClaw, // 12
+            () => AbdomenTear, // 13
+            () => WickedTalon, // 14
+            () => EyeGouge, // 15
+            () => BrutalShell, // 16
+            () => SolidBarrel, // +1 (1) | 17
+            () => GnashingFang, // -1 (0) | 18
+            () => JugularRip, // 19
+            () => SavageClaw, // 20
+            () => AbdomenTear, // 21
+            () => WickedTalon, // 22
+            () => EyeGouge // 23
         ];
         public override Preset Preset => Preset.GNB_ST_Opener;
     }
@@ -530,135 +531,135 @@ internal partial class GNB : Tank
     }
     internal class Lv100FastNormalNM : GNBOpenerLv100Base
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            LightningShot, // 1
-            Bloodfest, // +3 (3) | 2
-            KeenEdge, // 3
-            BrutalShell, // 4
-            NoMercy, // LateWeave | 5
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 6
-            GnashingFang, // -1 (2) | 7
-            JugularRip, // 8
-            DoubleDown, // -1 (0) | 9
-            BlastingZone, // 10
-            BowShock, // 11
-            SonicBreak, // 12
-            SavageClaw, // 13
-            AbdomenTear, // 14
-            WickedTalon, // 15
-            EyeGouge, // 16
-            ReignOfBeasts, // 17
-            NobleBlood, // 18
-            LionHeart, // 19
-            SolidBarrel, // +1 (1) | 20
-            GnashingFang, // -1 (0) | 21
-            JugularRip, // 22
-            SavageClaw, // 23
-            AbdomenTear, // 24
-            WickedTalon, // 25
-            EyeGouge // 26
+            () => LightningShot, // 1
+            () => Bloodfest, // +3 (3) | 2
+            () => KeenEdge, // 3
+            () => BrutalShell, // 4
+            () => NoMercy, // LateWeave | 5
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 6
+            () => GnashingFang, // -1 (2) | 7
+            () => JugularRip, // 8
+            () => DoubleDown, // -1 (0) | 9
+            () => BlastingZone, // 10
+            () => BowShock, // 11
+            () => SonicBreak, // 12
+            () => SavageClaw, // 13
+            () => AbdomenTear, // 14
+            () => WickedTalon, // 15
+            () => EyeGouge, // 16
+            () => ReignOfBeasts, // 17
+            () => NobleBlood, // 18
+            () => LionHeart, // 19
+            () => SolidBarrel, // +1 (1) | 20
+            () => GnashingFang, // -1 (0) | 21
+            () => JugularRip, // 22
+            () => SavageClaw, // 23
+            () => AbdomenTear, // 24
+            () => WickedTalon, // 25
+            () => EyeGouge // 26
         ];
         public override Preset Preset => Preset.GNB_ST_Opener;
         public override List<int> VeryDelayedWeaveSteps { get; set; } = [5];
     }
     internal class Lv100SlowNormalNM : GNBOpenerLv100Base
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            LightningShot, // 1
-            Bloodfest, // +3 (3) | 2
-            KeenEdge, // 3
-            BrutalShell, // 4
-            NoMercy, // 5
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 6
-            GnashingFang, // -1 (2) | 7
-            JugularRip, // 8
-            BowShock, // 9
-            DoubleDown, // -1 (0) | 10
-            BlastingZone, // 11
-            SonicBreak, // 12
-            SavageClaw, // 13
-            AbdomenTear, // 14
-            WickedTalon, // 15
-            EyeGouge, // 16
-            ReignOfBeasts, // 17
-            NobleBlood, // 18
-            LionHeart, // 19
-            SolidBarrel, // +1 (1) | 20
-            GnashingFang, // -1 (0) | 21
-            JugularRip, // 22
-            SavageClaw, // 23
-            AbdomenTear, // 24
-            WickedTalon, // 25
-            EyeGouge // 26
+            () => LightningShot, // 1
+            () => Bloodfest, // +3 (3) | 2
+            () => KeenEdge, // 3
+            () => BrutalShell, // 4
+            () => NoMercy, // 5
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 6
+            () => GnashingFang, // -1 (2) | 7
+            () => JugularRip, // 8
+            () => BowShock, // 9
+            () => DoubleDown, // -1 (0) | 10
+            () => BlastingZone, // 11
+            () => SonicBreak, // 12
+            () => SavageClaw, // 13
+            () => AbdomenTear, // 14
+            () => WickedTalon, // 15
+            () => EyeGouge, // 16
+            () => ReignOfBeasts, // 17
+            () => NobleBlood, // 18
+            () => LionHeart, // 19
+            () => SolidBarrel, // +1 (1) | 20
+            () => GnashingFang, // -1 (0) | 21
+            () => JugularRip, // 22
+            () => SavageClaw, // 23
+            () => AbdomenTear, // 24
+            () => WickedTalon, // 25
+            () => EyeGouge // 26
         ];
         public override Preset Preset => Preset.GNB_ST_Opener;
     }
     internal class Lv100FastEarlyNM : GNBOpenerLv100Base
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            LightningShot, // 1
-            Bloodfest, // +3 (3) | 2
-            NoMercy, // LateWeave | 3
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
-            GnashingFang, // -1 (2) | 5
-            JugularRip, // 6
-            DoubleDown, // -1 (0) | 7
-            BlastingZone, // 8
-            BowShock, // 9
-            SonicBreak, // 10
-            SavageClaw, // 11
-            AbdomenTear, // 12
-            WickedTalon, // 13
-            EyeGouge, // 14
-            ReignOfBeasts, // 15
-            NobleBlood, // 16
-            LionHeart, // 17
-            KeenEdge, // 18
-            BrutalShell, // 19
-            SolidBarrel, // +1 (1) | 20
-            GnashingFang, // -1 (0) | 21
-            JugularRip, // 22
-            SavageClaw, // 23
-            AbdomenTear, // 24
-            WickedTalon, // 25
-            EyeGouge // 26
+            () => LightningShot, // 1
+            () => Bloodfest, // +3 (3) | 2
+            () => NoMercy, // LateWeave | 3
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
+            () => GnashingFang, // -1 (2) | 5
+            () => JugularRip, // 6
+            () => DoubleDown, // -1 (0) | 7
+            () => BlastingZone, // 8
+            () => BowShock, // 9
+            () => SonicBreak, // 10
+            () => SavageClaw, // 11
+            () => AbdomenTear, // 12
+            () => WickedTalon, // 13
+            () => EyeGouge, // 14
+            () => ReignOfBeasts, // 15
+            () => NobleBlood, // 16
+            () => LionHeart, // 17
+            () => KeenEdge, // 18
+            () => BrutalShell, // 19
+            () => SolidBarrel, // +1 (1) | 20
+            () => GnashingFang, // -1 (0) | 21
+            () => JugularRip, // 22
+            () => SavageClaw, // 23
+            () => AbdomenTear, // 24
+            () => WickedTalon, // 25
+            () => EyeGouge // 26
         ];
         public override Preset Preset => Preset.GNB_ST_Opener;
         public override List<int> VeryDelayedWeaveSteps { get; set; } = [3];
     }
     internal class Lv100SlowEarlyNM : GNBOpenerLv100Base
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            LightningShot, // 1
-            Bloodfest, // +3 (3) | 2
-            NoMercy, // 3
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
-            GnashingFang, // -1 (2) | 5
-            JugularRip, // 6
-            BowShock, // 7
-            DoubleDown, // -1 (0) | 8
-            BlastingZone, // 9
-            SonicBreak, // 10
-            SavageClaw, // 11
-            AbdomenTear, // 12
-            WickedTalon, // 13
-            EyeGouge, // 14
-            ReignOfBeasts, // 15
-            NobleBlood, // 16
-            LionHeart, // 17
-            KeenEdge, // 18
-            BrutalShell, // 19
-            SolidBarrel, // +1 (1) | 20
-            GnashingFang, // -1 (0) | 21
-            JugularRip, // 22
-            SavageClaw, // 23
-            AbdomenTear, // 24
-            WickedTalon, // 25
-            EyeGouge // 26
+            () => LightningShot, // 1
+            () => Bloodfest, // +3 (3) | 2
+            () => NoMercy, // 3
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Strength)), // 4
+            () => GnashingFang, // -1 (2) | 5
+            () => JugularRip, // 6
+            () => BowShock, // 7
+            () => DoubleDown, // -1 (0) | 8
+            () => BlastingZone, // 9
+            () => SonicBreak, // 10
+            () => SavageClaw, // 11
+            () => AbdomenTear, // 12
+            () => WickedTalon, // 13
+            () => EyeGouge, // 14
+            () => ReignOfBeasts, // 15
+            () => NobleBlood, // 16
+            () => LionHeart, // 17
+            () => KeenEdge, // 18
+            () => BrutalShell, // 19
+            () => SolidBarrel, // +1 (1) | 20
+            () => GnashingFang, // -1 (0) | 21
+            () => JugularRip, // 22
+            () => SavageClaw, // 23
+            () => AbdomenTear, // 24
+            () => WickedTalon, // 25
+            () => EyeGouge // 26
         ];
 
         public override Preset Preset => Preset.GNB_ST_Opener;
@@ -686,7 +687,7 @@ internal partial class GNB : Tank
             Ammo > 0 && //have at least 1 cartridge
             (IsOnCooldown(Bloodfest) || !ActionLearned(Bloodfest)) && //use after Bloodfest (or whenever if unavailable)
             GetTargetHPPercent() > stop; //HP% stop condition
-        
+
         return
             (Slow && condition && CanWeave()) || //weave anywhere
             (Fast && condition && CanDelayedWeave(0.9f)); //late weave only
@@ -695,7 +696,7 @@ internal partial class GNB : Tank
         => CanUseOGCD(Bloodfest, preset) && //option enabled
             HasBattleTarget() //has a target
             ;
-    private static bool ShouldUseZone(Preset preset) 
+    private static bool ShouldUseZone(Preset preset)
         => CanUseOGCD(OriginalHook(DangerZone), preset) && //option enabled
             NMcd is < 57.5f and > 15f //use in No Mercy but not directly after it's used and off cooldown in filler - if desynced, try to hold for NM window
             ;
@@ -1003,3 +1004,5 @@ internal partial class GNB : Tank
 
     #endregion
 }
+
+

@@ -250,7 +250,7 @@ internal partial class SGE
             return false;
         }
 
-        foreach (int priority in SGE_ST_Adv_DPS_Movement_Priority.OrderBy(x => x))
+        foreach(int priority in SGE_ST_Adv_DPS_Movement_Priority.OrderBy(x => x))
         {
             int index = SGE_ST_Adv_DPS_Movement_Priority.IndexOf(priority);
             if (TryMovementOption(index, ref actionID))
@@ -263,11 +263,11 @@ internal partial class SGE
     private static bool UseEDosis(ref uint actionID, bool simpleMode, uint[] retargetIds)
     {
         uint dotAction = OriginalHook(Dosis);
-        DosisList.TryGetValue(dotAction, out (ushort Debuff, uint Eukrasian) debuff);
+        DosisList.TryGetValue(dotAction, out var debuff);
 
         if (simpleMode)
         {
-            IGameObject? target = SimpleTarget.DottableEnemy(debuff.Eukrasian, debuff.Debuff, 0, 3, 99);
+            var target = SimpleTarget.DottableEnemy(debuff.Eukrasian, debuff.Debuff, 0, 3, 99);
             if (target is not null && CanApplyStatus(target, debuff.Debuff) &&
                 !JustUsedOn(debuff.Eukrasian, target) && ActionLearned(Eukrasia))
             {
@@ -289,7 +289,7 @@ internal partial class SGE
             return true;
         }
 
-        IGameObject? multiTarget = SimpleTarget.DottableEnemy(
+        var multiTarget = SimpleTarget.DottableEnemy(
             debuff.Eukrasian, debuff.Debuff, EDosisHpThreshold,
             SGE_ST_Adv_DPS_EukrasianDosisUptime_Threshold, 2);
 
@@ -346,8 +346,8 @@ internal partial class SGE
 
     private static bool HasEDyskrasiaTargets() =>
         EnemiesInRange(EukrasianDyskrasia).Count(x =>
-            (GetPossessedStatusRemainingTime(Debuffs.EukrasianDyskrasia, x) is <= 4 or float.NaN &&
-             GetPossessedStatusRemainingTime(DosisList[OriginalHook(Dosis)].Debuff, x) is <= 4 or float.NaN) &&
+            GetPossessedStatusRemainingTime(Debuffs.EukrasianDyskrasia, x) is <= 4 or float.NaN &&
+            GetPossessedStatusRemainingTime(DosisList[OriginalHook(Dosis)].Debuff, x) is <= 4 or float.NaN &&
             GetTargetHPPercent(x) > 25) >= 4;
 
     private static (uint Action, Func<bool> Logic)[] PrioritizedMovement =>
@@ -381,15 +381,52 @@ internal partial class SGE
 
     #region Healing
 
+    private static bool UseEukrasianDiagnosis(IGameObject? healTarget, bool simpleMode, ref uint actionID)
+    {
+        if (!ActionLearned(Eukrasia) ||
+            HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget))
+            return false;
+
+        if (!simpleMode)
+        {
+            if (!IsEnabled(Preset.SGE_ST_Adv_Heal_EDiagnosis))
+                return false;
+
+            bool shieldCheck = !SGE_ST_Adv_Heal_EDiagnosisOpts[0] ||
+                               !HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget, true) &&
+                               !HasStatusEffect(Buffs.EukrasianPrognosis, healTarget, true);
+            bool scholarShieldCheck = !SGE_ST_Adv_Heal_EDiagnosisOpts[1] ||
+                                      !HasStatusEffect(SCH.Buffs.Galvanize);
+            if (!shieldCheck || !scholarShieldCheck)
+                return false;
+
+            if (GetTargetHPPercent(healTarget, SGE_ST_Adv_Heal_IncludeShields) >
+                SGE_ST_Adv_Heal_EDiagnosisHP)
+                return false;
+        }
+
+        if (HasStatusEffect(Buffs.Eukrasia) && ActionReady(EukrasianDiagnosis))
+        {
+            actionID = EukrasianDiagnosis.RetargetIfEnabled(actionID);
+            return true;
+        }
+
+        if (!ActionReady(Eukrasia))
+            return false;
+
+        actionID = Eukrasia;
+        return true;
+    }
+
     private static bool TrySTHealOption(int i, IGameObject? target, out uint action, out int config)
     {
-        IGameObject? healTarget = target ?? SimpleTarget.Stack.AllyToHeal;
+        var healTarget = target ?? SimpleTarget.Stack.AllyToHeal;
         action = Diagnosis;
         config = 0;
 
         bool shieldCheck = !SGE_ST_Adv_Heal_EDiagnosisOpts[0] ||
-                           (!HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget, true) &&
-                            !HasStatusEffect(Buffs.EukrasianPrognosis, healTarget, true));
+                           !HasStatusEffect(Buffs.EukrasianDiagnosis, healTarget, true) &&
+                           !HasStatusEffect(Buffs.EukrasianPrognosis, healTarget, true);
 
         bool scholarShieldCheck = !SGE_ST_Adv_Heal_EDiagnosisOpts[1] ||
                                   !HasStatusEffect(SCH.Buffs.Galvanize);
@@ -454,7 +491,6 @@ internal partial class SGE
 
             case 7:
                 if (!IsEnabled(Preset.SGE_ST_Adv_Heal_EDiagnosis) ||
-                    GetTargetHPPercent(healTarget, SGE_ST_Adv_Heal_IncludeShields) > SGE_ST_Adv_Heal_EDiagnosisHP ||
                     !shieldCheck || !scholarShieldCheck)
                     return false;
                 action = Eukrasia;
@@ -631,27 +667,27 @@ internal partial class SGE
 
     internal class SGEToxikonOpener : SGEOpenerBase
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            Eukrasia,
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
-            Toxikon2,
-            EukrasianDosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Phlegma3,
-            Psyche,
-            Phlegma3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Eukrasia,
-            EukrasianDosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3
+            () => Eukrasia,
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
+            () => Toxikon2,
+            () => EukrasianDosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Phlegma3,
+            () => Psyche,
+            () => Phlegma3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Eukrasia,
+            () => EukrasianDosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3
         ];
 
         public override bool HasCooldowns() =>
@@ -661,27 +697,27 @@ internal partial class SGE
 
     internal class SGEPneumaOpener : SGEOpenerBase
     {
-        public override List<uint> OpenerActions { get; set; } =
+        public override List<Func<uint>> OpenerActions { get; set; } =
         [
-            Eukrasia,
-            Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
-            Pneuma,
-            EukrasianDosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Phlegma3,
-            Psyche,
-            Phlegma3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3,
-            Eukrasia,
-            EukrasianDosis3,
-            Dosis3,
-            Dosis3,
-            Dosis3
+            () => Eukrasia,
+            () => Items.UseItem(Items.GetStrongestPotionRow(Items.PotionType.Mind)),
+            () => Pneuma,
+            () => EukrasianDosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Phlegma3,
+            () => Psyche,
+            () => Phlegma3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Eukrasia,
+            () => EukrasianDosis3,
+            () => Dosis3,
+            () => Dosis3,
+            () => Dosis3
         ];
 
         public override bool HasCooldowns() =>

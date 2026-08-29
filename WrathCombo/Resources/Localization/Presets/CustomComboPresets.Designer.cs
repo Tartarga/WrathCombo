@@ -758,6 +758,24 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adds Lucid Dreaming when MP drops below slider value.
+        /// </summary>
+        internal static string AST_AoE_Heals_Lucid_Desc {
+            get {
+                return ResourceManager.GetString("AST_AoE_Heals_Lucid_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lucid Dreaming Weave Option.
+        /// </summary>
+        internal static string AST_AoE_Heals_Lucid_Name {
+            get {
+                return ResourceManager.GetString("AST_AoE_Heals_Lucid_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advanced Healing Mode - AoE.
         /// </summary>
         internal static string AST_AoE_Heals_Name {
@@ -1866,6 +1884,24 @@ namespace WrathCombo.Resources.Localization.Presets {
         internal static string AST_ST_Heals_Exaltation_Name {
             get {
                 return ResourceManager.GetString("AST_ST_Heals_Exaltation_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds Lucid Dreaming when MP drops below slider value.
+        /// </summary>
+        internal static string AST_ST_Heals_Lucid_Desc {
+            get {
+                return ResourceManager.GetString("AST_ST_Heals_Lucid_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lucid Dreaming Weave Option.
+        /// </summary>
+        internal static string AST_ST_Heals_Lucid_Name {
+            get {
+                return ResourceManager.GetString("AST_ST_Heals_Lucid_Name", resourceCulture);
             }
         }
         
@@ -18568,7 +18604,7 @@ namespace WrathCombo.Resources.Localization.Presets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adds Earthen Wall into the rotation..
+        ///   Looks up a localized string similar to Uses Earthen Wall when a raidwide is incoming..
         /// </summary>
         internal static string Phantom_Summoner_EarthenWall_Desc {
             get {

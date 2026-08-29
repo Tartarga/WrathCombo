@@ -425,6 +425,12 @@ Will be targeted to your focus target, then soft and hard targets, before fallin
   <data name="AST_AoE_Heals_LazyLady_Name" xml:space="preserve">
     <value>Lazy Lady Option</value>
   </data>
+  <data name="AST_AoE_Heals_Lucid_Desc" xml:space="preserve">
+    <value>Adds Lucid Dreaming when MP drops below slider value.</value>
+  </data>
+  <data name="AST_AoE_Heals_Lucid_Name" xml:space="preserve">
+    <value>Lucid Dreaming Weave Option</value>
+  </data>
   <data name="AST_AoE_Heals_Name" xml:space="preserve">
     <value>Advanced Healing Mode - AoE</value>
   </data>
@@ -804,6 +810,12 @@ Will be targeted to any enemy, then your focus target, then soft and hard target
   </data>
   <data name="AST_ST_Heals_Exaltation_Name" xml:space="preserve">
     <value>Exaltation Option</value>
+  </data>
+  <data name="AST_ST_Heals_Lucid_Desc" xml:space="preserve">
+    <value>Adds Lucid Dreaming when MP drops below slider value.</value>
+  </data>
+  <data name="AST_ST_Heals_Lucid_Name" xml:space="preserve">
+    <value>Lucid Dreaming Weave Option</value>
   </data>
   <data name="AST_ST_Heals_Name" xml:space="preserve">
     <value>Advanced Healing Mode - Single Target</value>

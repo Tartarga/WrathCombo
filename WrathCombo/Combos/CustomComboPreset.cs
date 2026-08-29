@@ -1499,6 +1499,10 @@ public enum Preset
     [JobInfo(Job.AST)]
     AST_ST_Heals_NeutralSect = 1097,
 
+    [ParentCombo(AST_ST_Heals)]
+    [JobInfo(Job.AST)]
+    AST_ST_Heals_Lucid = 1098,
+
     [AutoAction(true, true)]
     [ReplaceSkill(AST.Helios, AST.AspectedHelios, AST.HeliosConjuction)]
     [ConflictingCombos(AST_Simple_AoE_Heals)]
@@ -1541,6 +1545,10 @@ public enum Preset
     [ParentCombo(AST_AoE_Heals)]
     [JobInfo(Job.AST)]
     AST_AoE_Heals_CollectiveUnconscious = 1074,
+
+    [ParentCombo(AST_AoE_Heals)]
+    [JobInfo(Job.AST)]
+    AST_AoE_Heals_Lucid = 1099,
     #endregion
 
     #region Cards

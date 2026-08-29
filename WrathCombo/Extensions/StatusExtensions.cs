@@ -92,7 +92,7 @@ namespace WrathCombo.Extensions
             public IStatus? Status(uint id, bool anyOwner = false)
             {
                 // Determine the source ID for ownership filtering
-                ulong? sourceId = !anyOwner ? chara.GameObjectId : null;
+                ulong? sourceId = !anyOwner ? Player.Object?.GameObjectId : null;
                 return Service.ComboCache.GetStatus(id, chara, sourceId);
             }
 

@@ -538,7 +538,7 @@ internal partial class BLU
             () => TripleTrident, //6
             () => Nightbloom, //7
             () => WingedReprobation, //8
-            () => FeatherRain, //9
+            () => FeatherRain.Retarget(SonicBoom, CurrentTarget), //9
             () => SeaShanty, //10
             () => WingedReprobation, //11
             () => ShockStrike, //12
@@ -589,7 +589,7 @@ internal partial class BLU
             () => TripleTrident, // 6
             () => Nightbloom, // 7
             () => Bristle, // 8
-            () => FeatherRain, // 9
+            () => FeatherRain.Retarget(SonicBoom, CurrentTarget), // 9
             () => SeaShanty, // 10
             () => BreathOfMagic, // 11
             () => ShockStrike, // 12

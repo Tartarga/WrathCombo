@@ -40,7 +40,9 @@ internal abstract partial class CustomComboFunctions
     }
 
     /// <summary> Gets the current target or null. </summary>
-    public static IGameObject? CurrentTarget => OverrideTarget ?? Svc.Targets.Target;
+    public static IBattleChara? CurrentTarget => 
+        OverrideTarget as IBattleChara ?? 
+        SimpleTarget.HardTarget;
 
     #region Target Checks
 
@@ -80,6 +82,34 @@ internal abstract partial class CustomComboFunctions
             return false;
 
         return chara.Struct()->NamePlateIconId is 71204 or 71144 or 71224 or 71344;
+    }
+
+    private const uint TreasureHuntOrderIconFirst = 60687;
+    private const uint TreasureHuntOrderIconLast = 60691;
+
+    /// <summary>
+    ///     Treasure Hunt numbered markers (1–5) from the nameplate icon.
+    ///     Returns 0 when the object has no kill-order marker.
+    /// </summary>
+    internal static unsafe int GetTreasureHuntOrder(IGameObject? optionalTarget = null)
+    {
+        if ((optionalTarget ?? CurrentTarget) is not { } chara)
+            return 0;
+
+        var icon = chara.Struct()->NamePlateIconId;
+        if (icon is < TreasureHuntOrderIconFirst or > TreasureHuntOrderIconLast)
+            return 0;
+
+        return (int)(icon - TreasureHuntOrderIconFirst + 1);
+    }
+
+    /// <summary> Nameplate icon ID. Defaults to CurrentTarget unless specified. </summary>
+    internal static unsafe uint GetNamePlateIconId(IGameObject? optionalTarget = null)
+    {
+        if ((optionalTarget ?? CurrentTarget) is not { } chara)
+            return 0;
+
+        return chara.Struct()->NamePlateIconId;
     }
 
     /// <summary> Checks if an object is friendly. Defaults to CurrentTarget unless specified. </summary>
@@ -380,7 +410,7 @@ internal abstract partial class CustomComboFunctions
     ///     (Optional, defaults to <see cref="CurrentTarget" />)
     /// </param>
     /// <param name="checkIgnoredList">
-    ///     Whether to check the 
+    ///     Whether to check the
     ///     <see cref="Configuration.IgnoredNPCs"/> list. <br />
     ///     (Optional, defaults to false)
     /// </param>
@@ -400,7 +430,7 @@ internal abstract partial class CustomComboFunctions
 
         if (sheetSpell.CanTargetHostile && sheetSpell.CastType == 1)
         {
-            return Svc.Objects.Where(x => x.IsHostile() && GetTargetDistance(x) <= GetActionRange(aoeSpell) && (!checkIgnoredList || !Service.Configuration.IgnoredNPCs.ContainsKey(x.BaseId)));
+            return Svc.Objects.GetBattleCharas().Where(x => x.IsHostile() && GetTargetDistance(x) <= GetActionRange(aoeSpell) && (!checkIgnoredList || !Service.Configuration.IgnoredNPCs.ContainsKey(x.BaseId)));
         }
 
         return sheetSpell.CastType switch
@@ -740,7 +770,7 @@ internal abstract partial class CustomComboFunctions
     ///     (Optional, defaults to 0, which is the value for many Line AoEs)
     /// </param>
     /// <param name="checkIgnoredList">
-    ///     Whether to check the 
+    ///     Whether to check the
     ///     <see cref="Configuration.IgnoredNPCs"/> list. <br />
     ///     (Optional, defaults to false)
     /// </param>
@@ -790,7 +820,7 @@ internal abstract partial class CustomComboFunctions
             return Enumerable.Empty<IGameObject>();
 
         // Get all possible enemies to search for the positions of
-        var targets = Svc.Objects.Where(x => IsValidTarget(x, enemies, checkInvincible, checkIgnoredList));
+        var targets = Svc.Objects.GetBattleCharas().Where(x => IsValidTarget(x, enemies, checkInvincible, checkIgnoredList));
 
         // Circle AoEs positioned on self
         if (typeof(T) == typeof(SelfCircle))
@@ -824,11 +854,10 @@ internal abstract partial class CustomComboFunctions
         return Enumerable.Empty<IGameObject>();
     }
 
-    static bool IsValidTarget(IGameObject o, bool enemies, bool checkInvincible, bool checkIgnoredList)
+    static bool IsValidTarget(IBattleChara o, bool enemies, bool checkInvincible, bool checkIgnoredList)
     {
         if (!enemies)
-            return o is IBattleChara &&
-                   o.IsTargetable &&
+            return o.IsTargetable &&
                    o.IsWithinRange(60f) &&
                    o.IsFriendly() &&
                    IsInLineOfSight(o);
@@ -837,7 +866,7 @@ internal abstract partial class CustomComboFunctions
                o.IsWithinRange(60f) &&
                o.IsHostile() &&
                (!checkInvincible ||
-                !TargetIsInvincible(o)) &&
+                !o.IsInvincible) &&
                (!checkIgnoredList ||
                 !Service.Configuration.IgnoredNPCs.ContainsKey(o.BaseId)) &&
                IsInLineOfSight(o);

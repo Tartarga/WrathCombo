@@ -62,6 +62,10 @@ public class StatusCache
     public static StatusCache Instance { get; internal set; } = null!;
     public static PausingStatuses PausingStatuses { get; internal set; } = null!;
 
+    internal const uint WeaknessStatusId = 43;
+    internal const uint BrinkOfDeathStatusId = 44;
+    internal const uint OCDarkDefensesStatusId = 4355;
+
     public void Init()
     {
         StatusSheet = Svc.Data.GetExcelSheet<Lumina.Excel.Sheets.Status>()!;

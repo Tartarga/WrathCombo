@@ -29,8 +29,6 @@ internal static class UIntExtensions
     internal static bool IsFriendlyTargetable(this uint value) =>
         ActionSheet.TryGetRow(value, out var friendlyRow) && friendlyRow.CanTargetAlly;
 
-    internal static string StatusName(this uint value) => ActionAndStatusLocalization.GetStatusName(value);
-
     internal static string TraitName(this uint value) => ActionAndStatusLocalization.GetTraitName(value);
 }
 

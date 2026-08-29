@@ -787,7 +787,7 @@ internal partial class BLU
             Slow = 9,
             Bind = 13,
             Stun = 142,
-            SongOfTorment = 273,
+            SongOfTorment = 1714,
             DeepFreeze = 1731,
             Offguard = 1717,
             Malodorous = 1715,

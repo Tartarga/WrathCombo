@@ -228,8 +228,7 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
         }), cancellationToken);
         var statusTask = Task.Run(() => LogLoadStep("StatusCache", () =>
         {
-            StatusCache.Instance = new StatusCache();
-            StatusCache.Instance.Init();
+            StatusCache.Dictionaries = new StatusDictionaries();
         }), cancellationToken);
 
         LogLoadStep("CustomActions", () => CustomActions = new());

@@ -1,4 +1,5 @@
 ﻿using ECommons;
+using ECommons.ExcelServices;
 using ECommons.Logging;
 using System;
 using System.Collections.Concurrent;
@@ -6,7 +7,6 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using WrathCombo.API.Enum;
 using WrathCombo.Attributes;
@@ -14,6 +14,8 @@ using WrathCombo.Extensions;
 using WrathCombo.Services;
 using static WrathCombo.Attributes.PossiblyRetargetedAttribute;
 using static WrathCombo.Core.Configuration;
+using static WrathCombo.Core.PresetStorage;
+using static WrathCombo.CustomComboNS.Functions.Jobs;
 using static WrathCombo.Window.Text;
 using EZ = ECommons.Throttlers.EzThrottler;
 using TS = System.TimeSpan;
@@ -22,28 +24,35 @@ namespace WrathCombo.Core;
 
 internal static class PresetStorage
 {
-    private static PresetStorageData? _instance;
+    private static PresetDictionaries? _instance;
 
     /// <summary>
     /// Singleton instance holding all preset data, initialized during plugin load.
+    /// INTERNAL: Only PresetStorage accesses this. All external access goes through typed properties below.
     /// </summary>
-    internal static PresetStorageData Instance
+    private static PresetDictionaries Dictionaries
     {
-        get => _instance ?? throw new InvalidOperationException("PresetStorage not initialized");
-        set => _instance = value;  // Make it private-accessible to this class only
+        get => _instance ?? throw new InvalidOperationException("PresetStorage Dictionaries not initialized");
+        set => _instance = value;
     }
+
+    /// <summary>
+    /// Initialize the preset dictionaries from an async load.
+    /// Call this once during plugin initialization.
+    /// </summary>
+    internal static void InitializeDictionaries() => Dictionaries = new PresetDictionaries();
 
     /// <summary>
     /// A frozen dictionary containing the Preset as the key, and a PresetData object containing all of its relevant attributes as the value.
     /// </summary>
     internal static FrozenDictionary<Preset, PresetData> AllPresets =>
-        Instance.AllPresetsData;
+        Dictionaries.AllPresetsData;
 
     /// <summary>
     /// A frozen set of presets that have at least one conflict with another preset
     /// </summary>
     internal static FrozenSet<Preset> ConflictingCombos =>
-        Instance.ConflictingCombosData;
+        Dictionaries.ConflictingCombosData;
 
     /// <summary>
     ///     A frozen lookup from a preset's internal name (case-insensitive) to
@@ -51,7 +60,7 @@ internal static class PresetStorage
     ///     so that resolving a name doesn't require scanning every preset.
     /// </summary>
     private static FrozenDictionary<string, Preset> PresetsByName =>
-        Instance.PresetsByNameData;
+        Dictionaries.PresetsByNameData;
 
     /// <summary>
     ///     A frozen lookup from a preset's underlying integer ID to the
@@ -59,7 +68,19 @@ internal static class PresetStorage
     ///     so that resolving an ID doesn't require scanning every preset.
     /// </summary>
     private static FrozenDictionary<int, Preset> PresetsById =>
-        Instance.PresetsByIdData;
+        Dictionaries.PresetsByIdData;
+
+    /// <summary>
+    /// Dictionary of top level presets grouped by job, ordered by role and then job order, with their preset data pre-cached for quick access.
+    /// </summary>
+    internal static Dictionary<Job, List<PresetData>> groupedPresets =>
+        Dictionaries.GroupedPresets;
+
+    /// <summary>
+    ///  Dictionary of a preset and an array of it's children, with their preset data pre-cached for quick access.
+    /// </summary>
+    internal static Dictionary<Preset, (Preset Preset, PresetData Attr)[]> presetChildren =>
+        Dictionaries.PresetChildren;
 
     internal class PresetData
     {
@@ -216,12 +237,12 @@ internal static class PresetStorage
         get
         {
             if (!EZ.Throttle("allRetargetedActions", TS.FromSeconds(3)))
-                return Instance.AllRetargetedActionsCache;
-            var result = Instance.AllPresetsData.Values
+                return Dictionaries.AllRetargetedActionsCache;
+            var result = Dictionaries.AllPresetsData.Values
                 .SelectMany(attr => attr.RetargetedActions ?? [])
                 .ToHashSet();
             PluginLog.Verbose($"Retrieved {result.Count} retargeted actions");
-            Instance.AllRetargetedActionsCache = result;
+            Dictionaries.AllRetargetedActionsCache = result;
             return result;
         }
     }
@@ -571,27 +592,28 @@ internal static class PresetStorage
 
 /// <summary>
 /// Instance-backed data store for PresetStorage. Holds all preset collections and initialization logic.
-/// This class is instantiated as a singleton and accessed through PresetStorage.Instance.
+/// This class is instantiated as a singleton during async load and passed to PresetStorage.Initialize().
+/// NOTE: Instantiable (internal) but the instance is hidden via PresetStorage.Dictionaries (private property).
+/// External code only accesses typed data through PresetStorage's public properties.
 /// </summary>
-internal class PresetStorageData
+internal class PresetDictionaries
 {
     // Public properties that mirror the static interface
-    public FrozenDictionary<Preset, PresetStorage.PresetData> AllPresetsData { get; private set; } = null!;
-    public FrozenSet<Preset> ConflictingCombosData { get; private set; } = null!;
-    public FrozenDictionary<string, Preset> PresetsByNameData { get; private set; } = null!;
-    public FrozenDictionary<int, Preset> PresetsByIdData { get; private set; } = null!;
-    public HashSet<uint> AllRetargetedActionsCache { get; set; } = null!;
+    internal FrozenDictionary<Preset, PresetData> AllPresetsData { get; private set; } = null!;
+    internal FrozenSet<Preset> ConflictingCombosData { get; private set; } = null!;
+    internal FrozenDictionary<string, Preset> PresetsByNameData { get; private set; } = null!;
+    internal FrozenDictionary<int, Preset> PresetsByIdData { get; private set; } = null!;
+    internal HashSet<uint> AllRetargetedActionsCache { get; set; } = null!;
+    internal Dictionary<Job, List<PresetData>> GroupedPresets { get; set; } = null!;
+    internal Dictionary<Preset, (Preset Preset, PresetData Attr)[]> PresetChildren { get; private set; } = null!;
 
     /// <summary>
-    /// Initializes the PresetStorageData singleton with all preset data.
+    /// Initializes the PresetDictionaries with all preset data.
     /// </summary>
-    internal void Init()
+    internal PresetDictionaries()
     {
-        var timer = Stopwatch.StartNew();
-        var timer2 = Stopwatch.StartNew();
+        // Build master dictionary
         AllPresetsData = BuildPresets();
-        timer.Stop();
-        PluginLog.Information($"PresetStorageData Main Dictionary initialized in {timer.ElapsedMilliseconds} ms. {AllPresetsData.Count} Presets");
 
         // Then parallelize the three derived dictionaries
         Parallel.Invoke(
@@ -602,15 +624,15 @@ internal class PresetStorageData
                 StringComparer.OrdinalIgnoreCase),
             () => PresetsByIdData = AllPresetsData.Keys.ToFrozenDictionary(
                 preset => (int)preset,
-                preset => preset)
+                preset => preset),
+            () => GroupedPresets = GetGroupedPresets(),
+            () => PresetChildren = GetPresetChildren()
         );
-        timer2.Stop();
-        PluginLog.Information($"PresetStorageData Init completed in {timer2.ElapsedMilliseconds} ms.");
     }
 
-    private static FrozenDictionary<Preset, PresetStorage.PresetData> BuildPresets()
+    private static FrozenDictionary<Preset, PresetData> BuildPresets()
     {
-        var dict = new ConcurrentDictionary<Preset, PresetStorage.PresetData>();
+        var dict = new ConcurrentDictionary<Preset, PresetData>();
 
         // Create all data objects
         Parallel.ForEach(Enum.GetValues<Preset>(), preset =>
@@ -649,11 +671,69 @@ internal class PresetStorageData
         return frozen;
     }
 
-    internal FrozenSet<Preset> BuildConflictingCombos()
+    private FrozenSet<Preset> BuildConflictingCombos()
     {
         return AllPresetsData
             .Where(kvp => kvp.Value.Conflicts is { Length: > 0 })
             .Select(kvp => kvp.Key)
             .ToFrozenSet();
     }
+
+    private Dictionary<Job, List<PresetData>> GetGroupedPresets()
+    {
+        static int GetRoleOrder(JobRole role) => role switch
+        {
+            JobRole.Tank => 0,
+            JobRole.Healer => 1,
+            JobRole.MeleeDPS => 2,
+            JobRole.RangedDPS => 3,
+            JobRole.MagicalDPS => 4,
+            _ => 5
+        };
+
+        return AllPresetsData
+            .Where(kvp => (int)kvp.Key > 100)
+            .Where(kvp => kvp.Value.Parent == null)
+            .Where(kvp => kvp.Value.JobInfo != null)
+            .OrderBy(kvp => GetRoleOrder(kvp.Value.JobInfo.Role))
+            .ThenByDescending(kvp => kvp.Value.JobInfo.Job is Job.ADV)
+            .ThenByDescending(kvp => kvp.Value.JobInfo.Job is Job.MIN)
+            .ThenBy(kvp => kvp.Value.JobInfo.Job)
+            .ThenBy(kvp => kvp.Value.JobInfo.Order)
+            .GroupBy(kvp => kvp.Value.JobInfo.Job)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(kvp => kvp.Value).ToList()
+            );
+    }
+
+    private Dictionary<Preset, (Preset Preset, PresetData Info)[]> GetPresetChildren()
+    {
+        // Initialize dictionary with all presets as keys
+        var childCombos = AllPresetsData.Keys
+            .ToDictionary(p => p, _ => new List<Preset>());
+
+        // Build parent → children map using cached Parent
+        foreach (var (preset, attrs) in AllPresetsData)
+        {
+            if (attrs.Parent is { } parent)
+            {
+                childCombos[parent].Add(preset);
+            }
+        }
+
+        // Project to final structure using cached CustomComboInfo
+        return childCombos.ToDictionary(
+            kvp => kvp.Key,
+            kvp => kvp.Value
+                .Select(child =>
+                {
+                    var info = AllPresetsData[child]!;
+                    return (Preset: child, Info: info);
+                })
+                .OrderBy(tpl => tpl.Info.JobInfo.Order)
+                .ToArray()
+        );
+    }
+
 }

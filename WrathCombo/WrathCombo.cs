@@ -13,7 +13,6 @@ using ECommons.ExcelServices;
 using ECommons.GameHelpers;
 using ECommons.Logging;
 using Lumina.Excel.Sheets;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PunishLib;
 using System;
@@ -223,9 +222,9 @@ public sealed partial class WrathCombo : IAsyncDalamudPlugin
 
         var presetTask = Task.Run(() => LogLoadStep("PresetStorage", () =>
         {
-            PresetStorage.Instance = new PresetStorageData();
-            PresetStorage.Instance.Init();
+            PresetStorage.InitializeDictionaries();
         }), cancellationToken);
+
         var statusTask = Task.Run(() => LogLoadStep("StatusCache", () =>
         {
             StatusCache.Instance = new StatusCache();

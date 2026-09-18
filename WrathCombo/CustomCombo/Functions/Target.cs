@@ -708,7 +708,7 @@ internal abstract partial class CustomComboFunctions
             return AttackAngle.Unknown;
 
         Angle rotation = new(GetRotation(target.Position, player.Position) - target.Rotation);
-        float regionDegrees = rotation.Deg;
+        float regionDegrees = ((rotation.Deg % 360f) + 360f) % 360f;
 
         return regionDegrees switch
         {

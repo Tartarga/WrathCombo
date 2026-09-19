@@ -815,19 +815,10 @@ internal abstract partial class CustomComboFunctions
         // Cone AoEs
         if (typeof(T) == typeof(Cone))
             return targets.Where(o =>
-            {
-                float distance = GetTargetDistance(o);
-                if (distance <= size)
-                {
-                    // Calculate the angle subtended by the hitbox radius at this distance
-                    float hitboxAngle = MathF.Atan2(o.HitboxRadius, distance) * (180f / MathF.PI);
-
-                    return PointInCone(o.Position - player.Position,
-                        GetDirection(player.Position, target.Position),
-                        45f + hitboxAngle);  // Expand cone half-angle by hitbox angle
-                }
-                return false;
-            });
+                GetTargetDistance(o) <= size &&
+                PointInCone(o.Position - player.Position,
+                    GetDirection(player.Position, target.Position),
+                    45f));
 
         // Line AoEs
         if (typeof(T) == typeof(Line))

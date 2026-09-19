@@ -813,12 +813,23 @@ internal abstract partial class CustomComboFunctions
                     size + o.HitboxRadius));
 
         // Cone AoEs
+        // Cone AoEs
         if (typeof(T) == typeof(Cone))
+        {
+            var targetDirection = GetDirection(player.Position, target.Position);
+
             return targets.Where(o =>
-                GetTargetDistance(o) <= size &&
-                PointInCone(o.Position - player.Position,
-                    GetDirection(player.Position, target.Position),
-                    45f));
+            {
+                float distance = GetTargetDistance(o);
+                if (distance > size)
+                    return false;
+
+                var objectDirection = GetDirection(player.Position, o.Position);
+                float hitboxAngle = GetHitboxAngle(o.HitboxRadius, distance);
+
+                return IsConeInCone(targetDirection, objectDirection, hitboxAngle, 45f);
+            });
+        }
 
         // Line AoEs
         if (typeof(T) == typeof(Line))

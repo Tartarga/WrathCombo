@@ -103,5 +103,41 @@ internal static class WrathMath
 
         return Pcorner.LengthSquared() <= R * R;
     }
+
+    /// <summary>
+    /// Calculates the angle (in degrees) between two direction vectors.
+    /// Assumes both vectors are normalized.
+    /// </summary>
+    private static float GetAngleBetweenDirections(Vector3 dir1, Vector3 dir2)
+    {
+        // Clamp to avoid numerical errors with acos
+        float dotProduct = Vector3.Dot(Vector3.Normalize(dir1), Vector3.Normalize(dir2));
+        dotProduct = MathF.Max(-1f, MathF.Min(1f, dotProduct));
+
+        float angleRadians = MathF.Acos(dotProduct);
+        return angleRadians * (180f / MathF.PI);
+    }
+
+    /// <summary>
+    /// Calculates the angle (in degrees) that a hitbox radius subtends at a given distance from the player.
+    /// </summary>
+    public static float GetHitboxAngle(float hitboxRadius, float distance)
+    {
+        if (distance <= 0f)
+            return 180f;
+
+        float angleRadians = MathF.Atan2(hitboxRadius, distance);
+        return angleRadians * (180f / MathF.PI);
+    }
+
+    /// <summary>
+    /// Checks if an object's hitbox cone overlaps with the attack cone.
+    /// </summary>
+    public static bool IsConeInCone(Vector3 targetDirection, Vector3 objectDirection, float objectHitboxAngle, float coneHalfAngle = 45f)
+    {
+        float angleDifference = GetAngleBetweenDirections(targetDirection, objectDirection);
+        return angleDifference <= (coneHalfAngle + objectHitboxAngle);
+    }
+
     #endregion
 }

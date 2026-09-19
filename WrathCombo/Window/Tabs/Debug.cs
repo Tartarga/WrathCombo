@@ -41,6 +41,7 @@ using WrathCombo.Services.IPC_Subscriber;
 using WrathCombo.Window.Functions;
 using static WrathCombo.Combos.PvE.Content.DeepDungeons.DeepDungeons;
 using static WrathCombo.CustomComboNS.Functions.CustomComboFunctions;
+using static WrathCombo.CustomComboNS.Functions.WrathMath;
 using Action = Lumina.Excel.Sheets.Action;
 using BattleNpcSubKindCS = FFXIVClientStructs.FFXIV.Client.Game.Object.BattleNpcSubKind;
 using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
@@ -236,6 +237,14 @@ internal class Debug : ConfigWindow, IDisposable
             ImGui.TextUnformatted("Please log into the game to use this tab.");
             return;
         }
+
+        ImGui.TextUnformatted("Objects In Range");
+        var charas = ObjectsInRange<Cone>(8, enemies: true, checkInvincible: false);
+        foreach (var idiot in charas)
+        {
+            ImGui.TextUnformatted($"   {idiot?.Name} {idiot?.GameObjectId}");
+        }
+        ImGui.TextUnformatted("End Of Objects In Range");
 
         #region Statuses
 
